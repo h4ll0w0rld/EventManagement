@@ -3,14 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-<<<<<<< Updated upstream
 import { ShiftPlanComponent } from './shift-plan/shift-plan.component';
-import { ShiftComponent } from './shift/shift.component';
-import { MenuComponent } from './menu/menu.component';
-import { MatMenuModule } from '@angular/material/menu';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule } from '@angular/material/button';
-=======
 
 import { MenuComponent } from './menu/menu.component';
 
@@ -30,34 +23,19 @@ import {MatIconModule} from '@angular/material/icon';
 import { HttpClientModule } from "@angular/common/http";
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
->>>>>>> Stashed changes
 
 @NgModule({
   declarations: [
     AppComponent,
-<<<<<<< Updated upstream
-    ShiftPlanComponent,
-    ShiftComponent,
-    MenuComponent,
-    
-    
-=======
     MenuComponent,
     ShiftCategoryComponent,
     ShiftPlanComponent,
     ActivityComponent,
     DashboardComponent,
->>>>>>> Stashed changes
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-<<<<<<< Updated upstream
-    MatMenuModule,
-    BrowserAnimationsModule,
-    MatButtonModule
-  ],
-=======
     MatGridListModule,
     CommonModule,
     FormsModule,
@@ -69,7 +47,6 @@ import { DomSanitizer } from '@angular/platform-browser';
     HttpClientModule,
     
     ],
->>>>>>> Stashed changes
   providers: [],
   bootstrap: [AppComponent]
 })
