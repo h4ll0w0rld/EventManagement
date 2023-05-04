@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ShiftPlanComponent } from './shift-plan/shift-plan.component';
 
 import { MenuComponent } from './menu/menu.component';
 
