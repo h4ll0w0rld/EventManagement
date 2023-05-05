@@ -1,1 +1,13 @@
-<p>shift works!</p>
+<div class="shift-container">
+    <div class="time">
+        <p> {{startHandM}} </p>
+        <p> {{endHandM}} </p>
+    </div>
+
+    <div class="activities">
+        <app-activity *ngFor="let i of [0, 1]"></app-activity>
+    </div>
+    <div class="toggle">
+        <div class="toggle-button"></div>
+    </div>
+</div>

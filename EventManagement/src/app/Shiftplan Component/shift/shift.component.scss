@@ -1,0 +1,74 @@
+
+.shift-container {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+@mixin cardDesign() {
+
+    box-shadow: 2px, 2px, 5px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    margin-right: 10px;
+    height: 50px;
+}
+
+.time {
+
+    width: 30px;
+    text-align: center;
+    margin-left: 10px;
+    padding: 10px;
+    margin-right: 10px;
+    height: 50px;
+
+}
+
+.activities {
+
+    flex-grow: 1;
+    box-shadow: 2px, 2px, 5px rgba(0, 0, 0, 0.1);
+    margin-right: 10px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+
+}
+
+.toggle {
+
+    width: 30px;
+    padding: 10px;
+    margin-right: 10px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.toggle-button {
+
+    width: 30px;
+    height: 30px;
+    background-color: rgba(0, 183, 255, 0.2);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+p {
+    padding: 0px;
+    margin: 0px;
+}
+
+app-activity {
+
+    flex-grow: 1;
+    background-color: rgba(0, 183, 255, 0.2);
+    margin-left: 10px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+
+}
