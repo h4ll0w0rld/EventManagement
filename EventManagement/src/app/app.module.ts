@@ -6,8 +6,8 @@ import { AppComponent } from './app.component';
 
 import { MenuComponent } from './menu/menu.component';
 
-import {MatGridListModule} from '@angular/material/grid-list';
-import {MatButtonModule} from '@angular/material/button';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatButtonModule } from '@angular/material/button';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -17,11 +17,12 @@ import { ActivityComponent } from './Shiftplan Component/activity/activity.compo
 import { MatMenuModule } from '@angular/material/menu';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DashboardComponent } from './Dashboard Component/dashboard/dashboard.component';
-import {MatTabsModule} from '@angular/material/tabs';
-import {MatIconModule} from '@angular/material/icon';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from "@angular/common/http";
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ShiftComponent } from './Shiftplan Component/shift/shift.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { DomSanitizer } from '@angular/platform-browser';
     ShiftPlanComponent,
     ActivityComponent,
     DashboardComponent,
+    ShiftComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,8 +46,8 @@ import { DomSanitizer } from '@angular/platform-browser';
     MatTabsModule,
     MatIconModule,
     HttpClientModule,
-    
-    ],
+
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
@@ -53,21 +55,21 @@ export class AppModule {
   constructor(
     private matIconRegistry: MatIconRegistry,  // import the MatIconRegistry
     private domSanitizer: DomSanitizer        // import the DomSanitizer
-  ){
+  ) {
     // Use MatIconRegistry to add an SVG icon to the registry
-   // 'dashboard' is the name of the icon, and '../assets/icons/dashboard.svg' is the URL to the SVG file
+    // 'dashboard' is the name of the icon, and '../assets/icons/dashboard.svg' is the URL to the SVG file
     this.matIconRegistry.addSvgIcon(
       "dashboard",
       this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/dashboard.svg")
-      
+
     );
     // Add another SVG icon to the registry
     // 'shiftplan' is the name of the icon, and '../assets/icons/dashboard.svg' is the URL to the SVG file
     this.matIconRegistry.addSvgIcon(
       "shiftplan",
       this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/shift.svg")
-      
+
     );
   }
 
- }
+}

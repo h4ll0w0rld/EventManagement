@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-shift-category',
@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./shift-category.component.scss']
 })
 export class ShiftCategoryComponent {
+  @Input() category_name: string = "";
+
+  shifts: string[] = ["Morning", "Afternoon", "Night"];
+
 
 }
+
