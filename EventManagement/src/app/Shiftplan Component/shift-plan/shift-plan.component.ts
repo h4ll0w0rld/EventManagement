@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ChangeDetectorRef } from '@angular/core';
 
 export const shiftCategorys = ['Bar', 'SiBeKo', 'Bühne1'];
 
@@ -11,4 +12,21 @@ export const shiftCategorys = ['Bar', 'SiBeKo', 'Bühne1'];
 
 export class ShiftPlanComponent {
   public shiftCategorys = ['Bar', 'SiBeKo', 'Bühne1'];
+  value = 'Bar2';
+  constructor(private cdRef: ChangeDetectorRef) {
+    this.updateCat();
+  }
+  addCat(): void {
+    shiftCategorys.push(this.value);
+    this.updateCat();
+  }
+  updateCat() {
+
+    this.shiftCategorys = [...shiftCategorys];
+
+  }
+
+
+
+
 }
