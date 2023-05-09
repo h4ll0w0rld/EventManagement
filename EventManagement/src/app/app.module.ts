@@ -25,6 +25,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ShiftComponent } from './Shiftplan Component/shift/shift.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTabLink } from '@angular/material/tabs';
 
 @NgModule({
   declarations: [
@@ -46,10 +47,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     BrowserAnimationsModule,
     MatButtonModule,
     MatTabsModule,
+    
     MatIconModule,
     HttpClientModule,
     MatInputModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    
 
   ],
   providers: [],

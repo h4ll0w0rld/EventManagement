@@ -6,6 +6,6 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./activity.component.scss']
 })
 export class ActivityComponent {
-  @Input() text: string='';
+  @Input() text: string='Torschtän Rössler';
 
 }

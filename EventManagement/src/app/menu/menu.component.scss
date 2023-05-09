@@ -1,4 +1,7 @@
+@import "../../theme";
+
 .menu{
+    z-index: 1;
     display: flex;
     flex-direction:row;
     align-items: stretch;
@@ -6,7 +9,7 @@
     position: fixed;
     bottom: 0;
     width: 100%;
-    background-color: #014d6d;
+    background-color: $prim-color;
     height: 10%;
     box-shadow: 3px 3px 4px 3px rgba(0, 0, 0, 0.4);
     

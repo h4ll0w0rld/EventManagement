@@ -8,7 +8,7 @@ import { Component, Input } from '@angular/core';
 export class ShiftCategoryComponent {
   @Input() category_name: string = "";
 
-  shifts: string[] = ["Morning", "Afternoon", "Night"];
+  shifts: string[] = ["Morning", "Afternoon", "Night", "", "","", "", "", "", "",""];
 
   intervall: number = 3;
 

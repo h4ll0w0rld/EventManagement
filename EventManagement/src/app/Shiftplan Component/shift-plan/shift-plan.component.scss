@@ -1,6 +1,20 @@
 
-h1{
-    text-align: center;
+
+@import "../../../theme";
+
+.body{
+    
+    .tabs{
+        
+    }
+    .head{
+      background-color: $prim-color;
+    
+        h1{
+            padding-top: 5%;
+            text-align: center;
+        }
+    }
+    margin-bottom: 200px;
+
 }
-
-
