@@ -1,8 +1,25 @@
+@import '../../../theme';
+
 .card {
-    min-height: 50px;
+    display: flex;
     background-color: white;
-    width: 100%;
+    width: calc(100% - 10px);
+    height: 100%;
     border: 1px solid rgba(0, 0, 0, 0.30);
+    border-left: 10px solid $prim-color;
     border-radius: 10px;
     overflow: hidden;
+    justify-content: center;
+    align-items: center;
+
 }
+
+.name {
+    width: max-content;
+}
+
+p {
+    margin: 0px;
+    width: max-content;
+}
+

@@ -1,38 +1,47 @@
+@import '../../../theme';
 
 .shift-container {
+
     padding: 10px;
+    
+}
+
+.visible-row {
+
     display: flex;
     justify-content: center;
     align-items: center;
+    
+}
+
+.hidden-row {
+
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 10px;
+
 }
 
 .time {
 
-    width: 30px;
-    text-align: center;
-    margin-left: 10px;
-    padding: 10px;
-    margin-right: 10px;
+    width: 50px;  
     height: 50px;
 
 }
 
-.activities {
+.prio-activities {
 
-    flex-grow: 1;
-    box-shadow: 2px, 2px, 5px rgba(0, 0, 0, 0.1);
-    margin-right: 10px;
-    height: 50px;
     display: flex;
     justify-content: center;
+    flex-grow: 1;
+    height: 50px;
 
 }
 
 .toggle {
 
-    width: 30px;
-    padding: 10px;
-    margin-right: 10px;
+    width: 50px;
     height: 50px;
     display: flex;
     justify-content: center;
@@ -44,7 +53,7 @@
 
     width: 30px;
     height: 30px;
-    background-color: rgba(0, 183, 255, 0.2);
+    background-color: $sec-color;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
 }
@@ -56,9 +65,19 @@ p {
 
 app-activity {
 
-    flex-grow: 1;
-    margin-left: 10px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
+    margin: 0px 5px;
 
+}
+
+.prio {
+
+    flex-grow: 1;
+
+}
+
+.hidden {
+    width: 20%;
+    flex-grow: 1;
 }

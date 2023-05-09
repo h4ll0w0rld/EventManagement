@@ -1,13 +1,33 @@
 <div class="shift-container">
-    <div class="time">
-        <p> {{startHandM}} </p>
-        <p> {{endHandM}} </p>
+
+    <div class="visible-row">
+
+        <div class="time">
+            <p> {{startHandM}} </p>
+            <p> {{endHandM}} </p>
+        </div>
+    
+        <div class="prio-activities">
+            <app-activity 
+            *ngFor="let activity of prioActivities"
+            class="prio"
+            [activity]="activity">
+            </app-activity>
+        </div>
+        <div class="toggle">
+            <div class="toggle-button" (click)="toggled = !toggled"></div>
+        </div>
+
+    </div>
+    
+
+    <div class="hidden-row" *ngIf="toggled === true">
+        <app-activity
+        *ngFor="let activity of hiddenActivities"
+        class="hidden"
+        [activity]="activity">
+        </app-activity>
     </div>
 
-    <div class="activities">
-        <app-activity *ngFor="let i of [0, 1]"></app-activity>
-    </div>
-    <div class="toggle">
-        <div class="toggle-button"></div>
-    </div>
+
 </div>
