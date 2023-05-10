@@ -2,35 +2,50 @@
 
 .menu{
     z-index: 1;
-    display: flex;
-    flex-direction:row;
-    align-items: stretch;
-
+    //display: flex;
+    //flex-direction:row;
+    align-items: center;
     position: fixed;
-    bottom: 0;
-    width: 100%;
-    background-color: $prim-color;
-    height: 10%;
-    box-shadow: 3px 3px 4px 3px rgba(0, 0, 0, 0.4);
-    
-   
-    mat-flat-button{
-        display: flex;
-        justify-content: center;
-        height: 70px;
-        width: 70px;
-        background-color: rgba($color: #e9e8e8, $alpha: 0.8);
-        border-radius: 10px;
-        box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.4);
-        margin: 5px;
-       
 
-        mat-icon{
-            margin-top: auto;
-            margin-bottom: auto;
-            width: 80%;
-            height: 80%;
-            align-items: center;
-        }
+    bottom: 0;
+    width: calc(100% - 20px);
+    padding: 0px 10px;
+    background-color: $prim-color;
+    height: $menu-height;
+    //box-shadow: 0px -5px 8px rgba(0, 0, 0, 0.4);
+}
+
+mat-flat-button{
+    display: flex;
+    justify-content: center;
+    height: 50px;
+    width: 50px;
+    //background-color: rgba($color: #e9e8e8, $alpha: 0.8);
+    border-radius: 10px;
+    //box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.4);
+    //margin: 5px;
+    padding: 10px 5px;
+
+    mat-icon{
+        margin-top: auto;
+        margin-bottom: auto;
+        width: 70%;
+        height: 70%;
+        align-items: center;
+        filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(255deg) brightness(113%) contrast(102%);
     }
+}
+
+.pages {
+
+    display: flex;
+    float: left;
+}
+
+.dashboard {
+
+    position: relative;
+    display: block;
+    right: 0px;
+    float: right;
 }

@@ -1,5 +1,24 @@
+@import '../theme';
 
 #menu {
     position: fixed;
     bottom: 0px;
+}
+
+.head{
+    position: sticky;
+    display: flex;
+    justify-content: center;
+    top: 0;
+    z-index: 2;
+    background-color: $prim-color;
+    height: $header-height;
+  
+      h4 {
+        font-size: 15px;
+        padding: 0px 0px;
+        margin: 0px;
+        text-align: center;
+        color: $sec-color;
+      }
 }

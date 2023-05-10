@@ -1,2 +1,6 @@
 $prim-color: #014d6d;
 $sec-color: #e9e8e8;
+
+$menu-height: 70px;
+$header-height: 25px;
+$content-height: calc(100vh - ($menu-height + $header-height));

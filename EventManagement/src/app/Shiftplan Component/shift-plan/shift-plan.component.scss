@@ -1,19 +1,9 @@
-
-
 @import "../../../theme";
 
-.body{
-    
-    .head{
-      background-color: $prim-color;
-    
-        h4{
-            padding: 10px 0px;
-            margin: 0px;
-            text-align: center;
-            color: $sec-color;
-        }
-    }
-    margin-bottom: 200px;
+mat-tab-group {
 
+    height: $content-height;
 }
+
+
+
