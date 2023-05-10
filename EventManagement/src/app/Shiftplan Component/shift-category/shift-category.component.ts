@@ -1,4 +1,6 @@
 import { Component, Input } from '@angular/core';
+import { CategoryContent } from 'src/app/Object Models/Shiftplan Component/category-content';
+import { Shift } from 'src/app/Object Models/Shiftplan Component/shift';
 
 @Component({
   selector: 'app-shift-category',
@@ -6,10 +8,10 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./shift-category.component.scss']
 })
 export class ShiftCategoryComponent {
-  @Input() category_name: string = "";
+  @Input() content: CategoryContent = new CategoryContent(0, "", []);
+  @Input() categoryName: string = "";
 
-  shifts: string[] = ["Morning", "Afternoon", "Night", "", "","", "", "", "", "",""];
-
+  //shifts: string[] = ["Morning", "Afternoon", "Night", "", "","", "", "", "", "",""];
   intervall: number = 3;
 
 }

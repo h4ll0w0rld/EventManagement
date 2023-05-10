@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
+import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.service';
 
-export const shiftCategorys = ['Bar', 'SiBeKo', 'Bühne1'];
 
 @Component({
   selector: 'app-shift-plan',
@@ -11,18 +11,23 @@ export const shiftCategorys = ['Bar', 'SiBeKo', 'Bühne1'];
 
 
 export class ShiftPlanComponent {
-  public shiftCategorys = ['Bar', 'SiBeKo', 'Bühne1'];
+
+  //public shiftCategories = ['Bar', 'SiBeKo', 'Bühne1'];
+  shiftCategoryNames = ["", "", ""];
   value = 'Bar2';
-  constructor(private cdRef: ChangeDetectorRef) {
+
+  constructor(private cdRef: ChangeDetectorRef, public shiftplanService: ShiftplanService) {
+
+    this.shiftCategoryNames = shiftplanService.categoryNames;
     this.updateCat();
   }
   addCat(): void {
-    shiftCategorys.push(this.value);
+    this.shiftCategoryNames.push(this.value);
     this.updateCat();
   }
   updateCat() {
 
-    this.shiftCategorys = [...shiftCategorys];
+    this.shiftCategoryNames = [...this.shiftCategoryNames];
 
   }
 
