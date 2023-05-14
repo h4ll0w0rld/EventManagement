@@ -26,6 +26,7 @@ import { ShiftComponent } from './Shiftplan Component/shift/shift.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTabLink } from '@angular/material/tabs';
+import { UserListComponent } from './user-list/user-list.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { MatTabLink } from '@angular/material/tabs';
     ActivityComponent,
     DashboardComponent,
     ShiftComponent,
+    UserListComponent,
   ],
   imports: [
     BrowserModule,
