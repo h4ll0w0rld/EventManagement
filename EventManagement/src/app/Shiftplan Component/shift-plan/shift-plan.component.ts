@@ -20,6 +20,7 @@ export class ShiftPlanComponent {
 
     this.shiftCategoryNames = shiftplanService.categoryNames;
     this.updateCat();
+    console.log("test");
   }
   addCat(): void {
     this.shiftCategoryNames.push(this.value);
