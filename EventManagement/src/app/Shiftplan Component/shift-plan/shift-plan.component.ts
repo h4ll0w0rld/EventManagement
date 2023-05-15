@@ -13,14 +13,15 @@ import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.s
 export class ShiftPlanComponent {
 
   //public shiftCategories = ['Bar', 'SiBeKo', 'Bühne1'];
-  shiftCategoryNames = ["", "", ""];
+  shiftCategoryNames = ["aa", "s", "df"];
   value = 'Bar2';
 
   constructor(private cdRef: ChangeDetectorRef, public shiftplanService: ShiftplanService) {
 
-    this.shiftCategoryNames = shiftplanService.categoryNames;
+   // this.shiftCategoryNames = shiftplanService.categoryNames;
+    
     this.updateCat();
-    console.log("test");
+    
   }
   addCat(): void {
     this.shiftCategoryNames.push(this.value);
@@ -33,6 +34,16 @@ export class ShiftPlanComponent {
   }
 
 
+  ngOnInit() {
 
+    this.shiftplanService.categoryNames.subscribe((newValue) => {
+      // Update the component with the new value
+      console.log('New value:', newValue);
+      this.shiftCategoryNames = newValue;
+      this.updateCat();
+      
+    });
+    this.shiftplanService.updateCategoryNames();
+  }
 
 }

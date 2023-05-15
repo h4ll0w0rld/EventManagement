@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.service';
 
 @Component({
   selector: 'app-menu',
@@ -8,5 +9,13 @@ import { Component } from '@angular/core';
 
 export class MenuComponent {
   
+  constructor(private shiftplan:ShiftplanService){
+
+  }
+  
+  clicked(){
+    this.shiftplan.updateCategoryNames();
+
+  }
 
 }
