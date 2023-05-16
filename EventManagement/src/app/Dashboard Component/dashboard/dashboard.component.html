@@ -3,18 +3,19 @@
 <h2>Deine Tätigkeiten</h2>
 
 <div>
-    <ul>
+    <ul *ngFor="let shift of activities">
+        <app-dashboardactivity></app-dashboardactivity>
+        <!-- <br>
+        <li>{{shift}}</li> -->
+        <!-- <li>18:00 - 22:00</li>
+        <br>
+        <li>Security</li>
+        <li>23:00 - 01:00</li>
         <br>
         <li>Bar</li>
         <li>18:00 - 22:00</li>
         <br>
         <li>Security</li>
-        <li>23:00 - 01:00</li>
-        <br>
-        <li>Bar</li>
-        <li>18:00 - 22:00</li>
-        <br>
-        <li>Security</li>
-        <li>23:00 - 01:00</li>
+        <li>23:00 - 01:00</li> -->
     </ul>
 </div>

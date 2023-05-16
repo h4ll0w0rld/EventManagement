@@ -27,6 +27,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTabLink } from '@angular/material/tabs';
 import { UserListComponent } from './user-list/user-list.component';
+import { DashboardactivityComponent } from './dashboardactivity/dashboardactivity.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { UserListComponent } from './user-list/user-list.component';
     DashboardComponent,
     ShiftComponent,
     UserListComponent,
+    DashboardactivityComponent,
   ],
   imports: [
     BrowserModule,
