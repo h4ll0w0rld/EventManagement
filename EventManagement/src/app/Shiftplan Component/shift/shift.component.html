@@ -3,13 +3,13 @@
     <div class="visible-row">
 
         <div class="time">
-            <p> {{startHandM}} </p>
-            <p> {{endHandM}} </p>
+            <p> {{shift.startTime}} </p>
+            <p> {{shift.endTime}} </p>
         </div>
     
         <div class="prio-activities">
             <app-activity 
-            *ngFor="let activity of prioActivities"
+            *ngFor="let activity of shift.activities.slice(0, 2)"
             class="prio"
             [activity]="activity">
             </app-activity>
@@ -23,7 +23,7 @@
 
     <div class="hidden-row" *ngIf="toggled === true">
         <app-activity
-        *ngFor="let activity of hiddenActivities"
+        *ngFor="let activity of shift.activities.slice(2)"
         class="hidden"
         [activity]="activity">
         </app-activity>

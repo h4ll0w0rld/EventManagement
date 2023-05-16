@@ -1,8 +1,7 @@
 <mat-tab-group>
-    <mat-tab class="tabs" label={{cat}} *ngFor="let cat of shiftCategoryNames, let i = index">
+    <mat-tab class="tabs" label={{cat.name}} *ngFor="let cat of shiftCategories">
         <app-shift-category
-        [categoryName]="shiftCategoryNames[i]"
-        [content]="shiftplanService.categoriesContent[i]"></app-shift-category>
+        [content]="cat"></app-shift-category>
     </mat-tab>
     <mat-tab label="+">
         <mat-form-field class="example-form-field">

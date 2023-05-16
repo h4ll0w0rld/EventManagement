@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { Activity } from '../shift/shift.component';
+import { Activity } from 'src/app/Object Models/Shiftplan Component/activityModel';
+import { User } from 'src/app/Object Models/user/shiftplanModel';
+
 
 @Component({
   selector: 'app-activity',
@@ -8,11 +10,11 @@ import { Activity } from '../shift/shift.component';
 })
 export class ActivityComponent {
 
-  @Input() activity = new Activity("test","");
+  @Input() activity = new Activity(1, new User(1,"server","dc"), true);
   
   constructor() {
 
-    console.log(this.activity.vName);
+   
   }
 
 }

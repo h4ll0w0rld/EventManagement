@@ -27,7 +27,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTabLink } from '@angular/material/tabs';
 import { UserListComponent } from './user-list/user-list.component';
-import { DashboardactivityComponent } from './dashboardactivity/dashboardactivity.component';
+import { DashboardactivityComponent } from './Dashboard Component/dashboardactivity/dashboardactivity.component';
+
+
+
 
 @NgModule({
   declarations: [
@@ -56,6 +59,8 @@ import { DashboardactivityComponent } from './dashboardactivity/dashboardactivit
     HttpClientModule,
     MatInputModule,
     MatFormFieldModule,
+   
+
     
 
   ],
