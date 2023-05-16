@@ -6,13 +6,17 @@ import { Component } from '@angular/core';
   styleUrls: ['./user-list.component.scss']
 })
 export class UserListComponent {
-  /*
   users = [
     'Kunibert Gloebe',
     'Harald Lichter',
     'Herbert Dunkler'
   ];
-  user = this.users;
-  selectedUser = this.user;
-  */
+  
+  // user = this.users;
+  selectedUser = 'Kunibert Gloebe';
+  
+  onSelect(name: string): void {
+    this.selectedUser = name;
+  }
+
 }
