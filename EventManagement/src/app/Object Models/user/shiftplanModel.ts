@@ -3,8 +3,7 @@ export class User {
     uuid: number;
     fName: string;
     lName: string;
-    
-    
+   
 
     constructor(_uuid: number,  _fName: string, _lName: string) {
 
@@ -14,4 +13,5 @@ export class User {
 
        
     }
+    
 }
