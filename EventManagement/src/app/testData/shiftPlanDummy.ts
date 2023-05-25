@@ -4,7 +4,7 @@ import { Shift } from "../Object Models/Shiftplan Component/shift";
 import { User } from "../Object Models/user/shiftplanModel";
 
 export const categoriesContent:CategoryContent[] = [
-    new CategoryContent(0, "_Bar", [ 
+    new CategoryContent(0, "_Bar","descriptiooon",60, [ 
         new Shift(0, 2, [
           new Activity(1, new User(1, "Herbert" ,"Gröneeier"), true),
           new Activity(1, new User(1, "Herbert ","Gröneeier"), true),
@@ -28,7 +28,7 @@ export const categoriesContent:CategoryContent[] = [
           new Activity(1, new User(1, "Herbert"," Gröneeier"), true),
           new Activity(1,new User(1, "Mister"," Knister"), true)])]),
 
-    new CategoryContent(0, "_Sicherheit", [
+    new CategoryContent(0, "_Sicherheit","descriptiooon",60, [
         new Shift(0, 2, [ 
             
             new Activity(1, new User(1, "Ben ","Sicherer"), true),
@@ -50,7 +50,7 @@ export const categoriesContent:CategoryContent[] = [
             new Activity(1,new User(1, "Mister"," Knister"), true)])]),
      
       
-    new CategoryContent(0, "_Technik", [
+    new CategoryContent(0, "_Technik","descriptiooon",60, [
         new Shift(0, 2, [ 
             new Activity(1, new User(1, "Herbert", "Gröneeier"), true),
             new Activity(1, new User(1, "Herbert ","Gröneeier"), true),

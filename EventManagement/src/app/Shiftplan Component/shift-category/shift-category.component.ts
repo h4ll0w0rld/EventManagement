@@ -8,7 +8,7 @@ import { Shift } from 'src/app/Object Models/Shiftplan Component/shift';
   styleUrls: ['./shift-category.component.scss']
 })
 export class ShiftCategoryComponent {
-  @Input() content: CategoryContent = new CategoryContent(0, "", []);
+  @Input() content: CategoryContent = new CategoryContent(0, "","",0, []);
   @Input() categoryName: string = "";
 
   //shifts: string[] = ["Morning", "Afternoon", "Night", "", "","", "", "", "", "",""];

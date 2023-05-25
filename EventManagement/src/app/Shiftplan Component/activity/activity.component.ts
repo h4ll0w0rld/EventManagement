@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Activity } from 'src/app/Object Models/Shiftplan Component/activityModel';
 import { User } from 'src/app/Object Models/user/shiftplanModel';
+import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.service';
 
 
 @Component({
@@ -12,9 +13,16 @@ export class ActivityComponent {
 
   @Input() activity = new Activity(1, new User(1,"server","dc"), true);
   
-  constructor() {
+  constructor(public shiftplanService: ShiftplanService) {
 
    
+  }
+
+  addUser(_activityId:number, _userId:number ){
+    this.shiftplanService.addUserToActivity(_activityId, _userId);
+
+
+
   }
 
 }

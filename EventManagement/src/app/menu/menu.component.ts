@@ -14,7 +14,7 @@ export class MenuComponent {
   }
   
   clicked(){
-    this.shiftplan.updateCategorieNames();
+    //this.shiftplan.updateCategorieNames();
     this.shiftplan.updateCategories();
 
 

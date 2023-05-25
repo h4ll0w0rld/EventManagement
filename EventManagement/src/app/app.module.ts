@@ -28,6 +28,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTabLink } from '@angular/material/tabs';
 import { UserListComponent } from './user-list/user-list.component';
 import { DashboardactivityComponent } from './Dashboard Component/dashboardactivity/dashboardactivity.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
+import { UserLoginComponent } from './user-login/user-login.component';
+
 
 
 
@@ -43,6 +47,7 @@ import { DashboardactivityComponent } from './Dashboard Component/dashboardactiv
     ShiftComponent,
     UserListComponent,
     DashboardactivityComponent,
+    UserLoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,11 +59,12 @@ import { DashboardactivityComponent } from './Dashboard Component/dashboardactiv
     BrowserAnimationsModule,
     MatButtonModule,
     MatTabsModule,
-    
+    MatDatepickerModule,
     MatIconModule,
     HttpClientModule,
     MatInputModule,
     MatFormFieldModule,
+    MatNativeDateModule,
    
 
     

@@ -3,37 +3,46 @@ import { Component } from '@angular/core';
 import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.service';
 import { CategoryContent } from 'src/app/Object Models/Shiftplan Component/category-content';
 import { Shift } from 'src/app/Object Models/Shiftplan Component/shift';
-
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-shift-plan',
   templateUrl: './shift-plan.component.html',
-  styleUrls: ['./shift-plan.component.scss']
+  styleUrls: ['./shift-plan.component.scss'],
+  providers: [DatePipe]
 })
 
 
 export class ShiftPlanComponent {
 
+
+
   shiftCategoryNames = ["Bar1", "Bar2", "Bar3"];
   value = 'Bar2';
   shiftCategorie:CategoryContent[] = [];
-  constructor(public shiftplanService: ShiftplanService) {
+
+  categoryName: string = '';
+  description: string = '';
+  interval: number = 60;
+  numberOfActivities: number = 2;
+  startTime = "00:00";
+  endTime = "23:00";
+  chosenDate: Date = new Date();
+  constructor(public shiftplanService: ShiftplanService, private datePipe: DatePipe) {
  
   }
 
   addCat(): void {
 
-    this.shiftplanService.addCategory(this.value, "Wichtige Sachen ;)")
-    this.shiftCategorie.push(new CategoryContent(111,this.value, []))
-    this.shiftplanService.categories.next(this.shiftCategorie);
+    const date = this.datePipe.transform(this.chosenDate, "yyyy-MM-dd");
+    this.shiftplanService.addCategory(this.categoryName, this.description, this.interval, this.numberOfActivities,this.startTime, this.endTime, date)
     this.shiftplanService.updateCategories();
-  
+    
     this.updateCat();
   }
-  delCategory(){
-   // this.shiftplanService.delCategory(3);
 
-
+  delCategory(_id:number){
+    this.shiftplanService.delCategory(_id);
 
   }
   updateCat() {
@@ -41,6 +50,8 @@ export class ShiftPlanComponent {
     this.shiftCategoryNames = [...this.shiftCategoryNames];
 
   }
+
+
 
 
   ngOnInit() {
@@ -57,7 +68,7 @@ export class ShiftPlanComponent {
       this.shiftCategorie = newValue;
 
     });
-    this.shiftplanService.updateCategorieNames();
+   // this.shiftplanService.updateCategorieNames();
 
     
     this.shiftplanService.updateCategories();
