@@ -1,10 +1,13 @@
-<div class="card">
+<div class="card" (click)="openUserList()">
     <div class="name">
         <p>{{ activity.user.fName }}</p>
         <p>{{ activity.user.lName  }}</p>
 
-        <button *ngIf="!activity.user.uuid" (click)="addUser(activity.uuid, activity.user.uuid)">Addd</button>
-        <button *ngIf="activity.user.uuid" (click)="this.shiftplanService.delUserFromActivity(activity.uuid, activity.user.uuid)">Del</button>
+        <!--
+            <button *ngIf="!activity.user.uuid" (click)="addUser(activity.uuid, activity.user.uuid)">Addd</button>
+            <button *ngIf="activity.user.uuid" (click)="this.shiftplanService.delUserFromActivity(activity.uuid, activity.user.uuid)">Del</button>
+        -->
         
+
     </div>
 </div>

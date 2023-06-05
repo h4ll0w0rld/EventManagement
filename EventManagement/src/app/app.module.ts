@@ -32,6 +32,8 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import { UserLoginComponent } from './user-login/user-login.component';
 
+import { MatDialogModule } from '@angular/material/dialog';
+
 
 
 
@@ -65,7 +67,7 @@ import { UserLoginComponent } from './user-login/user-login.component';
     MatInputModule,
     MatFormFieldModule,
     MatNativeDateModule,
-   
+    MatDialogModule,
 
     
 

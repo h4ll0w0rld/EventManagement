@@ -18,6 +18,7 @@ export class ShiftplanService {
   user: Subject<User []> = new Subject<User[]>();
   
   categories: Subject<CategoryContent[]> = new Subject<CategoryContent[]>();
+  userList: Subject<User[]> = new Subject<User[]>();
 
   dummyNames = ["Bar", "Sicherheit", "Bühne 1","buu"];
   //Dummy Data
@@ -43,7 +44,6 @@ export class ShiftplanService {
 
   //   console.log(this.categoryNames)
   // }
-
 
 
   updateCategories():void{
@@ -130,16 +130,18 @@ export class ShiftplanService {
 
   }
 
+  
   getAllUser(): Observable<User[]> {
+
     return this.http.get(this.rootUrl + '/user/all').pipe(
       map((response: any) => {
         // Perform any data transformation or manipulation if needed
+        this.userList.next(response);
         return response;
       })
     );
 
   }
-
 
 
   userToActivity(){

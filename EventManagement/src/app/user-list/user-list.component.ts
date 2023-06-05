@@ -1,4 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Activity } from '../Object Models/Shiftplan Component/activityModel';
+import { ShiftplanService } from '../Services/Shiftplan Service/shiftplan.service';
+import { User } from '../Object Models/user/shiftplanModel';
+import { Observable } from 'rxjs';
+
 
 @Component({
   selector: 'app-user-list',
@@ -14,9 +20,28 @@ export class UserListComponent {
   
   // user = this.users;
   selectedUser = 'Kunibert Gloebe';
+  //userList: User[] = [new User(1, "", "")];
+
+  userList: User[] = [];
+
+  constructor(public shiftplanService: ShiftplanService, @Inject(MAT_DIALOG_DATA) public data: Activity) {}
   
+
+  ngOnInit() {
+
+    this.shiftplanService.userList.subscribe((users: User[]) => {
+      this.userList = users;
+    });
+  
+  }
+
+
   onSelect(name: string): void {
     this.selectedUser = name;
+  }
+
+  addUser(_activityId:number, _userId:number ){
+    this.shiftplanService.addUserToActivity(_activityId, _userId);
   }
 
 }
