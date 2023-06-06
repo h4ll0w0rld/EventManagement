@@ -1,0 +1,23 @@
+@import '../../../theme';
+
+
+@mixin Card($width, $height, $card: "") {
+
+    width: $width;
+    height: $height;
+
+    display: flex;
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.30);
+    border-radius: 10px;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+
+    @if ($card == "activity") {
+
+        border-left: 10px solid $prim-color;
+
+    }
+}
