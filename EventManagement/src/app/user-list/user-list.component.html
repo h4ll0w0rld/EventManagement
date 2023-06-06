@@ -3,8 +3,9 @@
 <button *ngIf="data.user.uuid" (click)="this.shiftplanService.delUserFromActivity(data.uuid, data.user.uuid)">Aus Liste austragen</button>
 
 <div class="user" *ngFor="let user of userList">test
-  <h3>{{user.fName}}</h3>
+    <h3>{{user.fName}}</h3>
 </div>
+
 
 <!--
   <ul class="users">

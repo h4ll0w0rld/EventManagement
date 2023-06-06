@@ -1,10 +1,10 @@
-<h1>Willkommen <br> {{firstName}}!</h1> 
+<h1>Willkommen <br> {{firstName}}!</h1>
 
 <h2>Deine Tätigkeiten</h2>
 
 <!--<app-dashboardactivity *ngFor="let shift of activities"></app-dashboardactivity> -->
 
-<div *ngFor="let shift of activities">
-    <p>{{category}}</p>
-    <p>{{startTime}} - {{endTime}}</p>
+<div *ngFor="let shift of shiftByUser">
+    <p>{{shift.category}}</p>
+    <p>{{shift.startTime}} - {{shift.endTime}}</p>
 </div>

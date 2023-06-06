@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.service';
+import { DashboardService } from '../Services/Dashboard Service/dashboard.service';
 
 @Component({
   selector: 'app-menu',
@@ -8,14 +9,16 @@ import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.s
 })
 
 export class MenuComponent {
-  
-  constructor(private shiftplan:ShiftplanService){
+
+  constructor(private shiftplan: ShiftplanService, private dashboard: DashboardService) {
 
   }
-  
-  clicked(){
+
+  clicked() {
     //this.shiftplan.updateCategorieNames();
     this.shiftplan.updateCategories();
+    this.shiftplan.getAllUser();
+    this.dashboard.updateUserActivity();
 
 
   }

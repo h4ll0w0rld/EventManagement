@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Activity } from '../Object Models/Shiftplan Component/activityModel';
 import { ShiftplanService } from '../Services/Shiftplan Service/shiftplan.service';
-import { User } from '../Object Models/user/shiftplanModel';
+import { User } from '../Object Models/user/user';
 import { Observable } from 'rxjs';
 
 
@@ -17,22 +17,22 @@ export class UserListComponent {
     'Harald Lichter',
     'Herbert Dunkler'
   ];
-  
+
   // user = this.users;
   selectedUser = 'Kunibert Gloebe';
   //userList: User[] = [new User(1, "", "")];
 
   userList: User[] = [];
 
-  constructor(public shiftplanService: ShiftplanService, @Inject(MAT_DIALOG_DATA) public data: Activity) {}
-  
+  constructor(public shiftplanService: ShiftplanService, @Inject(MAT_DIALOG_DATA) public data: Activity) { }
+
 
   ngOnInit() {
-
+    this.shiftplanService.getAllUser();
     this.shiftplanService.userList.subscribe((users: User[]) => {
       this.userList = users;
     });
-  
+
   }
 
 
@@ -40,7 +40,7 @@ export class UserListComponent {
     this.selectedUser = name;
   }
 
-  addUser(_activityId:number, _userId:number ){
+  addUser(_activityId: number, _userId: number) {
     this.shiftplanService.addUserToActivity(_activityId, _userId);
   }
 

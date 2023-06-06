@@ -4,7 +4,7 @@ import { CategoryContent } from 'src/app/Object Models/Shiftplan Component/categ
 import { Shift } from 'src/app/Object Models/Shiftplan Component/shift';
 import { Observable, Subject, map } from 'rxjs';
 import { Activity } from 'src/app/Object Models/Shiftplan Component/activityModel';
-import { User } from 'src/app/Object Models/user/shiftplanModel';
+import { User } from 'src/app/Object Models/user/user';
 import { categoriesContent } from "../../testData/shiftPlanDummy";
 
 
@@ -14,28 +14,28 @@ import { categoriesContent } from "../../testData/shiftPlanDummy";
 export class ShiftplanService {
 
 
-  categoryNames: Subject<string []> = new Subject<string[]>();
-  user: Subject<User []> = new Subject<User[]>();
-  
+  categoryNames: Subject<string[]> = new Subject<string[]>();
+  user: Subject<User[]> = new Subject<User[]>();
+
   categories: Subject<CategoryContent[]> = new Subject<CategoryContent[]>();
   userList: Subject<User[]> = new Subject<User[]>();
 
-  dummyNames = ["Bar", "Sicherheit", "Bühne 1","buu"];
+  dummyNames = ["Bar", "Sicherheit", "Bühne 1", "buu"];
   //Dummy Data
   categoriesContent = categoriesContent;
 
-  rootUrl:string = 'http://localhost:3000';
- 
+  rootUrl: string = 'http://localhost:3000';
 
-  constructor(private http: HttpClient) { 
-    
+
+  constructor(private http: HttpClient) {
+
   }
-  
+
 
   // updateCategorieNames(){
 
   //   this.http.get(this.rootUrl + "/shiftCategory/names/1").subscribe((res) =>{
-   
+
   //   const shiftCategorys = JSON.parse(JSON.stringify(res));
   //   const catNames: string[] = shiftCategorys.map((category: any) => category.name);
   //   this.categoryNames.next(catNames);
@@ -46,53 +46,53 @@ export class ShiftplanService {
   // }
 
 
-  updateCategories():void{
+  updateCategories(): void {
 
     this.http.get<any>(this.rootUrl + '/shiftCategory/all/event_id/1').subscribe((res: any) => {
 
-        const shiftCategorys = JSON.parse(JSON.stringify(res));
-  
-        const cats: CategoryContent[] = shiftCategorys.shift_categories.map((category: any) => {
-          const shifts: Shift[] = category.shifts.map((shift: any) => {
-            const activities: Activity[] = shift.activities.map((activity: any) => {
-              const user: User = new User(activity.user?.id, activity.user?.firstName, activity.user?.lastName);
-              const mappedActivity: Activity = new Activity(activity.id, user, true);
-              return mappedActivity;
-            });
-  
-            const mappedShift: Shift = new Shift(shift.startTime, shift.endTime, activities);
-            return mappedShift;
+      const shiftCategorys = JSON.parse(JSON.stringify(res));
+
+      const cats: CategoryContent[] = shiftCategorys.shift_categories.map((category: any) => {
+        const shifts: Shift[] = category.shifts.map((shift: any) => {
+          const activities: Activity[] = shift.activities.map((activity: any) => {
+            const user: User = new User(activity.user?.id, activity.user?.firstName, activity.user?.lastName);
+            const mappedActivity: Activity = new Activity(activity.id, user, true);
+            return mappedActivity;
           });
-  
-          const mappedCategoryContent: CategoryContent = new CategoryContent(
-            category.id,
-            category.name,
-            category.description,
-            category.interval,
-            shifts
-          );
-          return mappedCategoryContent;
+
+          const mappedShift: Shift = new Shift(shift.startTime, shift.endTime, activities);
+          return mappedShift;
         });
-  
-        this.categories.next(cats);
-      },
+
+        const mappedCategoryContent: CategoryContent = new CategoryContent(
+          category.id,
+          category.name,
+          category.description,
+          category.interval,
+          shifts
+        );
+        return mappedCategoryContent;
+      });
+
+      this.categories.next(cats);
+    },
 
       (error: any) => {
-   
+
         console.error(error);
         this.categories.next(categoriesContent)
       }
     );
 
   }
-  addCategory(_name:string, _description:string, _intervall: number, _numbActivities:number,_startTime:string, _endTime:string, _days:any){
-    
+  addCategory(_name: string, _description: string, _intervall: number, _numbActivities: number, _startTime: string, _endTime: string, _days: any) {
+
     const data = {
       name: _name,
       description: _description,
       intervall: _intervall,
       activitiesPerShift: _numbActivities,
-      startTime:_startTime,
+      startTime: _startTime,
       endTime: _endTime,
       days: ["2023-08-10", "2023-08-11", "2023-08-12"],   //FIX when event can be added manual
       event_id: 1
@@ -106,7 +106,7 @@ export class ShiftplanService {
 
   }
 
-  delCategory(_id:number){
+  delCategory(_id: number) {
     this.http.delete(this.rootUrl + "/shiftCategory/delete/id/" + _id).subscribe((res) => {
       console.log(res)
       this.updateCategories();
@@ -115,36 +115,42 @@ export class ShiftplanService {
   }
 
 
-  addUserToActivity(_activityId: number, _userId: number){
-    console.log("calliong: ", this.rootUrl + "/activity/addUser/activity_id/" + _activityId +"/user_id/" + 1)
-    this.http.put(this.rootUrl + "/activity/addUser/activity_id/" + _activityId +"/user_id/" + 1, {}).subscribe(() => {
+  addUserToActivity(_activityId: number, _userId: number) {
+    console.log("calliong: ", this.rootUrl + "/activity/addUser/activity_id/" + _activityId + "/user_id/" + 1)
+    this.http.put(this.rootUrl + "/activity/addUser/activity_id/" + _activityId + "/user_id/" + 1, {}).subscribe(() => {
       this.updateCategories();
     })
 
   }
 
-  delUserFromActivity(_activityId: number, _userId: number): void{
+  delUserFromActivity(_activityId: number, _userId: number): void {
     this.http.put(this.rootUrl + "/activity/removeUser/activity_id/" + _activityId, {}).subscribe(() => {
       this.updateCategories();
     })
 
   }
 
-  
-  getAllUser(): Observable<User[]> {
 
-    return this.http.get(this.rootUrl + '/user/all').pipe(
-      map((response: any) => {
-        // Perform any data transformation or manipulation if needed
-        this.userList.next(response);
-        return response;
-      })
+  getAllUser() {
+
+    return this.http.get(this.rootUrl + '/user/all').subscribe((res: any) => {
+
+
+      const users: User[] = res.map((user: any) => new User(
+        user.id,
+        user.firstName,
+        user.lastName,
+
+      ));
+      this.userList.next(users);
+    }
+
     );
 
   }
 
 
-  userToActivity(){
+  userToActivity() {
 
     const data = {
       "user": 22,
@@ -153,7 +159,7 @@ export class ShiftplanService {
     }
 
     this.http.post(this.rootUrl + '/shift/add', data).subscribe((res) => {
-      console.log("adding shift went: " , res)
+      console.log("adding shift went: ", res)
     })
   }
 }

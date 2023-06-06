@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { User } from 'src/app/Object Models/user/shiftplanModel';
+import { User } from 'src/app/Object Models/user/user';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable({
