@@ -7,4 +7,7 @@ import { Component, Input } from '@angular/core';
 })
 export class DashboardactivityComponent {
   @Input() intervall: number = 0;
+  
+  //shiftcategory, starttime, endtime
+  
 }

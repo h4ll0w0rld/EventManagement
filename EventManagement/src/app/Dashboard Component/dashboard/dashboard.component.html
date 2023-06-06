@@ -1,21 +1,10 @@
-<h1>Willkommen <br> Max!</h1>
+<h1>Willkommen <br> {{firstName}}!</h1> 
 
 <h2>Deine Tätigkeiten</h2>
 
-<div>
-    <ul *ngFor="let shift of activities">
-        <app-dashboardactivity></app-dashboardactivity>
-        <!-- <br>
-        <li>{{shift}}</li> -->
-        <!-- <li>18:00 - 22:00</li>
-        <br>
-        <li>Security</li>
-        <li>23:00 - 01:00</li>
-        <br>
-        <li>Bar</li>
-        <li>18:00 - 22:00</li>
-        <br>
-        <li>Security</li>
-        <li>23:00 - 01:00</li> -->
-    </ul>
+<!--<app-dashboardactivity *ngFor="let shift of activities"></app-dashboardactivity> -->
+
+<div *ngFor="let shift of activities">
+    <p>{{category}}</p>
+    <p>{{startTime}} - {{endTime}}</p>
 </div>
