@@ -116,7 +116,7 @@ export class ShiftplanService {
 
   addUserToActivity(_activityId: number, _userId: number) {
     console.log("calliong: ", this.rootUrl + "/activity/addUser/activity_id/" + _activityId + "/user_id/" + _userId)
-    this.http.put(this.rootUrl + "/activity/addUser/activity_id/" + _activityId + "/user_id/" + 1, {}).subscribe(() => {
+    this.http.put(this.rootUrl + "/activity/addUser/activity_id/" + _activityId + "/user_id/" + _userId, {}).subscribe(() => {
       this.updateCategories();
     })
 

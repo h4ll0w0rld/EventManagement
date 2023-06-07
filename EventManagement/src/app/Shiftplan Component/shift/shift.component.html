@@ -9,13 +9,16 @@
     
         <div class="prio-activities">
             <app-activity 
-            *ngFor="let activity of shift.activities.slice(0, 2)"
+            *ngFor="let activity of shift.activities.slice(0, prioActivities)"
             class="prio"
             [activity]="activity">
             </app-activity>
         </div>
-        <div class="toggle">
-            <div class="toggle-button" (click)="toggled = !toggled"></div>
+        <div *ngIf="shift.activities.length > prioActivities" class="toggle-container">
+            <h3 class="amount-hidden">+{{shift.activities.length - prioActivities}}</h3>
+            <div class="toggle">
+                <div class="toggle-button" (click)="toggled = !toggled"> <p></p> </div>
+            </div>
         </div>
 
     </div>
@@ -23,7 +26,7 @@
 
     <div class="hidden-row" *ngIf="toggled === true">
         <app-activity
-        *ngFor="let activity of shift.activities.slice(2)"
+        *ngFor="let activity of shift.activities.slice(prioActivities)"
         class="hidden"
         [activity]="activity">
         </app-activity>

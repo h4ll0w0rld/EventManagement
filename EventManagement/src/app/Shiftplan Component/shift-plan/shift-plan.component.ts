@@ -1,15 +1,17 @@
-import { Component } from '@angular/core';
-
+import { Component, ViewEncapsulation } from '@angular/core';
 import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.service';
 import { CategoryContent } from 'src/app/Object Models/Shiftplan Component/category-content';
 import { Shift } from 'src/app/Object Models/Shiftplan Component/shift';
 import { DatePipe } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
+import { DelCatDialogComponent } from 'src/app/del-cat-dialog/del-cat-dialog.component';
 
 @Component({
   selector: 'app-shift-plan',
   templateUrl: './shift-plan.component.html',
   styleUrls: ['./shift-plan.component.scss'],
-  providers: [DatePipe]
+  providers: [DatePipe],
+  encapsulation: ViewEncapsulation.None
 })
 
 
@@ -28,8 +30,14 @@ export class ShiftPlanComponent {
   startTime = "00:00";
   endTime = "23:00";
   chosenDate: Date = new Date();
-  constructor(public shiftplanService: ShiftplanService, private datePipe: DatePipe) {
+
+  doubleTouchCount = 0;
+
+  
+
+  constructor(public shiftplanService: ShiftplanService, private datePipe: DatePipe, private dialog: MatDialog) {
  
+    
   }
 
   addCat(): void {
@@ -72,6 +80,23 @@ export class ShiftPlanComponent {
 
     
     this.shiftplanService.updateCategories();
+
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DelCatDialogComponent, {
+
+    });
+  }
+
+  touchStart() {
+    console.log("test start");
+    this.openDialog();
+
+  }
+
+  touchEnd() {
+    console.log("test end");
 
   }
 

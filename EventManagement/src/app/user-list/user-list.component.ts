@@ -49,6 +49,7 @@ export class UserListComponent {
   }
 
   addUser(_activityId: number, _userId: number) {
+    console.log(_userId);
     this.shiftplanService.addUserToActivity(_activityId, _userId);
     this.matDialogRef.close();
   }

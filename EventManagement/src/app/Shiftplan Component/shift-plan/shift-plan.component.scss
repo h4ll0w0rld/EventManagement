@@ -1,9 +1,67 @@
 @import "../../../theme";
 
+
 mat-tab-group {
 
-    height: $content-height;
+    min-height: $content-height;
+    background-color: $sec-color;
+}
+
+mat-tab-header  {
+
+    background-color: $prim-color;
+    
+}
+
+.mat-mdc-tab  .mdc-tab__text-label {
+
+    color: $sec-color;
+}
+
+.mat-mdc-tab:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label, .mat-mdc-tab-link:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label {
+
+    color: $prim-color;
+}
+
+.mdc-tab--active, .mdc-tab-indicator--active {
+
+    background-color: $sec-color;
+    border-radius: 5px 5px 0px 0px;
+
+}
+
+.mat-mdc-tab:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline, .mat-mdc-tab-link:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline {
+
+    border: none;
+    background-color: $sec-color; 
 }
 
 
+.mat-mdc-tab-header-pagination-chevron {
+
+    border-color: $sec-color;
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+
+    box-sizing: 100%;
+}
+
+mat-form-field {
+
+    display: block;
+    width: 90%;
+    margin: auto;
+}
+
+.add {
+
+    display: flex;
+    flex-direction: column;
+    height: calc($content-height - 70px);
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    
+}
 

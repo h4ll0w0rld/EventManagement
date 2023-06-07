@@ -11,10 +11,14 @@
 
 .hidden-row {
 
-    width: 100%;
+    width: calc(100% - 10px);
+    min-height: 50px;
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-wrap: wrap;
-    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 0px 5px;
 
 }
 
@@ -32,27 +36,41 @@
     display: flex;
     justify-content: space-between;
     flex-grow: 1;
-    height: 50px;
+    min-height: 50px;
 
 }
 
 .toggle {
 
     width: 50px;
-    height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
 
 }
 
+.amount-hidden {
+
+    text-align: center;
+    margin: 0px;
+}
+
+.toggle-container {
+
+    align-items: center;
+}
+
 .toggle-button {
 
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 20px;
     background-color: $sec-color;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
+
+    p {
+        text-align: center;    
+    }
 }
 
 p {
@@ -63,12 +81,7 @@ p {
 app-activity {
 
     width: 48%;
-}
-
-.prio {
-
-    //flex-grow: 1;
-
+    margin: 5px;
 }
 
 .hidden {

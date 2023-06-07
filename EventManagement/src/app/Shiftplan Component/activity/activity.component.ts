@@ -26,7 +26,7 @@ export class ActivityComponent {
       {
         data: this.activity,
         width: '95vh',
-        height: '70vh'
+        height: 'auto',
       }
 
     );

@@ -69,7 +69,8 @@
 
   .active-user, .user {
 
-    @include Card(40px);
+    @include Card(50px);
+    margin: 10px;
 
     h3 {
       text-align: center;
@@ -77,3 +78,4 @@
     }
 
   }
+

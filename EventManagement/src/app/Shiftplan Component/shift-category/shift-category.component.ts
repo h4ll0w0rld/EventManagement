@@ -12,7 +12,7 @@ export class ShiftCategoryComponent {
   @Input() categoryName: string = "";
 
   //shifts: string[] = ["Morning", "Afternoon", "Night", "", "","", "", "", "", "",""];
-  intervall: number = 3;
+  //intervall: number = 3;
   // shift: Shift;
 
 }

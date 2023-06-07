@@ -33,6 +33,7 @@ import {MatNativeDateModule} from '@angular/material/core';
 import { UserLoginComponent } from './user-login/user-login.component';
 
 import { MatDialogModule } from '@angular/material/dialog';
+import { DelCatDialogComponent } from './del-cat-dialog/del-cat-dialog.component';
 
 
 
@@ -50,6 +51,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     UserListComponent,
     DashboardactivityComponent,
     UserLoginComponent,
+    DelCatDialogComponent,
   ],
   imports: [
     BrowserModule,

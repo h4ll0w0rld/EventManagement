@@ -13,8 +13,8 @@ export class ShiftComponent {
 
   @Input() intervall: number = 0;
   @Input() shift: Shift = new Shift(0,0,[]);
-  
 
+  prioActivities: number = 2;
   toggled = false;
 
 
