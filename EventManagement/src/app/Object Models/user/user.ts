@@ -13,7 +13,6 @@ export class User {
         this.lName = _lName;
         this.email = "blabla@hallo.de"
 
-
     }
 
 }

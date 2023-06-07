@@ -1,8 +1,8 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CategoryContent } from 'src/app/Object Models/Shiftplan Component/category-content';
 import { Shift } from 'src/app/Object Models/Shiftplan Component/shift';
-import { Observable, Subject, map } from 'rxjs';
+import { Subject } from 'rxjs';
 import { Activity } from 'src/app/Object Models/Shiftplan Component/activityModel';
 import { User } from 'src/app/Object Models/user/user';
 import { categoriesContent } from "../../testData/shiftPlanDummy";
@@ -20,8 +20,7 @@ export class ShiftplanService {
   categories: Subject<CategoryContent[]> = new Subject<CategoryContent[]>();
   userList: Subject<User[]> = new Subject<User[]>();
 
-  dummyNames = ["Bar", "Sicherheit", "Bühne 1", "buu"];
-  //Dummy Data
+
   categoriesContent = categoriesContent;
 
   rootUrl: string = 'http://localhost:3000';
@@ -116,7 +115,7 @@ export class ShiftplanService {
 
 
   addUserToActivity(_activityId: number, _userId: number) {
-    console.log("calliong: ", this.rootUrl + "/activity/addUser/activity_id/" + _activityId + "/user_id/" + 1)
+    console.log("calliong: ", this.rootUrl + "/activity/addUser/activity_id/" + _activityId + "/user_id/" + _userId)
     this.http.put(this.rootUrl + "/activity/addUser/activity_id/" + _activityId + "/user_id/" + 1, {}).subscribe(() => {
       this.updateCategories();
     })
@@ -134,8 +133,6 @@ export class ShiftplanService {
   getAllUser() {
 
     return this.http.get(this.rootUrl + '/user/all').subscribe((res: any) => {
-
-
       const users: User[] = res.map((user: any) => new User(
         user.id,
         user.firstName,
