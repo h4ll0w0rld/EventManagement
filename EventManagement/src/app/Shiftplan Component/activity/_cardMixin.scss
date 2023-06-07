@@ -1,11 +1,12 @@
 @import '../../../theme';
 
 
-@mixin Card($width, $height, $card: "") {
+@mixin Card($height, $card: "") {
 
-    width: $width;
+    
     height: $height;
 
+    width: 100%;
     display: flex;
     background-color: white;
     border: 1px solid rgba(0, 0, 0, 0.30);
@@ -13,11 +14,17 @@
     overflow: hidden;
     justify-content: center;
     align-items: center;
-    margin: auto;
+
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    margin-top: 10px;
+    
 
     @if ($card == "activity") {
 
         border-left: 10px solid $prim-color;
+        width: calc(100% - 10px);
+        margin-top: 0px;
 
     }
 }

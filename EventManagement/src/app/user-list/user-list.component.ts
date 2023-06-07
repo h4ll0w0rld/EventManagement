@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Activity } from '../Object Models/Shiftplan Component/activityModel';
 import { ShiftplanService } from '../Services/Shiftplan Service/shiftplan.service';
 import { User } from '../Object Models/user/user';
@@ -24,7 +24,10 @@ export class UserListComponent {
 
   userList: User[] = [];
 
-  constructor(public shiftplanService: ShiftplanService, @Inject(MAT_DIALOG_DATA) public data: Activity) { }
+  constructor(
+    public shiftplanService: ShiftplanService, 
+    @Inject(MAT_DIALOG_DATA) public data: Activity, 
+    private matDialogRef: MatDialogRef<UserListComponent>) { }
 
 
   ngOnInit() {
@@ -35,6 +38,11 @@ export class UserListComponent {
 
   }
 
+  ngOnDestroy() {
+
+    this.matDialogRef.close();
+  }
+
 
   onSelect(name: string): void {
     this.selectedUser = name;
@@ -42,6 +50,15 @@ export class UserListComponent {
 
   addUser(_activityId: number, _userId: number) {
     this.shiftplanService.addUserToActivity(_activityId, _userId);
+    this.matDialogRef.close();
   }
+
+  delUser() {
+
+    this.shiftplanService.delUserFromActivity(this.data.uuid, this.data.user.uuid);
+    this.matDialogRef.close();
+
+  }
+
 
 }

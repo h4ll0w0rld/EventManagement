@@ -22,15 +22,15 @@ export class ActivityComponent {
 
 
   openUserList() {
-    this.dialog.open(UserListComponent,
+    let dialogRef = this.dialog.open(UserListComponent,
       {
         data: this.activity,
         width: '95vh',
         height: '70vh'
-
       }
 
     );
+    //dialogRef.afterClosed().subscribe(result => { })
 
   }
 

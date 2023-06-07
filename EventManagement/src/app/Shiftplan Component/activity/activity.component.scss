@@ -1,17 +1,9 @@
 @import '../../../theme';
+@import './cardMixin';
 
 .card {
-    display: flex;
-    background-color: white;
-    width: calc(100% - 10px);
-    height: 100%;
-    border: 1px solid rgba(0, 0, 0, 0.30);
-    border-left: 10px solid $prim-color;
-    border-radius: 10px;
-    overflow: hidden;
-    justify-content: center;
-    align-items: center;
-
+    
+    @include Card(100%, "activity");
 }
 
 .name {
