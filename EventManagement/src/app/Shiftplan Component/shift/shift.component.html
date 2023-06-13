@@ -11,7 +11,8 @@
             <app-activity 
             *ngFor="let activity of shift.activities.slice(0, prioActivities)"
             class="prio"
-            [activity]="activity">
+            [activity]="activity"
+            [shiftId]="shift.id">
             </app-activity>
         </div>
         <div *ngIf="shift.activities.length > prioActivities" class="toggle-container">

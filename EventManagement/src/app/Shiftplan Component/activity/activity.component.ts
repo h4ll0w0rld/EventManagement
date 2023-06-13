@@ -14,6 +14,7 @@ import { UserListComponent } from 'src/app/user-list/user-list.component';
 export class ActivityComponent {
 
   @Input() activity = new Activity(1, new User(1, "server", "dc"), true);
+  @Input() shiftId = 1;
 
   constructor(public shiftplanService: ShiftplanService, private dialog: MatDialog) {
 
@@ -24,7 +25,8 @@ export class ActivityComponent {
   openUserList() {
     let dialogRef = this.dialog.open(UserListComponent,
       {
-        data: this.activity,
+        data: {activity: this.activity, 
+              shiftId: this.shiftId},
         width: '95vh',
         height: 'auto',
       }

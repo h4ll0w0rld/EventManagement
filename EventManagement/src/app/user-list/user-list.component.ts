@@ -26,7 +26,7 @@ export class UserListComponent {
 
   constructor(
     public shiftplanService: ShiftplanService, 
-    @Inject(MAT_DIALOG_DATA) public data: Activity, 
+    @Inject(MAT_DIALOG_DATA) public data: any, 
     private matDialogRef: MatDialogRef<UserListComponent>) { }
 
 
@@ -48,9 +48,9 @@ export class UserListComponent {
     this.selectedUser = name;
   }
 
-  addUser(_activityId: number, _userId: number) {
-    console.log(_userId);
-    this.shiftplanService.addUserToActivity(_activityId, _userId);
+  addUser(_activityId: number, _userId: number, _shiftId:number) {
+ 
+    this.shiftplanService.addUserToActivity(_activityId, _userId, _shiftId);
     this.matDialogRef.close();
   }
 

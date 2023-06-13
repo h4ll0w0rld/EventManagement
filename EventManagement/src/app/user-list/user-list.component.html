@@ -1,10 +1,10 @@
 
-<div class="active-user" *ngIf="data.user.uuid" (click)="delUser()">
+<div class="active-user" *ngIf="data.activity.user.uuid" (click)="delUser()">
   <h3>Aus Liste austragen</h3>
 </div>
 
-<div *ngIf="!data.user.uuid">
-  <div class="user" *ngFor="let user of userList" (click)="addUser(data.uuid, user.uuid)">
+<div *ngIf="!data.activity.user.uuid">
+  <div class="user" *ngFor="let user of userList" (click)="addUser(data.activity.uuid, user.uuid, data.shiftId)">
     <h3>{{user.fName}} {{user.lName}}</h3>
   </div>
 </div>

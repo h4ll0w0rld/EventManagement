@@ -16,10 +16,10 @@ export class ShiftplanService {
 
   categoryNames: Subject<string[]> = new Subject<string[]>();
   user: Subject<User[]> = new Subject<User[]>();
-
+  categoryCopy: CategoryContent[] = [];
   categories: Subject<CategoryContent[]> = new Subject<CategoryContent[]>();
   userList: Subject<User[]> = new Subject<User[]>();
-
+  
 
   categoriesContent = categoriesContent;
 
@@ -59,7 +59,7 @@ export class ShiftplanService {
             return mappedActivity;
           });
 
-          const mappedShift: Shift = new Shift(shift.startTime, shift.endTime, activities);
+          const mappedShift: Shift = new Shift(shift.id, shift.startTime, shift.endTime, activities);
           return mappedShift;
         });
 
@@ -72,7 +72,7 @@ export class ShiftplanService {
         );
         return mappedCategoryContent;
       });
-
+      this.categoryCopy = cats;
       this.categories.next(cats);
     },
 
@@ -114,10 +114,11 @@ export class ShiftplanService {
   }
 
 
-  addUserToActivity(_activityId: number, _userId: number) {
+  addUserToActivity(_activityId: number, _userId: number, _shiftId:number) {
     console.log("calliong: ", this.rootUrl + "/activity/addUser/activity_id/" + _activityId + "/user_id/" + _userId)
     this.http.put(this.rootUrl + "/activity/addUser/activity_id/" + _activityId + "/user_id/" + _userId, {}).subscribe(() => {
       this.updateCategories();
+      this.updateShift(_shiftId);
     })
 
   }
@@ -128,6 +129,39 @@ export class ShiftplanService {
     })
 
   }
+
+  updateShift(_id:number){
+    this.http.get<any>(this.rootUrl + "/shift/shift_id/" + _id).subscribe((response) => {
+
+      const shift = new Shift(
+        response.id,
+        response.startTime,
+        response.endTime,
+        response.activities.map((activity: any) => {
+          const user = new User(
+            activity.user.id,
+            activity.user.firstName,
+            activity.user.lastName
+          );
+          return new Activity(activity.id, user, activity.status);
+        })
+      );
+        console.log("id is here and: ", _id)
+     // this.updateShiftById(_id, shift);
+     // this.categories.next(this.categoryCopy);
+    })
+  }
+
+  updateShiftById(shiftId: number, updatedShift: Shift): void {
+    this.categoryCopy.forEach((category: CategoryContent) => {
+      const shiftIndex = category.shifts.findIndex((shift: Shift) => shift.id === shiftId);
+      if (shiftIndex !== -1) {
+        category.shifts[shiftIndex] = updatedShift;
+      }
+    });
+  }
+  
+
 
 
   getAllUser() {

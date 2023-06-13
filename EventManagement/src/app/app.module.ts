@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, HammerModule} from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -31,13 +31,18 @@ import { DashboardactivityComponent } from './Dashboard Component/dashboardactiv
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import { UserLoginComponent } from './user-login/user-login.component';
-
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DelCatDialogComponent } from './del-cat-dialog/del-cat-dialog.component';
 
+import * as Hammer from "hammerjs";
+import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 
-
-
+export class MyHammerConfig extends HammerGestureConfig{
+  override = <any>{
+    "swipe": {directions: Hammer.DIRECTION_ALL}
+  }
+}
 
 @NgModule({
   declarations: [
@@ -70,14 +75,25 @@ import { DelCatDialogComponent } from './del-cat-dialog/del-cat-dialog.component
     MatFormFieldModule,
     MatNativeDateModule,
     MatDialogModule,
+    DragDropModule,
+    HammerModule
+    
+    
 
     
 
   ],
-  providers: [],
+ providers: [{
+  provide: HAMMER_GESTURE_CONFIG,
+  useClass: MyHammerConfig
+ }
+ ],
+
   bootstrap: [AppComponent]
 })
-export class AppModule {
+
+
+export class AppModule  {
   constructor(
     private matIconRegistry: MatIconRegistry,  // import the MatIconRegistry
     private domSanitizer: DomSanitizer        // import the DomSanitizer
