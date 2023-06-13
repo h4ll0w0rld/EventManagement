@@ -1,29 +1,26 @@
 @import '../theme';
 
 #menu {
-    position: fixed;
-    bottom: 0px;
+  position: fixed;
+  bottom: 0px;
 }
 
-.head{
-    position: sticky;
-    display: flex;
-    justify-content: center;
-    top: 0;
-    z-index: 2;
-    background-color: $prim-color;
-    height: $header-height;
-  
-      h4 {
-        font-size: 15px;
-        padding: 0px 0px;
-        margin: 0px;
-        text-align: center;
-        color: $sec-color;
-      }
+.head {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  top: 0;
+  z-index: 2;
+  background-color: $prim-color;
+  height: $header-height;
+  width: 100%;
+
+  h4 {
+    font-size: 15px;
+    padding: 0px 0px;
+    margin: 0px;
+    text-align: center;
+    color: $sec-color;
+  }
 }
 
-app-shift-plan {
-
-  min-height: $content-height;
-}

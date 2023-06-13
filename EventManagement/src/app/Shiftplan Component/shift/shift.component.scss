@@ -11,14 +11,15 @@
 
 .hidden-row {
 
-    width: calc(100% - 10px);
     min-height: 50px;
     display: flex;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    margin-bottom: 10px;
-    padding: 0px 5px;
+    margin-bottom: 20px;
+    padding: 0px 50px;
+    background-color: #d4d4d4;
 
 }
 
@@ -49,6 +50,11 @@
 
 }
 
+.toggleTrue {
+
+    background-color: #d4d4d4;
+}
+
 .amount-hidden {
 
     text-align: center;
@@ -73,6 +79,11 @@
     }
 }
 
+.toggleElseDiv {
+
+    width: 20px;
+}
+
 p {
     padding: 0px;
     margin: 0px;
@@ -81,10 +92,11 @@ p {
 app-activity {
 
     width: 48%;
-    margin: 5px;
+    margin: 8px 0px;
 }
 
 .hidden {
-    width: 20%;
-    flex-grow: 1;
+
+    min-width: 25%;
+    max-width: 48%;
 }

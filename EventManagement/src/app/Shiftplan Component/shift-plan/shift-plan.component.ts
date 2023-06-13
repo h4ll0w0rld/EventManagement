@@ -2,15 +2,16 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.service';
 import { CategoryContent } from 'src/app/Object Models/Shiftplan Component/category-content';
 import { Shift } from 'src/app/Object Models/Shiftplan Component/shift';
+import { DelCatDialogComponent } from 'src/app/del-cat-dialog/del-cat-dialog.component';
+
 import { DatePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
-import { DelCatDialogComponent } from 'src/app/del-cat-dialog/del-cat-dialog.component';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { HammerModule } from '@angular/platform-browser';
 import * as Hammer from 'hammerjs';
-import { ShiftCategoryComponent } from '../shift-category/shift-category.component';
+
 
 @Component({
   selector: 'app-shift-plan',
@@ -89,10 +90,24 @@ export class ShiftPlanComponent {
     this.updateCat();
   }
 
-  delCategory(_id:number){
-    this.shiftplanService.delCategory(_id);
+  delCatDialog(_cat: CategoryContent) {
 
+    
+    let delMessage = "Möchtest du " + _cat.name + " wirklich löschen?";
+    console.log(_cat.name);
+    let dialogRef = this.dialog.open(DelCatDialogComponent,
+      {
+        data: {
+          message: delMessage,
+          catId: _cat.id    
+          },
+        width: '95vh',
+        height: 'auto',
+      }
+
+    );
   }
+
   updateCat() {
 
     this.shiftCategoryNames = [...this.shiftCategoryNames];

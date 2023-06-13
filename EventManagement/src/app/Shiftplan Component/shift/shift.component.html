@@ -1,6 +1,6 @@
 <div class="shift-container">
 
-    <div class="visible-row">
+    <div class="visible-row"  [ngClass]="{'toggleFalse': !toggled, 'toggleTrue': toggled}">
 
         <div class="time">
             <p> {{shift.startTime.toString().substr(0,5)}} </p>
@@ -15,12 +15,15 @@
             [shiftId]="shift.id">
             </app-activity>
         </div>
-        <div *ngIf="shift.activities.length > prioActivities" class="toggle-container">
+        <div *ngIf="shift.activities.length > prioActivities; else toggleElseDiv" class="toggle-container">
             <h3 class="amount-hidden">+{{shift.activities.length - prioActivities}}</h3>
             <div class="toggle">
                 <div class="toggle-button" (click)="toggled = !toggled"> <p></p> </div>
             </div>
         </div>
+        <ng-template #toggleElseDiv>
+            <div class="toggleElseDiv"></div>
+        </ng-template>
 
     </div>
     

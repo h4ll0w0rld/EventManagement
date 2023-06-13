@@ -1,65 +1,59 @@
+<mat-tab-group id="md-content" [(selectedIndex)]="selectedIndex" (selectedIndexChange)="selectChange()">
+  <mat-tab class="shift-cat-tabs" *ngFor="let cat of this.shiftCategorie ">
 
 
+    <ng-template class="shift-cat-tab-label" mat-tab-label (click)="touchStart()">
+      {{cat.name}}
+      <div class="delete" (click)="delCatDialog(cat)">X</div>
+    </ng-template>
+    <app-shift-category [content]="cat"></app-shift-category>
 
-<mat-tab-group id="md-content"  [(selectedIndex)]="selectedIndex" (selectedIndexChange)="selectChange()" >
-     <mat-tab class="shift-cat-tabs" *ngFor="let cat of this.shiftCategorie ">
-   
+  </mat-tab>
 
-      <ng-template class="shift-cat-tab-label" mat-tab-label (click)="touchStart()">
-        {{cat.name}}
-      </ng-template>
-      <button (click)="delCategory(cat.id)">del categorie</button>
-      <app-shift-category
-        [content]="cat"></app-shift-category>
 
-    </mat-tab>
+  <mat-tab label="+">
 
-  
-    <mat-tab label="+">
+    <div class="add">
 
-      <div class="add">
-
-        <mat-form-field>
-          <mat-label>Category name</mat-label>
-          <input matInput [(ngModel)]="categoryName" name="categoryName" />
-        </mat-form-field>
       <mat-form-field>
-          <mat-label>Description</mat-label>
-          <textarea matInput [(ngModel)]="description" name="description"></textarea>
-        </mat-form-field>
-        
-        <mat-form-field>
-          <mat-label>Interval</mat-label>
-          <input type="number" matInput [(ngModel)]="interval" name="interval" />
-        </mat-form-field>
-        
-        <mat-form-field>
-          <mat-label>Number of activities</mat-label>
-          <input type="number" matInput [(ngModel)]="numberOfActivities" name="numberOfActivities" />
-        </mat-form-field>
-          <mat-form-field>
-          <mat-label>Start</mat-label>
-          <input type="time" matInput [(ngModel)]="startTime" name="numberOfActivities" />
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>End</mat-label>
-          <input type="time" matInput [(ngModel)]="endTime" name="numberOfActivities" />
-        </mat-form-field>
-        
-        <mat-form-field>
-          <mat-label>Choose a date</mat-label>
-          <input matInput [matDatepicker]="picker" [(ngModel)]="chosenDate" name="chosenDate" />
-          <mat-hint>MM/DD/YYYY</mat-hint>
-          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-        
-        <button (click)="addCat()">Submit</button>
+        <mat-label>Category name</mat-label>
+        <input matInput [(ngModel)]="categoryName" name="categoryName" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Description</mat-label>
+        <textarea matInput [(ngModel)]="description" name="description"></textarea>
+      </mat-form-field>
 
-      </div>
-    </mat-tab>
-        
+      <mat-form-field>
+        <mat-label>Interval</mat-label>
+        <input type="number" matInput [(ngModel)]="interval" name="interval" />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Number of activities</mat-label>
+        <input type="number" matInput [(ngModel)]="numberOfActivities" name="numberOfActivities" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Start</mat-label>
+        <input type="time" matInput [(ngModel)]="startTime" name="numberOfActivities" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>End</mat-label>
+        <input type="time" matInput [(ngModel)]="endTime" name="numberOfActivities" />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Choose a date</mat-label>
+        <input matInput [matDatepicker]="picker" [(ngModel)]="chosenDate" name="chosenDate" />
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <button (click)="addCat()">Submit</button>
+
+    </div>
+  </mat-tab>
+
 
 </mat-tab-group>
-
-
