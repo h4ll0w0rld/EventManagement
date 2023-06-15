@@ -51,8 +51,8 @@ export class DashboardComponent {
 
   ngOnInit() {
 
-    this.dashboardService.updateUserActivity();
-    this.dashboardService.getAllUser();
+    
+   
     this.dashboardService.shiftsByUser.subscribe((newValue) => {
       // Update the component with the new value
       this.shiftByUser = newValue;
@@ -64,5 +64,7 @@ export class DashboardComponent {
       this.allUser = newValue;
 
     });
+    this.dashboardService.getAllUser();
+    this.dashboardService.updateUserActivity();
   }
 }

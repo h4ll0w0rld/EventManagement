@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, HostListener, Input } from '@angular/core';
 import { Shift } from 'src/app/Object Models/Shiftplan Component/shift';
 import { Activity } from 'src/app/Object Models/Shiftplan Component/activityModel';
 
@@ -16,7 +16,11 @@ export class ShiftComponent {
 
   prioActivities: number = 2;
   toggled = false;
-
+  
+  @HostListener('window:scroll', ['$event'])
+  onScroll(){
+    console.log("HIER wird gescrollt !!")
+  }
 
 }
 

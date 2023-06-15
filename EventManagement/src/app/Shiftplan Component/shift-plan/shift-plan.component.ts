@@ -86,7 +86,7 @@ export class ShiftPlanComponent {
 
     if (event.isFinal) {
 
-
+      console.log("Event Velocity Y: ", event.velocityY, "X: ", event.velocityX)
       const isLast = this.selectedIndex === this.shiftCategorie.length;
       this.selectedIndex = isLast ? this.selectedIndex : this.selectedIndex + 1;
 
@@ -98,11 +98,12 @@ export class ShiftPlanComponent {
   swipeRight(event: any) {
 
     if (event.isFinal) {
+      console.log("Event Velocity Y: ", event.velocityY, "X: ", event.velocityX)
+        const isFirst = this.selectedIndex === 0;
+        this.selectedIndex = isFirst ? this.selectedIndex : this.selectedIndex - 1;
 
-      if (this.selectedIndex > 0) {
-        this.selectedIndex -= 1;
         console.log("swiped right !", this.selectedIndex)
-      }
+      
 
     }
 
@@ -188,25 +189,24 @@ export class ShiftPlanComponent {
 
 
     hammer.on('panup pandown', (event) => {
-      console.log("Scroooolll")
+     
       this.handleScroll()
       return false
       });
 
     hammer.on('panleft panright', (event) => {
    
-     if(this.isPanningDisabled){
-      if (event.direction === Hammer.DIRECTION_LEFT) {
-        console.log("event left")
-        this.swipeLeft(event);
-        
-      } else if (event.direction === Hammer.DIRECTION_RIGHT) {
-        this.swipeRight(event)
-        console.log("event right")
-      }
       
-    }
-
+      if (event.direction === Hammer.DIRECTION_LEFT) {
+        if ((event.pointerType === 'mouse' && (event.angle <= 180 && event.angle >= 145 || event.angle <= -145 && event.angle >= -180)) || (event.pointerType === 'touch' && event.angle >= -150 && event.angle <= -130)) {
+        this.swipeLeft(event);
+        }
+      } else if (event.direction === Hammer.DIRECTION_RIGHT) {
+        if ((event.pointerType === 'mouse' && event.angle >= -45 && event.angle <= 45) || (event.pointerType === 'touch' && event.angle >= -140 && event.angle <= -100)) {
+        this.swipeRight(event)
+        }
+      } 
+    
 
     return false
     });
@@ -216,9 +216,6 @@ export class ShiftPlanComponent {
   }
   
  
-}
-  ngOnDestroy() {
-    this.scrollableElement.removeEventListener('scroll', this.handleScroll);
   }
 
   dropTab(event: CdkDragDrop<any>) {
