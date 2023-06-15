@@ -31,8 +31,8 @@ export class UserListComponent {
 
 
   ngOnInit() {
-    this.shiftplanService.getAllUser();
-    this.shiftplanService.userList.subscribe((users: User[]) => {
+    this.shiftplanService.getAvailableUser(1, this.data.activity.uuid);
+    this.shiftplanService.availableUser.subscribe((users: User[]) => {
       this.userList = users;
     });
 
@@ -55,8 +55,8 @@ export class UserListComponent {
   }
 
   delUser() {
-
-    this.shiftplanService.delUserFromActivity(this.data.uuid, this.data.user.uuid);
+    
+    this.shiftplanService.delUserFromActivity(this.data.activity.uuid, this.data.activity.user.uuid, this.data.shiftId );
     this.matDialogRef.close();
 
   }

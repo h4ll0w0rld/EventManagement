@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { userActivity } from 'src/app/Object Models/Dashboard Component/usermodel';
+import { User } from 'src/app/Object Models/user/user';
 import { DashboardService } from 'src/app/Services/Dashboard Service/dashboard.service';
 
 @Component({
@@ -11,6 +12,7 @@ import { DashboardService } from 'src/app/Services/Dashboard Service/dashboard.s
 export class DashboardComponent {
 
   shiftByUser: userActivity[] = [];
+  allUser:User[] = []     //Can be updated using: /dashboarservice.getAllUser()
 
   constructor(private dashboardService: DashboardService) {
 
@@ -50,9 +52,16 @@ export class DashboardComponent {
   ngOnInit() {
 
     this.dashboardService.updateUserActivity();
+    this.dashboardService.getAllUser();
     this.dashboardService.shiftsByUser.subscribe((newValue) => {
       // Update the component with the new value
       this.shiftByUser = newValue;
+
+    });
+
+    this.dashboardService.userList.subscribe((newValue) => {
+      // Update the component with the new value
+      this.allUser = newValue;
 
     });
   }

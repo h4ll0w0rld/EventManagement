@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/internal/Subject';
 import { userActivity } from 'src/app/Object Models/Dashboard Component/usermodel';
+import { User } from 'src/app/Object Models/user/user';
 
 
 @Injectable({
@@ -12,6 +13,7 @@ export class DashboardService {
   shiftsByUser: Subject<userActivity[]> = new Subject<userActivity[]>();
 
   rootUrl: string = 'http://localhost:3000';
+  userList: Subject<User[]> = new Subject<User[]>();
 
   constructor(private http: HttpClient) { }
 
@@ -33,11 +35,26 @@ export class DashboardService {
       console.log(userActivities)
       this.shiftsByUser.next(userActivities);
 
-
     })
 
 
 
+
+  }
+
+  getAllUser() {
+
+    return this.http.get(this.rootUrl + '/user/all').subscribe((res: any) => {
+      const users: User[] = res.map((user: any) => new User(
+        user.id,
+        user.firstName,
+        user.lastName,
+
+      ));
+      this.userList.next(users);
+    }
+
+    );
 
   }
 

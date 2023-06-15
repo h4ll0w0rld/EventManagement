@@ -1,10 +1,10 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, Inject, ViewEncapsulation } from '@angular/core';
 import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.service';
 import { CategoryContent } from 'src/app/Object Models/Shiftplan Component/category-content';
 import { Shift } from 'src/app/Object Models/Shiftplan Component/shift';
 import { DelCatDialogComponent } from 'src/app/del-cat-dialog/del-cat-dialog.component';
 
-import { DatePipe } from '@angular/common';
+import { DOCUMENT, DatePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
@@ -13,13 +13,30 @@ import { HammerModule } from '@angular/platform-browser';
 import * as Hammer from 'hammerjs';
 
 
+export class MyHammerConfig extends HammerGestureConfig {
+  override overrides = {
+    pan: { enable: true, 
+          direction: Hammer.DIRECTION_ALL,
+          threshold: 50 },
+    
+
+    
+  };
+ 
+
+}
+
 @Component({
   selector: 'app-shift-plan',
   templateUrl: './shift-plan.component.html',
   styleUrls: ['./shift-plan.component.scss'],
-  providers: [DatePipe],
+  providers: [
+    { provide: HAMMER_GESTURE_CONFIG, useClass: MyHammerConfig },
+    DatePipe, // Move DatePipe to providers array
+  ],
   encapsulation: ViewEncapsulation.None
 })
+
 
 
 export class ShiftPlanComponent {
@@ -40,19 +57,30 @@ export class ShiftPlanComponent {
   doubleTouchCount = 0;
   unlocked: boolean = false;
 
+  private scrollableElement: any;
+  private isPanningDisabled: boolean = true;
   selectedIndex: number = 1;
   private tabsCount: number = this.shiftCategorie.length - 1;
   SWIPE_ACTION = { LEFT: 'panleft', RIGHT: 'panright' };
 
 
-  constructor(public shiftplanService: ShiftplanService, private datePipe: DatePipe, private dialog: MatDialog) {
 
+  constructor( public shiftplanService: ShiftplanService, private datePipe: DatePipe, private dialog: MatDialog) {
+ 
+   
   }
-  selectChange(): void {
+  
+  selectChange(): void{
     console.log("Selected INDEX: " + this.selectedIndex);
     //this.selectedIndex += 1
   }
+  touchStart(): void {
+    console.log("Touch start!")
+  }
 
+  onSwipeRight(): void {
+   console.log("SWIIIPE")
+  }
 
   swipeLeft(event: any) {
 
@@ -113,11 +141,20 @@ export class ShiftPlanComponent {
     this.shiftCategoryNames = [...this.shiftCategoryNames];
 
   }
-
-
+  
+  handleScroll(){
+   
+    // this.isPanningDisabled = true;
+    // setTimeout(() => {
+      
+    // }, 1000);
+    // this.isPanningDisabled = false;
+  };
 
 
   ngOnInit() {
+
+    
 
     this.shiftplanService.categoryNames.subscribe((newValue) => {
       // Update the component with the new value
@@ -136,32 +173,52 @@ export class ShiftPlanComponent {
 
     this.shiftplanService.updateCategories();
 
-    const element = document.getElementById("md-content");
-
-    if (element instanceof HTMLElement) {
-      console.log("hi am a member")
-      const hammer = new Hammer(element);
-      hammer.get("swipe").set({ direction: Hammer.DIRECTION_HORIZONTAL });
-      hammer.on('panleft panright', (event) => {
-        console.log("yeeees")
-        if (event.direction === Hammer.DIRECTION_LEFT) {
-          console.log("event left")
-          this.swipeLeft(event);
-
-        } else if (event.direction === Hammer.DIRECTION_RIGHT) {
-          this.swipeRight(event)
-          console.log("event right")
-        }
-        return false
-      });
-
-    }
-
+   
     this.shiftplanService.editmode$.subscribe(value => {
       this.unlocked = value;
     })
 
 
+  const element = document.getElementById("md-content");
+  
+  if (element instanceof HTMLElement) {
+    
+    const hammer = new Hammer(element);
+    hammer.get("swipe").set({ direction: Hammer.DIRECTION_ALL });
+
+
+    hammer.on('panup pandown', (event) => {
+      console.log("Scroooolll")
+      this.handleScroll()
+      return false
+      });
+
+    hammer.on('panleft panright', (event) => {
+   
+     if(this.isPanningDisabled){
+      if (event.direction === Hammer.DIRECTION_LEFT) {
+        console.log("event left")
+        this.swipeLeft(event);
+        
+      } else if (event.direction === Hammer.DIRECTION_RIGHT) {
+        this.swipeRight(event)
+        console.log("event right")
+      }
+      
+    }
+
+
+    return false
+    });
+
+   
+    
+  }
+  
+ 
+}
+  ngOnDestroy() {
+    this.scrollableElement.removeEventListener('scroll', this.handleScroll);
   }
 
   dropTab(event: CdkDragDrop<any>) {

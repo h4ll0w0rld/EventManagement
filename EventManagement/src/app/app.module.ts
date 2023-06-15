@@ -35,14 +35,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DelCatDialogComponent } from './del-cat-dialog/del-cat-dialog.component';
 
-import * as Hammer from "hammerjs";
-import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 
-export class MyHammerConfig extends HammerGestureConfig{
-  override = <any>{
-    "swipe": {directions: Hammer.DIRECTION_ALL}
-  }
-}
+
 
 @NgModule({
   declarations: [
@@ -76,18 +70,15 @@ export class MyHammerConfig extends HammerGestureConfig{
     MatNativeDateModule,
     MatDialogModule,
     DragDropModule,
-    HammerModule
+    
     
     
 
     
 
   ],
- providers: [{
-  provide: HAMMER_GESTURE_CONFIG,
-  useClass: MyHammerConfig
- }
- ],
+  
+ 
 
   bootstrap: [AppComponent]
 })

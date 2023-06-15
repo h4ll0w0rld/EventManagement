@@ -2,12 +2,13 @@
 
 
 mat-tab-group {
-
+    
     height: $content-height;
     background-color: $sec-color;
     padding-top: $header-height;
     position: fixed;
     width: 100%;
+    touch-action: pan-y !important;
 }
 $header-height: 0px;
 
@@ -63,7 +64,9 @@ mat-form-field {
     width: 90%;
     margin: auto;
 }
-
+.scrollable-element{
+    touch-action: none;
+}
 .add {
 
     display: flex;
