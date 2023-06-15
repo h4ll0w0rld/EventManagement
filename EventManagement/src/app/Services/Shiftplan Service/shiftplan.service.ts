@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CategoryContent } from 'src/app/Object Models/Shiftplan Component/category-content';
 import { Shift } from 'src/app/Object Models/Shiftplan Component/shift';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { Activity } from 'src/app/Object Models/Shiftplan Component/activityModel';
 import { User } from 'src/app/Object Models/user/user';
 import { categoriesContent } from "../../testData/shiftPlanDummy";
@@ -19,15 +19,32 @@ export class ShiftplanService {
   categoryCopy: CategoryContent[] = [];
   categories: Subject<CategoryContent[]> = new Subject<CategoryContent[]>();
   userList: Subject<User[]> = new Subject<User[]>();
-  
 
   categoriesContent = categoriesContent;
-
   rootUrl: string = 'http://localhost:3000';
 
+  editmode: BehaviorSubject<boolean>;
 
   constructor(private http: HttpClient) {
 
+    const stored = localStorage.getItem('editmode');
+    console.log(stored);
+    const value = stored !== null ? JSON.parse(stored) : false;
+    this.editmode = new BehaviorSubject<boolean>(value);
+
+  }
+
+  get editmode$() {
+
+    return this.editmode.asObservable();
+  }
+
+  updateEditmode(_curValue: boolean) {
+    const curValue = this.editmode.getValue();
+    console.log("alter Status:" + curValue);
+    this.editmode.next(_curValue);
+    localStorage.setItem('editmode', JSON.stringify(_curValue));
+    console.log("neuer Status:" + localStorage.getItem('editmode'));
   }
 
 

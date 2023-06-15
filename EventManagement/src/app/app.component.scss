@@ -9,6 +9,7 @@
   position: fixed;
   display: flex;
   justify-content: center;
+  align-items: center;
   top: 0;
   z-index: 2;
   background-color: $prim-color;
@@ -21,6 +22,17 @@
     margin: 0px;
     text-align: center;
     color: $sec-color;
+    height: max-content;
+  }
+
+  .editmode {
+
+    position: fixed;
+    right: 0px;
+    padding: 5px;
+    height: $header-height - 10px;
+    width: $header-height - 10px;
+
   }
 }
 

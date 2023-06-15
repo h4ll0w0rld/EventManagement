@@ -4,14 +4,14 @@
 
     <ng-template class="shift-cat-tab-label" mat-tab-label (click)="touchStart()">
       {{cat.name}}
-      <div class="delete" (click)="delCatDialog(cat)">X</div>
+      <div class="delete" *ngIf="unlocked" (click)="delCatDialog(cat)">X</div>
     </ng-template>
     <app-shift-category [content]="cat"></app-shift-category>
 
   </mat-tab>
 
 
-  <mat-tab label="+">
+  <mat-tab label="+" *ngIf="unlocked">
 
     <div class="add">
 

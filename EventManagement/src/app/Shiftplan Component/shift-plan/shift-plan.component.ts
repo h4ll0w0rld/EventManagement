@@ -27,7 +27,7 @@ export class ShiftPlanComponent {
 
   shiftCategoryNames = ["Bar1", "Bar2", "Bar3"];
   value = 'Bar2';
-  shiftCategorie:CategoryContent[] = [];
+  shiftCategorie: CategoryContent[] = [];
 
   categoryName: string = '';
   description: string = '';
@@ -38,69 +38,69 @@ export class ShiftPlanComponent {
   chosenDate: Date = new Date();
 
   doubleTouchCount = 0;
+  unlocked: boolean = false;
 
   selectedIndex: number = 1;
-  private tabsCount:number = this.shiftCategorie.length - 1;
+  private tabsCount: number = this.shiftCategorie.length - 1;
   SWIPE_ACTION = { LEFT: 'panleft', RIGHT: 'panright' };
-  
+
 
   constructor(public shiftplanService: ShiftplanService, private datePipe: DatePipe, private dialog: MatDialog) {
- 
-    
+
   }
-  selectChange(): void{
+  selectChange(): void {
     console.log("Selected INDEX: " + this.selectedIndex);
     //this.selectedIndex += 1
   }
 
 
-  swipeLeft(event:any){
-   
-      if(event.isFinal) {
-        
-      
+  swipeLeft(event: any) {
+
+    if (event.isFinal) {
+
+
       const isLast = this.selectedIndex === this.shiftCategorie.length;
       this.selectedIndex = isLast ? this.selectedIndex : this.selectedIndex + 1;
-     
+
     }
-    
-     
+
+
   }
 
-  swipeRight(event:any){
+  swipeRight(event: any) {
 
-    if(event.isFinal) { 
-    
-      if(this.selectedIndex > 0){
+    if (event.isFinal) {
+
+      if (this.selectedIndex > 0) {
         this.selectedIndex -= 1;
         console.log("swiped right !", this.selectedIndex)
       }
-    
+
     }
 
   }
 
 
   addCat(): void {
-    
+
     const date = this.datePipe.transform(this.chosenDate, "yyyy-MM-dd");
-    this.shiftplanService.addCategory(this.categoryName, this.description, this.interval, this.numberOfActivities,this.startTime, this.endTime, date)
+    this.shiftplanService.addCategory(this.categoryName, this.description, this.interval, this.numberOfActivities, this.startTime, this.endTime, date)
     this.shiftplanService.updateCategories();
-    
+
     this.updateCat();
   }
 
   delCatDialog(_cat: CategoryContent) {
 
-    
+
     let delMessage = "Möchtest du " + _cat.name + " wirklich löschen?";
     console.log(_cat.name);
     let dialogRef = this.dialog.open(DelCatDialogComponent,
       {
         data: {
           message: delMessage,
-          catId: _cat.id    
-          },
+          catId: _cat.id
+        },
         width: '95vh',
         height: 'auto',
       }
@@ -123,7 +123,7 @@ export class ShiftPlanComponent {
       // Update the component with the new value
       this.shiftCategoryNames = newValue;
       this.updateCat();
-      
+
     });
 
     this.shiftplanService.categories.subscribe((newValue) => {
@@ -131,39 +131,43 @@ export class ShiftPlanComponent {
       this.shiftCategorie = newValue;
 
     });
-   // this.shiftplanService.updateCategorieNames();
+    // this.shiftplanService.updateCategorieNames();
 
-    
-  this.shiftplanService.updateCategories();
 
-  const element = document.getElementById("md-content");
-  
-  if (element instanceof HTMLElement) {
-    console.log("hi am a member")
-    const hammer = new Hammer(element);
-    hammer.get("swipe").set({ direction: Hammer.DIRECTION_HORIZONTAL });
-    hammer.on('panleft panright', (event) => {
-     console.log("yeeees")
-      if (event.direction === Hammer.DIRECTION_LEFT) {
-        console.log("event left")
-        this.swipeLeft(event);
-        
-      } else if (event.direction === Hammer.DIRECTION_RIGHT) {
-        this.swipeRight(event)
-        console.log("event right")
-      }
-      return false
-    });
-    
-  }
-  
- 
+    this.shiftplanService.updateCategories();
+
+    const element = document.getElementById("md-content");
+
+    if (element instanceof HTMLElement) {
+      console.log("hi am a member")
+      const hammer = new Hammer(element);
+      hammer.get("swipe").set({ direction: Hammer.DIRECTION_HORIZONTAL });
+      hammer.on('panleft panright', (event) => {
+        console.log("yeeees")
+        if (event.direction === Hammer.DIRECTION_LEFT) {
+          console.log("event left")
+          this.swipeLeft(event);
+
+        } else if (event.direction === Hammer.DIRECTION_RIGHT) {
+          this.swipeRight(event)
+          console.log("event right")
+        }
+        return false
+      });
+
+    }
+
+    this.shiftplanService.editmode$.subscribe(value => {
+      this.unlocked = value;
+    })
+
+
   }
 
   dropTab(event: CdkDragDrop<any>) {
     moveItemInArray(
-      this.shiftCategorie, 
-      event.previousIndex, 
+      this.shiftCategorie,
+      event.previousIndex,
       event.currentIndex
     );
   }

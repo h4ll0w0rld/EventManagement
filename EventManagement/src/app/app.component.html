@@ -1,5 +1,9 @@
 <div class="head">
+
     <h4>Festival am Waldrand 2023</h4>
+    
+    <mat-icon *ngIf="!this.unlocked" class="editmode" aria-hidden="false" svgIcon="locked" (click)="this.shiftplanService.updateEditmode(true)"></mat-icon>
+    <mat-icon *ngIf="this.unlocked" class="editmode" aria-hidden="false" svgIcon="unlocked" (click)="this.shiftplanService.updateEditmode(false)"></mat-icon>
 </div>
 
 <router-outlet class="router"></router-outlet>

@@ -112,6 +112,18 @@ export class AppModule  {
       this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/shift.svg")
 
     );
+
+    this.matIconRegistry.addSvgIcon(
+      "locked",
+      this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/locked.svg")
+
+    );
+
+    this.matIconRegistry.addSvgIcon(
+      "unlocked",
+      this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/unlocked.svg")
+
+    );
   }
 
 }
