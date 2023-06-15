@@ -1,6 +1,9 @@
 import { Component, HostListener, Input } from '@angular/core';
 import { Shift } from 'src/app/Object Models/Shiftplan Component/shift';
 import { Activity } from 'src/app/Object Models/Shiftplan Component/activityModel';
+import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ShiftBreakDialogComponent } from 'src/app/shift-break-dialog/shift-break-dialog.component';
 
 
 
@@ -22,5 +25,33 @@ export class ShiftComponent {
     console.log("HIER wird gescrollt !!")
   }
 
+  unlocked = false;
+
+  constructor(public shiftplanService: ShiftplanService, private dialog: MatDialog) {}
+
+
+  ngOnInit() {
+
+    this.shiftplanService.editmode$.subscribe(value => {
+      this.unlocked = value;
+    })
+  }
+
+  shiftBreakDialog() {
+
+    let dialogRef = this.dialog.open(ShiftBreakDialogComponent,
+      {
+        data: {
+          shift: this.shift,
+          mainMessage: "Möchtest du diese Schicht pausieren?",
+          subMessage: "Wenn du die Schicht pausierst können sich zu dieser Zeit keine Personen eintragen."
+        },
+        width: '95vh',
+        height: 'auto',
+      }
+
+    );
+
+  }
 }
 

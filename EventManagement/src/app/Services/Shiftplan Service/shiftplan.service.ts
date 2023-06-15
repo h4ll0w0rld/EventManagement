@@ -42,10 +42,8 @@ export class ShiftplanService {
 
   updateEditmode(_curValue: boolean) {
     const curValue = this.editmode.getValue();
-    console.log("alter Status:" + curValue);
     this.editmode.next(_curValue);
     localStorage.setItem('editmode', JSON.stringify(_curValue));
-    console.log("neuer Status:" + localStorage.getItem('editmode'));
   }
 
 

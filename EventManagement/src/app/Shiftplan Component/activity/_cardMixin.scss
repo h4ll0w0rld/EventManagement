@@ -5,7 +5,6 @@
 
     
     height: $height;
-    min-height: 50px;
 
     width: auto;
     display: flex;
@@ -22,9 +21,20 @@
     
     
 
-    @if ($card == "activity") {
+    @if ($card == "filled" or $card == "empty") {
 
-        border-left: 10px solid $third-color;
+        height: 55px;
+
+        &.filledAct {
+
+            border-left: 10px solid $third-color;
+        }
+
+        &.emptyAct {
+
+            border-left: 10px solid $color-5;
+        }
+        
         width: calc(100% - 10px);
         margin-top: 0px;
 

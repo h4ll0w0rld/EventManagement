@@ -2,7 +2,7 @@
 
     <div class="visible-row"  [ngClass]="{'toggleFalse': !toggled, 'toggleTrue': toggled}">
 
-        <div class="time">
+        <div class="time" [ngClass]="{'edit': unlocked}" (click)="unlocked ? shiftBreakDialog() : null">
             <p> {{shift.startTime.toString().substr(0,5)}} </p>
             <p> {{shift.endTime.toString().substr(0,5)}} </p>
         </div>

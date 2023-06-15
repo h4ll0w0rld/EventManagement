@@ -34,6 +34,7 @@ import { UserLoginComponent } from './user-login/user-login.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DelCatDialogComponent } from './del-cat-dialog/del-cat-dialog.component';
+import { ShiftBreakDialogComponent } from './shift-break-dialog/shift-break-dialog.component';
 
 
 
@@ -51,6 +52,7 @@ import { DelCatDialogComponent } from './del-cat-dialog/del-cat-dialog.component
     DashboardactivityComponent,
     UserLoginComponent,
     DelCatDialogComponent,
+    ShiftBreakDialogComponent,
   ],
   imports: [
     BrowserModule,

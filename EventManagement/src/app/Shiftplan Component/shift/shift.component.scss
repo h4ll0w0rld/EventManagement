@@ -1,4 +1,5 @@
 @import '../../../theme';
+@import '../activity/cardMixin';
 
 
 .visible-row {
@@ -27,8 +28,24 @@
 
     width: 50px;  
     height: 50px;
+    display: flex;
+    flex-direction: column;
     text-align: center;
-    padding-top: 10px;
+    justify-content: center;
+    //padding-top: 10px;
+
+    &.edit {
+
+        @include Card(100%);
+        flex-direction: column;
+        padding: 2px;
+        margin: 0px 3px;
+        width: 38px;
+
+        p {
+            font-size: 12px;
+        }
+    }
 
 }
 

@@ -1,4 +1,4 @@
-<div class="card" (click)="openUserList()">
+<div class="card" (click)="openUserList()" [ngClass]="activity.user.uuid ? 'filledAct' : 'emptyAct'">
     <div class="name">
         <p>{{ activity.user.fName }}</p>
         <p>{{ activity.user.lName  }}</p>
