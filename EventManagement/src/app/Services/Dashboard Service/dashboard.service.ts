@@ -15,12 +15,17 @@ export class DashboardService {
 
   rootUrl: string = 'http://localhost:3000';
   userList: Subject<User[]> = new Subject<User[]>();
+
+
   username = 'projektle';
   password = 'ventit23';
   encodedCredentials = btoa(`${this.username}:${this.password}`);
   headers = new HttpHeaders({
     'Authorization': 'Basic ' + this.encodedCredentials
   });
+  options = { headers: this.headers };
+
+
   constructor(private http: HttpClient, private authService: AuthService) { }
 
 
@@ -28,7 +33,7 @@ export class DashboardService {
 
   updateUserActivity(_userId: number = 1) {
 
-    this.http.get<any>(this.rootUrl + '/shift/ShiftsByUser/user_id/' + _userId + '/event_id/1').subscribe((res: any) => {
+    this.http.get<any>(this.rootUrl + '/shift/ShiftsByUser/user_id/' + _userId + '/event_id/1', this.options).subscribe((res: any) => {
 
       const userActivities: userActivity[] = res.map((data: any) => {
         return new userActivity(
@@ -50,7 +55,7 @@ export class DashboardService {
 
   getAllUser() {
 
-    return this.http.get(this.rootUrl + '/user/all').subscribe((res: any) => {
+    return this.http.get(this.rootUrl + '/user/all', this.options).subscribe((res: any) => {
       const users: User[] = res.map((user: any) => new User(
         user.id,
         user.firstName,

@@ -75,8 +75,18 @@ mat-form-field {
     width: 100%;
     align-items: center;
     justify-content: center;
+
+    .form{
+       
+        max-width: 60%;
+
+       
+
+    }
+
     
 }
+
 
 .delete {
 

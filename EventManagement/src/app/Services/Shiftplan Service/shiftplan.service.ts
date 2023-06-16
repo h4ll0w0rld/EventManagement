@@ -20,7 +20,7 @@ export class ShiftplanService {
   categoryCopy: CategoryContent[] = [];
   categories: Subject<CategoryContent[]> = new Subject<CategoryContent[]>();
   availableUser: Subject<User[]> = new Subject<User[]>();
-  
+  allUser:Subject<User[]> = new Subject<User[]>();
 
   categoriesContent = categoriesContent;
   rootUrl: string = 'http://localhost:3000';
@@ -127,7 +127,7 @@ export class ShiftplanService {
       activitiesPerShift: _numbActivities,
       startTime: _startTime,
       endTime: _endTime,
-      days: ["2023-08-10", "2023-08-11", "2023-08-12"],   //FIX when event can be added manual
+      days: this.generateDateRange("2023-08-10", "2023-08-12"),           //["2023-08-10", "2023-08-11", "2023-08-12"]
       event_id: 1
 
     }
@@ -145,6 +145,19 @@ export class ShiftplanService {
       this.updateCategories();
     })
 
+  }
+
+  generateDateRange(startDate: string, endDate: string): string[] {
+    const dates: string[] = [];
+    const currentDate = new Date(startDate);
+    const lastDate = new Date(endDate);
+  
+    while (currentDate <= lastDate) {
+      dates.push(currentDate.toISOString().split('T')[0]);
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+  
+    return dates;
   }
 
 
@@ -229,7 +242,7 @@ export class ShiftplanService {
     });
     
   }
-  
+
   getAllUser() {
 
     return this.http.get(this.rootUrl + '/user/all', this.options).subscribe((res: any) => {
@@ -239,7 +252,7 @@ export class ShiftplanService {
         user.lastName,
 
       ));
-      this.availableUser.next(users);
+      this.allUser.next(users);
     }
 
     );

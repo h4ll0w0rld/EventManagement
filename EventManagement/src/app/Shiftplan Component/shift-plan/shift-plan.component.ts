@@ -113,6 +113,8 @@ export class ShiftPlanComponent {
   addCat(): void {
 
     const date = this.datePipe.transform(this.chosenDate, "yyyy-MM-dd");
+
+    
     this.shiftplanService.addCategory(this.categoryName, this.description, this.interval, this.numberOfActivities, this.startTime, this.endTime, date)
     this.shiftplanService.updateCategories();
 
