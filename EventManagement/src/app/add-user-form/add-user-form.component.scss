@@ -1,0 +1,27 @@
+@import '../../theme';
+
+.dialog-container {
+
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.submit-button {
+
+    margin-top: 50px;
+    background-color: $prim-color;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 10px;
+    
+    p {
+        color: $sec-color;
+        margin: 10px;
+    }
+}

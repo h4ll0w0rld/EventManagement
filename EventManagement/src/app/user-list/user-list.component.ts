@@ -31,7 +31,11 @@ export class UserListComponent {
 
 
   ngOnInit() {
-    this.shiftplanService.getAvailableUser(1, this.data.activity.uuid);
+
+    if (!this.data.activity.user.uuid) {
+      this.shiftplanService.getAvailableUser(1, this.data.activity.uuid);
+    }
+    
     this.shiftplanService.availableUser.subscribe((users: User[]) => {
       this.userList = users;
     });

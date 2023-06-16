@@ -25,14 +25,36 @@
     height: max-content;
   }
 
+  
+}
+
+.icon-row {
+
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: right;
+  right: 5px;
+  height: $header-height;
+  max-width: max-content;
+
   .editmode {
 
-    position: fixed;
     right: 0px;
     padding: 5px;
     height: $header-height - 10px;
-    width: $header-height - 10px;
+    width: 15px;
 
   }
+
+  .global-userlist {
+
+    right: 0px;
+    padding: 5px;
+    height: $header-height - 10px;
+    width: 30px;
+
+  }
+
 }
 

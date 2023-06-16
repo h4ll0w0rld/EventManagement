@@ -63,6 +63,7 @@ export class DashboardService {
 
       ));
       this.userList.next(users);
+      
     }
 
     );
