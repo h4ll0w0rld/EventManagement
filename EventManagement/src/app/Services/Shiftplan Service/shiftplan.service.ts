@@ -227,7 +227,7 @@ export class ShiftplanService {
       "firstName":_firstName,
       "lastName": _lastName
 
-    }).subscribe((error) => {
+    }, this.options).subscribe((error) => {
       if(error) return console.log("Can not add User");
       console.log("Added User: ", _firstName);
 
@@ -236,7 +236,7 @@ export class ShiftplanService {
   }
 
   delUser(_id:number){
-    this.http.delete(this.rootUrl + "/user/delete/user_id/" + _id).subscribe((error) => {
+    this.http.delete(this.rootUrl + "/user/delete/user_id/" + _id, this.options).subscribe((error) => {
       if(error) return console.log("Can not delete this User");
       console.log("successfully deleted");
     });

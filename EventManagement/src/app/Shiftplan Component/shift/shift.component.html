@@ -32,7 +32,8 @@
         <app-activity
         *ngFor="let activity of shift.activities.slice(prioActivities)"
         class="hidden"
-        [activity]="activity">
+        [activity]="activity"
+        [shiftId]="shift.id">
         </app-activity>
     </div>
 

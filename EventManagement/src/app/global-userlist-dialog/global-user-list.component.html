@@ -1,0 +1,17 @@
+
+<div class="dialogContainer">
+    <h4>Personen</h4>
+    <div class="line"></div>
+    <div class="list-container">
+        <div class="user-container" *ngFor="let user of globalUserlist">
+            <p class="username">{{user.fName}} {{user.lName}}</p>
+
+            <mat-icon class="delete-user-icon" aria-hidden="false" svgIcon="delete" (click)="delUserDialog(user)"></mat-icon>
+        </div>  
+    </div>
+
+    <div class="new-person-button" (click)="newUserDialog()">
+        <p>Neue Person anlegen</p>
+    </div>
+    
+</div>

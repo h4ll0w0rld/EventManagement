@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<svg id="Ebene_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 123.5">
+<defs>
+<style>.delete-icon{fill:#c41e1e;}</style>
+</defs>
+<path class="delete-icon" d="m8.5,27.5h79c1.1,0,2,.9,2,2v79c0,8.28-6.72,15-15,15H21.5c-8.28,0-15-6.72-15-15V29.5c0-1.1.9-2,2-2Z"/>
+<path class="delete-icon" d="m94,21H2c-1.1,0-2-.9-2-2v-10c0-1.1.9-2,2-2h21.77L31,0h34l6.58,7h22.42c1.1,0,2,.9,2,2v10c0,1.1-.9,2-2,2Z"/>
+</svg>

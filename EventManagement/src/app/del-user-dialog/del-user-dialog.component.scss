@@ -1,0 +1,26 @@
+@import '../../theme';
+
+.dialog-container {
+
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.del-user-button {
+
+    background-color: $prim-color;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    
+    p {
+        color: $sec-color;
+        margin: 10px;
+    }
+
+}

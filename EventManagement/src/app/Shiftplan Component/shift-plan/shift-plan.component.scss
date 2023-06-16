@@ -35,14 +35,14 @@ mat-tab-header  {
 
     background-color: $sec-color;
     border-radius: 5px 5px 0px 0px;
+    width: auto;
     max-width: 95%;
-    padding-right: 10px !important;
+    padding: 10px;
     
     .delete {
 
+        right: 0px;
         display: flex;
-        float: right;
-
     }
 
 }
@@ -50,7 +50,6 @@ mat-tab-header  {
 .mat-mdc-tab:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline, .mat-mdc-tab-link:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline {
 
     border: none;
-    background-color: $sec-color; 
 }
 
 .mdc-text-field--filled:not(.mdc-text-field--disabled) {
@@ -79,14 +78,9 @@ mat-form-field {
     .form{
        
         max-width: 60%;
-
-       
-
     }
-
-    
+  
 }
-
 
 .delete {
 

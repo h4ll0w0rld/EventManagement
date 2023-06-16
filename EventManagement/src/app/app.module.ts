@@ -35,6 +35,10 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DelCatDialogComponent } from './del-cat-dialog/del-cat-dialog.component';
 import { ShiftBreakDialogComponent } from './shift-break-dialog/shift-break-dialog.component';
+import { GlobalUserListComponent } from './global-userlist-dialog/global-user-list.component';
+import { DelUserDialogComponent } from './del-user-dialog/del-user-dialog.component';
+import { SubmitDialogComponent } from './submit-dialog/submit-dialog.component';
+import { AddUserFormComponent } from './add-user-form/add-user-form.component';
 
 
 
@@ -53,6 +57,10 @@ import { ShiftBreakDialogComponent } from './shift-break-dialog/shift-break-dial
     UserLoginComponent,
     DelCatDialogComponent,
     ShiftBreakDialogComponent,
+    GlobalUserListComponent,
+    DelUserDialogComponent,
+    SubmitDialogComponent,
+    AddUserFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -116,6 +124,18 @@ export class AppModule  {
     this.matIconRegistry.addSvgIcon(
       "unlocked",
       this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/unlocked.svg")
+
+    );
+
+    this.matIconRegistry.addSvgIcon(
+      "userlist",
+      this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/userlist.svg")
+
+    );
+
+    this.matIconRegistry.addSvgIcon(
+      "delete",
+      this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/delete.svg")
 
     );
   }
