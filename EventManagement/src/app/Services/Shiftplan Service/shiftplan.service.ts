@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CategoryContent } from 'src/app/Object Models/Shiftplan Component/category-content';
 import { Shift } from 'src/app/Object Models/Shiftplan Component/shift';
@@ -6,6 +6,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { Activity } from 'src/app/Object Models/Shiftplan Component/activityModel';
 import { User } from 'src/app/Object Models/user/user';
 import { categoriesContent } from "../../testData/shiftPlanDummy";
+import { AuthService } from '../Auth/auth-service.service';
 
 
 @Injectable({
@@ -24,17 +25,31 @@ export class ShiftplanService {
   categoriesContent = categoriesContent;
   rootUrl: string = 'http://localhost:3000';
 
+   username = 'projektle';
+     password = 'ventit23';
+     encodedCredentials = btoa(`${this.username}:${this.password}`);
+     headers = new HttpHeaders({
+      'Authorization': 'Basic ' + this.encodedCredentials
+    });
+
+     options = { headers: this.headers };
+
   editmode: BehaviorSubject<boolean>;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private authService: AuthService) {
 
     const stored = localStorage.getItem('editmode');
     console.log(stored);
     const value = stored !== null ? JSON.parse(stored) : false;
     this.editmode = new BehaviorSubject<boolean>(value);
+    //this.makeAuthenticatedRequest()
 
   }
-
+  makeAuthenticatedRequest() {
+    this.authService.authenticate().subscribe(() => {
+      // Handle the API response here
+    });
+  }
   get editmode$() {
 
     return this.editmode.asObservable();
@@ -62,8 +77,9 @@ export class ShiftplanService {
 
 
   updateCategories(): void {
-
-    this.http.get<any>(this.rootUrl + '/shiftCategory/all/event_id/1').subscribe((res: any) => {
+   
+    
+    this.http.get<any>(this.rootUrl + '/shiftCategory/all/event_id/1', this.options).subscribe((res: any) => {
 
       const shiftCategorys = JSON.parse(JSON.stringify(res));
 
@@ -75,7 +91,7 @@ export class ShiftplanService {
             return mappedActivity;
           });
 
-          const mappedShift: Shift = new Shift(shift.id, shift.startTime, shift.endTime, activities);
+          const mappedShift: Shift = new Shift(shift.id, shift.startTime, shift.endTime, activities, shift.isActive);
           return mappedShift;
         });
 
@@ -116,7 +132,7 @@ export class ShiftplanService {
 
     }
     console.log("Data: ", data)
-    this.http.post(this.rootUrl + '/shiftCategory/add', data).subscribe((res) => {
+    this.http.post(this.rootUrl + '/shiftCategory/add', data, this.options).subscribe((res) => {
       this.updateCategories();
       console.log("added category: ", res)
     })
@@ -124,7 +140,7 @@ export class ShiftplanService {
   }
 
   delCategory(_id: number) {
-    this.http.delete(this.rootUrl + "/shiftCategory/delete/id/" + _id).subscribe((res) => {
+    this.http.delete(this.rootUrl + "/shiftCategory/delete/id/" + _id, this.options).subscribe((res) => {
       console.log(res)
       this.updateCategories();
     })
@@ -134,7 +150,7 @@ export class ShiftplanService {
 
   addUserToActivity(_activityId: number, _userId: number, _shiftId:number) {
     console.log("calliong: ", this.rootUrl + "/activity/addUser/activity_id/" + _activityId + "/user_id/" + _userId)
-    this.http.put(this.rootUrl + "/activity/addUser/activity_id/" + _activityId + "/user_id/" + _userId, {}).subscribe(() => {
+    this.http.put(this.rootUrl + "/activity/addUser/activity_id/" + _activityId + "/user_id/" + _userId, {}, this.options).subscribe(() => {
       //this.updateCategories();
       this.updateShift(_shiftId);
     })
@@ -142,7 +158,7 @@ export class ShiftplanService {
   }
 
   delUserFromActivity(_activityId: number, _userId: number, _shiftId:number): void {
-    this.http.put(this.rootUrl + "/activity/removeUser/activity_id/" + _activityId, {}).subscribe(() => {
+    this.http.put(this.rootUrl + "/activity/removeUser/activity_id/" + _activityId,{}, this.options).subscribe(() => {
       this.updateShift(_shiftId);
     })
 
@@ -150,7 +166,7 @@ export class ShiftplanService {
 
   updateShift(_id:number){
 
-    this.http.get<any>(this.rootUrl + "/shift/shift_id/" + _id).subscribe((response) => {
+    this.http.get<any>(this.rootUrl + "/shift/shift_id/" + _id, this.options).subscribe((response) => {
 
       const shift = new Shift(
         response.id,
@@ -162,8 +178,10 @@ export class ShiftplanService {
             activity.user?.firstName,
             activity.user?.lastName
           );
+         
           return new Activity(activity.id, user, activity.status);
-        })
+        }),
+        response.isActive
       );
   
       this.updateShiftById(_id, shift);
@@ -180,12 +198,20 @@ export class ShiftplanService {
     });
   }
   
+  shiftOnOff(_shiftId: number, isActive:boolean ){
 
+    this.http.put(this.rootUrl + "/shift/setActive/ " + isActive + "/shift_id/" + _shiftId, {}, this.options ).subscribe((error) => {
+      if(error) return console.log("An error accured...")
+      console.log("isActive changed to: " + isActive);
+
+    })
+
+  }
 
 
   getAllUser() {
 
-    return this.http.get(this.rootUrl + '/user/all').subscribe((res: any) => {
+    return this.http.get(this.rootUrl + '/user/all', this.options).subscribe((res: any) => {
       const users: User[] = res.map((user: any) => new User(
         user.id,
         user.firstName,
@@ -201,7 +227,7 @@ export class ShiftplanService {
 
   getAvailableUser(_eventId:number = 1, _activityId: number){
 
-    return this.http.get(this.rootUrl + '/activity/availableUsers/event_id/'+_eventId +'/activity_id/'+ _activityId).subscribe((res: any) => {
+    return this.http.get(this.rootUrl + '/activity/availableUsers/event_id/'+_eventId +'/activity_id/'+ _activityId, this.options).subscribe((res: any) => {
       const users: User[] = res.map((user: any) => new User(
         user.id,
         user.firstName,
@@ -224,7 +250,7 @@ export class ShiftplanService {
       "event_id": 1
     }
 
-    this.http.post(this.rootUrl + '/shift/add', data).subscribe((res) => {
+    this.http.post(this.rootUrl + '/shift/add', data, this.options).subscribe((res) => {
       console.log("adding shift went: ", res)
     })
   }

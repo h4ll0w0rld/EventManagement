@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/internal/Subject';
 import { userActivity } from 'src/app/Object Models/Dashboard Component/usermodel';
 import { User } from 'src/app/Object Models/user/user';
+import { AuthService } from '../Auth/auth-service.service';
 
 
 @Injectable({
@@ -14,8 +15,13 @@ export class DashboardService {
 
   rootUrl: string = 'http://localhost:3000';
   userList: Subject<User[]> = new Subject<User[]>();
-
-  constructor(private http: HttpClient) { }
+  username = 'projektle';
+  password = 'ventit23';
+  encodedCredentials = btoa(`${this.username}:${this.password}`);
+  headers = new HttpHeaders({
+    'Authorization': 'Basic ' + this.encodedCredentials
+  });
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
 
 

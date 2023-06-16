@@ -65,7 +65,7 @@ export class ShiftPlanComponent {
 
 
 
-  constructor( public shiftplanService: ShiftplanService, private datePipe: DatePipe, private dialog: MatDialog) {
+  constructor(public shiftplanService: ShiftplanService, private datePipe: DatePipe, private dialog: MatDialog) {
  
    
   }
