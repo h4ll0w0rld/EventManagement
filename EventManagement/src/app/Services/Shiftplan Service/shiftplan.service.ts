@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CategoryContent } from 'src/app/Object Models/Shiftplan Component/category-content';
 import { Shift } from 'src/app/Object Models/Shiftplan Component/shift';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, Subject, last } from 'rxjs';
 import { Activity } from 'src/app/Object Models/Shiftplan Component/activityModel';
 import { User } from 'src/app/Object Models/user/user';
 import { categoriesContent } from "../../testData/shiftPlanDummy";
@@ -208,7 +208,28 @@ export class ShiftplanService {
 
   }
 
+  addUser(_firstName: string, _lastName:string){
+    
+    this.http.post(this.rootUrl + "/user/add", {
+      "firstName":_firstName,
+      "lastName": _lastName
 
+    }).subscribe((error) => {
+      if(error) return console.log("Can not add User");
+      console.log("Added User: ", _firstName);
+
+    })
+
+  }
+
+  delUser(_id:number){
+    this.http.delete(this.rootUrl + "/user/delete/user_id/" + _id).subscribe((error) => {
+      if(error) return console.log("Can not delete this User");
+      console.log("successfully deleted");
+    });
+    
+  }
+  
   getAllUser() {
 
     return this.http.get(this.rootUrl + '/user/all', this.options).subscribe((res: any) => {
