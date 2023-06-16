@@ -2,8 +2,8 @@
 
   <!-- Content -->
 
-<mat-tab-group class="scrollable-element"  id="md-content" [(selectedIndex)]="selectedIndex" (selectedIndexChange)="selectChange()" (scroll)="handleScroll()">
-  <mat-tab class="shift-cat-tabs" *ngFor="let cat of this.shiftCategorie " (touchStart) = "touchStart()">
+<mat-tab-group class="scrollable-element"  id="md-content" [(selectedIndex)]="selectedIndex" >
+  <mat-tab class="shift-cat-tabs" *ngFor="let cat of this.shiftCategorie " >
 
 
     <ng-template class="shift-cat-tab-label" mat-tab-label (click)="touchStart()" >

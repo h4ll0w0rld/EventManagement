@@ -70,23 +70,12 @@ export class ShiftPlanComponent {
    
   }
   
-  selectChange(): void{
-    console.log("Selected INDEX: " + this.selectedIndex);
-    //this.selectedIndex += 1
-  }
-  touchStart(): void {
-    console.log("Touch start!")
-  }
-
-  onSwipeRight(): void {
-   console.log("SWIIIPE")
-  }
+  
 
   swipeLeft(event: any) {
 
     if (event.isFinal) {
 
-      console.log("Event Velocity Y: ", event.velocityY, "X: ", event.velocityX)
       const isLast = this.selectedIndex === this.shiftCategorie.length;
       this.selectedIndex = isLast ? this.selectedIndex : this.selectedIndex + 1;
 
@@ -98,13 +87,8 @@ export class ShiftPlanComponent {
   swipeRight(event: any) {
 
     if (event.isFinal) {
-      console.log("Event Velocity Y: ", event.velocityY, "X: ", event.velocityX)
         const isFirst = this.selectedIndex === 0;
         this.selectedIndex = isFirst ? this.selectedIndex : this.selectedIndex - 1;
-
-        console.log("swiped right !", this.selectedIndex)
-      
-
     }
 
   }
@@ -114,7 +98,7 @@ export class ShiftPlanComponent {
 
     const date = this.datePipe.transform(this.chosenDate, "yyyy-MM-dd");
 
-    
+
     this.shiftplanService.addCategory(this.categoryName, this.description, this.interval, this.numberOfActivities, this.startTime, this.endTime, date)
     this.shiftplanService.updateCategories();
 
@@ -145,14 +129,7 @@ export class ShiftPlanComponent {
 
   }
   
-  handleScroll(){
-   
-    // this.isPanningDisabled = true;
-    // setTimeout(() => {
-      
-    // }, 1000);
-    // this.isPanningDisabled = false;
-  };
+ 
 
 
   ngOnInit() {
@@ -190,12 +167,6 @@ export class ShiftPlanComponent {
     hammer.get("swipe").set({ direction: Hammer.DIRECTION_ALL });
 
 
-    hammer.on('panup pandown', (event) => {
-     
-      this.handleScroll()
-      return false
-      });
-
     hammer.on('panleft panright', (event) => {
    
       
@@ -232,17 +203,6 @@ export class ShiftPlanComponent {
     const dialogRef = this.dialog.open(DelCatDialogComponent, {
 
     });
-  }
-
-  // touchStart() {
-  //   console.log("test start");
-  //   this.openDialog();
-
-  // }
-
-  touchEnd() {
-    console.log("test end");
-
   }
 
 }
