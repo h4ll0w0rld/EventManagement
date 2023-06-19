@@ -5,7 +5,6 @@
     <div class="list-container">
         <div class="user-container" *ngFor="let user of globalUserlist">
             <p class="username">{{user.fName}} {{user.lName}}</p>
-
             <mat-icon class="delete-user-icon" aria-hidden="false" svgIcon="delete" (click)="delUserDialog(user)"></mat-icon>
         </div>  
     </div>

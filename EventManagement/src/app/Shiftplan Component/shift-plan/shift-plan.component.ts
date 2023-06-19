@@ -11,6 +11,8 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { HammerModule } from '@angular/platform-browser';
 import * as Hammer from 'hammerjs';
+import { FormControl } from '@angular/forms';
+import { ThemePalette } from '@angular/material/core';
 
 
 export class MyHammerConfig extends HammerGestureConfig {
@@ -63,14 +65,30 @@ export class ShiftPlanComponent {
   private tabsCount: number = this.shiftCategorie.length - 1;
   SWIPE_ACTION = { LEFT: 'panleft', RIGHT: 'panright' };
 
-
+  
+  colorControl = new FormControl('primary' as ThemePalette);
 
   constructor(public shiftplanService: ShiftplanService, private datePipe: DatePipe, private dialog: MatDialog) {
  
    
   }
   
+  handleChange(){
+    console.log("tippe")
+    console.log((this.convertTimeToMinutes(this.endTime)- this.convertTimeToMinutes(this.startTime)))
+    if(((this.convertTimeToMinutes(this.endTime)- this.convertTimeToMinutes(this.startTime)) % this.interval ) != 0){
+      console.log("so abba needa")
+
+    }
+
+  }
+  convertTimeToMinutes(time: string): number {
+    const [hours, minutes] = time.split(':');
+    return parseInt(hours) * 60 + parseInt(minutes);
+  }
   
+
+
 
   swipeLeft(event: any) {
 
@@ -97,12 +115,32 @@ export class ShiftPlanComponent {
   addCat(): void {
 
     const date = this.datePipe.transform(this.chosenDate, "yyyy-MM-dd");
+    if(this.checkUserInput()){
+      console.log(this.endTime)
 
+      this.shiftplanService.addCategory(this.categoryName, this.description, this.interval, this.numberOfActivities, this.startTime, this.endTime, date)
+      this.shiftplanService.updateCategories();
+    
+      this.updateCat();
+    }else{
+      console.log("Uncomplete Input")
+    }
+  }
 
-    this.shiftplanService.addCategory(this.categoryName, this.description, this.interval, this.numberOfActivities, this.startTime, this.endTime, date)
-    this.shiftplanService.updateCategories();
+  getErrorMessage():boolean {
+    if (!this.categoryName) {
+      return true;
+    }
 
-    this.updateCat();
+    return false
+  }
+
+  checkUserInput(): boolean{
+    if(!this.categoryName) return false;
+    if(this.endTime === "00:00") this.endTime = "24:00";
+    if(this.convertTimeToMinutes(this.startTime) > this.convertTimeToMinutes(this.endTime)) return false;
+    return true;
+
   }
 
   delCatDialog(_cat: CategoryContent) {

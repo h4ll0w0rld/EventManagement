@@ -39,6 +39,9 @@ import { GlobalUserListComponent } from './global-userlist-dialog/global-user-li
 import { DelUserDialogComponent } from './del-user-dialog/del-user-dialog.component';
 import { SubmitDialogComponent } from './submit-dialog/submit-dialog.component';
 import { AddUserFormComponent } from './add-user-form/add-user-form.component';
+import { MatSelectModule } from '@angular/material/select';
+
+
 
 
 
@@ -80,7 +83,8 @@ import { AddUserFormComponent } from './add-user-form/add-user-form.component';
     MatNativeDateModule,
     MatDialogModule,
     DragDropModule,
-    MatCardModule
+    MatCardModule,
+    MatSelectModule
     
     
     

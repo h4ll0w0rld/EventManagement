@@ -57,6 +57,10 @@ mat-tab-header  {
     box-sizing: 100%;
 }
 
+.mat-mdc-text-field-wrapper:not(.mdc-text-field--outlined) .mat-mdc-form-field-infix {
+    border-radius: 5px 5px 0px 0px;
+}
+
 mat-form-field {
 
     display: block;
@@ -64,6 +68,7 @@ mat-form-field {
     margin: auto;
 }
 .scrollable-element{
+    
     touch-action: none;
 }
 .add {
@@ -72,13 +77,17 @@ mat-form-field {
     flex-direction: column;
     height: calc($content-height - 70px);
     width: 100%;
+    
     align-items: center;
+    
     justify-content: center;
-
+    
     .form{
-       
+        margin: 0px;
         max-width: 60%;
+        
     }
+    
   
 }
 
