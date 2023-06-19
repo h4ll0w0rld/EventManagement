@@ -238,7 +238,7 @@ export class ShiftplanService {
   delUser(_id:number){
     this.http.delete(this.rootUrl + "/user/delete/user_id/" + _id, this.options).subscribe((error) => {
       if(error) return console.log("Can not delete this User");
-      console.log("successfully deleted");
+      return console.log("successfully deleted");
     });
     
   }

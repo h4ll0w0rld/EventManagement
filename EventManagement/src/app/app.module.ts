@@ -104,18 +104,19 @@ export class AppModule  {
     private matIconRegistry: MatIconRegistry,  // import the MatIconRegistry
     private domSanitizer: DomSanitizer        // import the DomSanitizer
   ) {
-    // Use MatIconRegistry to add an SVG icon to the registry
-    // 'dashboard' is the name of the icon, and '../assets/icons/dashboard.svg' is the URL to the SVG file
+
+
+
+
     this.matIconRegistry.addSvgIcon(
       "dashboard",
-      this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/dashboard.svg")
+      this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/user.svg")
 
     );
-    // Add another SVG icon to the registry
-    // 'shiftplan' is the name of the icon, and '../assets/icons/dashboard.svg' is the URL to the SVG file
+
     this.matIconRegistry.addSvgIcon(
       "shiftplan",
-      this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/shift.svg")
+      this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/shiftplan.svg")
 
     );
 

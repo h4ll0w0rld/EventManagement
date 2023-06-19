@@ -4,6 +4,7 @@ import { Subject } from 'rxjs/internal/Subject';
 import { userActivity } from 'src/app/Object Models/Dashboard Component/usermodel';
 import { User } from 'src/app/Object Models/user/user';
 import { AuthService } from '../Auth/auth-service.service';
+import { BehaviorSubject } from 'rxjs';
 
 
 @Injectable({
@@ -25,28 +26,48 @@ export class DashboardService {
   });
   options = { headers: this.headers };
 
+  storedUser: User;
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(private http: HttpClient, private authService: AuthService) { 
+
+    const stored = localStorage.getItem('selected-dashboard-user');
+    console.log(stored);
+    this.storedUser = stored !== null ? JSON.parse(stored) : null;
+  }
+
+  ngOnInit() {
+
+    /*
+    const stored = localStorage.getItem('selected-dashboard-user');
+    console.log(stored);
+    this.storedUser = stored !== null ? JSON.parse(stored) : null;
+    */
+  }
 
 
 
 
-  updateUserActivity(_userId: number = 1) {
+  updateUserActivity(_userId?: number) {
 
-    this.http.get<any>(this.rootUrl + '/shift/ShiftsByUser/user_id/' + _userId + '/event_id/1', this.options).subscribe((res: any) => {
+    if (_userId) {
+      
+      this.http.get<any>(this.rootUrl + '/shift/ShiftsByUser/user_id/' + _userId + '/event_id/1', this.options).subscribe((res: any) => {
 
-      const userActivities: userActivity[] = res.map((data: any) => {
-        return new userActivity(
-          data.activities[0].user.firstName,
-          data.shift_category.name,
-          data.startTime,
-          data.endTime
-        );
-      });
-      console.log(userActivities)
-      this.shiftsByUser.next(userActivities);
+        const userActivities: userActivity[] = res.map((data: any) => {
+          return new userActivity(
+            data.activities[0].user.firstName,
+            data.shift_category.name,
+            data.startTime,
+            data.endTime
+          );
+        });
+        console.log(userActivities)
+        this.shiftsByUser.next(userActivities);
+  
+      })
+    }
 
-    })
+    
 
 
 

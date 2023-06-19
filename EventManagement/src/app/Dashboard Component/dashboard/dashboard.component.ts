@@ -12,9 +12,14 @@ import { DashboardService } from 'src/app/Services/Dashboard Service/dashboard.s
 export class DashboardComponent {
 
   shiftByUser: userActivity[] = [];
+
+  selectedUser: User = new User(1, "Nilsooo", "");
+
   allUser:User[] = []     //Can be updated using: /dashboarservice.getAllUser()
 
   constructor(private dashboardService: DashboardService) {
+
+    console.log(this.selectedUser)
 
   }
 
@@ -48,11 +53,23 @@ export class DashboardComponent {
     */
 
 
+    clicked(){
+     console.log("Clicked")
+     const stored:any = localStorage.getItem('selected-dashboard-user');
+     const storedUser: any = JSON.parse(stored);
+      
+      const test = this.allUser.find(u => u.uuid === storedUser.uuid)
+      this.selectedUser = <User>test;
+      this.dashboardService.updateUserActivity(this.selectedUser.uuid)
+    
+    }
 
   ngOnInit() {
 
-    
+    this.dashboardService.getAllUser();
+ 
    
+
     this.dashboardService.shiftsByUser.subscribe((newValue) => {
       // Update the component with the new value
       this.shiftByUser = newValue;
@@ -62,9 +79,26 @@ export class DashboardComponent {
     this.dashboardService.userList.subscribe((newValue) => {
       // Update the component with the new value
       this.allUser = newValue;
+      this.clicked()
 
     });
-    this.dashboardService.getAllUser();
+    
+    
     this.dashboardService.updateUserActivity();
+  }
+
+  ngOnChange() {
+
+    console.log(this.selectedUser);
+    
+  }
+
+  changeUser() {
+
+    console.log(this.selectedUser.uuid);
+    this.dashboardService.updateUserActivity(this.selectedUser.uuid);
+    console.log(this.selectedUser)
+    localStorage.setItem('selected-dashboard-user', JSON.stringify(this.selectedUser));
+    console.log(localStorage.getItem("selected-dashboard-user"));
   }
 }
