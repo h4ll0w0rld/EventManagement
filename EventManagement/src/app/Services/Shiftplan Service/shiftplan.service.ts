@@ -25,14 +25,15 @@ export class ShiftplanService {
   categoriesContent = categoriesContent;
   rootUrl: string = 'http://localhost:3000';
 
-   username = 'projektle';
-     password = 'ventit23';
-     encodedCredentials = btoa(`${this.username}:${this.password}`);
-     headers = new HttpHeaders({
+  //ventit23
+  username = 'projektle';
+  password = localStorage.getItem('authent');
+  encodedCredentials = btoa(`${this.username}:${this.password}`);
+  headers = new HttpHeaders({
       'Authorization': 'Basic ' + this.encodedCredentials
-    });
+  });
 
-     options = { headers: this.headers };
+  options = { headers: this.headers };
 
   editmode: BehaviorSubject<boolean>;
 
@@ -74,6 +75,12 @@ export class ShiftplanService {
 
   //   console.log(this.categoryNames)
   // }
+
+
+  updatePasswort(_pw: string) {
+
+    this.password = _pw;
+  }
 
 
   updateCategories(): void {

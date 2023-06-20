@@ -17,9 +17,10 @@ export class DashboardService {
   rootUrl: string = 'http://localhost:3000';
   userList: Subject<User[]> = new Subject<User[]>();
 
+  //ventit23
 
   username = 'projektle';
-  password = 'ventit23';
+  password = localStorage.getItem('authent');
   encodedCredentials = btoa(`${this.username}:${this.password}`);
   headers = new HttpHeaders({
     'Authorization': 'Basic ' + this.encodedCredentials
@@ -42,6 +43,11 @@ export class DashboardService {
     console.log(stored);
     this.storedUser = stored !== null ? JSON.parse(stored) : null;
     */
+  }
+
+  updatePasswort(_pw: string) {
+
+    this.password = _pw;
   }
 
 
