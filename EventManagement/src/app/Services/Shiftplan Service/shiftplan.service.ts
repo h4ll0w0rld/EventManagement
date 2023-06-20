@@ -10,9 +10,9 @@ import { AuthService } from '../Auth/auth-service.service';
 
 
 
-// @Injectable({
-//   providedIn: 'root'
-// })
+@Injectable({
+  providedIn: 'root'
+})
 export class ShiftplanService {
 
 
