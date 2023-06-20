@@ -1,7 +1,7 @@
 import { Component, ElementRef } from '@angular/core';
 import { ShiftplanService } from './Services/Shiftplan Service/shiftplan.service';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { GlobalUserListComponent } from './global-userlist-dialog/global-user-list.component';
+import { GlobalUserListComponent } from './Dialogs/global/global-userlist-dialog/global-user-list.component';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({

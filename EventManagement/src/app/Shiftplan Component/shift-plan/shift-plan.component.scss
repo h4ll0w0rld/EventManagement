@@ -18,6 +18,13 @@ mat-tab-header  {
     position: sticky;
     height: max-content;
     $header-height: height;
+
+    button {
+
+        div {
+            border-color: $sec-color !important;
+        }
+    }
     
 }
 

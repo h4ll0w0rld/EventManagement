@@ -9,9 +9,10 @@
     padding: 0px 10px;
     background-color: $prim-color;
     height: $menu-height;
+  
 }
 
-mat-flat-button{
+mat-flat-button {
 
     $padding: 7px;
 
@@ -29,6 +30,16 @@ mat-flat-button{
         width: 70%;
         height: 70%;
         align-items: center;
+    }
+
+    &.active {
+
+        color: $sec-color;
+    }
+
+    &.passive {
+
+        color: $color-5 !important;    
     }
 }
 

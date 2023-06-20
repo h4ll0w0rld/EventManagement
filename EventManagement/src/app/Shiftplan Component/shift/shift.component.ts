@@ -3,7 +3,7 @@ import { Shift } from 'src/app/Object Models/Shiftplan Component/shift';
 import { Activity } from 'src/app/Object Models/Shiftplan Component/activityModel';
 import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ShiftBreakDialogComponent } from 'src/app/shift-break-dialog/shift-break-dialog.component';
+import { ShiftBreakDialogComponent } from 'src/app/Dialogs/shiftplan/shift-break-dialog/shift-break-dialog.component';
 
 
 

@@ -1,10 +1,10 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { DashboardService } from '../Services/Dashboard Service/dashboard.service';
-import { User } from '../Object Models/user/user';
-import { ShiftplanService } from '../Services/Shiftplan Service/shiftplan.service';
+import { DashboardService } from '../../../Services/Dashboard Service/dashboard.service';
+import { User } from '../../../Object Models/user/user';
+import { ShiftplanService } from '../../../Services/Shiftplan Service/shiftplan.service';
 import { DelUserDialogComponent } from '../del-user-dialog/del-user-dialog.component';
-import { SubmitDialogComponent } from '../submit-dialog/submit-dialog.component';
+import { SubmitDialogComponent } from '../../submit-dialog/submit-dialog.component';
 import { AddUserFormComponent } from '../add-user-form/add-user-form.component';
 
 @Component({

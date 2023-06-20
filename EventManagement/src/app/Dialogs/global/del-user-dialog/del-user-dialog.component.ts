@@ -1,8 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { GlobalUserListComponent } from '../global-userlist-dialog/global-user-list.component';
-import { ShiftplanService } from '../Services/Shiftplan Service/shiftplan.service';
-import { User } from '../Object Models/user/user';
+import { ShiftplanService } from '../../../Services/Shiftplan Service/shiftplan.service';
+import { User } from '../../../Object Models/user/user';
 
 @Component({
   selector: 'app-del-user-dialog',

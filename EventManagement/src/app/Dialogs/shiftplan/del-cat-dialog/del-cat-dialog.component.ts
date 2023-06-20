@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ShiftplanService } from '../Services/Shiftplan Service/shiftplan.service';
+import { ShiftplanService } from '../../../Services/Shiftplan Service/shiftplan.service';
 
 @Component({
   selector: 'app-del-cat-dialog',

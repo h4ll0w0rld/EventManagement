@@ -1,8 +1,8 @@
-@import '../../theme';
+@import '../../../../theme';
 
-.dialog-container {
+.dialogContainer {
 
-    padding: 30px;
+    padding: 50px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -10,7 +10,7 @@
 
 }
 
-.del-user-button {
+.delFE {
 
     background-color: $prim-color;
     display: flex;

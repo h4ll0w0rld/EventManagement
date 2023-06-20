@@ -3,7 +3,7 @@ import { Activity } from 'src/app/Object Models/Shiftplan Component/activityMode
 import { User } from 'src/app/Object Models/user/user';
 import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.service';
 import { MatDialog } from '@angular/material/dialog';
-import { UserListComponent } from 'src/app/user-list/user-list.component';
+import { UserListComponent } from 'src/app/Dialogs/shiftplan/user-list-dialog/user-list.component';
 
 
 @Component({

@@ -2,7 +2,7 @@ import { Component, HostListener, Inject, ViewEncapsulation } from '@angular/cor
 import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.service';
 import { CategoryContent } from 'src/app/Object Models/Shiftplan Component/category-content';
 import { Shift } from 'src/app/Object Models/Shiftplan Component/shift';
-import { DelCatDialogComponent } from 'src/app/del-cat-dialog/del-cat-dialog.component';
+import { DelCatDialogComponent } from 'src/app/Dialogs/shiftplan/del-cat-dialog/del-cat-dialog.component';
 
 import { DOCUMENT, DatePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';

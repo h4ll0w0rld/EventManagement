@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.service';
 import { DashboardService } from '../Services/Dashboard Service/dashboard.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu',
@@ -10,7 +11,7 @@ import { DashboardService } from '../Services/Dashboard Service/dashboard.servic
 
 export class MenuComponent {
 
-  constructor(private shiftplan: ShiftplanService, private dashboard: DashboardService) {
+  constructor(private shiftplan: ShiftplanService, private dashboard: DashboardService, private router: Router, private elementRef: ElementRef) {
 
   }
 
@@ -21,6 +22,11 @@ export class MenuComponent {
     this.dashboard.updateUserActivity();
 
 
+  }
+
+  isActiveRoute(routerPath: string) {
+
+    return this.router.url === routerPath;
   }
 
 }

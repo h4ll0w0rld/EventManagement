@@ -26,19 +26,19 @@ import { ShiftComponent } from './Shiftplan Component/shift/shift.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTabLink } from '@angular/material/tabs';
-import { UserListComponent } from './user-list/user-list.component';
+import { UserListComponent } from './Dialogs/shiftplan/user-list-dialog/user-list.component';
 import { DashboardactivityComponent } from './Dashboard Component/dashboardactivity/dashboardactivity.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatDialogModule } from '@angular/material/dialog';
-import { DelCatDialogComponent } from './del-cat-dialog/del-cat-dialog.component';
-import { ShiftBreakDialogComponent } from './shift-break-dialog/shift-break-dialog.component';
-import { GlobalUserListComponent } from './global-userlist-dialog/global-user-list.component';
-import { DelUserDialogComponent } from './del-user-dialog/del-user-dialog.component';
-import { SubmitDialogComponent } from './submit-dialog/submit-dialog.component';
-import { AddUserFormComponent } from './add-user-form/add-user-form.component';
+import { DelCatDialogComponent } from './Dialogs/shiftplan/del-cat-dialog/del-cat-dialog.component';
+import { ShiftBreakDialogComponent } from './Dialogs/shiftplan/shift-break-dialog/shift-break-dialog.component';
+import { GlobalUserListComponent } from './Dialogs/global/global-userlist-dialog/global-user-list.component';
+import { DelUserDialogComponent } from './Dialogs/global/del-user-dialog/del-user-dialog.component';
+import { SubmitDialogComponent } from './Dialogs/submit-dialog/submit-dialog.component';
+import { AddUserFormComponent } from './Dialogs/global/add-user-form/add-user-form.component';
 import { MatSelectModule } from '@angular/material/select';
 
 

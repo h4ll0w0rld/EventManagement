@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Activity } from '../Object Models/Shiftplan Component/activityModel';
-import { ShiftplanService } from '../Services/Shiftplan Service/shiftplan.service';
-import { User } from '../Object Models/user/user';
+import { Activity } from '../../../Object Models/Shiftplan Component/activityModel';
+import { ShiftplanService } from '../../../Services/Shiftplan Service/shiftplan.service';
+import { User } from '../../../Object Models/user/user';
 import { Observable } from 'rxjs';
 
 

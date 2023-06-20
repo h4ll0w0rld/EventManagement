@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ShiftplanService } from '../Services/Shiftplan Service/shiftplan.service';
+import { ShiftplanService } from '../../../Services/Shiftplan Service/shiftplan.service';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
