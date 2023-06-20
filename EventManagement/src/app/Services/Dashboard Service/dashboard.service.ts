@@ -14,7 +14,7 @@ export class DashboardService {
 
   shiftsByUser: Subject<userActivity[]> = new Subject<userActivity[]>();
 
-  rootUrl: string = 'http://localhost:3000';
+  rootUrl: string = 'http://192.52.42.200:3000';
   userList: Subject<User[]> = new Subject<User[]>();
 
 
@@ -31,7 +31,7 @@ export class DashboardService {
   constructor(private http: HttpClient, private authService: AuthService) { 
 
     const stored = localStorage.getItem('selected-dashboard-user');
-    console.log(stored);
+   
     this.storedUser = stored !== null ? JSON.parse(stored) : null;
   }
 
@@ -61,7 +61,7 @@ export class DashboardService {
             data.endTime
           );
         });
-        console.log(userActivities)
+        
         this.shiftsByUser.next(userActivities);
   
       })

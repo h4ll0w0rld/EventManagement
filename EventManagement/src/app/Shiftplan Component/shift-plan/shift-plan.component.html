@@ -2,7 +2,7 @@
 
   <!-- Content -->
 
-<mat-tab-group class="scrollable-element"  id="md-content" [(selectedIndex)]="selectedIndex" >
+<mat-tab-group [@.disabled]="isAnimationDisabled" class="scrollable-element"  id="md-content" [(selectedIndex)]="selectedIndex" >
   <mat-tab class="shift-cat-tabs" *ngFor="let cat of this.shiftCategorie " >
 
 

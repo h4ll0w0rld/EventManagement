@@ -67,6 +67,14 @@ mat-tab-header  {
 .mat-mdc-text-field-wrapper:not(.mdc-text-field--outlined) .mat-mdc-form-field-infix {
     border-radius: 5px 5px 0px 0px;
 }
+#mat-content{
+    animation: none !important;
+}
+
+.shift-cat-tabs{
+    animation: none !important;
+
+}
 
 mat-form-field {
 

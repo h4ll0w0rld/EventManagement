@@ -19,7 +19,7 @@ export class DashboardComponent {
 
   constructor(private dashboardService: DashboardService) {
 
-    console.log(this.selectedUser)
+   
 
   }
 
@@ -54,7 +54,7 @@ export class DashboardComponent {
 
 
     clicked(){
-     console.log("Clicked")
+     
      const stored:any = localStorage.getItem('selected-dashboard-user');
      const storedUser: any = JSON.parse(stored);
       
@@ -89,16 +89,15 @@ export class DashboardComponent {
 
   ngOnChange() {
 
-    console.log(this.selectedUser);
+    
     
   }
 
   changeUser() {
 
-    console.log(this.selectedUser.uuid);
+    
     this.dashboardService.updateUserActivity(this.selectedUser.uuid);
-    console.log(this.selectedUser)
     localStorage.setItem('selected-dashboard-user', JSON.stringify(this.selectedUser));
-    console.log(localStorage.getItem("selected-dashboard-user"));
+   
   }
 }

@@ -9,9 +9,10 @@ import { categoriesContent } from "../../testData/shiftPlanDummy";
 import { AuthService } from '../Auth/auth-service.service';
 
 
-@Injectable({
-  providedIn: 'root'
-})
+
+// @Injectable({
+//   providedIn: 'root'
+// })
 export class ShiftplanService {
 
 
@@ -23,7 +24,7 @@ export class ShiftplanService {
   allUser:Subject<User[]> = new Subject<User[]>();
 
   categoriesContent = categoriesContent;
-  rootUrl: string = 'http://localhost:3000';
+  rootUrl: string = 'http://192.52.42.200:3000';
 
    username = 'projektle';
      password = 'ventit23';
@@ -39,7 +40,6 @@ export class ShiftplanService {
   constructor(private http: HttpClient, private authService: AuthService) {
 
     const stored = localStorage.getItem('editmode');
-    console.log(stored);
     const value = stored !== null ? JSON.parse(stored) : false;
     this.editmode = new BehaviorSubject<boolean>(value);
     //this.makeAuthenticatedRequest()
@@ -131,17 +131,17 @@ export class ShiftplanService {
       event_id: 1
 
     }
-    console.log("Data: ", data)
-    this.http.post(this.rootUrl + '/shiftCategory/add', data, this.options).subscribe((res) => {
+   
+    this.http.post(this.rootUrl + '/shiftCategory/add', data, this.options).subscribe((res:any) => {
       this.updateCategories();
-      console.log("added category: ", res)
+      console.log("added category")
     })
 
   }
 
   delCategory(_id: number) {
-    this.http.delete(this.rootUrl + "/shiftCategory/delete/id/" + _id, this.options).subscribe((res) => {
-      console.log(res)
+    this.http.delete(this.rootUrl + "/shiftCategory/delete/id/" + _id, this.options).subscribe((res:any) => {
+      
       this.updateCategories();
     })
 
@@ -162,9 +162,9 @@ export class ShiftplanService {
 
 
   addUserToActivity(_activityId: number, _userId: number, _shiftId:number) {
-    console.log("calliong: ", this.rootUrl + "/activity/addUser/activity_id/" + _activityId + "/user_id/" + _userId)
+   
     this.http.put(this.rootUrl + "/activity/addUser/activity_id/" + _activityId + "/user_id/" + _userId, {}, this.options).subscribe(() => {
-      //this.updateCategories();
+   
       this.updateShift(_shiftId);
     })
 
@@ -179,7 +179,7 @@ export class ShiftplanService {
 
   updateShift(_id:number){
 
-    this.http.get<any>(this.rootUrl + "/shift/shift_id/" + _id, this.options).subscribe((response) => {
+    this.http.get<any>(this.rootUrl + "/shift/shift_id/" + _id, this.options).subscribe((response:any) => {
 
       const shift = new Shift(
         response.id,
@@ -213,8 +213,8 @@ export class ShiftplanService {
   
   shiftOnOff(_shiftId: number, isActive:boolean ){
 
-    this.http.put(this.rootUrl + "/shift/setActive/ " + isActive + "/shift_id/" + _shiftId, {}, this.options ).subscribe((error) => {
-      if(error) return console.log("An error accured...")
+    this.http.put(this.rootUrl + "/shift/setActive/ " + isActive + "/shift_id/" + _shiftId, {}, this.options ).subscribe(() => {
+      
       console.log("isActive changed to: " + isActive);
 
     })
@@ -227,8 +227,8 @@ export class ShiftplanService {
       "firstName":_firstName,
       "lastName": _lastName
 
-    }, this.options).subscribe((error) => {
-      if(error) return console.log("Can not add User");
+    }, this.options).subscribe(() => {
+     
       console.log("Added User: ", _firstName);
 
     })
@@ -236,9 +236,9 @@ export class ShiftplanService {
   }
 
   delUser(_id:number){
-    this.http.delete(this.rootUrl + "/user/delete/user_id/" + _id, this.options).subscribe((error) => {
-      if(error) return console.log("Can not delete this User");
-      return console.log("successfully deleted");
+    this.http.delete(this.rootUrl + "/user/delete/user_id/" + _id, this.options).subscribe(() => {
+     
+       console.log("successfully deleted");
     });
     
   }
@@ -284,7 +284,7 @@ export class ShiftplanService {
       "event_id": 1
     }
 
-    this.http.post(this.rootUrl + '/shift/add', data, this.options).subscribe((res) => {
+    this.http.post(this.rootUrl + '/shift/add', data, this.options).subscribe((res:any) => {
       console.log("adding shift went: ", res)
     })
   }

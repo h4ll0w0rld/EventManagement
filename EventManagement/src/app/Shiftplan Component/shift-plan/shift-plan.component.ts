@@ -1,4 +1,4 @@
-import { Component, HostListener, Inject, ViewEncapsulation } from '@angular/core';
+import { Component, HostListener, Inject, Injectable, ViewEncapsulation } from '@angular/core';
 import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.service';
 import { CategoryContent } from 'src/app/Object Models/Shiftplan Component/category-content';
 import { Shift } from 'src/app/Object Models/Shiftplan Component/shift';
@@ -13,8 +13,9 @@ import { HammerModule } from '@angular/platform-browser';
 import * as Hammer from 'hammerjs';
 import { FormControl } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
+import { interval } from 'rxjs';
 
-
+@Injectable()
 export class MyHammerConfig extends HammerGestureConfig {
   override overrides = {
     pan: { enable: true, 
@@ -47,7 +48,7 @@ export class ShiftPlanComponent {
   shiftCategoryNames = ["Bar1", "Bar2", "Bar3"];
   value = 'Bar2';
   shiftCategorie: CategoryContent[] = [];
-
+  isAnimationDisabled = false;
   categoryName: string = '';
   description: string = '';
   interval: number = 60;
@@ -145,7 +146,6 @@ export class ShiftPlanComponent {
 
   delCatDialog(_cat: CategoryContent) {
 
-
     let delMessage = "Möchtest du " + _cat.name + " wirklich löschen?";
     console.log(_cat.name);
     let dialogRef = this.dialog.open(DelCatDialogComponent,
@@ -173,6 +173,7 @@ export class ShiftPlanComponent {
   ngOnInit() {
 
     
+    const element = document.getElementById("md-content");
 
     this.shiftplanService.categoryNames.subscribe((newValue) => {
       // Update the component with the new value
@@ -182,11 +183,17 @@ export class ShiftPlanComponent {
     });
 
     this.shiftplanService.categories.subscribe((newValue) => {
+
       // Update the component with the new value
+      this.isAnimationDisabled = true;
       this.shiftCategorie = newValue;
 
-    });
-    // this.shiftplanService.updateCategorieNames();
+      setTimeout(() => {
+        this.isAnimationDisabled = false;
+      }, 0);
+
+      });
+    
 
 
     this.shiftplanService.updateCategories();
@@ -196,9 +203,19 @@ export class ShiftPlanComponent {
       this.unlocked = value;
     })
 
+   
 
-  const element = document.getElementById("md-content");
+
+    interval(10000) // Interval of 10 seconds (10000 milliseconds)
+      .subscribe(() => {
+      
+        this.shiftplanService.updateCategories(); // Updating Category var 
+      });
+
+
   
+  
+  //HammerJs for swipe lft, right
   if (element instanceof HTMLElement) {
     
     const hammer = new Hammer(element);
