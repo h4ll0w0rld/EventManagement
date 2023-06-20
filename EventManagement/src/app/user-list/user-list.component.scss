@@ -26,6 +26,7 @@
     height: 1.8em;
   }
   
+  
   .users button:hover {
     color: #2c3a41;
     background-color: #e6e6e6;
@@ -71,11 +72,12 @@
 
     @include Card(50px);
     margin: 10px;
+    background-color: $third-color;
 
     h3 {
       text-align: center;
       margin: 0px;
+      color: $sec-color;
     }
 
   }
-
