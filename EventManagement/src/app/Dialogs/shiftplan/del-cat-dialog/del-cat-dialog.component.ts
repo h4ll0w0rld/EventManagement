@@ -16,6 +16,7 @@ export class DelCatDialogComponent {
   delCategory(){
     this.shiftplanService.delCategory(this.data.catId);
     this.matDialogRef.close();
+    this.shiftplanService.updateCategories();
   }
 
 }

@@ -111,6 +111,10 @@ export class ShiftplanService {
         );
         return mappedCategoryContent;
       });
+
+      
+      if(JSON.stringify(cats) === JSON.stringify(this.categoryCopy))  return;
+      
       this.categoryCopy = cats;
       this.categories.next(cats);
     },
