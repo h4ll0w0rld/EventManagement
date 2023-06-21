@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@angular/service-worker": "^16.1.1"
+  }
+}
