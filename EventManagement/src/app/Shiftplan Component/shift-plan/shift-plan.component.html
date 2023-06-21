@@ -59,7 +59,7 @@
       </mat-form-field>
       <mat-form-field class="form">
         <mat-label>Schichtdauer (in Min)</mat-label>
-        <input type="number" matInput [(ngModel)]="interval" name="interval" (blur)="handleChange()" required />
+        <input type="number" matInput [(ngModel)]="interval" name="interval" required />
         <mat-error *ngIf="true">
           Angabe wird <strong>benötigt</strong>
         </mat-error>

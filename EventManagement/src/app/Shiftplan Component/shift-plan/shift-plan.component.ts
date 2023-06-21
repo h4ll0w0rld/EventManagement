@@ -74,15 +74,7 @@ export class ShiftPlanComponent {
    
   }
   
-  handleChange(){
-    console.log("tippe")
-    console.log((this.convertTimeToMinutes(this.endTime)- this.convertTimeToMinutes(this.startTime)))
-    if(((this.convertTimeToMinutes(this.endTime)- this.convertTimeToMinutes(this.startTime)) % this.interval ) != 0){
-      console.log("so abba needa")
-
-    }
-
-  }
+ 
   convertTimeToMinutes(time: string): number {
     const [hours, minutes] = time.split(':');
     return parseInt(hours) * 60 + parseInt(minutes);

@@ -18,9 +18,8 @@ export class UserListComponent {
     'Herbert Dunkler'
   ];
 
-  // user = this.users;
   selectedUser = 'Kunibert Gloebe';
-  //userList: User[] = [new User(1, "", "")];
+ 
 
   userList: User[] = [];
 
