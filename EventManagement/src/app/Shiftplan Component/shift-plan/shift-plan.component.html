@@ -1,9 +1,6 @@
 
-
-  <!-- Content -->
-
-<mat-tab-group [@.disabled]="isAnimationDisabled" class="scrollable-element"  id="md-content" [(selectedIndex)]="selectedIndex" >
-  <mat-tab class="shift-cat-tabs" *ngFor="let cat of this.shiftCategorie " >
+<mat-tab-group [@.disabled]="isAnimationDisabled" class="scrollable-element"  id="md-content" [(selectedIndex)]="selectedIndex" disableRipple>
+  <mat-tab class="shift-cat-tabs" *ngFor="let cat of this.shiftCategorie " matRippleDisabled>
 
 
     <ng-template class="shift-cat-tab-label" mat-tab-label (click)="touchStart()" >

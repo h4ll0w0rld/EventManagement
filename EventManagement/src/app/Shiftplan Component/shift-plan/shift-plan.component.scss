@@ -10,14 +10,12 @@ mat-tab-group {
     width: 100%;
     touch-action: pan-y !important;
 }
-$header-height: 0px;
 
 mat-tab-header  {
 
     background-color: $prim-color;
     position: sticky;
     height: max-content;
-    $header-height: height;
 
     button {
 
@@ -28,19 +26,24 @@ mat-tab-header  {
     
 }
 
-.mat-mdc-tab  .mdc-tab__text-label {
+.mdc-tab__text-label {
 
-    color: $sec-color;
+    color: $sec-color !important;
 }
 
-.mat-mdc-tab:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label, .mat-mdc-tab-link:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label {
 
-    color: $prim-color;
+
+.mat-mdc-tab:not(.mat-mdc-tab-disabled).mdc-tab--active, .mat-mdc-tab-link:not(.mat-mdc-tab-disabled).mdc-tab--active {
+
+    .mdc-tab__text-label {
+
+        color: $prim-color !important;
+    }
 }
 
-.mdc-tab .mdc-focus-indicator .mdc-tab--active, .mdc-tab-indicator--active {
+.mdc-focus-indicator .mdc-tab--active, .mdc-tab-indicator--active {
 
-    background-color: $sec-color;
+    background-color: $sec-color !important;
     border-radius: 5px 5px 0px 0px;
     width: auto;
     max-width: 95%;
@@ -52,11 +55,30 @@ mat-tab-header  {
         display: flex;
     }
 
+    &:hover {
+
+        background-color: $sec-color;
+    }
+
+    &:active {
+
+        background-color: $sec-color;
+        box-shadow: none;
+    }
 }
+
+.mat-mdc-tab-ripple {
+
+    opacity: 0% !important;
+    display: none !important;
+    visibility: hidden !important;
+}
+
 
 .mat-mdc-tab:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline, .mat-mdc-tab-link:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline {
 
     border: none;
+    text-decoration: none;
 }
 
 .mdc-text-field--filled:not(.mdc-text-field--disabled) {
