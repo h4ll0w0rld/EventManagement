@@ -47,7 +47,7 @@ export class ShiftPlanComponent {
 
   shiftCategoryNames = ["Bar1", "Bar2", "Bar3"];
   value = 'Bar2';
-  shiftCategorie: CategoryContent[] = [];
+  //shiftCategorie: CategoryContent[] = [];
   isAnimationDisabled = false;
   categoryName: string = '';
   description: string = '';
@@ -56,16 +56,17 @@ export class ShiftPlanComponent {
   startTime = "00:00";
   endTime = "23:00";
   chosenDate: Date = new Date();
-
+  touchstartX = 0
+  touchendX = 0
   doubleTouchCount = 0;
   unlocked: boolean = false;
 
   private scrollableElement: any;
   private isPanningDisabled: boolean = true;
   selectedIndex: number = 1;
-  private tabsCount: number = this.shiftCategorie.length - 1;
+  private tabsCount: number = this.shiftplanService.categoryCopy.length - 1;
   //SWIPE_ACTION = { LEFT: 'panleft', RIGHT: 'panright' };
-
+  private isSwipeInProgress = false;
   
   colorControl = new FormControl('primary' as ThemePalette);
 
@@ -74,7 +75,24 @@ export class ShiftPlanComponent {
    
   }
   
- 
+  checkDirection() {
+    console.log("Trigger")
+    if (this.touchendX < this.touchstartX) {
+      if (!this.isSwipeInProgress) {
+        this.isSwipeInProgress = true;
+        this.swipeLeft();
+      }
+    }
+    
+    if (this.touchendX > this.touchstartX) {
+      if (!this.isSwipeInProgress) {
+        this.isSwipeInProgress = true;
+        this.swipeRight();
+      }
+    }
+    
+  }
+
   convertTimeToMinutes(time: string): number {
     const [hours, minutes] = time.split(':');
     return parseInt(hours) * 60 + parseInt(minutes);
@@ -83,24 +101,34 @@ export class ShiftPlanComponent {
 
 
 
-  swipeLeft(event: any) {
+  swipeLeft() {
 
-    if (event.isFinal) {
+   // if (event.isFinal) {
 
-      const isLast = this.selectedIndex === this.shiftCategorie.length;
+     
+      
+      const isLast = this.selectedIndex === this.shiftplanService.categoryCopy.length;
       this.selectedIndex = isLast ? this.selectedIndex : this.selectedIndex + 1;
-
-    }
+     
+      setTimeout(() => {
+        this.isSwipeInProgress = false;
+      }, 300)
+   
 
 
   }
 
-  swipeRight(event: any) {
+  swipeRight() {
 
-    if (event.isFinal) {
-        const isFirst = this.selectedIndex === 0;
+    //if (event.isFinal) {
+        
+  
+    const isFirst = this.selectedIndex === 0;
         this.selectedIndex = isFirst ? this.selectedIndex : this.selectedIndex - 1;
-    }
+   
+    setTimeout(() => {
+      this.isSwipeInProgress = false;
+    } ,300)
 
   }
 
@@ -200,8 +228,8 @@ export class ShiftPlanComponent {
 
       // Update the component with the new value
       this.isAnimationDisabled = true;
-      this.shiftCategorie = newValue;
-
+      
+      
       setTimeout(() => {
         this.isAnimationDisabled = false;
       }, 0);
@@ -209,10 +237,6 @@ export class ShiftPlanComponent {
       });
     
 
-
-    
-
-   
     this.shiftplanService.editmode$.subscribe(value => {
       this.unlocked = value;
     })
@@ -227,7 +251,17 @@ export class ShiftPlanComponent {
         this.shiftplanService.updateCategories()
          
       });
-  
+
+      document.addEventListener('touchstart', e => {
+        this.touchstartX = e.changedTouches[0].screenX
+      
+      })
+      
+      document.addEventListener('touchend', e => {
+        this.touchendX = e.changedTouches[0].screenX
+        this.checkDirection()
+       
+      })
       
   
   //HammerJs for swipe lft, right
@@ -242,11 +276,11 @@ export class ShiftPlanComponent {
       
       if (event.direction === Hammer.DIRECTION_LEFT) {
         if ((event.pointerType === 'mouse' && (event.angle <= 180 && event.angle >= 145 || event.angle <= -145 && event.angle >= -180)) || (event.pointerType === 'touch' && event.angle >= -150 && event.angle <= -130)) {
-        this.swipeLeft(event);
+        this.swipeLeft();
         }
       } else if (event.direction === Hammer.DIRECTION_RIGHT) {
         if ((event.pointerType === 'mouse' && event.angle >= -45 && event.angle <= 45) || (event.pointerType === 'touch' && event.angle >= -140 && event.angle <= -100)) {
-        this.swipeRight(event)
+        this.swipeRight()
         }
       } 
     
@@ -261,13 +295,13 @@ export class ShiftPlanComponent {
  
   }
 
-  dropTab(event: CdkDragDrop<any>) {
-    moveItemInArray(
-      this.shiftCategorie,
-      event.previousIndex,
-      event.currentIndex
-    );
-  }
+  // dropTab(event: CdkDragDrop<any>) {
+  //   moveItemInArray(
+  //     this.shiftCategorie,
+  //     event.previousIndex,
+  //     event.currentIndex
+  //   );
+  // }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DelCatDialogComponent, {

@@ -2,10 +2,18 @@
 
     <div class="visible-row"  [ngClass]="{'toggleFalse': !toggled, 'toggleTrue': toggled}">
 
-        <div class="time" [ngClass]="{'edit': unlocked}" (click)="unlocked ? shiftBreakDialog() : null">
+        <div class="time">
             <p> {{shift.startTime.toString().substr(0,5)}} </p>
             <p> {{shift.endTime.toString().substr(0,5)}} </p>
         </div>
+
+        <!--
+            <div class="time" [ngClass]="{'edit': unlocked}" (click)="unlocked ? shiftBreakDialog() : null">
+            <p> {{shift.startTime.toString().substr(0,5)}} </p>
+            <p> {{shift.endTime.toString().substr(0,5)}} </p>
+            </div>
+        -->
+        
     
         <div class="prio-activities">
             <app-activity 

@@ -114,9 +114,11 @@ export class ShiftplanService {
 
       
       
+      if(JSON.stringify(cats) === JSON.stringify (this.categoryCopy)) return
       
-      this.categoryCopy = cats;
-      this.categories.next(cats);
+        this.categoryCopy = cats;
+        this.categories.next(cats);
+     
       
     },
    
