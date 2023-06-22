@@ -5,7 +5,7 @@ mat-tab-group {
     
     height: $content-height;
     background-color: $sec-color;
-    padding-top: $header-height;
+    padding-top: $header-height - 1px; 
     position: fixed;
     width: 100%;
     touch-action: pan-y !important;

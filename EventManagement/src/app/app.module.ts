@@ -45,8 +45,6 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 
 
 
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -88,15 +86,12 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     MatSelectModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
+      registrationStrategy: 'registerImmediately',
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000'
+      //registrationStrategy: 'registerWhenStable:30000'
     })
-    
-    
-    
-
-    
+     
 
   ],
   

@@ -64,7 +64,7 @@ export class ShiftPlanComponent {
   private isPanningDisabled: boolean = true;
   selectedIndex: number = 1;
   private tabsCount: number = this.shiftCategorie.length - 1;
-  SWIPE_ACTION = { LEFT: 'panleft', RIGHT: 'panright' };
+  //SWIPE_ACTION = { LEFT: 'panleft', RIGHT: 'panright' };
 
   
   colorControl = new FormControl('primary' as ThemePalette);
@@ -102,6 +102,28 @@ export class ShiftPlanComponent {
         this.selectedIndex = isFirst ? this.selectedIndex : this.selectedIndex - 1;
     }
 
+  }
+
+  SWIPE_ACTION = { LEFT: 'swipeleft', RIGHT: 'swiperight' };
+
+  // Action triggered when user swipes
+  swipe(selectedIndex: number, action = this.SWIPE_ACTION.RIGHT) {
+    // Out of range
+    if (this.selectedIndex < 0 || this.selectedIndex > 1 ) return;
+
+    // Swipe left, next tab
+    if (action === this.SWIPE_ACTION.LEFT) {
+      const isLast = this.selectedIndex === 1;
+      this.selectedIndex = isLast ? 0 : this.selectedIndex + 1;
+      console.log("Swipe right - INDEX: " + this.selectedIndex);
+    }
+
+    // Swipe right, previous tab
+    if (action === this.SWIPE_ACTION.RIGHT) {
+      const isFirst = this.selectedIndex === 0;
+      this.selectedIndex = isFirst ? 1 : this.selectedIndex - 1;
+      console.log("Swipe left - INDEX: " + this.selectedIndex);
+    }
   }
 
 
@@ -188,7 +210,7 @@ export class ShiftPlanComponent {
     
 
 
-    this.shiftplanService.updateCategories();
+    
 
    
     this.shiftplanService.editmode$.subscribe(value => {
@@ -196,16 +218,17 @@ export class ShiftPlanComponent {
     })
 
    
+    this.shiftplanService.updateCategories()
 
-
-    interval(10000) // Interval of 10 seconds (10000 milliseconds)
+    interval(3000) // Interval of 3 seconds 
       .subscribe(() => {
       
-        this.shiftplanService.updateCategories(); // Updating Category var 
+        
+        this.shiftplanService.updateCategories()
+         
       });
-
-
   
+      
   
   //HammerJs for swipe lft, right
   if (element instanceof HTMLElement) {

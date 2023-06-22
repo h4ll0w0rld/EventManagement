@@ -83,10 +83,10 @@ export class ShiftplanService {
   }
 
 
-  updateCategories(): void {
+  updateCategories() {
    
     
-    this.http.get<any>(this.rootUrl + '/shiftCategory/all/event_id/1', this.options).subscribe((res: any) => {
+    this.http.get<any>(this.rootUrl + '/shiftCategory/all/event_id/1', this.options).subscribe((res:any) => {
 
       const shiftCategorys = JSON.parse(JSON.stringify(res));
 
@@ -113,19 +113,21 @@ export class ShiftplanService {
       });
 
       
-      if(JSON.stringify(cats) === JSON.stringify(this.categoryCopy))  return;
+      
       
       this.categoryCopy = cats;
       this.categories.next(cats);
+      
     },
-
+   
       (error: any) => {
 
         console.error(error);
         this.categories.next(categoriesContent)
       }
+      
     );
-
+    
   }
 
 
