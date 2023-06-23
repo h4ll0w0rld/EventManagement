@@ -1,6 +1,6 @@
-import { Component, HostListener, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CategoryContent } from 'src/app/Object Models/Shiftplan Component/category-content';
-import { Shift } from 'src/app/Object Models/Shiftplan Component/shift';
+
 
 @Component({
   selector: 'app-shift-category',
@@ -10,10 +10,6 @@ import { Shift } from 'src/app/Object Models/Shiftplan Component/shift';
 export class ShiftCategoryComponent {
   @Input() content: CategoryContent = new CategoryContent(0, "","",0, []);
   @Input() categoryName: string = "";
-
-  //shifts: string[] = ["Morning", "Afternoon", "Night", "", "","", "", "", "", "",""];
-  //intervall: number = 3;
-  // shift: Shift;
 
 }
 

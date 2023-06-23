@@ -1,11 +1,8 @@
 import { NgModule, isDevMode } from '@angular/core';
-import { BrowserModule, HammerModule} from '@angular/platform-browser';
-
+import { BrowserModule} from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
 import { MenuComponent } from './menu/menu.component';
-
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -25,7 +22,6 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { ShiftComponent } from './Shiftplan Component/shift/shift.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatTabLink } from '@angular/material/tabs';
 import { UserListComponent } from './Dialogs/shiftplan/user-list-dialog/user-list.component';
 import { DashboardactivityComponent } from './Dashboard Component/dashboardactivity/dashboardactivity.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';

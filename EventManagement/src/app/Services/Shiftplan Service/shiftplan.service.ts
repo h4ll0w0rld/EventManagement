@@ -22,7 +22,7 @@ export class ShiftplanService {
   categories: Subject<CategoryContent[]> = new Subject<CategoryContent[]>();
   availableUser: Subject<User[]> = new Subject<User[]>();
   allUser:Subject<User[]> = new Subject<User[]>();
-
+  swipeActive:boolean =  false;
   categoriesContent = categoriesContent;
   rootUrl: string = 'http://192.52.42.200:3000';
 

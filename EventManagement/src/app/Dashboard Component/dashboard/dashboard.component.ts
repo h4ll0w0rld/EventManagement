@@ -17,40 +17,7 @@ export class DashboardComponent {
 
   allUser:User[] = []     //Can be updated using: /dashboarservice.getAllUser()
 
-  constructor(private dashboardService: DashboardService) {
-
-   
-
-  }
-
-  firstName = "Max";
-  activities = [
-    {
-      "category": "Bar",
-      "startTime": "18:00",
-      "endTime": "22:00"
-    },
-    {
-      "category": "Security",
-      "startTime": "23:00",
-      "endTime": "03:00"
-    }
-  ];
-
-
-  category = "Bar";
-  startTime = "18:00";
-  endTime = "22:00";
-  /*
-    constructor() {
-  
-     
-    }
-    
-    name = "zum"
-    userActivities = 3
-    activities = new Array(this.userActivities)
-    */
+  constructor(private dashboardService: DashboardService) {}
 
 
     clicked(){
@@ -87,15 +54,9 @@ export class DashboardComponent {
     this.dashboardService.updateUserActivity();
   }
 
-  ngOnChange() {
-
-    
-    
-  }
 
   changeUser() {
 
-    
     this.dashboardService.updateUserActivity(this.selectedUser.uuid);
     localStorage.setItem('selected-dashboard-user', JSON.stringify(this.selectedUser));
    

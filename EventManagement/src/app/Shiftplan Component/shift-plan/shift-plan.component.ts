@@ -1,40 +1,22 @@
-import { Component, HostListener, Inject, Injectable, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.service';
 import { CategoryContent } from 'src/app/Object Models/Shiftplan Component/category-content';
-import { Shift } from 'src/app/Object Models/Shiftplan Component/shift';
 import { DelCatDialogComponent } from 'src/app/Dialogs/shiftplan/del-cat-dialog/del-cat-dialog.component';
 
-import { DOCUMENT, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
-import { HammerGestureConfig, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
-import { HammerModule } from '@angular/platform-browser';
-import * as Hammer from 'hammerjs';
 import { FormControl } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
 import { interval } from 'rxjs';
 
-@Injectable()
-export class MyHammerConfig extends HammerGestureConfig {
-  override overrides = {
-    pan: { enable: true, 
-          direction: Hammer.DIRECTION_ALL,
-          threshold: 50 },
-    
 
-    
-  };
- 
-
-}
 
 @Component({
   selector: 'app-shift-plan',
   templateUrl: './shift-plan.component.html',
   styleUrls: ['./shift-plan.component.scss'],
   providers: [
-    { provide: HAMMER_GESTURE_CONFIG, useClass: MyHammerConfig },
     DatePipe, // Move DatePipe to providers array
   ],
   encapsulation: ViewEncapsulation.None
@@ -56,75 +38,27 @@ export class ShiftPlanComponent {
   startTime = "00:00";
   endTime = "23:00";
   chosenDate: Date = new Date();
-
-  doubleTouchCount = 0;
+  // touchstartX = 0
+  // touchendX = 0
+  // doubleTouchCount = 0;
+  //locked / unlocked mode
   unlocked: boolean = false;
-
-  private scrollableElement: any;
-  private isPanningDisabled: boolean = true;
+  //Active Mat tab 
   selectedIndex: number = 1;
-  private tabsCount: number = this.shiftCategorie.length - 1;
-  //SWIPE_ACTION = { LEFT: 'panleft', RIGHT: 'panright' };
+  //Swipe function 
+  xDown = null;                                                        
+  yDown = null;                                                        
 
-  
   colorControl = new FormControl('primary' as ThemePalette);
 
-  constructor(public shiftplanService: ShiftplanService, private datePipe: DatePipe, private dialog: MatDialog) {
- 
-   
-  }
-  
- 
+  constructor(public shiftplanService: ShiftplanService, private datePipe: DatePipe, private dialog: MatDialog) { }
+
+
   convertTimeToMinutes(time: string): number {
     const [hours, minutes] = time.split(':');
     return parseInt(hours) * 60 + parseInt(minutes);
   }
   
-
-
-
-  swipeLeft(event: any) {
-
-    if (event.isFinal) {
-
-      const isLast = this.selectedIndex === this.shiftCategorie.length;
-      this.selectedIndex = isLast ? this.selectedIndex : this.selectedIndex + 1;
-
-    }
-
-
-  }
-
-  swipeRight(event: any) {
-
-    if (event.isFinal) {
-        const isFirst = this.selectedIndex === 0;
-        this.selectedIndex = isFirst ? this.selectedIndex : this.selectedIndex - 1;
-    }
-
-  }
-
-  SWIPE_ACTION = { LEFT: 'swipeleft', RIGHT: 'swiperight' };
-
-  // Action triggered when user swipes
-  swipe(selectedIndex: number, action = this.SWIPE_ACTION.RIGHT) {
-    // Out of range
-    if (this.selectedIndex < 0 || this.selectedIndex > 1 ) return;
-
-    // Swipe left, next tab
-    if (action === this.SWIPE_ACTION.LEFT) {
-      const isLast = this.selectedIndex === 1;
-      this.selectedIndex = isLast ? 0 : this.selectedIndex + 1;
-      console.log("Swipe right - INDEX: " + this.selectedIndex);
-    }
-
-    // Swipe right, previous tab
-    if (action === this.SWIPE_ACTION.RIGHT) {
-      const isFirst = this.selectedIndex === 0;
-      this.selectedIndex = isFirst ? 1 : this.selectedIndex - 1;
-      console.log("Swipe left - INDEX: " + this.selectedIndex);
-    }
-  }
 
 
   addCat(): void {
@@ -137,7 +71,7 @@ export class ShiftPlanComponent {
       this.shiftplanService.updateCategories();
     
       this.updateCat();
-    }else{
+    } else {
       console.log("Uncomplete Input")
     }
   }
@@ -180,14 +114,68 @@ export class ShiftPlanComponent {
     this.shiftCategoryNames = [...this.shiftCategoryNames];
 
   }
-  
  
+ handleTouchStart(evt:any) {                                         
+  this.xDown = evt.changedTouches[0].screenX;                                      
+  this.yDown = evt.changedTouches[0].screenY;                                      
+};                                                
+
+handleTouchMove(evt:any) {
+    if ( ! this.xDown || ! this.yDown ) {
+        return;
+    }
+
+    var xUp = evt.changedTouches[0].screenX;                                    
+    var yUp = evt.changedTouches[0].screenY;
+
+    var xDiff = this.xDown - xUp;
+    var yDiff = this.yDown - yUp;
+
+    if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) { /*most significant*/
+        if ( xDiff > 0 ) {
+          this.swipeLeft()
+          
+            /* left swipe */ 
+        } else {
+          this.swipeRight()
+            /* right swipe */
+          
+        }                       
+    } else {
+        if ( yDiff > 0 ) {
+            /* up swipe */ 
+        } else { 
+            /* down swipe */
+        }                                                                 
+    }
+    /* reset values */
+    this.xDown = null;
+    this.yDown = null;                                             
+};
+
+
+  
+swipeLeft() {
+  
+  const isLast = this.selectedIndex === this.shiftplanService.categoryCopy.length;
+  this.selectedIndex = isLast ? this.selectedIndex : this.selectedIndex + 1;
+
+
+}
+
+swipeRight() {
+
+
+const isFirst = this.selectedIndex === 0;
+    this.selectedIndex = isFirst ? this.selectedIndex : this.selectedIndex - 1;
+
+
+}
 
 
   ngOnInit() {
 
     
-    const element = document.getElementById("md-content");
 
     this.shiftplanService.categoryNames.subscribe((newValue) => {
       // Update the component with the new value
@@ -207,12 +195,7 @@ export class ShiftPlanComponent {
       }, 0);
 
       });
-    
 
-
-    
-
-   
     this.shiftplanService.editmode$.subscribe(value => {
       this.unlocked = value;
     })
@@ -227,50 +210,15 @@ export class ShiftPlanComponent {
         this.shiftplanService.updateCategories()
          
       });
-  
-      
-  
-  //HammerJs for swipe lft, right
-  if (element instanceof HTMLElement) {
-    
-    const hammer = new Hammer(element);
-    hammer.get("swipe").set({ direction: Hammer.DIRECTION_ALL });
 
+      document.addEventListener('touchstart', this.handleTouchStart.bind(this), false);
+      document.addEventListener('touchmove', this.handleTouchMove.bind(this), false);
 
-    hammer.on('panleft panright', (event) => {
-   
-      
-      if (event.direction === Hammer.DIRECTION_LEFT) {
-        if ((event.pointerType === 'mouse' && (event.angle <= 180 && event.angle >= 145 || event.angle <= -145 && event.angle >= -180)) || (event.pointerType === 'touch' && event.angle >= -150 && event.angle <= -130)) {
-        this.swipeLeft(event);
-        }
-      } else if (event.direction === Hammer.DIRECTION_RIGHT) {
-        if ((event.pointerType === 'mouse' && event.angle >= -45 && event.angle <= 45) || (event.pointerType === 'touch' && event.angle >= -140 && event.angle <= -100)) {
-        this.swipeRight(event)
-        }
-      } 
-    
-
-    return false
-    });
-
-   
-    
-  }
-  
  
   }
 
-  dropTab(event: CdkDragDrop<any>) {
-    moveItemInArray(
-      this.shiftCategorie,
-      event.previousIndex,
-      event.currentIndex
-    );
-  }
-
   openDialog(): void {
-    const dialogRef = this.dialog.open(DelCatDialogComponent, {
+    this.dialog.open(DelCatDialogComponent, {
 
     });
   }
