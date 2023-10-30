@@ -1,0 +1,97 @@
+
+<div class="form-container">
+
+    <h2 class="title">Neue Schicht</h2>
+
+    <div class="base-settings-form">
+
+        
+        <mat-form-field class="form" appearance="outline">
+
+          <mat-label class="label">Bezeichnung:</mat-label>
+
+          <input class="input" matInput [(ngModel)]="categoryName" name="categoryName" required />
+          <mat-error *ngIf="true">
+            Schichtname is <strong>benötigt</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form" appearance="outline">
+          <mat-label>Schichtbeschreibung:</mat-label>
+          <textarea matInput [(ngModel)]="description" name="description"></textarea>
+        </mat-form-field>
+
+
+        <div class="sec-form-section">
+
+            <div class="sec-form-container">
+
+                <div class="inner-form-container">
+                    <p class="label">Schichtdauer</p>
+
+                    <mat-form-field class="shift-intervall-form" appearance="outline">
+                        <input class="input" matInput type="number" [disabled]="currentBlock" [(ngModel)]="shiftIntervall" name="shift-intervall" required />
+                    </mat-form-field>
+
+                    <p class="unit">Minuten</p>
+                </div>
+
+                <div class="inner-form-container">
+
+                    <p class="label">Pers.p. Shicht</p>
+
+                    <mat-form-field class="person-amount-form" appearance="outline">
+                        <input class="input" matInput type="number" [disabled]="currentBlock" [(ngModel)]="persProShift" name="pers-pro-shift" required />
+                    </mat-form-field>
+
+                    <p class="unit">Personen</p>
+                </div>
+            </div>   
+        </div>
+
+        <div class="divider"></div>
+
+    </div>
+
+    <div class="shift-blocks">
+
+        <div class="block-list" *ngFor="let block of shiftBlocks"> Ich bin ein fixer Schichtblock</div>
+
+        <div class="current-block" *ngIf="currentBlock">
+            <div class="time">
+                <div class="time-container">
+                    <h3 class="label">Startzeit</h3>
+                    <mat-form-field appearance="outline">
+                        <input class="input" matInput type="date" [(ngModel)]="startTime" name="pers-pro-shift" required />
+                    </mat-form-field>
+                </div>
+                <div class="time-container">
+                    <h3 class="label">Endzeit</h3>
+                    <mat-form-field appearance="outline">
+                        <input class="input" matInput type="date" disabled [(ngModel)]="endTime" name="pers-pro-shift" required />
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="shifts">
+                <h1>8</h1>
+                <h3>Schichten</h3>
+            </div>
+
+
+
+
+        </div>
+
+
+
+        <div class="add-block-button" (click)="newCurrentBlock()">Neuer Schichtblock +</div>
+
+    </div>
+
+
+
+
+    <div class="submit-button">Kategorie anlegen</div>
+
+</div>
+

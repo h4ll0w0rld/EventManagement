@@ -4,10 +4,10 @@
     z-index: 1;
     align-items: center;
     position: fixed;
-    bottom: 0;
+    bottom: 20px;
     width: calc(100% - 40px);
     padding: 0px 20px;
-    background-color: $prim-color;
+    //background-color: $prim-color;
     height: $menu-height;
     display: flex;
     justify-content: space-between;
@@ -51,10 +51,11 @@ mat-flat-button {
     float: left;
 }
 
-.dashboard {
+.menu_button {
 
-    //position: relative;
-    //display: block;
-    //right: 20px;
-    //float: right;
+    background-color: $prim-color;
+    height: 60px;
+    width: 60px;
+    border-radius: 30px;
+    box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.3);
 }

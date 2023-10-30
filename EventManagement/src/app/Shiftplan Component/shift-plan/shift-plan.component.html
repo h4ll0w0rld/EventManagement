@@ -1,5 +1,5 @@
 
-<div class="menu">
+<div class="cat-menu">
   <div *ngFor="let cat of this.shiftplanService.categoryCopy; let i = index">
     <h2 (click) ="tabClick($event, cat, i)" #tab >{{cat.name}}</h2>
     <div class="delete" *ngIf="unlocked" (click)="delCatDialog(cat)"><h2>X</h2></div>

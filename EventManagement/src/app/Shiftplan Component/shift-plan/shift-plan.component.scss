@@ -1,6 +1,6 @@
 @import "../../../theme";
 
-.menu{
+.cat-menu{
     padding-top: 50px;
     padding-bottom: 10px;
     // text-align: center;
@@ -63,6 +63,7 @@ mat-tab-group {
     position: fixed;
     width: 100%;
     touch-action: pan-y !important;
+
 }
 .hui{
     width: 200px;
@@ -89,7 +90,6 @@ mat-tab-header  {
 
     color: $sec-color !important;
 }
-
 
 
 .mat-mdc-tab:not(.mat-mdc-tab-disabled).mdc-tab--active, .mat-mdc-tab-link:not(.mat-mdc-tab-disabled).mdc-tab--active {
@@ -156,18 +156,19 @@ mat-tab-header  {
     animation: none !important;
 
 }
-
+/*
 mat-form-field {
 
     display: block;
     width: 90%;
     margin: auto;
-}
+}*/
+
 .scrollable-element{
     
     touch-action: none;
 }
-.add {
+/*.add {
 
     display: flex;
     flex-direction: column;
@@ -182,10 +183,9 @@ mat-form-field {
         margin: 0px;
         max-width: 60%;
         
-    }
-    
+    }  
   
-}
+}*/
 
 .delete {
 

@@ -1,18 +1,21 @@
-
 <div class="menu">
-    <div class="pages">
-        <mat-flat-button mat-button routerLink="/" [ngClass]="{ 'active': isActiveRoute('/'), 'passive': !isActiveRoute('/')}">
+
+    <div class="menu_button">
+        <mat-flat-button mat-button routerLink="/"
+            [ngClass]="{ 'active': isActiveRoute('/'), 'passive': !isActiveRoute('/')}">
             <mat-icon class="shiftplan-mat-icon" aria-hidden="false" svgIcon="shiftplan">
             </mat-icon>
         </mat-flat-button>
-    </div>
-
-    <div class="dashboard">
-
-        <mat-flat-button mat-button routerLink="/dashboard" [ngClass]="{ 'active': isActiveRoute('/dashboard'), 'passive': !isActiveRoute('/dashboard') }">
-            <mat-icon class="dashboard-mat-icon" aria-hidden="false" svgIcon="dashboard">
-            </mat-icon>
-        </mat-flat-button>
 
     </div>
+
+    <div class="menu_button">
+        <mat-flat-button mat-button routerLink="/dashboard"
+        [ngClass]="{ 'active': isActiveRoute('/dashboard'), 'passive': !isActiveRoute('/dashboard') }">
+        <mat-icon class="dashboard-mat-icon" aria-hidden="false" svgIcon="dashboard">
+        </mat-icon>
+    </mat-flat-button>
+    </div>
+    
+
 </div>

@@ -24,7 +24,7 @@
             </app-activity>
         </div>
         <div *ngIf="shift.activities.length > prioActivities; else toggleElseDiv" class="toggle-container">
-            <h3 class="amount-hidden">+{{shift.activities.length - prioActivities}}</h3>
+            <p class="amount-hidden">+{{shift.activities.length - prioActivities}}</p>
             <div class="toggle">
                 <div class="toggle-button" (click)="toggled = !toggled"> <p></p> </div>
             </div>
