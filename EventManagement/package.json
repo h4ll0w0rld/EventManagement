@@ -10,7 +10,6 @@
   },
   "private": true,
   "dependencies": {
-    
     "@angular/animations": "^16.1.1",
     "@angular/cdk": "^16.1.1",
     "@angular/common": "^16.1.1",
@@ -24,6 +23,7 @@
     "@angular/service-worker": "^16.1.1",
     "hammerjs": "^2.0.8",
     "rxjs": "~7.8.0",
+    "swiper": "^11.0.2",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.1"
   },

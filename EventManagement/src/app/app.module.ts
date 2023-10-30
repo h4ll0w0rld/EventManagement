@@ -1,4 +1,4 @@
-import { NgModule, isDevMode } from '@angular/core';
+import { NgModule, isDevMode, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule, HammerModule} from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -41,6 +41,11 @@ import { SubmitDialogComponent } from './Dialogs/submit-dialog/submit-dialog.com
 import { AddUserFormComponent } from './Dialogs/global/add-user-form/add-user-form.component';
 import { MatSelectModule } from '@angular/material/select';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { register } from 'swiper/element/bundle';
+import { TesterComponent } from './tester/tester.component';
+import { AddCatDialogComponent } from './Dialogs/shiftplan/add-cat-dialog/add-cat-dialog.component';
+// register Swiper custom elements
+register();
 
 
 
@@ -63,6 +68,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     DelUserDialogComponent,
     SubmitDialogComponent,
     AddUserFormComponent,
+    TesterComponent,
+    AddCatDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -95,9 +102,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 
   ],
   
- 
-
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 
 

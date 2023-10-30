@@ -22,7 +22,7 @@ export class ShiftComponent {
   
   @HostListener('window:scroll', ['$event'])
   onScroll(){
-    console.log("HIER wird gescrollt !!")
+    //console.log("HIER wird gescrollt !!")
   }
 
   unlocked = false;

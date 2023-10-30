@@ -1,6 +1,60 @@
 @import "../../../theme";
 
+.menu{
+    padding-top: 50px;
+    padding-bottom: 10px;
+    // text-align: center;
+    display: flex; /* or display: inline; */
+    justify-content: center; /* Horizontally center the headings */
+    align-items: center;
+    h2{
+        color: azure;
+        margin: 0px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    background-color: $prim-color;
+    
+}
+.active {
+    text-decoration: underline;
+    text-decoration-color: azure; /* Color of the underline */
+  }
+  
+  /* Remove text decoration from other items */
+  ul li a {
+    text-decoration: none;
+  }
 
+.container{
+ 
+    margin-left: 10px;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    background-color: orange;
+}
+
+.juhu{
+    margin-top: 200px;
+    
+    margin-left: 4px;
+    width: 80%;
+    height: 300px;
+    text-align: center;
+    background-color: pink;
+
+}
+.shift-cat-tab-label{
+    background-color: aqua;
+    width: 100%;
+    height: 100%;
+}
+
+//----------------------
+.category-type{
+    margin-top: 50px;
+}
 mat-tab-group {
     
     height: $content-height;
@@ -9,6 +63,11 @@ mat-tab-group {
     position: fixed;
     width: 100%;
     touch-action: pan-y !important;
+}
+.hui{
+    width: 200px;
+    height: 200px;
+    background-color: rebeccapurple;
 }
 
 mat-tab-header  {

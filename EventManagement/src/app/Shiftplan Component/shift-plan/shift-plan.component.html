@@ -1,91 +1,23 @@
 
-<mat-tab-group [@.disabled]="isAnimationDisabled" class="scrollable-element"  id="md-content" [(selectedIndex)]="selectedIndex" disableRipple>
-  <mat-tab class="shift-cat-tabs" *ngFor="let cat of this.shiftplanService.categoryCopy " matRippleDisabled>
-
-
-    <ng-template class="shift-cat-tab-label" mat-tab-label (click)="touchStart()" >
-      {{cat.name}}
-      <div class="delete" *ngIf="unlocked" (click)="delCatDialog(cat)">X</div>
-    </ng-template>
-    <app-shift-category [content]="cat"></app-shift-category>
-
-  </mat-tab>
-
-
-  <mat-tab label="+" *ngIf="unlocked">
-
-    <div class="container">
-
-    <div class="add">
-      <h1>Schicht Hinzufügen:</h1>
-      <mat-form-field class="form">
-        
-        <mat-label class="label" >Schichtname:</mat-label>
-        
-        <input class="input" matInput [(ngModel)]="categoryName" name="categoryName" required />
-        <mat-error *ngIf="true">
-          Schichtname is <strong>benötigt</strong>
-        </mat-error>
-      </mat-form-field>
-     
-      <mat-form-field class="form">
-        <mat-label>Schichtbeschreibung:</mat-label>
-        <textarea matInput [(ngModel)]="description" name="description"></textarea>
-      </mat-form-field>
-
-      <mat-form-field class="form">
-        <mat-label>Benötigte Helfer*innen</mat-label>
-        <input type="number" matInput [(ngModel)]="numberOfActivities" name="numberOfActivities" required/>
-        <mat-error *ngIf="true">
-          Angabe wird <strong>benötigt</strong>
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field class="form">
-        <mat-label>Start früheste Schicht im Event:</mat-label>
-        <input type="time" matInput [(ngModel)]="startTime" name="numberOfActivities" required />
-        <mat-error *ngIf="true">
-          Angabe wird <strong>benötigt</strong>
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field class="form">
-        <mat-label>Ende längste Schicht im Event:</mat-label>
-        <input type="time" matInput [(ngModel)]="endTime" name="numberOfActivities" required />
-        <mat-error *ngIf="true">
-          Angabe wird <strong>benötigt</strong>
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field class="form">
-        <mat-label>Schichtdauer (in Min)</mat-label>
-        <input type="number" matInput [(ngModel)]="interval" name="interval" required />
-        <mat-error *ngIf="true">
-          Angabe wird <strong>benötigt</strong>
-        </mat-error>
-        <!-- <mat-select>
-          <mat-option value="one">First option</mat-option>
-          <mat-option value="two">Second option</mat-option>
-        </mat-select> -->
-      </mat-form-field>
-  
-<!-- 
-      <mat-form-field>
-        <mat-label>Choose a date</mat-label>
-        <input matInput [matDatepicker]="picker" [(ngModel)]="chosenDate" name="chosenDate" />
-        <mat-hint>MM/DD/YYYY</mat-hint>
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field> -->
-      <button mat-raised-button (click)="addCat()">Submit</button>
- 
-    </div>
-
-    <div style="width: 100%; height: 0px; padding-top: 200px"></div>
+<div class="menu">
+  <div *ngFor="let cat of this.shiftplanService.categoryCopy; let i = index">
+    <h2 (click) ="tabClick($event, cat, i)" #tab >{{cat.name}}</h2>
+    <div class="delete" *ngIf="unlocked" (click)="delCatDialog(cat)"><h2>X</h2></div>
   </div>
-  </mat-tab>
 
+  <h2 (click) = addCatDialog() *ngIf="unlocked" #tab class="addBttn">+</h2>
+</div>
 
-</mat-tab-group>
+<swiper-container #swiper *ngIf="shouldReloadContent">
+  
+  <swiper-slide *ngFor="let cat of this.shiftplanService.categoryCopy" >
 
+    <div class="category-type">
+      
+      
+   
+      <app-shift-category [content]="cat"></app-shift-category>
+    </div>
+  </swiper-slide>
 
-
-
-
+</swiper-container>

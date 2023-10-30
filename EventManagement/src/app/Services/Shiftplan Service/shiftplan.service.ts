@@ -24,7 +24,7 @@ export class ShiftplanService {
   allUser:Subject<User[]> = new Subject<User[]>();
 
   categoriesContent = categoriesContent;
-  rootUrl: string = 'http://192.52.42.200:3000';
+  rootUrl: string = 'http://localhost:3000';
 
   //ventit23
   username = 'projektle';
