@@ -6,7 +6,12 @@ import { DashboardComponent } from './Dashboard Component/dashboard/dashboard.co
 
 const routes: Routes = [
   {path:'dashboard', component:DashboardComponent }, 
-  {path: '', component:ShiftPlanComponent }
+  {path: '', component:ShiftPlanComponent },
+  // {
+  //   path: 'secondary',
+  //   loadChildren: () => import('./Shiftplan Component/shiftplan-landing/shiftplan-landing.component').then((m) => m.FeatureModule),
+  //   outlet: 'secondary', // Use the named outlet
+  // },
 ];
 
 @NgModule({

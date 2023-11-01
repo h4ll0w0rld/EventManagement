@@ -39,19 +39,13 @@ export class ShiftPlanComponent implements AfterViewInit {
   @ViewChild('addCatRef', { static: false }) addCatRef!: any;
 
   shouldReloadContent: boolean = true;
-
   catSlides: any = [];
-
-
-
   unlocked: boolean = false;
-
 
 
   constructor(public shiftplanService: ShiftplanService, private datePipe: DatePipe, private dialog: MatDialog, private renderer: Renderer2) {
 
   }
-
 
   tabClick(elem: any, cat: any, id: number) {
 
@@ -72,6 +66,7 @@ export class ShiftPlanComponent implements AfterViewInit {
     this.renderer.addClass(elem, 'active');
 
   }
+
   goToPage(pageNumber: number) {
 
     const swiperEl = this.swiperContainer.nativeElement
@@ -94,6 +89,7 @@ export class ShiftPlanComponent implements AfterViewInit {
 
     );
   }
+
   addCatDialog() {
     this.dialog.open(AddCatDialogComponent, {
       data: {
@@ -103,8 +99,6 @@ export class ShiftPlanComponent implements AfterViewInit {
       height: 'auto',
     })
   }
-
-
 
   ngOnInit() {
 
@@ -118,11 +112,8 @@ export class ShiftPlanComponent implements AfterViewInit {
 
   }
 
-
-
-
   ngAfterViewInit() {
-    // Access the QueryList of elements
+   
 
     const swiper = this.swiperContainer.nativeElement.swiper
 
