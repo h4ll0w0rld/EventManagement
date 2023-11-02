@@ -6,11 +6,16 @@ import { AppComponent } from './app.component';
 
 import { MenuComponent } from './menu/menu.component';
 
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
+
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { ShiftCategoryComponent } from './Shiftplan Component/shift-category/shift-category.component';
 import { ShiftPlanComponent } from './Shiftplan Component/shift-plan/shift-plan.component';
 import { ActivityComponent } from './Shiftplan Component/activity/activity.component';
@@ -23,12 +28,10 @@ import { HttpClientModule } from "@angular/common/http";
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ShiftComponent } from './Shiftplan Component/shift/shift.component';
-import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTabLink } from '@angular/material/tabs';
 import { UserListComponent } from './Dialogs/shiftplan/user-list-dialog/user-list.component';
 import { DashboardactivityComponent } from './Dashboard Component/dashboardactivity/dashboardactivity.component';
-import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -81,6 +84,11 @@ register();
     MatGridListModule,
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
+
+    NgxMatDatetimePickerModule, 
+    NgxMatNativeDateModule, 
+    NgxMatTimepickerModule,
     MatMenuModule,
     BrowserAnimationsModule,
     MatButtonModule,

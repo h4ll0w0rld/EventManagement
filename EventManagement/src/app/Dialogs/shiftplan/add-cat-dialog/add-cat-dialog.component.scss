@@ -2,18 +2,19 @@
 @import '../../../Mixins/buttonMixin';
 
 
-.title {
-
-    padding-top: 20px;
-}
-
 .form-container {
 
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    overflow: scroll;
 
+}
+
+.title {
+
+    padding-top: 20px;
 }
 
 .base-settings-form {
@@ -24,79 +25,20 @@
     align-items: center;
 }
 
-mat-form-field {
+.form {
 
     width: 90%;
 }
 
-label {
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+mat-form-field {
 
-.label {
-
-    text-align: center;
-    margin: auto;
-    justify-content: center;
-    align-items: center;
+    width: 70%;
 }
 
 input {
     
     text-align: center;
-}
-
-.sec-form-section {
-
-    display: flex;
-    justify-content: center;
-
-    .sec-form-container {
-
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-
-        .inner-form-container {
-
-            width: max-content;
-            display: flex;
-            margin: 0px;
-
-            .shift-intervall-form {
-
-                width: 100px;
-            }
-
-            .person-amount-form {
-
-                width: 50px;
-            }
-
-            .label {
-
-                padding: 0px 10px;
-                padding-top: 10px;
-                margin: 0px;
-                height: max-content;
-            }
-
-            .unit {
-
-                padding: 0px 10px;
-                padding-top: 10px;
-                margin: 0px;
-            }
-        }
-    }
-
-    .title {
-
-        width: max-content;
-    }
 }
 
 .divider {
@@ -132,8 +74,9 @@ input {
     .current-block {
 
         display: flex;
-        flex-direction: row;
-        justify-content: space-between;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
         width: 80%;
         height: max-content;
         margin-top: 20px;
@@ -182,6 +125,31 @@ input {
     }
 }
 
+.date-form {
+
+    width: 35%;
+    height: 40px;
+    padding: 0px;
+    margin: 0px;
+}
+
+.date-time {
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+mat-datepicker, mat-datepicker-toggle {
+
+    color: $prim-color;
+}
+
+.end-date {
+    padding: 30px 0px;
+    justify-content: center;
+    text-align: center;
+}
 
 
 

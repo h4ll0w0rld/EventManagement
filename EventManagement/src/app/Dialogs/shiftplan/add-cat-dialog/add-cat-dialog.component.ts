@@ -7,29 +7,71 @@ import { Component } from '@angular/core';
   styleUrls: ['./add-cat-dialog.component.scss']
 })
 export class AddCatDialogComponent {
+  
+  newCategory: any = {
+    name: "",
+    description: "",
+    eventId: 0,
+    shiftBlocks: [
+      
+    ],
+  }
 
-  categoryName = "";
-  description = "";
+  eventStartDate = new Date('2023-09-08 13:00');
+  eventEndDate = new Date('2023-09-12 12:00');
 
-  shiftIntervall = 120;
-  persProShift = 3;
+  currentBlock: any = {
+    intervall: 60,
+    activitiesPerShift: 3,
+    numberOfShifts: 1,
+    startDate: new Date(this.eventStartDate),
+    endDate: new Date(),
+
+  }
+
+  constructor() {
+    this.currentBlock.startDate = this.eventStartDate;
+    this.updateEndDate();
+  }
+
+  private updateEndDate() {
+    
+    const start = this.currentBlock.startDate;
+    const time = this.currentBlock.numberOfShifts * this.currentBlock.intervall;
+    const endDate = new Date(start.getTime() + time *60000);
+    this.currentBlock.endDate = endDate;
+  }
+
+  
+  onInputChange() {
+    this.updateEndDate();
+  }
 
 
-  currentBlock = false;
+  
 
-  eventStartDate = new Date('2023-09-08');
+  //shiftIntervall = 120;
+  //persProShift = 3;
 
-  startTime = new Date();
-  endTime = new Date();
+  //startTime = new Date();
+  //endTime = new Date();
 
   shiftAmount = 1;
 
-  shiftBlocks = [[], [], []];
+  //shiftBlocks = [[], [], []]; 
 
 
+  newBlock() {
+    
+    if (this.newCategory.shiftBlocks.length() !== 0) {
+
+      this.newCategory.shiftBlocks.push(this.currentBlock);
+    }
+
+  }
 
 
-  newCurrentBlock() {
+  /* newCurrentBlock() {
 
     if (!this.currentBlock) {
       
@@ -41,7 +83,7 @@ export class AddCatDialogComponent {
 
       this.shiftBlocks.push();
     }
-  }
+  } */
 }
 
 
