@@ -1,5 +1,6 @@
 import { Time } from '@angular/common';
 import { Component } from '@angular/core';
+import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.service';
 
 @Component({
   selector: 'app-add-shift-cat-form',
@@ -11,35 +12,35 @@ export class AddCatDialogComponent {
   newCategory: any = {
     name: "",
     description: "",
-    eventId: 0,
+    eventId: 1,
     shiftBlocks: [
       
     ],
   }
 
-  eventStartDate = new Date('2023-09-08 13:00');
-  eventEndDate = new Date('2023-09-12 12:00');
+  eventStartDate = new Date('2023-08-10 13:00');
+  eventEndDate = new Date('2023-08-13 12:00');
 
   currentBlock: any = {
     intervall: 60,
     activitiesPerShift: 3,
     numberOfShifts: 1,
-    startDate: new Date(this.eventStartDate),
-    endDate: new Date(),
+    startTime: this.eventStartDate,
+    endTime: new Date(),
 
   }
 
-  constructor() {
-    this.currentBlock.startDate = this.eventStartDate;
+  constructor(public shiftplanService: ShiftplanService,) {
+    this.currentBlock.startTime = this.eventStartDate;
     this.updateEndDate();
   }
 
   private updateEndDate() {
     
-    const start = this.currentBlock.startDate;
+    const start = this.currentBlock.startTime;
     const time = this.currentBlock.numberOfShifts * this.currentBlock.intervall;
     const endDate = new Date(start.getTime() + time *60000);
-    this.currentBlock.endDate = endDate;
+    this.currentBlock.endTime = endDate;
   }
 
   
@@ -63,11 +64,14 @@ export class AddCatDialogComponent {
 
   newBlock() {
     
-    if (this.newCategory.shiftBlocks.length() !== 0) {
+    this.newCategory.shiftBlocks.push(this.currentBlock);
 
-      this.newCategory.shiftBlocks.push(this.currentBlock);
-    }
+  }
 
+  addCat() {
+
+    console.log(this.newCategory.shiftBlocks[0].startTime);
+    this.shiftplanService.addCategory(this.newCategory.name, this.newCategory.description, this.newCategory.eventId, this.newCategory.shiftBlocks);
   }
 
 

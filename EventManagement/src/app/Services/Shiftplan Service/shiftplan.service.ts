@@ -21,7 +21,7 @@ export class ShiftplanService {
   categoryCopy: CategoryContent[] = [];
   categories: Subject<CategoryContent[]> = new Subject<CategoryContent[]>();
   availableUser: Subject<User[]> = new Subject<User[]>();
-  allUser:Subject<User[]> = new Subject<User[]>();
+  allUser: Subject<User[]> = new Subject<User[]>();
 
   categoriesContent = categoriesContent;
   //rootUrl: string = 'http://192.52.42.200:3000';
@@ -32,7 +32,7 @@ export class ShiftplanService {
   password = localStorage.getItem('authent');
   encodedCredentials = btoa(`${this.username}:${this.password}`);
   headers = new HttpHeaders({
-      'Authorization': 'Basic ' + this.encodedCredentials
+    'Authorization': 'Basic ' + this.encodedCredentials
   });
 
   options = { headers: this.headers };
@@ -85,9 +85,9 @@ export class ShiftplanService {
 
 
   updateCategories() {
-   
-    
-    this.http.get<any>(this.rootUrl + '/shiftCategory/all/event_id/1', this.options).subscribe((res:any) => {
+
+
+    this.http.get<any>(this.rootUrl + '/shiftCategory/all/event_id/1', this.options).subscribe((res: any) => {
 
       const shiftCategorys = JSON.parse(JSON.stringify(res));
 
@@ -113,28 +113,79 @@ export class ShiftplanService {
         return mappedCategoryContent;
       });
 
-      
-      
-      if(JSON.stringify(cats) === JSON.stringify (this.categoryCopy)) return
-      
-        this.categoryCopy = cats;
-        this.categories.next(cats);
-     
-      
+
+
+      if (JSON.stringify(cats) === JSON.stringify(this.categoryCopy)) return
+
+      this.categoryCopy = cats;
+      this.categories.next(cats);
+
+
     },
-   
+
       (error: any) => {
 
         console.error(error);
         this.categories.next(categoriesContent)
       }
-      
+
     );
-    
+
   }
 
 
-  addCategory(_name: string, _description: string, _intervall: number, _numbActivities: number, _startTime: string, _endTime: string, _days: any) {
+  addCategory(_name: string, _description: string, _eventId: number, _shiftBlocks: any[]) {
+
+    const formattedShiftBlocks = _shiftBlocks.map(block => {
+      
+      const originalStartDate = block.startTime;
+      const sYear = originalStartDate.getFullYear();
+      console.log(sYear);
+      const sMonth = (originalStartDate.getMonth() + 1).toString().padStart(2, '0');
+      console.log(sMonth);
+      const sDay = originalStartDate.getDate().toString().padStart(2, '0');
+      console.log(sDay);
+      const sHours = originalStartDate.getHours().toString().padStart(2, '0');
+      console.log(sHours);
+      const sMinutes = originalStartDate.getMinutes().toString().padStart(2, '0');
+      console.log(sMinutes);
+      block.startTime = `${sYear}-${sMonth}-${sDay} ${sHours}:${sMinutes}`;
+
+      const originalEndDate = block.endTime;
+      const eYear = originalEndDate.getFullYear();
+      console.log(eYear);
+      const eMonth = (originalEndDate.getMonth() + 1).toString().padStart(2, '0');
+      console.log(eMonth);
+      const eDay = originalEndDate.getDate().toString().padStart(2, '0');
+      console.log(eDay);
+      const eHours = originalEndDate.getHours().toString().padStart(2, '0');
+      console.log(eHours);
+      const eMinutes = originalEndDate.getMinutes().toString().padStart(2, '0');
+      console.log(eMinutes);
+      block.endTime = `${eYear}-${eMonth}-${eDay} ${eHours}:${eMinutes}`;
+
+      console.log("startDate: " + block.startTime);
+      console.log("endDate: " + block.endTime);
+      return block;
+    });
+
+
+    const data = {
+      name: _name,
+      description: _description,
+      event_id: _eventId,
+      shiftBlocks: formattedShiftBlocks,
+    }
+
+
+    console.log(data);
+    this.http.post(this.rootUrl + '/shiftCategory/add', data, this.options).subscribe((res: any) => {
+      this.updateCategories();
+      console.log("added category")
+    })
+  }
+
+  /*addCategory(_name: string, _description: string, _intervall: number, _numbActivities: number, _startTime: string, _endTime: string, _days: any) {
 
     const data = {
       name: _name,
@@ -153,11 +204,13 @@ export class ShiftplanService {
       console.log("added category")
     })
 
-  }
+  }*/
+
+
 
   delCategory(_id: number) {
-    this.http.delete(this.rootUrl + "/shiftCategory/delete/id/" + _id, this.options).subscribe((res:any) => {
-      
+    this.http.delete(this.rootUrl + "/shiftCategory/delete/id/" + _id, this.options).subscribe((res: any) => {
+
       this.updateCategories();
     })
 
@@ -167,35 +220,35 @@ export class ShiftplanService {
     const dates: string[] = [];
     const currentDate = new Date(startDate);
     const lastDate = new Date(endDate);
-  
+
     while (currentDate <= lastDate) {
       dates.push(currentDate.toISOString().split('T')[0]);
       currentDate.setDate(currentDate.getDate() + 1);
     }
-  
+
     return dates;
   }
 
 
-  addUserToActivity(_activityId: number, _userId: number, _shiftId:number) {
-   
+  addUserToActivity(_activityId: number, _userId: number, _shiftId: number) {
+
     this.http.put(this.rootUrl + "/activity/addUser/activity_id/" + _activityId + "/user_id/" + _userId, {}, this.options).subscribe(() => {
-   
+
       this.updateShift(_shiftId);
     })
 
   }
 
-  delUserFromActivity(_activityId: number, _userId: number, _shiftId:number): void {
-    this.http.put(this.rootUrl + "/activity/removeUser/activity_id/" + _activityId,{}, this.options).subscribe(() => {
+  delUserFromActivity(_activityId: number, _userId: number, _shiftId: number): void {
+    this.http.put(this.rootUrl + "/activity/removeUser/activity_id/" + _activityId, {}, this.options).subscribe(() => {
       this.updateShift(_shiftId);
     })
 
   }
 
-  updateShift(_id:number){
+  updateShift(_id: number) {
 
-    this.http.get<any>(this.rootUrl + "/shift/shift_id/" + _id, this.options).subscribe((response:any) => {
+    this.http.get<any>(this.rootUrl + "/shift/shift_id/" + _id, this.options).subscribe((response: any) => {
 
       const shift = new Shift(
         response.id,
@@ -207,12 +260,12 @@ export class ShiftplanService {
             activity.user?.firstName,
             activity.user?.lastName
           );
-         
+
           return new Activity(activity.id, user, activity.status);
         }),
         response.isActive
       );
-  
+
       this.updateShiftById(_id, shift);
       this.categories.next(this.categoryCopy);
     })
@@ -226,37 +279,37 @@ export class ShiftplanService {
       }
     });
   }
-  
-  shiftOnOff(_shiftId: number, isActive:boolean ){
 
-    this.http.put(this.rootUrl + "/shift/setActive/ " + isActive + "/shift_id/" + _shiftId, {}, this.options ).subscribe(() => {
-      
+  shiftOnOff(_shiftId: number, isActive: boolean) {
+
+    this.http.put(this.rootUrl + "/shift/setActive/ " + isActive + "/shift_id/" + _shiftId, {}, this.options).subscribe(() => {
+
       console.log("isActive changed to: " + isActive);
 
     })
 
   }
 
-  addUser(_firstName: string, _lastName:string){
-    
+  addUser(_firstName: string, _lastName: string) {
+
     this.http.post(this.rootUrl + "/user/add", {
-      "firstName":_firstName,
+      "firstName": _firstName,
       "lastName": _lastName
 
     }, this.options).subscribe(() => {
-     
+
       console.log("Added User: ", _firstName);
 
     })
 
   }
 
-  delUser(_id:number){
+  delUser(_id: number) {
     this.http.delete(this.rootUrl + "/user/delete/user_id/" + _id, this.options).subscribe(() => {
-     
-       console.log("successfully deleted");
+
+      console.log("successfully deleted");
     });
-    
+
   }
 
   getAllUser() {
@@ -275,9 +328,9 @@ export class ShiftplanService {
 
   }
 
-  getAvailableUser(_eventId:number = 1, _activityId: number){
+  getAvailableUser(_eventId: number = 1, _activityId: number) {
 
-    return this.http.get(this.rootUrl + '/activity/availableUsers/event_id/'+_eventId +'/activity_id/'+ _activityId, this.options).subscribe((res: any) => {
+    return this.http.get(this.rootUrl + '/activity/availableUsers/event_id/' + _eventId + '/activity_id/' + _activityId, this.options).subscribe((res: any) => {
       const users: User[] = res.map((user: any) => new User(
         user.id,
         user.firstName,
@@ -300,7 +353,7 @@ export class ShiftplanService {
       "event_id": 1
     }
 
-    this.http.post(this.rootUrl + '/shift/add', data, this.options).subscribe((res:any) => {
+    this.http.post(this.rootUrl + '/shift/add', data, this.options).subscribe((res: any) => {
       console.log("adding shift went: ", res)
     })
   }

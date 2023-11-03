@@ -1,5 +1,6 @@
 @import '../../../../theme';
 @import '../../../Mixins/buttonMixin';
+@import '../../../Mixins/cardMixin';
 
 
 .form-container {
@@ -9,6 +10,7 @@
     justify-content: center;
     align-items: center;
     overflow: scroll;
+    max-height: 90vh;
 
 }
 
@@ -58,7 +60,7 @@ input {
 .submit-button {
 
     @include button(1);
-    margin-top: 200px;
+    margin-top: 100px;
 }
 
 
@@ -123,6 +125,11 @@ input {
             }
         }
     }
+}
+
+.block-list {
+
+    @include Card("empty");
 }
 
 .date-form {
