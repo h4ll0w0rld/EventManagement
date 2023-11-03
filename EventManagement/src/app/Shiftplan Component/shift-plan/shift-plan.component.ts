@@ -95,8 +95,8 @@ export class ShiftPlanComponent implements AfterViewInit {
       data: {
 
       },
-      width: '95vw',
-      height: 'auto',
+      width: '90vw',
+      height: '90vh',
     })
   }
 

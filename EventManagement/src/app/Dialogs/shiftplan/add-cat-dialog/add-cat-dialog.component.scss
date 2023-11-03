@@ -3,14 +3,14 @@
 @import '../../../Mixins/cardMixin';
 
 
-.form-container {
+.new-cat-form-container {
 
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    overflow: scroll;
-    max-height: 90vh;
+    max-height: 100%;
+    padding: 5%;
+    height: auto;
 
 }
 
@@ -32,10 +32,10 @@
     width: 90%;
 }
 
-
 mat-form-field {
 
-    width: 70%;
+    width: 45%;
+    margin: 5px;
 }
 
 input {
@@ -71,7 +71,7 @@ input {
     justify-content: center;
     align-items: center;
 
-    width: 90%;
+    width: 100%;
 
     .current-block {
 
@@ -79,12 +79,10 @@ input {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        width: 80%;
         height: max-content;
         margin-top: 20px;
-        padding: 20px 10%;
-        border: 2px solid $prim-color;
-        border-radius: 20px;
+        padding: 10px 10px;
+        @include Card("filled");
 
         .time {
 

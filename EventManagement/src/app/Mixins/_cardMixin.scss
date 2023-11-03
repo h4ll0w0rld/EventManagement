@@ -1,7 +1,7 @@
 @import '../../theme';
 
 
-@mixin Card($height, $card: "") {
+@mixin Card($height, $card: "", $border-radius: 20px) {
 
     
     height: $height;
@@ -9,14 +9,13 @@
     width: auto;
     display: flex;
     background-color: white;
-    border: 1px solid rgba(0, 0, 0, 0.30);
-    border-radius: 10px;
+    //border: 1px solid rgba(0, 0, 0, 0.30);
     overflow: hidden;
     justify-content: center;
     align-items: center;
 
     box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
+    border-radius: $border-radius;
     margin-top: 10px;
     
     

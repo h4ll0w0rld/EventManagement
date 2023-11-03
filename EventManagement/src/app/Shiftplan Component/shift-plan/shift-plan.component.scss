@@ -16,6 +16,12 @@
     background-color: $prim-color;
     
 }
+
+#cdk-overlay-0 {
+
+    max-width: 100vw !important;
+}
+
 .active {
     text-decoration: underline;
     text-decoration-color: azure; /* Color of the underline */

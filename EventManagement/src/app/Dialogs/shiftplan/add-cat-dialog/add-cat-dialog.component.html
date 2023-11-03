@@ -1,4 +1,4 @@
-<div class="form-container">
+<mat-dialog-content class="new-cat-form-container">
 
   <h2 class="title">Neue Schichtkategorie</h2>
 
@@ -41,18 +41,21 @@
           [showSpinners]="false"></ngx-mat-timepicker>
       </div>
 
-      <mat-form-field class="small_text test" floatLabel="always" appearance="outline">
-        <mat-label>Schichtlänge</mat-label>
-        <input matInput type="number" [(ngModel)]="currentBlock.intervall" (ngModelChange)="onInputChange()">
-        <span matTextSuffix>Minuten</span>
-      </mat-form-field>
-
-      <mat-form-field class="small_text" floatLabel="always" appearance="outline">
-        <mat-label>Anzahl</mat-label>
-        <input class="inputs" matInput type="number" [(ngModel)]="currentBlock.numberOfShifts"
-          (ngModelChange)="onInputChange()">
-        <span matTextSuffix>Schichten</span>
-      </mat-form-field>
+      <div class="number-container">
+        <mat-form-field class="small_text test" floatLabel="always" appearance="outline">
+          <mat-label>Schichtlänge</mat-label>
+          <input matInput type="number" [(ngModel)]="currentBlock.intervall" (ngModelChange)="onInputChange()">
+          <span matTextSuffix>Minuten</span>
+        </mat-form-field>
+  
+        <mat-form-field class="small_text" floatLabel="always" appearance="outline">
+          <mat-label>Anzahl</mat-label>
+          <input class="inputs" matInput type="number" [(ngModel)]="currentBlock.numberOfShifts"
+            (ngModelChange)="onInputChange()">
+          <span matTextSuffix>Schichten</span>
+        </mat-form-field>
+      </div>
+      
 
       <div class="end-date">
         <p>Ende des Schichtblocks:</p>
@@ -69,5 +72,8 @@
     </div>
     <div class="add-block-button" (click)="newBlock()">Neuer Schichtblock +</div>
   </div>
-  <div class="submit-button" (click)="addCat()">Kategorie anlegen</div>
-</div>
+  
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close class="submit-button" (click)="addCat()">Kategorie anlegen</button>
+  </mat-dialog-actions>
+</mat-dialog-content>

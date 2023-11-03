@@ -17,12 +17,12 @@ p {
 
 .filledAct {
 
-    @include Card(100%, "filled")
+    @include Card(100%, "filled", 10px)
 }
 
 .emptyAct {
 
-    @include Card(100%, "empty")
+    @include Card(100%, "empty", 10px)
 }
 
 
