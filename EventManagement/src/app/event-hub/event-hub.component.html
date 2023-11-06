@@ -1,10 +1,12 @@
-<p>event-hub works!</p>
-<div class="container">
-    <h1>Deine Events</h1>
-    
+<div class="head">
+    <h4>Planit Events</h4>
+</div>
+<div class="body">
+    <h1>Deine Events:</h1>
+   <button (click) = "addCatDialog()">Neues Event Hinzufügen</button>
 
-
-
-    <h1>Deine Schichten</h1>
-
+    <div routerLink="/shiftplan" *ngFor= "let event of this.hubservice.allEvents" class="event-container" >
+        <h4>{{event.name}}</h4>
+    </div>
+    <h1>Deine Deine Schichten:</h1>  
 </div>

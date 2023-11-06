@@ -49,6 +49,7 @@ import { TesterComponent } from './tester/tester.component';
 import { AddCatDialogComponent } from './Dialogs/shiftplan/add-cat-dialog/add-cat-dialog.component';
 import { EventHubComponent } from './event-hub/event-hub.component';
 import { ShiftplanLandingComponent } from './Shiftplan Component/shiftplan-landing/shiftplan-landing.component';
+import { DashboardlandingComponent } from './Dashboard Component/dashboardlanding/dashboardlanding.component';
 // register Swiper custom elements
 register();
 
@@ -77,6 +78,7 @@ register();
     AddCatDialogComponent,
     EventHubComponent,
     ShiftplanLandingComponent,
+    DashboardlandingComponent,
   ],
   imports: [
     BrowserModule,

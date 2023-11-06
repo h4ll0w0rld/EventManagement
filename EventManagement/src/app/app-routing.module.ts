@@ -5,11 +5,12 @@ import { DashboardComponent } from './Dashboard Component/dashboard/dashboard.co
 import { TesterComponent } from './tester/tester.component';
 import { ShiftplanLandingComponent } from './Shiftplan Component/shiftplan-landing/shiftplan-landing.component';
 import { EventHubComponent } from './event-hub/event-hub.component';
+import { DashboardlandingComponent } from './Dashboard Component/dashboardlanding/dashboardlanding.component';
 
 
 const routes: Routes = [
-  {path:'dashboard', component:DashboardComponent }, 
-  {path: 'shiftplan', component:ShiftPlanComponent },
+  {path:'dashboard', component:DashboardlandingComponent }, 
+  {path: 'shiftplan', component:ShiftplanLandingComponent },
   {path: '', component:EventHubComponent},
 
 ];
