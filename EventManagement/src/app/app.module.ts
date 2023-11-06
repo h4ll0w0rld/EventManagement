@@ -10,7 +10,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { NgxMatDatetimePickerModule, NgxMatNativeDateModule, NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
+//import { NgxMatDatetimePickerModule, NgxMatNativeDateModule} from '@angular-material-components/datetime-picker';
+import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatButtonModule } from '@angular/material/button';
@@ -88,8 +89,8 @@ register();
     FormsModule,
     ReactiveFormsModule,
 
-    NgxMatDatetimePickerModule, 
-    NgxMatNativeDateModule, 
+    //NgxMatDatetimePickerModule, 
+    //NgxMatNativeDateModule, 
     NgxMatTimepickerModule,
     MatMenuModule,
     BrowserAnimationsModule,

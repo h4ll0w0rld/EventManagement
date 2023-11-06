@@ -8,13 +8,13 @@ import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.s
   styleUrls: ['./add-cat-dialog.component.scss']
 })
 export class AddCatDialogComponent {
-  
+
   newCategory: any = {
     name: "",
     description: "",
     eventId: 1,
     shiftBlocks: [
-      
+
     ],
   }
 
@@ -30,136 +30,75 @@ export class AddCatDialogComponent {
 
   }
 
+  minZeit: string;
+  startTimeTime: string;
+
   constructor(public shiftplanService: ShiftplanService,) {
     this.currentBlock.startTime = this.eventStartDate;
+    this.minZeit = this.currentBlock.startTime.getHours() + ':' + this.currentBlock.startTime.getMinutes();
+
+    this.startTimeTime = this.currentBlock.startTime.getHours() + ':' + this.currentBlock.startTime.getMinutes();
+    console.log(this.minZeit);
     this.updateEndDate();
   }
 
   private updateEndDate() {
-    
+
     const start = this.currentBlock.startTime;
     const time = this.currentBlock.numberOfShifts * this.currentBlock.intervall;
-    const endDate = new Date(start.getTime() + time *60000);
+    const endDate = new Date(start.getTime() + time * 60000);
     this.currentBlock.endTime = endDate;
   }
 
-  
+
   onInputChange() {
+    console.log("test: " + this.minZeit);
     this.updateEndDate();
   }
 
+  onTimeInputChange() {
 
-  
-
-  //shiftIntervall = 120;
-  //persProShift = 3;
-
-  //startTime = new Date();
-  //endTime = new Date();
-
-  shiftAmount = 1;
-
-  //shiftBlocks = [[], [], []]; 
-
+    const [hours, minutes] = this.startTimeTime.split(':').map(Number);
+    const date = new Date(this.currentBlock.startTime);
+    date.setHours(hours);
+    date.setMinutes(minutes);
+    this.currentBlock.startTime = date;
+    this.onInputChange();
+  }
 
   newBlock() {
-    
-    this.newCategory.shiftBlocks.push(this.currentBlock);
+
+    const newBlock = {...this.currentBlock};
+    this.newCategory.shiftBlocks.push(newBlock);
+    this.updateCurrentBlock(newBlock);
 
   }
 
   addCat() {
 
-    console.log(this.newCategory.shiftBlocks[0].startTime);
     this.shiftplanService.addCategory(this.newCategory.name, this.newCategory.description, this.newCategory.eventId, this.newCategory.shiftBlocks);
   }
 
 
-  /* newCurrentBlock() {
+  getTimeFormat(_date: string) {
 
-    if (!this.currentBlock) {
-      
-      this.currentBlock = true;
-      this.startTime = this.eventStartDate;
-      this.endTime = new Date(this.startTime.getTime() + (this.shiftAmount * (this.shiftIntervall * 1000)));
-      
-    } else {
+    const date = new Date(_date);
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const time = `${hours}:${minutes} Uhr`;
 
-      this.shiftBlocks.push();
-    }
-  } */
+    return time;
+
+  }
+
+  updateCurrentBlock(_lastBlock: any) {
+
+    this.currentBlock.startTime = _lastBlock.endTime;
+    this.minZeit = _lastBlock.endTime.getHours() + ':' + _lastBlock.endTime.getMinutes();
+    this.startTimeTime = _lastBlock.endTime.getHours() + ':' + _lastBlock.endTime.getMinutes();
+    this.updateEndDate();
+
+  }
+
 }
 
-
-
-
-
-
-
-/* import { DatePipe } from '@angular/common';
-import { Component } from '@angular/core';
-import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.service';
-
-@Component({
-  selector: 'app-add-cat-dialog',
-  templateUrl: './add-cat-dialog.component.html',
-  providers: [DatePipe],
-  styleUrls: ['./add-cat-dialog.component.scss']
-})
-
-export class AddCatDialogComponent {
-
-  shiftCategoryNames = ["Bar1", "Bar2", "Bar3"];
-  categoryName: string = '';
-  description: string = '';
-  interval: number = 60;
-  numberOfActivities: number = 2;
-  startTime = "00:00";
-  endTime = "23:00";
-  chosenDate: Date = new Date();
-  constructor(public shiftplanService: ShiftplanService, private datePipe: DatePipe){
-    
-  }
-
-  addCat(): void {
-
-    const date = this.datePipe.transform(this.chosenDate, "yyyy-MM-dd");
-    if(this.checkUserInput()){
-      console.log(this.endTime)
-
-      this.shiftplanService.addCategory(this.categoryName, this.description, this.interval, this.numberOfActivities, this.startTime, this.endTime, date)
-      this.shiftplanService.updateCategories();
-    
-      this.updateCat();
-    }else{
-      console.log("Uncomplete Input")
-    }
-  }
-  updateCat() {
-
-    this.shiftCategoryNames = [...this.shiftCategoryNames];
-
-  }
-  
-
-  getErrorMessage():boolean {
-    if (!this.categoryName) {
-      return true;
-    }
-
-    return false
-  }
-
-  checkUserInput(): boolean{
-    if(!this.categoryName) return false;
-    if(this.endTime === "00:00") this.endTime = "24:00";
-    if(this.convertTimeToMinutes(this.startTime) > this.convertTimeToMinutes(this.endTime)) return false;
-    return true;
-
-  }
-  convertTimeToMinutes(time: string): number {
-    const [hours, minutes] = time.split(':');
-    return parseInt(hours) * 60 + parseInt(minutes);
-  }
-
-} */

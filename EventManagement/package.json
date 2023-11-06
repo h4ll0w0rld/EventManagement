@@ -25,6 +25,7 @@
     "@syncfusion/ej2-angular-calendars": "^23.1.41",
     "hammerjs": "^2.0.8",
     "luxon": "^3.4.3",
+    "ngx-mat-timepicker": "^16.1.2",
     "ngx-material-timepicker": "^13.1.1",
     "rxjs": "~7.8.0",
     "swiper": "^11.0.2",
