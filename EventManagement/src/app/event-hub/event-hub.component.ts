@@ -3,6 +3,9 @@ import { MatDialog } from '@angular/material/dialog';
 //import { AddEventComponent } from '../Dialogs/global/add-event/add-event.component';
 import { EventhubService } from '../Services/Eventhub Service/eventhub.service';
 import { Router } from '@angular/router';
+import { AddEventComponent } from '../Dialogs/global/add-event/add-event.component';
+import { ShiftplanService } from '../Services/Shiftplan Service/shiftplan.service';
+import { ConfigService } from '../Services/config.service';
 
 @Component({
   selector: 'app-event-hub',
@@ -10,7 +13,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./event-hub.component.scss']
 })
 export class EventHubComponent {
-  constructor(private dialog: MatDialog, public hubservice: EventhubService, private router: Router){
+  constructor(private dialog: MatDialog, public hubservice: EventhubService, private router: Router  , private configService: ConfigService, private shiftplanService: ShiftplanService){
 
   }
   addEvent(){
@@ -18,20 +21,19 @@ export class EventHubComponent {
   }
   addCatDialog() {
 
-    // this.dialog.open(AddEventComponent, {
-    //   data: {
+    this.dialog.open(AddEventComponent, {
+      data: {
 
-    //   },
-    //   width: '95vh',
-    //   height: 'auto',
-    // })
+       },
+       width: '95vh',
+      height: 'auto',
+     })
   }
 
-  loadEvent(){
-    console.log("cklicked ")
-    //this.router.navigate(['/shiftplan']);
+  loadEvent(_id:number){
+    this.shiftplanService.eventId = _id
+    this.configService.setEventId(_id)
   }
-
 
   ngOnInit(){
     this.hubservice.updateAllUser();

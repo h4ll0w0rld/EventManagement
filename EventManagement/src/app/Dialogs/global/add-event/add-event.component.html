@@ -1,0 +1,49 @@
+<div class="container">
+
+  <h1>Event Hinzufügen</h1>
+  <mat-form-field class="form" appearance="outline">
+    <mat-label>Event Name:</mat-label>
+    <input [(ngModel)]="newEvent.name" class="input" matInput name="name" required />
+    <mat-error *ngIf="true">
+      Event Name wird <strong>benötigt</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="form" appearance="outline">
+    <mat-label>Event Beschreibung:</mat-label>
+    <textarea matInput [(ngModel)]="newEvent.description" name="description"></textarea>
+  </mat-form-field>
+
+  <div class="date-time">
+    <h1>Start</h1>
+    <input class="date-form" matInput [matDatepicker]="matDatepicker" placeholder="Datum"
+      [(ngModel)]="newEvent.startDate">
+    <mat-datepicker-toggle matSuffix [for]="matDatepicker"></mat-datepicker-toggle>
+    <mat-datepicker #matDatepicker></mat-datepicker>
+
+    <ngx-mat-timepicker-field [format]="24"
+      [(ngModel)]="startTime"></ngx-mat-timepicker-field>
+
+
+  </div>
+
+  <div class="date-time">
+    <h1>Ende</h1>
+    <input class="date-form" matInput [matDatepicker]="matDatepickerr" placeholder="Datum"
+      [(ngModel)]="newEvent.endDate">
+    <mat-datepicker-toggle matSuffix [for]="matDatepickerr"></mat-datepicker-toggle>
+    <mat-datepicker #matDatepickerr></mat-datepicker>
+
+    <ngx-mat-timepicker-field [format]="24" 
+      [(ngModel)]="endTime"></ngx-mat-timepicker-field>
+
+
+  </div>
+
+  <mat-form-field class="form" appearance="outline">
+    <mat-label>Ort des Geschehens:</mat-label>
+    <textarea matInput [(ngModel)]="newEvent.location" name="location"></textarea>
+  </mat-form-field>
+
+  <mat-button (click)="onSubmit()">submit-button</mat-button>
+</div>

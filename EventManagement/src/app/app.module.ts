@@ -51,6 +51,7 @@ import { ShiftplanLandingComponent } from './Shiftplan Component/shiftplan-landi
 import { DashboardlandingComponent } from './Dashboard Component/dashboardlanding/dashboardlanding.component';
 import { AddShiftblockComponent } from './Dialogs/shiftplan/add-shiftblock/add-shiftblock.component';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { AddEventComponent } from './Dialogs/global/add-event/add-event.component';
 // register Swiper custom elements
 register();
 
@@ -81,6 +82,8 @@ register();
     ShiftplanLandingComponent,
     DashboardlandingComponent,
     AddShiftblockComponent,
+    AddEventComponent
+    
   ],
   imports: [
     BrowserModule,
@@ -144,6 +147,12 @@ export class AppModule  {
     this.matIconRegistry.addSvgIcon(
       "locked",
       this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/locked.svg")
+
+    );
+
+    this.matIconRegistry.addSvgIcon(
+      "home",
+      this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/home.svg")
 
     );
 

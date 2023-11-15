@@ -11,6 +11,16 @@
   height: $header-height;
   width: 100%;
 
+  .home-icon {
+    top: 0;
+   
+    left: 0;
+
+    mat-icon {
+      color: white;
+    }
+  }
+
   h4 {
     font-size: 15px;
     padding: 0px 0px;
@@ -20,8 +30,9 @@
     height: max-content;
   }
 
-  
+
 }
+
 
 .icon-row {
 
@@ -52,4 +63,3 @@
   }
 
 }
-

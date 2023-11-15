@@ -2,16 +2,16 @@ export class EventModel {
     id: number;
     name: string;
     description: string;
-    startDate: string;
-    endDate: string;
+    startDate: Date;
+    endDate: Date;
     location: string;
   
     constructor(
       id: number,
       name: string,
       description: string,
-      startDate: string,
-      endDate: string,
+      startDate: Date,
+      endDate: Date,
       location: string
     ) {
       this.id = id;
