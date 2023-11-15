@@ -133,48 +133,34 @@ export class ShiftplanService {
 
   }
 
+  addShiftBlockToCategory(_newBlock: any, _catID: number) {
+
+    const data = {
+      shiftBlocks: [
+        {
+          intervall: _newBlock.intervall,
+          activitiesPerShift: _newBlock.activitiesPerShift,
+          numberOfShifts: _newBlock.numberOfShifts,
+          startTime: _newBlock.startTime,
+          endTime: _newBlock.endTime
+        }
+      ]
+    }
+    console.log(data, _catID);
+
+    this.http.post(this.rootUrl + '/shiftCategory/addShiftBlockToCategory/shift_category_id/' + _catID, data, this.options).subscribe((res: any) => {
+
+    })
+  }
+
 
   addCategory(_name: string, _description: string, _eventId: number, _shiftBlocks: any[]) {
-
-    const formattedShiftBlocks = _shiftBlocks.map(block => {
-      
-      const originalStartDate = block.startTime;
-      const sYear = originalStartDate.getFullYear();
-      console.log(sYear);
-      const sMonth = (originalStartDate.getMonth() + 1).toString().padStart(2, '0');
-      console.log(sMonth);
-      const sDay = originalStartDate.getDate().toString().padStart(2, '0');
-      console.log(sDay);
-      const sHours = originalStartDate.getHours().toString().padStart(2, '0');
-      console.log(sHours);
-      const sMinutes = originalStartDate.getMinutes().toString().padStart(2, '0');
-      console.log(sMinutes);
-      block.startTime = `${sYear}-${sMonth}-${sDay} ${sHours}:${sMinutes}`;
-
-      const originalEndDate = block.endTime;
-      const eYear = originalEndDate.getFullYear();
-      console.log(eYear);
-      const eMonth = (originalEndDate.getMonth() + 1).toString().padStart(2, '0');
-      console.log(eMonth);
-      const eDay = originalEndDate.getDate().toString().padStart(2, '0');
-      console.log(eDay);
-      const eHours = originalEndDate.getHours().toString().padStart(2, '0');
-      console.log(eHours);
-      const eMinutes = originalEndDate.getMinutes().toString().padStart(2, '0');
-      console.log(eMinutes);
-      block.endTime = `${eYear}-${eMonth}-${eDay} ${eHours}:${eMinutes}`;
-
-      console.log("startDate: " + block.startTime);
-      console.log("endDate: " + block.endTime);
-      return block;
-    });
-
 
     const data = {
       name: _name,
       description: _description,
       event_id: _eventId,
-      shiftBlocks: formattedShiftBlocks,
+      shiftBlocks: _shiftBlocks,
     }
 
 

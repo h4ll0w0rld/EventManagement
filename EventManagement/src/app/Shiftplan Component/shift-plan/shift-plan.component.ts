@@ -83,7 +83,7 @@ export class ShiftPlanComponent implements AfterViewInit {
           message: delMessage,
           catId: _cat.id
         },
-        width: '95vw',
+        width: '90vw',
         height: 'auto',
       }
 
@@ -96,7 +96,7 @@ export class ShiftPlanComponent implements AfterViewInit {
 
       },
       width: '90vw',
-      height: '90vh',
+      height: 'auto',
     })
   }
 

@@ -14,14 +14,14 @@
 
         background-color: $prim-color;
         color: $sec-color;
-        border-radius: 10px;
+        border-radius: 15px;
     }
 
     @if ($style == 2) {
 
         background-color: white;
         color: $prim-color;
-        border-radius: 5px;
+        border-radius: 15px;
 
 
     }

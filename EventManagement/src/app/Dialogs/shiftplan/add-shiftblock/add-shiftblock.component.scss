@@ -1,0 +1,82 @@
+@import '../../../Mixins/buttonMixin';
+
+.new-shiftblock {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 5%;
+
+    p {
+        margin: 0px;
+    }
+}
+
+mat-form-field {
+
+    width: 40%;
+}
+
+
+.date-time-container {
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    
+
+}
+
+.number-container {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.date-form {
+
+    width: 40%;
+    height: 40px;
+    margin: 5%;
+    text-align: center;
+}
+
+.suffix {
+
+    margin-left: 20px
+}
+
+.add-block-button {
+
+    @include button();
+    border: 0px;
+    
+}
+
+.end-date {
+
+    display: flex;
+    flex-direction: row;
+    padding: 0px 0px 20px 0px;
+}
+
+
+
+
+ngx-material-timepicker-container {
+
+    z-index: 2000 !important;
+}
+
+.timepicker-backdrop-overlay[_ngcontent-ng-c2461858124] {
+
+    z-index: 2000 !important;
+}
+
+.cdk-overlay-container {
+
+    z-index: 900 !important;
+}

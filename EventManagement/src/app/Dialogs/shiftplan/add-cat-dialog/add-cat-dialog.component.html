@@ -7,7 +7,7 @@
     <mat-form-field class="form" appearance="outline">
       <mat-label>Bezeichnung:</mat-label>
       <input class="input" matInput [(ngModel)]="newCategory.name" name="name" required />
-      <mat-error *ngIf="true">
+      <mat-error *ngIf="isCatNameInvalid()">
         Schichtname wird <strong>benötigt</strong>
       </mat-error>
     </mat-form-field>
@@ -17,12 +17,13 @@
       <textarea matInput [(ngModel)]="newCategory.description" name="description"></textarea>
     </mat-form-field>
 
-    <div class="divider"></div>
+    <button mat-button class="submit-button" (click)="addCat()">Kategorie anlegen</button>
+    <!--<div class="divider"></div>-->
   </div>
 
 
 
-  <div class="shift-blocks">
+  <!-- <div class="shift-blocks">
 
     <div class="block-list" *ngFor="let block of newCategory.shiftBlocks">
       <p>Beginn: {{this.getTimeFormat(block.startTime)}}</p>
@@ -43,7 +44,8 @@
         <ngx-mat-timepicker-field [format]="24" [min]="minZeit" [(ngModel)]="startTimeTime" (ngModelChange)="onTimeInputChange()"></ngx-mat-timepicker-field>
 
 
-        <!--
+        ///////////////////////////////////////////////////////////////
+
         <input [ngxMatTimepicker]="picker" [format]="24" [min]="currentBlock.startTime.getHours() + ':' + currentBlock.startTime.getMinutes()" (ngModel)="currentBlock.startTime.getHours() + ':' + currentBlock.startTime.getMinutes()"
         (ngModelChange)="onInputChange()">
         <ngx-mat-timepicker-toggle matSuffix [for]="picker"></ngx-mat-timepicker-toggle>
@@ -51,7 +53,9 @@
 
         <!-- <ngx-mat-timepicker [(ngModel)]="currentBlock.startTime" (ngModelChange)="onInputChange()"
           [showSpinners]="false">
-        </ngx-mat-timepicker> -->
+        </ngx-mat-timepicker> 
+
+        //////////////////////////////////////////////////////////////
 
       </div>
 
@@ -86,9 +90,7 @@
 
     </div>
     <div class="add-block-button" (click)="newBlock()">Neuer Schichtblock +</div>
-  </div>
+  </div> -->
 
-  <mat-dialog-actions>
-    <button mat-button mat-dialog-close class="submit-button" (click)="addCat()">Kategorie anlegen</button>
-  </mat-dialog-actions>
 </mat-dialog-content>
+

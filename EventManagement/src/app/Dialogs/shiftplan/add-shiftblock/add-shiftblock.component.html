@@ -1,0 +1,57 @@
+<div class="new-shiftblock">
+
+  <div>
+    <p>Beginn des Schichtblocks</p>
+    <div class="date-time-container">
+      <input class="date-form" matInput [matDatepicker]="matDatepicker" [min]="minDate" [max]="eventEndDate"
+        placeholder="Datum" [(ngModel)]="currentBlock.startTime" (ngModelChange)="onInputChange()" placeholder="Datum"
+        readonly (click)="matDatepicker.open()">
+      <mat-datepicker #matDatepicker></mat-datepicker>
+  
+      <!-- <ngx-mat-timepicker-field [format]="24" [min]="minZeit" [(ngModel)]="startTimeTime" (ngModelChange)="onTimeInputChange()" ></ngx-mat-timepicker-field> -->
+  
+      <input class="date-form" matInput [ngxTimepicker]="picker" [format]="24" [(ngModel)]="startTimeTime"
+        (ngModelChange)="onTimeInputChange()" [min]="minZeit" readonly>
+      <ngx-material-timepicker #picker></ngx-material-timepicker>
+    </div>
+  </div>
+  
+
+  <div class="number-container">
+    <mat-form-field class="inputfield" floatLabel="always" appearance="outline">
+      <mat-label>Schichtlänge</mat-label>
+      <input matInput type="number" [min]="1" [(ngModel)]="currentBlock.intervall" (ngModelChange)="onInputChange()">
+    </mat-form-field>
+    <span class="suffix">Minuten</span>
+  </div>
+
+  <div class="number-container">
+    <mat-form-field class="inputfield" floatLabel="always" appearance="outline">
+      <mat-label>Anzahl</mat-label>
+      <input matInput type="number" [min]="1" [(ngModel)]="currentBlock.numberOfShifts"
+        (ngModelChange)="onInputChange()">
+    </mat-form-field>
+    <span class="suffix">Schichten</span>
+  </div>
+
+
+  <div class="end-date">
+    <p>Ende des Schichtblocks:</p>
+    <div>{{currentBlock.endTime | date: 'EEE dd. MMM, HH:mm'}}</div>
+  </div>
+
+
+  <div class="number-container">
+    <mat-form-field class="inputsfield" floatLabel="always" appearance="outline">
+      <mat-label>Anzahl</mat-label>
+      <input matInput type="number" [min]="1" [(ngModel)]="currentBlock.activitiesPerShift">
+      
+    </mat-form-field>
+    <span class="suffix">Personen</span>
+  </div>
+  
+
+  <button class="add-block-button" (click)="newBlock()">Neuer Schichtblock +</button>
+
+
+</div>

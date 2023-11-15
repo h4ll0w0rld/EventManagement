@@ -1,0 +1,21 @@
+@import '../.././Mixins/buttonMixin';
+
+.edit-div {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.new-shiftblock-button {
+
+    @include button();
+    border: 0px;
+    min-width: 40px;
+    height: 40px;
+
+    h3 {
+        margin: 0px;
+        padding: 0px;
+    }
+}

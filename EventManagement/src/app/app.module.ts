@@ -10,8 +10,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-//import { NgxMatDatetimePickerModule, NgxMatNativeDateModule} from '@angular-material-components/datetime-picker';
-import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatButtonModule } from '@angular/material/button';
@@ -51,6 +49,8 @@ import { AddCatDialogComponent } from './Dialogs/shiftplan/add-cat-dialog/add-ca
 import { EventHubComponent } from './event-hub/event-hub.component';
 import { ShiftplanLandingComponent } from './Shiftplan Component/shiftplan-landing/shiftplan-landing.component';
 import { DashboardlandingComponent } from './Dashboard Component/dashboardlanding/dashboardlanding.component';
+import { AddShiftblockComponent } from './Dialogs/shiftplan/add-shiftblock/add-shiftblock.component';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 // register Swiper custom elements
 register();
 
@@ -80,6 +80,7 @@ register();
     EventHubComponent,
     ShiftplanLandingComponent,
     DashboardlandingComponent,
+    AddShiftblockComponent,
   ],
   imports: [
     BrowserModule,
@@ -88,10 +89,7 @@ register();
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-
-    //NgxMatDatetimePickerModule, 
-    //NgxMatNativeDateModule, 
-    NgxMatTimepickerModule,
+    NgxMaterialTimepickerModule,
     MatMenuModule,
     BrowserAnimationsModule,
     MatButtonModule,
