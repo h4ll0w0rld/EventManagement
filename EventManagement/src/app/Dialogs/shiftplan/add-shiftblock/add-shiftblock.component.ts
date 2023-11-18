@@ -18,20 +18,22 @@ export class AddShiftblockComponent {
   }
 
   eventStartDate = new Date('2023-08-10 13:00');
-  eventEndDate = new Date('2023-08-13 12:00');
+  eventEndDate = new Date('2024-01-01 12:00');
 
   currentBlock: any = {
     intervall: 60,
     activitiesPerShift: 3,
     numberOfShifts: 1,
-    startTime: this.eventStartDate,
-    endTime: this.eventEndDate
+    startTime: new Date(),
+    endTime: new Date(),
 
   }
 
   minDate: Date;
   minZeit: string;
   startTimeTime: string;
+
+  maxDate = new Date();
 
 
   constructor(public shiftplanService: ShiftplanService, @Inject(MAT_DIALOG_DATA) public data: any,
@@ -47,13 +49,19 @@ export class AddShiftblockComponent {
 
     } else {
 
-      this.currentBlock.startTime = this.eventStartDate;
+      this.currentBlock.startTime = new Date(shiftplanService.event.startDate);
       this.minDate = this.currentBlock.startTime;
+      this.maxDate = this.shiftplanService.event.endDate;
 
     }
 
     this.minZeit = this.minDate.getHours() + ':' + this.minDate.getMinutes();
     this.startTimeTime = this.minDate.getHours() + ':' + this.minDate.getMinutes();
+
+
+
+    console.log(this.minDate);
+
 
     //console.log(this.minZeit);
     this.updateEndDate();
@@ -70,6 +78,16 @@ export class AddShiftblockComponent {
 
 
   onInputChange() {
+
+    if (this.currentBlock.startTime.getDate() != this.minDate.getDate()) {
+
+      this.minZeit = "00:00";
+
+    } else {
+
+      this.minZeit = this.minDate.getHours() + ':' + this.minDate.getMinutes();
+      this.startTimeTime = this.minDate.getHours() + ':' + this.minDate.getMinutes();
+    }
     this.updateEndDate();
   }
 

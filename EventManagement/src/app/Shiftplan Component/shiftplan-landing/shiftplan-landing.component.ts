@@ -1,6 +1,7 @@
 import { Component, ElementRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { GlobalUserListComponent } from 'src/app/Dialogs/global/global-userlist-dialog/global-user-list.component';
+import { EventhubService } from 'src/app/Services/Eventhub Service/eventhub.service';
 import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.service';
 
 @Component({
@@ -9,23 +10,26 @@ import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.s
   styleUrls: ['./shiftplan-landing.component.scss']
 })
 export class ShiftplanLandingComponent {
-  title = 'EventManagement';
+
+  title = 'Planit Events';
   unlocked: boolean = false;
 
-  activityText = [
-      'Test Activity 1',
-      'Test Activity 2',
-      'Test Activity 3'
-  ];
+  // activityText = [
+  //     'Test Activity 1',
+  //     'Test Activity 2',
+  //     'Test Activity 3'
+  // ];
 
 
-  constructor(public shiftplanService: ShiftplanService, private dialog: MatDialog, private elementRef: ElementRef) {} 
+  constructor(public shiftplanService: ShiftplanService, public hubService: EventhubService, private dialog: MatDialog, private elementRef: ElementRef) {} 
 
 
   ngOnInit() {
 
-    const iconElement = this.elementRef.nativeElement.querySelector('.mat-icon');
-    iconElement.classList.remove('mat-icon-no-color');
+    this.title = this.shiftplanService.event.name;
+
+    //const iconElement = this.elementRef.nativeElement.querySelector('.mat-icon');
+    //iconElement.classList.remove('mat-icon-no-color');
 
     this.shiftplanService.editmode$.subscribe(value => {
       this.unlocked = value;

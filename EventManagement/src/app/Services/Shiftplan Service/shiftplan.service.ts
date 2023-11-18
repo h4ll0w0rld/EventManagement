@@ -8,6 +8,7 @@ import { User } from 'src/app/Object Models/user/user';
 import { categoriesContent } from "../../testData/shiftPlanDummy";
 import { AuthService } from '../Auth/auth-service.service';
 import { ConfigService } from '../config.service';
+import { EventModel } from 'src/app/Object Models/EventModel';
 
 
 
@@ -16,6 +17,7 @@ import { ConfigService } from '../config.service';
 })
 export class ShiftplanService {
 
+  event: EventModel = new EventModel(0, "", "", new Date(), new Date(), "");
 
   categoryNames: Subject<string[]> = new Subject<string[]>();
   user: Subject<User[]> = new Subject<User[]>();
@@ -23,7 +25,7 @@ export class ShiftplanService {
   categories: Subject<CategoryContent[]> = new Subject<CategoryContent[]>();
   availableUser: Subject<User[]> = new Subject<User[]>();
   allUser: Subject<User[]> = new Subject<User[]>();
-  eventId: number = 0;
+  //eventId: number = 0;
   categoriesContent = categoriesContent;
   //rootUrl: string = 'http://192.52.42.200:3000';
   rootUrl: string = 'http://localhost:3000';
@@ -41,7 +43,19 @@ export class ShiftplanService {
   editmode: BehaviorSubject<boolean>;
 
   constructor(private http: HttpClient, private authService: AuthService,  configService: ConfigService) {
-    this.eventId = configService.getEventID();
+    //this.eventId = configService.getEventID();
+
+    const eventString = localStorage.getItem("event");
+
+    if (eventString != null) {
+      this.event = JSON.parse(eventString);
+    }
+    
+    console.log(eventString);
+
+    
+
+    console.log("Shiftplanservice aktiv!");
     const stored = localStorage.getItem('editmode');
     const value = stored !== null ? JSON.parse(stored) : false;
     this.editmode = new BehaviorSubject<boolean>(value);
@@ -87,8 +101,8 @@ export class ShiftplanService {
 
   updateCategories() {
 
-
-    this.http.get<any>(this.rootUrl + '/shiftCategory/all/event_id/' + this.eventId, this.options).subscribe((res: any) => {
+    console.log(this.event.id);
+    this.http.get<any>(this.rootUrl + '/shiftCategory/all/event_id/' + this.event.id, this.options).subscribe((res: any) => {
 
       const shiftCategorys = JSON.parse(JSON.stringify(res));
 

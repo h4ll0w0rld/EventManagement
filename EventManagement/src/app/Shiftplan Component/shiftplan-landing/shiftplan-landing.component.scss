@@ -12,13 +12,16 @@
   width: 100%;
 
   .home-icon {
-    top: 0;
-   
-    left: 0;
 
-    mat-icon {
-      color: white;
-    }
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: left;
+    left: 5px;
+    height: $header-height;
+    max-width: max-content;
+    padding: 5px;
+    height: $header-height - 12px;
   }
 
   h4 {

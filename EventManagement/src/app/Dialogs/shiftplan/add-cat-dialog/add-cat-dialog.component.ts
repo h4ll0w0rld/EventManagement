@@ -23,7 +23,7 @@ export class AddCatDialogComponent {
   currentBlock: any = {
     intervall: 60,
     activitiesPerShift: 3,
-    numberOfShifts: 1,
+    numberOfShifts: 0,
     startTime: this.eventStartDate,
     //endTime: new Date(),
     endTime: this.eventEndDate
@@ -34,6 +34,8 @@ export class AddCatDialogComponent {
   startTimeTime: string;
 
   constructor(public shiftplanService: ShiftplanService, public dialogRef: MatDialogRef<AddCatDialogComponent>) {
+
+    this.newCategory.eventId = this.shiftplanService.event.id;
     this.currentBlock.startTime = this.eventStartDate;
     this.minZeit = this.currentBlock.startTime.getHours() + ':' + this.currentBlock.startTime.getMinutes();
 
