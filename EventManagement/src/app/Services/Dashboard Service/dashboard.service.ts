@@ -20,7 +20,7 @@ export class DashboardService {
   //ventit23
 
   username = 'projektle';
-  password = localStorage.getItem('authent');
+  password = "ventit23";
   encodedCredentials = btoa(`${this.username}:${this.password}`);
   headers = new HttpHeaders({
     'Authorization': 'Basic ' + this.encodedCredentials

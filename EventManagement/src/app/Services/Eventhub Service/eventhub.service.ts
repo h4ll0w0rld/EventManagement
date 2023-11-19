@@ -10,7 +10,7 @@ import { ConfigService } from '../config.service';
 export class EventhubService {
 
   username = 'projektle';
-  password = localStorage.getItem('authent');
+  password = "ventit23";
   allEvents: EventModel[] = []
   encodedCredentials = btoa(`${this.username}:${this.password}`);
   headers = new HttpHeaders({

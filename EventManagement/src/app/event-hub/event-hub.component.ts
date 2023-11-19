@@ -21,13 +21,13 @@ export class EventHubComponent {
     console.log("Event wird hinzugefügt...")
   }
   addCatDialog() {
-
+    console.log("ALIIIIIIIVETTTTTTTTTTEEEEE")
     this.dialog.open(AddEventComponent, {
       data: {
 
        },
        width: '95vh',
-      height: 'auto',
+       height: 'auto',
      })
   }
 

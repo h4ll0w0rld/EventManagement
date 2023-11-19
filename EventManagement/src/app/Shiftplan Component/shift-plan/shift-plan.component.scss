@@ -1,8 +1,5 @@
 @import "../../../theme";
-body {
-    // overflow-x: hidden;
-    // overflow-y: hidden;
-}
+
 .cat-menu {
     padding-top: 50px;
     padding-bottom: 10px;
@@ -57,7 +54,7 @@ ul li a {
 .shift-cat-tab-label {
     background-color: aqua;
     width: 100%;
-    // height: 100%;
+  
 }
 
 //----------------------
@@ -65,139 +62,19 @@ ul li a {
     margin-top: 0.5vh;
 }
 
-mat-tab-group {
-
-    height: $content-height;
-    background-color: $sec-color;
-    padding-top: $header-height - 1px;
-    position: fixed;
-    width: 100%;
-    touch-action: pan-y !important;
-
-}
-
-
-mat-tab-header {
-
-    background-color: $prim-color;
-    position: sticky;
-    height: max-content;
-
-    button {
-
-        div {
-            border-color: $sec-color !important;
-        }
-    }
-
-}
-
-.mdc-tab__text-label {
-
-    color: $sec-color !important;
-}
-
-
-.mat-mdc-tab:not(.mat-mdc-tab-disabled).mdc-tab--active,
-.mat-mdc-tab-link:not(.mat-mdc-tab-disabled).mdc-tab--active {
-
-    .mdc-tab__text-label {
-
-        color: $prim-color !important;
-    }
-}
-
-.mdc-focus-indicator .mdc-tab--active,
-.mdc-tab-indicator--active {
-
-    background-color: $sec-color !important;
-    border-radius: 5px 5px 0px 0px;
-    width: auto;
-    max-width: 95%;
-    padding: 10px;
-
-    .delete {
-
-        right: 0px;
-        display: flex;
-    }
-
-    &:hover {
-
-        background-color: $sec-color;
-    }
-
-    &:active {
-
-        background-color: $sec-color;
-        box-shadow: none;
-    }
-}
-
-.mat-mdc-tab-ripple {
-
-    opacity: 0% !important;
-    display: none !important;
-    visibility: hidden !important;
-}
-
-
-.mat-mdc-tab:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline,
-.mat-mdc-tab-link:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline {
-
-    border: none;
-    text-decoration: none;
-}
-
-.mdc-text-field--filled:not(.mdc-text-field--disabled) {
-
-    box-sizing: 100%;
-}
-
-.mat-mdc-text-field-wrapper:not(.mdc-text-field--outlined) .mat-mdc-form-field-infix {
-    border-radius: 5px 5px 0px 0px;
-}
-
-#mat-content {
-    animation: none !important;
-}
 
 .shift-cat-tabs {
     animation: none !important;
 
 }
 
-/*
-mat-form-field {
-
-    display: block;
-    width: 90%;
-    margin: auto;
-}*/
 
 .scrollable-element {
 
     touch-action: none;
 }
 
-/*.add {
 
-    display: flex;
-    flex-direction: column;
-    height: calc($content-height - 70px);
-    width: 100%;
-    
-    align-items: center;
-    
-    justify-content: center;
-    
-    .form{
-        margin: 0px;
-        max-width: 60%;
-        
-    }  
-  
-}*/
 
 .delete {
     flex-grow: 1; // Allow it to grow and take available space
