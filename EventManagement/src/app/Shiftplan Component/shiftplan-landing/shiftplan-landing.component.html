@@ -1,25 +1,12 @@
 <app-user-login></app-user-login>
+
 <div class="app-container">
-    <div class="head">
 
-        <div class="home-icon">
-            <mat-icon  aria-hidden="false" svgIcon="home" routerLink="/" ></mat-icon>
-        </div>
-       
-        <h4>{{title}}</h4>
+    <app-header></app-header>
     
-        <div class="icon-row">
-
-            <mat-icon class="global-userlist" aria-hidden="false" svgIcon="userlist" (click)="globalUserlist()"></mat-icon>
-
-            <mat-icon *ngIf="!this.unlocked" class="editmode" aria-hidden="false" svgIcon="locked" (click)="this.shiftplanService.updateEditmode(true)"></mat-icon>
-            <mat-icon *ngIf="this.unlocked" class="editmode" aria-hidden="false" svgIcon="unlocked" (click)="this.shiftplanService.updateEditmode(false)"></mat-icon>
-
-        </div>
-    
-    </div>
     <app-shift-plan></app-shift-plan>
     <!-- <router-outlet class="router"></router-outlet> -->
 
     <app-menu></app-menu>
+    
 </div>

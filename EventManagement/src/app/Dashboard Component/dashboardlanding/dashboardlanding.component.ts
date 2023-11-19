@@ -9,14 +9,14 @@ import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.s
   styleUrls: ['./dashboardlanding.component.scss']
 })
 export class DashboardlandingComponent {
-  title = 'EventManagement';
+  title = 'Planit Events';
   unlocked: boolean = false;
 
-  activityText = [
-      'Test Activity 1',
-      'Test Activity 2',
-      'Test Activity 3'
-  ];
+  // activityText = [
+  //     'Test Activity 1',
+  //     'Test Activity 2',
+  //     'Test Activity 3'
+  // ];
 
 
   constructor(public shiftplanService: ShiftplanService, private dialog: MatDialog, private elementRef: ElementRef) {} 
@@ -24,6 +24,7 @@ export class DashboardlandingComponent {
 
   ngOnInit() {
 
+    this.title = this.shiftplanService.event.name;
     const iconElement = this.elementRef.nativeElement.querySelector('.mat-icon');
     iconElement.classList.remove('mat-icon-no-color');
 

@@ -2,7 +2,7 @@
 
     <div class="menu_button">
         <mat-flat-button mat-button routerLink="/shiftplan"
-            [ngClass]="{ 'active': isActiveRoute('/'), 'passive': !isActiveRoute('/')}">
+            [ngClass]="{ 'active': isActiveRoute('/shiftplan'), 'passive': !isActiveRoute('/shiftplan')}">
             <mat-icon class="shiftplan-mat-icon" aria-hidden="false" svgIcon="shiftplan">
             </mat-icon>
         </mat-flat-button>
@@ -11,11 +11,11 @@
 
     <div class="menu_button">
         <mat-flat-button mat-button routerLink="/dashboard"
-        [ngClass]="{ 'active': isActiveRoute('/dashboard'), 'passive': !isActiveRoute('/dashboard') }">
-        <mat-icon class="dashboard-mat-icon" aria-hidden="false" svgIcon="dashboard">
-        </mat-icon>
-    </mat-flat-button>
+            [ngClass]="{ 'active': isActiveRoute('/dashboard'), 'passive': !isActiveRoute('/dashboard') }">
+            <mat-icon class="dashboard-mat-icon" aria-hidden="false" svgIcon="dashboard">
+            </mat-icon>
+        </mat-flat-button>
     </div>
-    
+
 
 </div>

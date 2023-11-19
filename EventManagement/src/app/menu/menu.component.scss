@@ -29,19 +29,20 @@ mat-flat-button {
 
         margin-top: auto;
         margin-bottom: auto;
-        width: 70%;
-        height: 70%;
+        width: 60%;
+        height: 60%;
         align-items: center;
     }
 
     &.active {
 
-        color: $sec-color;
+        color: $color-5 !important;
+
     }
 
     &.passive {
 
-        color: $color-5 !important;    
+        color: $sec-color !important;    
     }
 }
 
