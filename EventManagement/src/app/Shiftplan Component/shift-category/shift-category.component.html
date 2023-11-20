@@ -1,4 +1,10 @@
-<div class="wrapper shift_category">
+
+<div class="cat-icon-bar">
+
+    <mat-icon class="del-cat-icon" *ngIf="this.unlocked" aria-hidden="false" svgIcon="delete" (click)="delCatDialog(content)"></mat-icon>
+
+</div>
+<div class="shift_category-container">
 
     <app-shift 
         *ngFor="let shift of content.shifts"
@@ -6,7 +12,7 @@
     </app-shift>
 
     <div class="edit-div">
-        <button class="new-shiftblock-button" (click)="addShiftblock()"><h3>+</h3></button>
+        <button class="new-shiftblock-button" *ngIf="this.unlocked" (click)="addShiftblock()"><h3>+</h3></button>
     </div>
     
 

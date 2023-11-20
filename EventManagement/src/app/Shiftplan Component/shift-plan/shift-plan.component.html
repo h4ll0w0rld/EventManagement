@@ -3,7 +3,7 @@
  
     <div class="cat" *ngFor="let cat of this.shiftplanService.categoryCopy; let i = index">
       <h2 (click) ="tabClick($event, cat, i)" #tab >{{cat.name}}</h2>
-      <h2 class="delete" *ngIf="unlocked" (click)="delCatDialog(cat)">X</h2>
+      
     </div>
   
     <h2 (click) = addCatDialog() *ngIf="unlocked" #tab class="addBttn">+</h2>
@@ -14,8 +14,6 @@
     <swiper-slide *ngFor="let cat of this.shiftplanService.categoryCopy" >
   
       <div class="category-type">
-        
-        
      
         <app-shift-category [content]="cat"></app-shift-category>
       </div>

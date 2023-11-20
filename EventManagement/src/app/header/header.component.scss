@@ -11,20 +11,7 @@
     background-color: $prim-color;
     height: $header-height;
     width: 100%;
-  
-    .home-icon {
-  
-      position: fixed;
-      display: flex;
-      justify-content: center;
-      align-items: left;
-      left: 5px;
-      top: 0px;
-      max-width: max-content;
-      padding: 5px;
-      height: $header-height - 20px;
-    }
-  
+
     h4 {
       font-size: 15px;
       padding: 0px 0px;
@@ -32,6 +19,24 @@
       text-align: center;
       color: $sec-color;
       height: max-content;
+    }
+  
+    .home-icon-div {
+  
+      position: fixed;
+      display: flex;
+      justify-content: center;
+      align-items: left;
+      left: 5px;
+      height: $header-height;
+      max-width: max-content;
+      
+      .home-icon {
+
+        padding: 5px;
+        width: 22px;
+
+      }
     }
 
     .icon-row {
@@ -46,18 +51,15 @@
       
         .editmode {
       
-          right: 0px;
           padding: 5px;
-          height: $header-height - 12px;
-          width: 13px;
+          width: 14px;
       
         }
       
         .global-userlist {
       
-          right: 0px;
           padding: 5px;
-          height: $header-height - 10px;
+          margin-right: 5px;
           width: 30px;
       
         }
