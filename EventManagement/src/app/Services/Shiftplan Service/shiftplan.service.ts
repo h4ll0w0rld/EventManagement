@@ -28,7 +28,8 @@ export class ShiftplanService {
   //eventId: number = 0;
   categoriesContent = categoriesContent;
   //rootUrl: string = 'http://192.52.42.200:3000';
-  rootUrl: string = 'http://85.215.56.234:3000';
+  //rootUrl: string = 'http://85.215.56.234:3000';
+  rootUrl: string = 'http://localhost:3000';
 
   //ventit23
   username = 'projektle';
@@ -233,7 +234,7 @@ export class ShiftplanService {
 
   addUserToActivity(_activityId: number, _userId: number, _shiftId: number) {
 
-    this.http.put(this.rootUrl + "/activity/addUser/activity_id/" + _activityId + "/user_id/" + _userId, {}, this.options).subscribe(() => {
+    this.http.put(this.rootUrl + "/activity/addUser/activity_id/" + _activityId + "/" + _userId, {}, this.options).subscribe(() => {
 
       this.updateShift(_shiftId);
     })

@@ -4,7 +4,7 @@
 
     display: flex;
     width: 100%;
-    height: 50px;;
+    height: 30px;;
     justify-content: right;
 
     .del-cat-icon {
@@ -25,12 +25,45 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
 }
+
+.break {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .break-text {
+
+        p {
+            color: $color-5;
+            margin: 10px;
+        }
+    }
+}
+
+.new-shiftblock-in-break-button {
+
+    position: absolute;
+    right: 0px;
+
+    @include button();
+
+    width: 12px;
+    height: 12px;
+    border-radius: 7px;
+
+    h3 {
+        margin: 0px;
+        padding: 0px;
+    }
+}
+
 
 .new-shiftblock-button {
 
     @include button();
-    border: 0px;
     min-width: 40px;
     height: 40px;
 

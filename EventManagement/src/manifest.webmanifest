@@ -1,8 +1,8 @@
 {
-  "name": "Ventit",
-  "short_name": "Ventit",
-  "theme_color": "##0d2e44",
-  "background_color": "#e9e8e8",
+  "name": "Planit Events",
+  "short_name": "Planit",
+  "theme_color": "#0d2e44",
+  "background_color": "#0d2e44",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",

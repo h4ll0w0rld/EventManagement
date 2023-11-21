@@ -7,12 +7,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    
+
 }
 
 .hidden-row {
 
-    min-height: 50px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -20,32 +19,44 @@
     flex-wrap: wrap;
     margin-bottom: 20px;
     padding: 0px 50px;
-    background-color: #d4d4d4;
+    background-color: $sec-color;
 
 }
 
 .time {
 
-    width: 50px;  
+    width: 50px;
     height: 50px;
     display: flex;
     flex-direction: column;
     text-align: center;
-    justify-content: center;
-    //padding-top: 10px;
 
-    &.edit {
-
-        @include Card(100%);
-        flex-direction: column;
-        padding: 2px;
-        margin: 0px 3px;
-        width: 38px;
-
-        p {
-            font-size: 12px;
-        }
+    .start-time {
+        transform: translateY(-20px);
     }
+
+    .toggled-time {
+
+        transform: translateY(0px);
+    }
+
+    .end-time {
+
+        transform: translateY(30px);
+    }
+
+    // &.edit {
+
+    //     @include Card(100%);
+    //     flex-direction: column;
+    //     padding: 2px;
+    //     margin: 0px 3px;
+    //     width: 38px;
+
+    //     p {
+    //         font-size: 12px;
+    //     }
+    // }
 
 }
 
@@ -69,13 +80,14 @@
 
 .toggleTrue {
 
-    background-color: #d4d4d4;
+    background-color: $sec-color;
 }
 
 .amount-hidden {
 
     text-align: center;
     margin: 0px;
+    color: $prim-color;
 }
 
 .toggle-container {
@@ -85,20 +97,22 @@
 
 .toggle-button {
 
-    width: 40px;
-    height: 20px;
-    background-color: $sec-color;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
+    border-style: solid;
+    border-width: 7px 15px 7px 0;
+    border-color: transparent $prim-color transparent transparent ;
+    transition: transform 0.3s ease;
+    border-radius: 3px;
+}
 
-    p {
-        text-align: center;    
-    }
+.arrow-down {
+
+    transform: rotate(-90deg);
+    transition: transform 0.3s ease;
 }
 
 .toggleElseDiv {
 
-    width: 20px;
+    width: 50px;
 }
 
 p {

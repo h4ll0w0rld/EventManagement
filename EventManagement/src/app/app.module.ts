@@ -53,6 +53,7 @@ import { AddShiftblockComponent } from './Dialogs/shiftplan/add-shiftblock/add-s
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { AddEventComponent } from './Dialogs/global/add-event/add-event.component';
 import { HeaderComponent } from './header/header.component';
+import { CommingSoonDialogComponent } from './Dialogs/comming-soon-dialog/comming-soon-dialog.component';
 // register Swiper custom elements
 register();
 
@@ -84,7 +85,8 @@ register();
     DashboardlandingComponent,
     AddShiftblockComponent,
     AddEventComponent,
-    HeaderComponent
+    HeaderComponent,
+    CommingSoonDialogComponent
     
   ],
   imports: [

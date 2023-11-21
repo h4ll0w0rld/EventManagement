@@ -16,6 +16,8 @@ export class ShiftComponent {
 
   @Input() intervall: number = 0;
   @Input() shift: Shift = new Shift(0,0,0,[], false);
+  @Input() nextShift: Shift | undefined = new Shift (0,0,0,[], false);
+  //@Input() nextShift: Shift = new Shift (0,0,0,[], false);
 
   prioActivities: number = 2;
   toggled = false;

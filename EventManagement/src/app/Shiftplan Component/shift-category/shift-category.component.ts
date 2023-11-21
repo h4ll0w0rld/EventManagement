@@ -53,5 +53,9 @@ export class ShiftCategoryComponent {
     );
   }
 
+  commingSoon() {
+
+  }
+
 }
 

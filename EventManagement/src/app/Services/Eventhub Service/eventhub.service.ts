@@ -17,7 +17,8 @@ export class EventhubService {
     'Authorization': 'Basic ' + this.encodedCredentials
   });
   options = { headers: this.headers };
-  rootUrl = 'http://85.215.56.234:3000';
+  //rootUrl = 'http://85.215.56.234:3000';
+  rootUrl: string = 'http://localhost:3000';
   constructor(private http: HttpClient, private authService: AuthService) {
 
 

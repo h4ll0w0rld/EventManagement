@@ -3,16 +3,15 @@
     <div class="visible-row"  [ngClass]="{'toggleFalse': !toggled, 'toggleTrue': toggled}">
 
         <div class="time">
-            <p> {{shift.startTime.toString().substr(0,5)}} </p>
-            <p> {{shift.endTime.toString().substr(0,5)}} </p>
-        </div>
+            
+            <p class="start-time small_text" [ngClass]="{'toggled-time': toggled}"> 
+                {{shift.startTime | date: 'HH:mm'}}
+            </p>
 
-        <!--
-            <div class="time" [ngClass]="{'edit': unlocked}" (click)="unlocked ? shiftBreakDialog() : null">
-            <p> {{shift.startTime.toString().substr(0,5)}} </p>
-            <p> {{shift.endTime.toString().substr(0,5)}} </p>
-            </div>
-        -->
+            <p class="end-time small_text" *ngIf="nextShift == undefined || shift.endTime.getTime() !== nextShift.startTime.getTime()"> 
+                {{shift.endTime | date: 'HH:mm'}}
+            </p> 
+        </div>
         
     
         <div class="prio-activities">
@@ -23,12 +22,17 @@
             [shiftId]="shift.id">
             </app-activity>
         </div>
+        
         <div *ngIf="shift.activities.length > prioActivities; else toggleElseDiv" class="toggle-container">
-            <p class="amount-hidden">+{{shift.activities.length - prioActivities}}</p>
+
+            <p class="amount-hidden small_text">+{{shift.activities.length - prioActivities}}</p>
+
             <div class="toggle">
-                <div class="toggle-button" (click)="toggled = !toggled"> <p></p> </div>
+                <div class="toggle-button" [ngClass]="{'arrow-down': toggled}" (click)="toggled = !toggled"></div>
             </div>
+
         </div>
+
         <ng-template #toggleElseDiv>
             <div class="toggleElseDiv"></div>
         </ng-template>
