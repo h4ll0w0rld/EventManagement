@@ -42,7 +42,7 @@ export class ShiftPlanComponent implements AfterViewInit {
   catSlides: any = [];
   unlocked: boolean = false;
 
-
+  activeSlideIndex = 0;
   constructor(public shiftplanService: ShiftplanService, private datePipe: DatePipe, private dialog: MatDialog, private renderer: Renderer2) {
 
   }
@@ -51,10 +51,13 @@ export class ShiftPlanComponent implements AfterViewInit {
 
     const clickedElement = elem.target;
     this.setActiveTab(clickedElement)
-    this.goToPage(id);
+    
 
   }
-
+  setActiveSlide(index: number) {
+    this.activeSlideIndex = index;
+    this.goToPage(index);
+  }
   setActiveTab(elem: any) {
 
 

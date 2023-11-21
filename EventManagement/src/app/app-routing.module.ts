@@ -4,7 +4,7 @@ import { ShiftPlanComponent } from './Shiftplan Component/shift-plan/shift-plan.
 import { DashboardComponent } from './Dashboard Component/dashboard/dashboard.component';
 import { TesterComponent } from './tester/tester.component';
 import { ShiftplanLandingComponent } from './Shiftplan Component/shiftplan-landing/shiftplan-landing.component';
-import { EventHubComponent } from './event-hub/event-hub.component';
+import { EventHubComponent } from './HUB/event-hub/event-hub.component';
 import { DashboardlandingComponent } from './Dashboard Component/dashboardlanding/dashboardlanding.component';
 
 

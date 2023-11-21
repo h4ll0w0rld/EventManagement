@@ -2,7 +2,8 @@
   <div class="cat-menu">
  
     <div class="cat" *ngFor="let cat of this.shiftplanService.categoryCopy; let i = index">
-      <h2 (click) ="tabClick($event, cat, i)" #tab >{{cat.name}}</h2>
+      <h2 (click) ="setActiveSlide(i)" #tab 
+       [ngClass]="{ 'active': activeSlideIndex === i }">{{ cat.name }}</h2>
       
     </div>
   

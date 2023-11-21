@@ -46,14 +46,14 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { register } from 'swiper/element/bundle';
 import { TesterComponent } from './tester/tester.component';
 import { AddCatDialogComponent } from './Dialogs/shiftplan/add-cat-dialog/add-cat-dialog.component';
-import { EventHubComponent } from './event-hub/event-hub.component';
+import { EventHubComponent } from './HUB/event-hub/event-hub.component';
 import { ShiftplanLandingComponent } from './Shiftplan Component/shiftplan-landing/shiftplan-landing.component';
 import { DashboardlandingComponent } from './Dashboard Component/dashboardlanding/dashboardlanding.component';
 import { AddShiftblockComponent } from './Dialogs/shiftplan/add-shiftblock/add-shiftblock.component';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { AddEventComponent } from './Dialogs/global/add-event/add-event.component';
 import { HeaderComponent } from './header/header.component';
-import { CommingSoonDialogComponent } from './Dialogs/comming-soon-dialog/comming-soon-dialog.component';
+import { EventPreviewComponent } from './HUB/event-preview/event-preview.component';
 // register Swiper custom elements
 register();
 
@@ -86,7 +86,7 @@ register();
     AddShiftblockComponent,
     AddEventComponent,
     HeaderComponent,
-    CommingSoonDialogComponent
+    EventPreviewComponent
     
   ],
   imports: [

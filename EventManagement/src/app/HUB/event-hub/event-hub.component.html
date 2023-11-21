@@ -1,0 +1,28 @@
+<div class="head">
+    <h4>Planit Events</h4>
+</div>
+<div class="body">
+
+    <div class="events">
+      
+        <h3>Deine Events:</h3>
+       
+         <div class="event-container" routerLink="/shiftplan" *ngFor= "let event of this.hubservice.allEvents" (click)="loadEvent(event)">
+            <div class="event-title">
+                <h3 class="event-name">{{event.name}}</h3>
+                <p>{{event.startDate | date: 'dd.MM.yy HH:mm'}} - {{event.endDate | date: 'dd.MM.yy HH:mm'}}</p>
+            </div>
+           
+             <div class="event-details">
+                <p class="event-loc">Ort: <br>{{event.location}} </p>
+                <p class="event-details">Beschreibung: <br>{{event.description}} </p>
+               
+                
+             </div>
+           
+         </div>
+         <button class="button" (click)="addCatDialog()">Neues Event Hinzufügen</button>       
+    </div>
+   
+
+</div>
