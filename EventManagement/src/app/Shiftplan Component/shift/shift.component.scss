@@ -1,12 +1,14 @@
 @import '../../../theme';
 @import '../../Mixins/cardMixin';
 
+$shift-height: 70px;
 
 .visible-row {
 
     display: flex;
     justify-content: center;
     align-items: center;
+    height: $shift-height;
 
 }
 
@@ -16,10 +18,18 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    text-align: center;
     flex-wrap: wrap;
     margin-bottom: 20px;
     padding: 0px 50px;
     background-color: $sec-color;
+
+    .toggled-end-time {
+
+        transform: translateX(-50px);
+        width: 50px;
+
+    }
 
 }
 
@@ -35,7 +45,7 @@
         transform: translateY(-20px);
     }
 
-    .toggled-time {
+    .toggled-start-time {
 
         transform: translateY(0px);
     }
@@ -44,19 +54,6 @@
 
         transform: translateY(30px);
     }
-
-    // &.edit {
-
-    //     @include Card(100%);
-    //     flex-direction: column;
-    //     padding: 2px;
-    //     margin: 0px 3px;
-    //     width: 38px;
-
-    //     p {
-    //         font-size: 12px;
-    //     }
-    // }
 
 }
 

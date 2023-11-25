@@ -53,9 +53,29 @@ export class ShiftCategoryComponent {
     );
   }
 
+  calculateBreakTime(_nextTime: Date, _thisTime: Date) {
+
+    const dif = _nextTime.getTime() - _thisTime.getTime();
+
+    const hours = Math.floor(dif / 3600000); // 1 Stunde = 3600000 Millisekunden
+    const minutes = Math.floor((dif % 3600000) / 60000);
+
+    let res = '';
+
+    if (hours > 0) {
+      res += hours + ' Std. ';
+    }
+    if (minutes > 0 || hours === 0) {
+      res += minutes + ' Min.';
+    }
+
+    return res;
+  }
+
   commingSoon() {
 
   }
+
 
 }
 

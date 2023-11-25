@@ -1,84 +1,54 @@
-// @import '../../../Shiftplan Component/activity/_cardMixin';
 @import "../../../Mixins/cardMixin";
+@import '../../../Mixins/buttonMixin';
 
+.dialogContainer {
 
-.users {
-    margin: 0 0 2em 0;
-    list-style-type: none;
-    padding: 0;
-    width: 15em;
-  }
-  
-  .users li {
-    display: flex;
-  }
-  
-  .users button {
-    flex: 1;
-    cursor: pointer;
-    position: relative;
-    left: 0;
-    background-color: #EEE;
-    margin: .5em;
-    padding: 0;
-    border-radius: 4px;
-    display: flex;
-    align-items: stretch;
-    height: 1.8em;
-  }
-  
-  
-  .users button:hover {
-    color: #2c3a41;
-    background-color: #e6e6e6;
-    left: .1em;
-  }
-  
-  .users button:active {
-    background-color: #525252;
-    color: #fafafa;
-  }
-  
-  .users button.selected {
-    background-color: black;
-    color: white;
-  }
-  
-  .users button.selected:hover {
-    background-color: #505050;
-    color: white;
-  }
-  
-  .users button.selected:active {
-    background-color: black;
-    color: white;
-  }
-  
-  .users .vName {
-    display: inline-block;
-    font-size: small;
-    color: white;
-    padding: 0.8em 0.7em 0 0.7em;
-    background-color: #405061;
-    line-height: 1em;
-    margin-right: .8em;
-    border-radius: 4px 0 0 4px;
-  }
-  
-  .heroes .nName {
-    align-self: center;
-  }
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
-  .active-user, .user {
+}
 
-    @include Card(50px);
-    margin: 10px;
-    background-color: $third-color;
+.line {
 
-    h3 {
-      text-align: center;
-      margin: 0px;
-      color: $sec-color;
-    }
+  width: 70%;
+  height: 1px;
+  background-color: $prim-color;
 
-  }
+}
+
+.list-container {
+
+  margin: 15px 0px;
+  padding: 0px 10px;
+  min-width: 90%;
+  max-height: 300px;
+  overflow: scroll;
+
+}
+
+.user-container {
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+.username {
+
+  margin: 0px;
+
+}
+
+.submit-user-button {
+
+  @include button();
+  width: max-content;
+  height: 10px;
+  border-radius: 10px;
+  margin-right: 0px;
+  
+}

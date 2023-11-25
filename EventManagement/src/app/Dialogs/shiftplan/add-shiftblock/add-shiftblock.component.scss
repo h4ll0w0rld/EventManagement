@@ -66,12 +66,17 @@ mat-form-field {
 
 
 
-ngx-material-timepicker-container {
+.ngx-material-timepicker {
 
     z-index: 2000 !important;
 }
 
-.timepicker-backdrop-overlay[_ngcontent-ng-c2461858124] {
+.timepicker-backdrop-overlay {
+
+    z-index: 2000 !important;
+}
+
+.timepicker-overlay[_ngcontent-ng-c2461858124] {
 
     z-index: 2000 !important;
 }

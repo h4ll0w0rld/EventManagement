@@ -3,7 +3,7 @@
   <div>
     <p>Beginn des Schichtblocks</p>
     <div class="date-time-container">
-      <input class="date-form" matInput [matDatepicker]="matDatepicker" [min]="minDate" [max]="eventEndDate"
+      <input class="date-form" matInput [matDatepicker]="matDatepicker" [min]="minDate" [max]="maxDate"
         placeholder="Datum" [(ngModel)]="currentBlock.startTime" (ngModelChange)="onInputChange()" placeholder="Datum"
         readonly (click)="matDatepicker.open()">
       <mat-datepicker #matDatepicker></mat-datepicker>

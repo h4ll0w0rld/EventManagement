@@ -1,12 +1,29 @@
-
-<div class="active-user" *ngIf="data.activity.user.uuid else emptyAct" (click)="delUser()">
-  <h3>Aus Liste austragen</h3>
-</div>
-
-<ng-template #emptyAct >
+<!-- <ng-template #emptyAct>
   <div class="user" *ngFor="let user of userList" (click)="addUser(data.activity.uuid, user.uuid, data.shiftId)">
-   <h3>{{user.fName}} {{user.lName}}</h3>
+    <h3>{{user.fName}} {{user.lName}}</h3>
   </div>
-</ng-template>
+</ng-template> -->
 
 
+<div class="dialogContainer">
+  <div class="user-container" *ngIf="data.activity.user.uuid else emptyAct" (click)="delUser()">
+    <h3>Aus Liste austragen</h3>
+  </div>
+
+  <ng-template #emptyAct>
+
+    <h4>Verfügbare Personen</h4>
+    <div class="line"></div>
+    <div class="list-container">
+      <div class="user-container" *ngFor="let user of userList"
+        (click)="addUser(data.activity.uuid, user.uuid, data.shiftId)">
+        <p class="username">{{user.fName}} {{user.lName}}</p>
+
+        <div class="submit-user-button">eintragen</div>
+      </div>
+    </div>
+
+
+  </ng-template>
+
+</div>

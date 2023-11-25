@@ -27,7 +27,7 @@ export class ActivityComponent {
       {
         data: {activity: this.activity, 
               shiftId: this.shiftId},
-        width: '95vh',
+        width: '80vw',
         height: 'auto',
       }
 

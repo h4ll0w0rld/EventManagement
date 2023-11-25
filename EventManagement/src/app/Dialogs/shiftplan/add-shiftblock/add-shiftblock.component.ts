@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.service';
 import { UserListComponent } from '../user-list-dialog/user-list.component';
@@ -6,7 +6,8 @@ import { UserListComponent } from '../user-list-dialog/user-list.component';
 @Component({
   selector: 'app-add-shiftblock',
   templateUrl: './add-shiftblock.component.html',
-  styleUrls: ['./add-shiftblock.component.scss']
+  styleUrls: ['./add-shiftblock.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class AddShiftblockComponent {
 
@@ -51,10 +52,10 @@ export class AddShiftblockComponent {
 
       this.currentBlock.startTime = new Date(shiftplanService.event.startDate);
       this.minDate = this.currentBlock.startTime;
-      this.maxDate = this.shiftplanService.event.endDate;
 
     }
-
+    
+    this.maxDate = new Date(this.shiftplanService.event.endDate);
     this.minZeit = this.minDate.getHours() + ':' + this.minDate.getMinutes();
     this.startTimeTime = this.minDate.getHours() + ':' + this.minDate.getMinutes();
 

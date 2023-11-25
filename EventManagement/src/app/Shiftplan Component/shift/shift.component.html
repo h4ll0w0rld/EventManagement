@@ -4,11 +4,11 @@
 
         <div class="time">
             
-            <p class="start-time small_text" [ngClass]="{'toggled-time': toggled}"> 
+            <p class="start-time small_text" [ngClass]="{'toggled-start-time': toggled}"> 
                 {{shift.startTime | date: 'HH:mm'}}
             </p>
 
-            <p class="end-time small_text" *ngIf="nextShift == undefined || shift.endTime.getTime() !== nextShift.startTime.getTime()"> 
+            <p class="end-time small_text" [ngClass]="{'toggled-end-time': toggled}" *ngIf="(nextShift == undefined || shift.endTime.getTime() !== nextShift.startTime.getTime()) && toggled == false"> 
                 {{shift.endTime | date: 'HH:mm'}}
             </p> 
         </div>
@@ -23,12 +23,12 @@
             </app-activity>
         </div>
         
-        <div *ngIf="shift.activities.length > prioActivities; else toggleElseDiv" class="toggle-container">
+        <div *ngIf="shift.activities.length > prioActivities; else toggleElseDiv" class="toggle-container" (click)="toggled = !toggled">
 
             <p class="amount-hidden small_text">+{{shift.activities.length - prioActivities}}</p>
 
             <div class="toggle">
-                <div class="toggle-button" [ngClass]="{'arrow-down': toggled}" (click)="toggled = !toggled"></div>
+                <div class="toggle-button" [ngClass]="{'arrow-down': toggled}"></div>
             </div>
 
         </div>
@@ -47,6 +47,10 @@
         [activity]="activity"
         [shiftId]="shift.id">
         </app-activity>
+
+        <p class="toggled-end-time small_text" *ngIf="nextShift == undefined || shift.endTime.getTime() !== nextShift.startTime.getTime()">
+            {{shift.endTime | date: 'HH:mm'}}
+        </p> 
     </div>
 
 
