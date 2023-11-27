@@ -1,9 +1,8 @@
 @import '../../../Mixins/buttonMixin';
 
 .container {
-    margin-top: 2vh;
-    margin-left: 5%;
-    margin-right: 5%;
+    margin: 5%;
+    width: 90%;
     display: flex;
     flex-direction: column;
     // align-items: center;

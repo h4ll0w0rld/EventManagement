@@ -2,7 +2,7 @@
 
   <h2 class="title">Neue Schichtkategorie</h2>
 
-  <div class="base-settings-form">
+  <div class="form-container">
 
     <mat-form-field class="form" appearance="outline">
       <mat-label>Bezeichnung:</mat-label>
@@ -17,80 +17,9 @@
       <textarea matInput [(ngModel)]="newCategory.description" name="description"></textarea>
     </mat-form-field>
 
-    <button mat-button class="submit-button" (click)="addCat()">Kategorie anlegen</button>
-    <!--<div class="divider"></div>-->
+    <button class="submit-button" (click)="addCat()">Kategorie anlegen</button>
+
   </div>
-
-
-
-  <!-- <div class="shift-blocks">
-
-    <div class="block-list" *ngFor="let block of newCategory.shiftBlocks">
-      <p>Beginn: {{this.getTimeFormat(block.startTime)}}</p>
-      <p>Ende: {{this.getTimeFormat(block.endTime)}}</p>
-    </div>
-
-    <div class="current-block">
-
-      <p>Beginn des Schichtblocks</p>
-      <div class="date-time">
-
-        <input class="date-form" matInput [matDatepicker]="matDatepicker" [min]="currentBlock.startTime"
-          [max]="eventEndDate" placeholder="Datum" [(ngModel)]="currentBlock.startTime"
-          (ngModelChange)="onInputChange()">
-        <mat-datepicker-toggle matSuffix [for]="matDatepicker"></mat-datepicker-toggle>
-        <mat-datepicker #matDatepicker></mat-datepicker>
-
-        <ngx-mat-timepicker-field [format]="24" [min]="minZeit" [(ngModel)]="startTimeTime" (ngModelChange)="onTimeInputChange()"></ngx-mat-timepicker-field>
-
-
-        ///////////////////////////////////////////////////////////////
-
-        <input [ngxMatTimepicker]="picker" [format]="24" [min]="currentBlock.startTime.getHours() + ':' + currentBlock.startTime.getMinutes()" (ngModel)="currentBlock.startTime.getHours() + ':' + currentBlock.startTime.getMinutes()"
-        (ngModelChange)="onInputChange()">
-        <ngx-mat-timepicker-toggle matSuffix [for]="picker"></ngx-mat-timepicker-toggle>
-        <ngx-mat-timepicker #picker></ngx-mat-timepicker> -->
-
-        <!-- <ngx-mat-timepicker [(ngModel)]="currentBlock.startTime" (ngModelChange)="onInputChange()"
-          [showSpinners]="false">
-        </ngx-mat-timepicker> 
-
-        //////////////////////////////////////////////////////////////
-
-      </div>
-
-
-      <div class="number-container">
-        <mat-form-field class="small_text test" floatLabel="always" appearance="outline">
-          <mat-label>Schichtlänge</mat-label>
-          <input matInput type="number" [(ngModel)]="currentBlock.intervall" (ngModelChange)="onInputChange()">
-          <span matTextSuffix>Minuten</span>
-        </mat-form-field>
-
-        <mat-form-field class="small_text" floatLabel="always" appearance="outline">
-          <mat-label>Anzahl</mat-label>
-          <input class="inputs" matInput type="number" [(ngModel)]="currentBlock.numberOfShifts"
-            (ngModelChange)="onInputChange()">
-          <span matTextSuffix>Schichten</span>
-        </mat-form-field>
-      </div>
-
-
-      <div class="end-date">
-        <p>Ende des Schichtblocks:</p>
-        <div>{{currentBlock.endTime | date: 'EEE dd. MMM, HH:mm'}}</div>
-      </div>
-
-
-      <mat-form-field class="small_text" floatLabel="always" appearance="outline">
-        <mat-label>Anzahl</mat-label>
-        <input matInput type="number" [(ngModel)]="currentBlock.activitiesPerShift">
-        <span matTextSuffix>Personen</span>
-      </mat-form-field>
-
-    </div>
-    <div class="add-block-button" (click)="newBlock()">Neuer Schichtblock +</div>
-  </div> -->
 
 </mat-dialog-content>
 

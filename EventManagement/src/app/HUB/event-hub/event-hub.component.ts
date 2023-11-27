@@ -28,7 +28,7 @@ export class EventHubComponent {
       data: {
 
        },
-       width: '95vh',
+       width: '80vw',
        height: 'auto',
      })
   }

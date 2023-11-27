@@ -1,4 +1,6 @@
 @import '../../../../theme';
+@import '../../../Mixins/buttonMixin';
+
 
 .dialogContainer {
 
@@ -50,15 +52,6 @@
 
 .new-person-button {
 
-    margin-top: 50px;
-    background-color: $prim-color;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 10px;
+    @include button();
     
-    p {
-        color: $sec-color;
-        margin: 10px;
-    }
 }
