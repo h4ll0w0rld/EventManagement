@@ -13,8 +13,8 @@ export class AddEventComponent {
 
   newEvent: EventModel = new EventModel(-1, "", "", new Date(), new Date(), "")
 
-  startTime: string = ""
-  endTime: string = ""
+  startTime: string = "18:00"
+  endTime: string = "23:00"
   constructor( public hubservice: EventhubService){
   }
 

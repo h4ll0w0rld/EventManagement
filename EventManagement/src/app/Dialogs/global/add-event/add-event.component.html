@@ -9,41 +9,52 @@
     </mat-error>
   </mat-form-field>
 
-  <mat-form-field class="form" appearance="outline">
+  <!-- <mat-form-field class="form" appearance="outline">
     <mat-label>Event Beschreibung:</mat-label>
     <textarea matInput [(ngModel)]="newEvent.description" name="description"></textarea>
-  </mat-form-field>
+  </mat-form-field> -->
 
+  
+    <h3 class="header">Event Start:</h3>
+    <div class="date-time">
+      
+      <div class="input-container">
+        <input class="date-form" matInput [matDatepicker]="matDatepicker" placeholder="Datum" [(ngModel)]="newEvent.startDate">
+        <mat-datepicker-toggle matSuffix [for]="matDatepicker"></mat-datepicker-toggle>
+        <mat-datepicker #matDatepicker></mat-datepicker>
+      </div>
+    
+      <div class="input-container">
+        <input class="timeInput" [ngxMatTimepicker]="picker" [format]="24" [(ngModel)]="startTime">
+        <ngx-mat-timepicker #picker></ngx-mat-timepicker>
+      </div>
+    </div>
+  
+
+  
+ 
+
+  <h3 class="header">Event Ende: </h3>
   <div class="date-time">
-    <h1>Start</h1>
-    <input class="date-form" matInput [matDatepicker]="matDatepicker" placeholder="Datum"
-      [(ngModel)]="newEvent.startDate">
-    <mat-datepicker-toggle matSuffix [for]="matDatepicker"></mat-datepicker-toggle>
-    <mat-datepicker #matDatepicker></mat-datepicker>
-
-    <ngx-mat-timepicker-field [format]="24"
-      [(ngModel)]="startTime"></ngx-mat-timepicker-field>
+    <div class="input-container">
+      <input class="date-form" matInput [matDatepicker]="matDatepicker2" placeholder="Datum" [(ngModel)]="newEvent.endDate">
+      <mat-datepicker-toggle matSuffix [for]="matDatepicker2"></mat-datepicker-toggle>
+      <mat-datepicker #matDatepicker2></mat-datepicker>
+    </div>
+  
+    <div class="input-container">
+      <input class="timeInput" [ngxMatTimepicker]="pickerr" [format]="24" [(ngModel)]="endTime">
+      <ngx-mat-timepicker #pickerr></ngx-mat-timepicker>
+    </div>
+   
 
 
   </div>
 
-  <div class="date-time">
-    <h1>Ende</h1>
-    <input class="date-form" matInput [matDatepicker]="matDatepickerr" placeholder="Datum"
-      [(ngModel)]="newEvent.endDate">
-    <mat-datepicker-toggle matSuffix [for]="matDatepickerr"></mat-datepicker-toggle>
-    <mat-datepicker #matDatepickerr></mat-datepicker>
-
-    <ngx-mat-timepicker-field [format]="24" 
-      [(ngModel)]="endTime"></ngx-mat-timepicker-field>
-
-
-  </div>
-
-  <mat-form-field class="form" appearance="outline">
-    <mat-label>Ort des Geschehens:</mat-label>
+  <mat-form-field class="form, adress" appearance="outline">
+    <mat-label>Adresse:</mat-label>
     <textarea matInput [(ngModel)]="newEvent.location" name="location"></textarea>
   </mat-form-field>
 
-  <mat-button (click)="onSubmit()">submit-button</mat-button>
+  <button class="bttn" (click)="onSubmit()">Event Erstellen</button>
 </div>

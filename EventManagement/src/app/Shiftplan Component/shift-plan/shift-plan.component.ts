@@ -37,7 +37,7 @@ export class ShiftPlanComponent implements AfterViewInit {
   @ViewChildren('tab') tabElements!: QueryList<ElementRef>;
   @ViewChild('swiper', { static: false }) swiperContainer!: any;
   @ViewChild('addCatRef', { static: false }) addCatRef!: any;
-
+  @ViewChild('activeTab') activeTabRef!: ElementRef;
   shouldReloadContent: boolean = true;
   catSlides: any = [];
   unlocked: boolean = false;
@@ -67,6 +67,10 @@ export class ShiftPlanComponent implements AfterViewInit {
     });
 
     this.renderer.addClass(elem, 'active');
+
+  }
+
+  scrollToActiveTab() {
 
   }
 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 //import { AddEventComponent } from '../Dialogs/global/add-event/add-event.component';
 import { EventhubService } from '../../Services/Eventhub Service/eventhub.service';
@@ -14,7 +14,9 @@ import { EventModel } from '../../Object Models/EventModel';
   styleUrls: ['./event-hub.component.scss']
 })
 export class EventHubComponent {
-  constructor(private dialog: MatDialog, public hubservice: EventhubService, private router: Router  , private configService: ConfigService, private shiftplanService: ShiftplanService){
+
+  
+  constructor(private elementRef: ElementRef, private dialog: MatDialog, public hubservice: EventhubService, private router: Router  , private configService: ConfigService, private shiftplanService: ShiftplanService){
 
   }
   addEvent(){
@@ -37,12 +39,14 @@ export class EventHubComponent {
     console.log(localStorage.getItem("event"));
   }
 
-  formatTime(_startDate: Date, _endDate: Date ){
-    console.log("Ecvent start: ", _startDate)
-  }
+  
 
   ngOnInit(){
     this.hubservice.updateAllUser();
   }
+
+  
+  
+  
 }
 

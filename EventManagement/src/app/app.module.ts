@@ -51,9 +51,11 @@ import { ShiftplanLandingComponent } from './Shiftplan Component/shiftplan-landi
 import { DashboardlandingComponent } from './Dashboard Component/dashboardlanding/dashboardlanding.component';
 import { AddShiftblockComponent } from './Dialogs/shiftplan/add-shiftblock/add-shiftblock.component';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import {NgxMatTimepickerModule} from 'ngx-mat-timepicker'; 
 import { AddEventComponent } from './Dialogs/global/add-event/add-event.component';
 import { HeaderComponent } from './header/header.component';
 import { EventPreviewComponent } from './HUB/event-preview/event-preview.component';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 // register Swiper custom elements
 register();
 
@@ -111,6 +113,7 @@ register();
     DragDropModule,
     MatCardModule,
     MatSelectModule,
+    NgxMatTimepickerModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       registrationStrategy: 'registerImmediately',
@@ -121,7 +124,7 @@ register();
      
 
   ],
-  
+  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

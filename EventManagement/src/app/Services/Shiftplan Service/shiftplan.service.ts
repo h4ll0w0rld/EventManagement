@@ -28,8 +28,8 @@ export class ShiftplanService {
   //eventId: number = 0;
   categoriesContent = categoriesContent;
   //rootUrl: string = 'http://192.52.42.200:3000';
-  //rootUrl: string = 'http://85.215.56.234:3000';
-  rootUrl: string = 'http://localhost:3000';
+  rootUrl: string = 'http://85.215.56.234:3000';
+  // rootUrl: string = 'http://localhost:3000';
 
   //ventit23
   username = 'projektle';

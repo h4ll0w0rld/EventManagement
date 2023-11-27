@@ -44,7 +44,10 @@
     p {
       margin: 0;
     }
+    .event-loc{
 
+      text-align: center;
+    }
     .event-details {
       margin-left: 4%;
       margin-right: 4%;
@@ -53,10 +56,7 @@
       justify-content: center;
       margin-bottom: 4%;
 
-      .event-loc{
-
-        width: 100%;
-      }
+     
       .event-details{
         width: 100%;
       }
@@ -73,11 +73,15 @@
   .button {
 
     @include button();
-
+    
     margin: auto;
-    margin-top: 100px;
+    margin-top: 10%;
     
 
+  }
+  .your-events{
+
+    text-align: center;
   }
 
 }
