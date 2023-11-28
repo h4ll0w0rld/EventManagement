@@ -14,6 +14,7 @@ import { ThemePalette } from '@angular/material/core';
 import Swiper from 'swiper';
 import { ShiftCategoryComponent } from '../shift-category/shift-category.component';
 import { AddCatDialogComponent } from 'src/app/Dialogs/shiftplan/add-cat-dialog/add-cat-dialog.component';
+import { EventServiceService } from 'src/app/Services/Event Service/event-service.service';
 
 
 @Injectable()
@@ -43,7 +44,8 @@ export class ShiftPlanComponent implements AfterViewInit {
   unlocked: boolean = false;
 
   activeSlideIndex = 0;
-  constructor(public shiftplanService: ShiftplanService, private datePipe: DatePipe, private dialog: MatDialog, private renderer: Renderer2) {
+  constructor(public shiftplanService: ShiftplanService, private datePipe: DatePipe, 
+    private dialog: MatDialog, private renderer: Renderer2, public eventService: EventServiceService) {
 
   }
 
@@ -64,7 +66,7 @@ export class ShiftPlanComponent implements AfterViewInit {
   
   setActiveTab(elem: any) {
 
-    console.log("hi")
+   
     this.tabElements.forEach((element) => {
 
       this.renderer.removeClass(element.nativeElement, 'active');
@@ -74,10 +76,11 @@ export class ShiftPlanComponent implements AfterViewInit {
 
   }
 
+  count = 0;
   scrollToActiveTab() {
     const activeTab = document.querySelector('.cat .active') as HTMLElement;
     const scrollContainer = document.querySelector('.cat-menu') as HTMLElement;
-    console.log("hmm")
+    
     if (activeTab && scrollContainer) {
       const containerWidth = scrollContainer.clientWidth;
       const tabWidth = activeTab.clientWidth;
@@ -87,12 +90,15 @@ export class ShiftPlanComponent implements AfterViewInit {
       scrollContainer.scrollLeft = scrollLeft;
 
     }
+ 
+
   }
 
   goToPage(pageNumber: number) {
 
     const swiperEl = this.swiperContainer.nativeElement
     swiperEl.swiper.slideTo(pageNumber, 400);
+ 
   }
 
   delCatDialog(_cat: CategoryContent) {
@@ -130,7 +136,7 @@ export class ShiftPlanComponent implements AfterViewInit {
 
     })
 
-    this.shiftplanService.updateCategories()
+    this.eventService.updateCategories()
 
   }
 

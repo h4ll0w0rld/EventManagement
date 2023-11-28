@@ -14,11 +14,6 @@ export class ShiftplanLandingComponent {
   title = 'Planit Events';
   unlocked: boolean = false;
 
-  // activityText = [
-  //     'Test Activity 1',
-  //     'Test Activity 2',
-  //     'Test Activity 3'
-  // ];
 
 
   constructor(public shiftplanService: ShiftplanService, public hubService: EventhubService, private dialog: MatDialog, private elementRef: ElementRef) {} 

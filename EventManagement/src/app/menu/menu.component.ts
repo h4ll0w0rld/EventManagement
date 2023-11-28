@@ -2,6 +2,7 @@ import { Component, ElementRef } from '@angular/core';
 import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.service';
 import { DashboardService } from '../Services/Dashboard Service/dashboard.service';
 import { Router } from '@angular/router';
+import { EventServiceService } from '../Services/Event Service/event-service.service';
 
 @Component({
   selector: 'app-menu',
@@ -11,14 +12,14 @@ import { Router } from '@angular/router';
 
 export class MenuComponent {
 
-  constructor(private shiftplan: ShiftplanService, private dashboard: DashboardService, private router: Router, private elementRef: ElementRef) {
+  constructor(private shiftplan: ShiftplanService, private dashboard: DashboardService, private router: Router, private eventService: EventServiceService) {
 
   }
 
   clicked() {
     //this.shiftplan.updateCategorieNames();
-    this.shiftplan.updateCategories();
-    this.shiftplan.getAllUser();
+    this.eventService.updateCategories();
+    this.eventService.getAllUser();
     this.dashboard.updateUserActivity();
 
 

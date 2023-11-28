@@ -6,6 +6,7 @@ import { ShiftplanService } from '../../../Services/Shiftplan Service/shiftplan.
 import { DelUserDialogComponent } from '../del-user-dialog/del-user-dialog.component';
 import { SubmitDialogComponent } from '../../submit-dialog/submit-dialog.component';
 import { AddUserFormComponent } from '../add-user-form/add-user-form.component';
+import { EventServiceService } from 'src/app/Services/Event Service/event-service.service';
 
 @Component({
   selector: 'app-global-user-list',
@@ -16,16 +17,16 @@ export class GlobalUserListComponent {
 
   globalUserlist: User[] = [];
 
-  constructor(public dashboardService: DashboardService, public shiftplanService: ShiftplanService, @Inject(MAT_DIALOG_DATA) public data: any, 
+  constructor(public dashboardService: DashboardService, public eventService: EventServiceService, @Inject(MAT_DIALOG_DATA) public data: any, 
   private dialog: MatDialog) {}
 
   ngOnInit() {
 
-    this.shiftplanService.allUser.subscribe(value => {
+    this.eventService.allUser.subscribe(value => {
       this.globalUserlist = value;
     })
 
-    this.shiftplanService.getAllUser();
+    this.eventService.getAllUser();
   }
 
   delUserDialog(_user: User) {
@@ -44,7 +45,7 @@ export class GlobalUserListComponent {
     dialogRef.afterClosed().subscribe(result => {
 
       console.log("huhuuuuu")
-      this.shiftplanService.getAllUser();
+      this.eventService.getAllUser();
     })
   }
 
@@ -59,7 +60,7 @@ export class GlobalUserListComponent {
 
     dialogRef.afterClosed().subscribe(result => {
 
-      this.shiftplanService.getAllUser();
+      this.eventService.getAllUser();
     })
       
   }

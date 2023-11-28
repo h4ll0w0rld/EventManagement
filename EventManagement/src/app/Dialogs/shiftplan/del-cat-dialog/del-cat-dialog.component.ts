@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ShiftplanService } from '../../../Services/Shiftplan Service/shiftplan.service';
+import { EventServiceService } from 'src/app/Services/Event Service/event-service.service';
 
 @Component({
   selector: 'app-del-cat-dialog',
@@ -10,13 +11,13 @@ import { ShiftplanService } from '../../../Services/Shiftplan Service/shiftplan.
 export class DelCatDialogComponent {
 
   constructor(public shiftplanService: ShiftplanService, @Inject(MAT_DIALOG_DATA) public data: any, 
-  private matDialogRef: MatDialogRef<DelCatDialogComponent>) {}
+  private matDialogRef: MatDialogRef<DelCatDialogComponent>, public eventService:EventServiceService) {}
 
 
   delCategory(){
-    this.shiftplanService.delCategory(this.data.catId);
+    this.eventService.delCategory(this.data.catId);
     this.matDialogRef.close();
-    this.shiftplanService.updateCategories();
+    this.eventService.updateCategories();
   }
 
 }

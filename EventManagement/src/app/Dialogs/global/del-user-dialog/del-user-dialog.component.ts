@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { GlobalUserListComponent } from '../global-userlist-dialog/global-user-list.component';
 import { ShiftplanService } from '../../../Services/Shiftplan Service/shiftplan.service';
 import { User } from '../../../Object Models/user/user';
+import { EventServiceService } from 'src/app/Services/Event Service/event-service.service';
 
 @Component({
   selector: 'app-del-user-dialog',
@@ -11,12 +12,12 @@ import { User } from '../../../Object Models/user/user';
 })
 export class DelUserDialogComponent {
 
-  constructor(public shiftplanService: ShiftplanService, @Inject(MAT_DIALOG_DATA) public data: any, private matDialogRef: MatDialogRef<GlobalUserListComponent>) {}
+  constructor(public eventService: EventServiceService, @Inject(MAT_DIALOG_DATA) public data: any, private matDialogRef: MatDialogRef<GlobalUserListComponent>) {}
 
 
   deleteUser(_user: User) {
 
-    this.shiftplanService.delUser(_user.uuid);
+    this.eventService.delUser(_user.uuid);
     this.matDialogRef.close();
   }
 }

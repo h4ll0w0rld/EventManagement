@@ -1,27 +1,21 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ConfigService {
-  private config: any = {
-    apiUrl: 'https://api.example.com',
-    apiKey: 'your-api-key',
-    id: 1
-    // Other configuration values
-  };
+  rootUrl = "http://localhost:3000";
+  username = "projektle";
+  passwd = "ventit23";
 
-  get(_key: string): any {
-    return this.config[_key];
-  }
-  getEventID(){
-    return this.config.id
-  }
-
-  setEventId(_id:number){
-    this.config.id = _id
-  }
-  set(_key: string, _value: any): void {
-    this.config[_key] = _value;
+  constructor(){}
+  getAuthHeader() {
+      let encodedCredentials = btoa(`${this.username}:${this.passwd}`);
+      let headers = new HttpHeaders({
+          'Authorization': 'Basic ' + encodedCredentials
+      });
+     
+      return { headers: headers };
   }
 }

@@ -2,6 +2,7 @@ import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.service';
 import { UserListComponent } from '../user-list-dialog/user-list.component';
+import { EventServiceService } from 'src/app/Services/Event Service/event-service.service';
 
 @Component({
   selector: 'app-add-shiftblock',
@@ -38,7 +39,7 @@ export class AddShiftblockComponent {
 
 
   constructor(public shiftplanService: ShiftplanService, @Inject(MAT_DIALOG_DATA) public data: any,
-    private matDialogRef: MatDialogRef<UserListComponent>) {
+    private matDialogRef: MatDialogRef<UserListComponent>, public eventService: EventServiceService) {
 
     if (data.catContent.shifts.some((obj: any) => obj)) {
 
@@ -113,9 +114,9 @@ export class AddShiftblockComponent {
 
     console.log(newBlock);
 
-    this.shiftplanService.addShiftBlockToCategory(newBlock, this.data.catContent.id);
+    this.eventService.addShiftBlockToCategory(newBlock, this.data.catContent.id);
 
-    this.shiftplanService.updateCategories();
+    this.eventService.updateCategories();
     this.matDialogRef.close();
 
   }

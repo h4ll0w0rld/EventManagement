@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { userActivity } from 'src/app/Object Models/Dashboard Component/usermodel';
 import { User } from 'src/app/Object Models/user/user';
 import { DashboardService } from 'src/app/Services/Dashboard Service/dashboard.service';
+import { EventServiceService } from 'src/app/Services/Event Service/event-service.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,7 +18,7 @@ export class DashboardComponent {
 
   allUser:User[] = []     //Can be updated using: /dashboarservice.getAllUser()
 
-  constructor(private dashboardService: DashboardService) {
+  constructor(private dashboardService: DashboardService, private eventService: EventServiceService) {
 
    
 
@@ -66,7 +67,7 @@ export class DashboardComponent {
 
   ngOnInit() {
 
-    this.dashboardService.getAllUser();
+    this.eventService.getAllUser();
  
    
 
@@ -76,7 +77,7 @@ export class DashboardComponent {
 
     });
 
-    this.dashboardService.userList.subscribe((newValue) => {
+    this.eventService.allUser.subscribe((newValue) => {
       // Update the component with the new value
       this.allUser = newValue;
       this.clicked()

@@ -3,8 +3,9 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/internal/Subject';
 import { userActivity } from 'src/app/Object Models/Dashboard Component/usermodel';
 import { User } from 'src/app/Object Models/user/user';
-import { AuthService } from '../Auth/auth-service.service';
+
 import { BehaviorSubject } from 'rxjs';
+import { EventServiceService } from '../Event Service/event-service.service';
 
 
 @Injectable({
@@ -29,7 +30,7 @@ export class DashboardService {
 
   storedUser: User;
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient, private eventService:EventServiceService) { 
 
     const stored = localStorage.getItem('selected-dashboard-user');
    
@@ -50,7 +51,7 @@ export class DashboardService {
 
     if (_userId) {
       
-      this.http.get<any>(this.rootUrl + '/shift/ShiftsByUser/user_id/' + _userId + '/event_id/1', this.options).subscribe((res: any) => {
+      this.http.get<any>(this.rootUrl + '/shift/ShiftsByUser/user_id/' + _userId + '/event_id/'+ this.eventService.currentEvent.id, this.options).subscribe((res: any) => {
 
         const userActivities: userActivity[] = res.map((data: any) => {
           return new userActivity(

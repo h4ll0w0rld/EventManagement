@@ -1,18 +1,16 @@
 <div class="body">
   <div class="cat-menu">
- 
-    <div class="cat"  *ngFor="let cat of this.shiftplanService.categoryCopy; let i = index">
+    <div class="cat"  *ngFor="let cat of this.eventService.categories | async; let i = index">
       <h2 (click) ="setActiveSlide(i); " #tab 
        [ngClass]="{ 'active': activeSlideIndex === i }">{{ cat.name }}</h2>
       
     </div>
-  
     <h2 (click) = addCatDialog() *ngIf="unlocked" #tab class="addBttn">+</h2>
   </div>
   
   <swiper-container #swiper *ngIf="shouldReloadContent">
     
-    <swiper-slide *ngFor="let cat of this.shiftplanService.categoryCopy" >
+    <swiper-slide *ngFor="let cat of this.eventService.categories | async" >
   
       <div class="category-type">
      

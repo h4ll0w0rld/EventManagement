@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ShiftplanService } from '../../../Services/Shiftplan Service/shiftplan.service';
 import { MatDialogRef } from '@angular/material/dialog';
+import { EventServiceService } from 'src/app/Services/Event Service/event-service.service';
 
 @Component({
   selector: 'app-add-user-form',
@@ -12,13 +13,13 @@ export class AddUserFormComponent {
   fName: string = "";
   lName: string = "";
 
-  constructor(public shiftplanService: ShiftplanService, private matDialogRef: MatDialogRef<AddUserFormComponent>) {
+  constructor(public eventService: EventServiceService, private matDialogRef: MatDialogRef<AddUserFormComponent>) {
 
   }
 
   addNewUser() {
 
-    this.shiftplanService.addUser(this.fName, this.lName);
+    this.eventService.addUser(this.fName, this.lName);
     this.matDialogRef.close();
 
   }

@@ -21,4 +21,5 @@ export class EventModel {
       this.endDate = endDate;
       this.location = location;
     }
+   
   }

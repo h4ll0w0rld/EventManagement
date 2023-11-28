@@ -5,8 +5,9 @@ import { EventhubService } from '../../Services/Eventhub Service/eventhub.servic
 import { Router } from '@angular/router';
 import { AddEventComponent } from '../../Dialogs/global/add-event/add-event.component';
 import { ShiftplanService } from '../../Services/Shiftplan Service/shiftplan.service';
-import { ConfigService } from '../../Services/config.service';
+
 import { EventModel } from '../../Object Models/EventModel';
+import { EventServiceService } from 'src/app/Services/Event Service/event-service.service';
 
 @Component({
   selector: 'app-event-hub',
@@ -15,38 +16,40 @@ import { EventModel } from '../../Object Models/EventModel';
 })
 export class EventHubComponent {
 
-  
-  constructor(private elementRef: ElementRef, private dialog: MatDialog, public hubservice: EventhubService, private router: Router  , private configService: ConfigService, private shiftplanService: ShiftplanService){
+
+  constructor(private elementRef: ElementRef, private dialog: MatDialog, public hubservice: EventhubService, private router: Router, private shiftplanService: ShiftplanService, private eventService: EventServiceService) {
 
   }
-  addEvent(){
+  addEvent() {
     console.log("Event wird hinzugefügt...")
   }
   addCatDialog() {
-    console.log("ALIIIIIIIVETTTTTTTTTTEEEEE")
+
     this.dialog.open(AddEventComponent, {
       data: {
 
-       },
-       width: '80vw',
-       height: 'auto',
-     })
+      },
+      width: '80vw',
+      height: 'auto',
+    })
   }
 
-  loadEvent(_event: EventModel){
+  loadEvent(_event: EventModel) {
     this.shiftplanService.event = _event;
+    console.log(_event, "loaded")
+    this.eventService.currentEvent = _event;
     localStorage.setItem("event", JSON.stringify(_event));
     console.log(localStorage.getItem("event"));
   }
 
-  
 
-  ngOnInit(){
-    this.hubservice.updateAllUser();
+
+  ngOnInit() {
+    this.hubservice.updateAllEvents();
   }
 
-  
-  
-  
+
+
+
 }
 
