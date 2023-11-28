@@ -29,21 +29,14 @@ export class DashboardService {
 
   storedUser: User;
 
-  constructor(private http: HttpClient, private authService: AuthService) { 
+  constructor(private http: HttpClient) { 
 
     const stored = localStorage.getItem('selected-dashboard-user');
    
     this.storedUser = stored !== null ? JSON.parse(stored) : null;
   }
 
-  ngOnInit() {
 
-    /*
-    const stored = localStorage.getItem('selected-dashboard-user');
-    console.log(stored);
-    this.storedUser = stored !== null ? JSON.parse(stored) : null;
-    */
-  }
 
   updatePasswort(_pw: string) {
 

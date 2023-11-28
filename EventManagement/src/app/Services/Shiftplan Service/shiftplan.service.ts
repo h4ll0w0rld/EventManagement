@@ -25,7 +25,6 @@ export class ShiftplanService {
   categories: Subject<CategoryContent[]> = new Subject<CategoryContent[]>();
   availableUser: Subject<User[]> = new Subject<User[]>();
   allUser: Subject<User[]> = new Subject<User[]>();
-  //eventId: number = 0;
   categoriesContent = categoriesContent;
   //rootUrl: string = 'http://192.52.42.200:3000';
   // rootUrl: string = 'http://85.215.56.234:3000';
@@ -38,7 +37,7 @@ export class ShiftplanService {
   headers = new HttpHeaders({
     'Authorization': 'Basic ' + this.encodedCredentials
   });
-
+  userList: Subject<User[]> = new Subject<User[]>();
   options = { headers: this.headers };
 
   editmode: BehaviorSubject<boolean>;
@@ -52,18 +51,14 @@ export class ShiftplanService {
       this.event = JSON.parse(eventString);
     }
   
-   console.log("Shiftplanservice aktiv!");
+ 
     const stored = localStorage.getItem('editmode');
     const value = stored !== null ? JSON.parse(stored) : false;
     this.editmode = new BehaviorSubject<boolean>(value);
-    //this.makeAuthenticatedRequest()
+    
 
   }
-  makeAuthenticatedRequest() {
-    this.authService.authenticate().subscribe(() => {
-      // Handle the API response here
-    });
-  }
+
   get editmode$() {
 
     return this.editmode.asObservable();
@@ -75,19 +70,6 @@ export class ShiftplanService {
     localStorage.setItem('editmode', JSON.stringify(_curValue));
   }
 
-
-  // updateCategorieNames(){
-
-  //   this.http.get(this.rootUrl + "/shiftCategory/names/1").subscribe((res) =>{
-
-  //   const shiftCategorys = JSON.parse(JSON.stringify(res));
-  //   const catNames: string[] = shiftCategorys.map((category: any) => category.name);
-  //   this.categoryNames.next(catNames);
-
-  //   })
-
-  //   console.log(this.categoryNames)
-  // }
 
 
   updatePasswort(_pw: string) {
@@ -183,26 +165,7 @@ export class ShiftplanService {
     })
   }
 
-  /*addCategory(_name: string, _description: string, _intervall: number, _numbActivities: number, _startTime: string, _endTime: string, _days: any) {
-
-    const data = {
-      name: _name,
-      description: _description,
-      intervall: _intervall,
-      activitiesPerShift: _numbActivities,
-      startTime: _startTime,
-      endTime: _endTime,
-      days: this.generateDateRange("2023-08-10", "2023-08-12"),           //["2023-08-10", "2023-08-11", "2023-08-12"]
-      event_id: 1
-
-    }
-   
-    this.http.post(this.rootUrl + '/shiftCategory/add', data, this.options).subscribe((res:any) => {
-      this.updateCategories();
-      console.log("added category")
-    })
-
-  }*/
+ 
 
 
 
@@ -294,22 +257,30 @@ export class ShiftplanService {
       "firstName": _firstName,
       "lastName": _lastName
 
-    }, this.options).subscribe(() => {
+    }, this.options).subscribe((res: any) => {
+      
+      this.userToEvent(res.data.id)
+      
 
-      console.log("Added User: ", _firstName);
+    
+
 
     })
 
   }
 
   userToEvent(_userID:number){
-    this.http.get(this.rootUrl + "/event/addUserToEvent/event_id/" + "/user_id/:user_id")
+    this.http.get(this.rootUrl + "/event/addUserToEvent/event_id/" + this.event.id + "/user_id/"+ _userID, this.options).subscribe((res: any) => {
+
+      console.log(res)
+
+    })
 
   }
 
   delUser(_id: number) {
     this.http.delete(this.rootUrl + "/user/delete/user_id/" + _id, this.options).subscribe(() => {
-
+      
       console.log("successfully deleted");
     });
 
@@ -317,7 +288,7 @@ export class ShiftplanService {
 
   getAllUser() {
 
-    return this.http.get(this.rootUrl + '/user/all', this.options).subscribe((res: any) => {
+    return this.http.get(this.rootUrl + '/event/allUsersByEvent/event_id/' + this.event.id, this.options).subscribe((res: any) => {
       const users: User[] = res.map((user: any) => new User(
         user.id,
         user.firstName,
@@ -332,8 +303,8 @@ export class ShiftplanService {
   }
 
   getAvailableUser(_eventId: number = 1, _activityId: number) {
-
-    return this.http.get(this.rootUrl + '/activity/availableUsers/event_id/' + _eventId + '/activity_id/' + _activityId, this.options).subscribe((res: any) => {
+    console.log("Meine Event id: ", this.event.id)
+    return this.http.get(this.rootUrl + '/activity/availableUsers/event_id/' + this.event.id + '/activity_id/' + _activityId, this.options).subscribe((res: any) => {
       const users: User[] = res.map((user: any) => new User(
         user.id,
         user.firstName,

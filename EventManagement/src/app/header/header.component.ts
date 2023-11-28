@@ -26,7 +26,7 @@ export class HeaderComponent {
 
   globalUserlist() {
 
-    let dialogRef = this.dialog.open(GlobalUserListComponent,
+    this.dialog.open(GlobalUserListComponent,
       {
         width: '80vw',
         height: 'auto',

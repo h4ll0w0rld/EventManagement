@@ -17,15 +17,15 @@ export class GlobalUserListComponent {
   globalUserlist: User[] = [];
 
   constructor(public dashboardService: DashboardService, public shiftplanService: ShiftplanService, @Inject(MAT_DIALOG_DATA) public data: any, 
-  private matDialogRef: MatDialogRef<GlobalUserListComponent>, private dialog: MatDialog) {}
+  private dialog: MatDialog) {}
 
   ngOnInit() {
 
-    this.dashboardService.userList.subscribe(value => {
+    this.shiftplanService.allUser.subscribe(value => {
       this.globalUserlist = value;
     })
 
-    this.dashboardService.getAllUser();
+    this.shiftplanService.getAllUser();
   }
 
   delUserDialog(_user: User) {
@@ -44,7 +44,7 @@ export class GlobalUserListComponent {
     dialogRef.afterClosed().subscribe(result => {
 
       console.log("huhuuuuu")
-      this.dashboardService.getAllUser();
+      this.shiftplanService.getAllUser();
     })
   }
 
@@ -59,7 +59,7 @@ export class GlobalUserListComponent {
 
     dialogRef.afterClosed().subscribe(result => {
 
-      this.dashboardService.getAllUser();
+      this.shiftplanService.getAllUser();
     })
       
   }

@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { AuthService } from '../Auth/auth-service.service';
 import { EventModel } from 'src/app/Object Models/EventModel';
 import { ConfigService } from '../config.service';
+import { User } from 'src/app/Object Models/user/user';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +21,8 @@ export class EventhubService {
   options = { headers: this.headers };
   // rootUrl = 'http://85.215.56.234:3000';
   rootUrl: string = 'http://localhost:3000';
+
+
   constructor(private http: HttpClient, private authService: AuthService) {
 
 
