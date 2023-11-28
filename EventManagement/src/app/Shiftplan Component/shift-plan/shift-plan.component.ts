@@ -51,16 +51,20 @@ export class ShiftPlanComponent implements AfterViewInit {
 
     const clickedElement = elem.target;
     this.setActiveTab(clickedElement)
-    
 
   }
+
   setActiveSlide(index: number) {
+
     this.activeSlideIndex = index;
+    this.scrollToActiveTab();
     this.goToPage(index);
+
   }
+  
   setActiveTab(elem: any) {
 
-
+    console.log("hi")
     this.tabElements.forEach((element) => {
 
       this.renderer.removeClass(element.nativeElement, 'active');
@@ -71,7 +75,18 @@ export class ShiftPlanComponent implements AfterViewInit {
   }
 
   scrollToActiveTab() {
+    const activeTab = document.querySelector('.cat .active') as HTMLElement;
+    const scrollContainer = document.querySelector('.cat-menu') as HTMLElement;
+    console.log("hmm")
+    if (activeTab && scrollContainer) {
+      const containerWidth = scrollContainer.clientWidth;
+      const tabWidth = activeTab.clientWidth;
+      const halfContainerWidth = containerWidth / 2;
+      const scrollLeft = activeTab.offsetLeft - halfContainerWidth + tabWidth / 2;
 
+      scrollContainer.scrollLeft = scrollLeft;
+
+    }
   }
 
   goToPage(pageNumber: number) {
@@ -120,12 +135,12 @@ export class ShiftPlanComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-   
+
 
     const swiper = this.swiperContainer.nativeElement.swiper
 
     swiper.on('slideChange', (swiper: any) => {
-
+      //this.activeSlideIndex = swiper.activeIndex
       this.setActiveTab(this.tabElements.get(swiper.activeIndex)?.nativeElement)
     });
 

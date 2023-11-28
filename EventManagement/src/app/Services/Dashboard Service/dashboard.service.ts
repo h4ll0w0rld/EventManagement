@@ -14,7 +14,7 @@ export class DashboardService {
 
   shiftsByUser: Subject<userActivity[]> = new Subject<userActivity[]>();
 
-  rootUrl: string = 'http://85.215.56.234:3000';
+  rootUrl: string = 'http://localhost:3000';
   userList: Subject<User[]> = new Subject<User[]>();
 
   //ventit23

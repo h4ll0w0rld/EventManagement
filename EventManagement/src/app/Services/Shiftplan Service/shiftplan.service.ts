@@ -28,8 +28,8 @@ export class ShiftplanService {
   //eventId: number = 0;
   categoriesContent = categoriesContent;
   //rootUrl: string = 'http://192.52.42.200:3000';
-  rootUrl: string = 'http://85.215.56.234:3000';
-  // rootUrl: string = 'http://localhost:3000';
+  // rootUrl: string = 'http://85.215.56.234:3000';
+  rootUrl: string = 'http://localhost:3000';
 
   //ventit23
   username = 'projektle';
@@ -51,12 +51,8 @@ export class ShiftplanService {
     if (eventString != null) {
       this.event = JSON.parse(eventString);
     }
-    
-    console.log(eventString);
-
-    
-
-    console.log("Shiftplanservice aktiv!");
+  
+   console.log("Shiftplanservice aktiv!");
     const stored = localStorage.getItem('editmode');
     const value = stored !== null ? JSON.parse(stored) : false;
     this.editmode = new BehaviorSubject<boolean>(value);
@@ -234,7 +230,7 @@ export class ShiftplanService {
 
   addUserToActivity(_activityId: number, _userId: number, _shiftId: number) {
 
-    this.http.put(this.rootUrl + "/activity/addUser/activity_id/" + _activityId + "/" + _userId, {}, this.options).subscribe(() => {
+    this.http.put(this.rootUrl + "/activity/addUser/activity_id/" + _activityId + "/user_id/" + _userId, {}, this.options).subscribe(() => {
 
       this.updateShift(_shiftId);
     })
@@ -303,6 +299,11 @@ export class ShiftplanService {
       console.log("Added User: ", _firstName);
 
     })
+
+  }
+
+  userToEvent(_userID:number){
+    this.http.get(this.rootUrl + "/event/addUserToEvent/event_id/" + "/user_id/:user_id")
 
   }
 
