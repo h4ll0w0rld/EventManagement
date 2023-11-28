@@ -16,14 +16,7 @@
 
 mat-flat-button {
 
-    $padding: 7px;
-
-    display: flex;
-    justify-content: center;
-    height: calc($menu-height - calc(2*$padding));
-    width: calc($menu-height - calc(2*$padding));
-    border-radius: 10px;
-    padding: $padding;
+    
 
     mat-icon {
 
@@ -32,17 +25,6 @@ mat-flat-button {
         width: 60%;
         height: 60%;
         align-items: center;
-    }
-
-    &.active {
-
-        color: $color-5 !important;
-
-    }
-
-    &.passive {
-
-        color: $sec-color !important;    
     }
 }
 
@@ -54,9 +36,29 @@ mat-flat-button {
 
 .menu_button {
 
+    $padding: 7px;
+
+    display: flex;
+    justify-content: center;
+
+    height: calc($menu-height - calc(2*$padding));
+    width: calc($menu-height - calc(2*$padding));
+
+    padding: $padding;
     background-color: $prim-color;
-    height: 60px;
-    width: 60px;
     border-radius: 30px;
-    box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.3);
+
+    &.active {
+
+        color: $sec-color !important;
+        background-color: $color-5;
+
+
+    }
+
+    &.passive {
+
+        color: $sec-color !important;
+        box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.3);
+    }
 }

@@ -1,17 +1,15 @@
 @import "../../../theme";
 
 .cat-menu {
-    padding-top: 50px;
+    margin-top: $header-height;
     padding-bottom: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: scroll;
-  
-   
-    
-    
-   
+    position: sticky;
+    top: $header-height;
+    z-index: 2;
 
     .cat {
 

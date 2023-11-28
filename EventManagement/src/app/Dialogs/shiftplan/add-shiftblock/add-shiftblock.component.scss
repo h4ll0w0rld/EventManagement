@@ -1,68 +1,69 @@
 @import '../../../Mixins/buttonMixin';
+@import '../../../../theme';
 
 .new-shiftblock {
 
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 5%;
+    padding: 10%;
 
     p {
         margin: 0px;
     }
 }
 
-mat-form-field {
-
-    width: 40%;
-}
-
-
 .date-time-container {
 
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-    
+    height: 100px;
+    justify-content: space-between;
+    align-items: center;
+
+    .date-form {
+
+        width: 50%;
+        height: 30px;
+        margin: 5% 0%;
+        padding: 0px;
+        text-align: center;
+    }  
 
 }
 
 .number-container {
 
     display: flex;
-    justify-content: center;
-    align-items: center;
 
-}
+    mat-form-field {
 
-.date-form {
+        width: 100%;
 
-    width: 40%;
-    height: 40px;
-    margin: 5%;
-    text-align: center;
-}
+        span {
 
-.suffix {
+            padding-right: 20px;
+        }
+    
+    }
 
-    margin-left: 20px
 }
 
 .add-block-button {
 
     @include button();
+    margin: auto;
     
 }
 
 .end-date {
 
-    display: flex;
-    flex-direction: row;
     padding: 0px 0px 20px 0px;
 }
 
+.error-message {
 
+    color: $color-4;
+    padding: 0px 0px 20px 0px;
+}
 
 
 .ngx-material-timepicker {

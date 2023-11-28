@@ -8,10 +8,8 @@
         readonly (click)="matDatepicker.open()">
       <mat-datepicker #matDatepicker></mat-datepicker>
   
-      <!-- <ngx-mat-timepicker-field [format]="24" [min]="minZeit" [(ngModel)]="startTimeTime" (ngModelChange)="onTimeInputChange()" ></ngx-mat-timepicker-field> -->
-  
       <input class="date-form" matInput [ngxTimepicker]="picker" [format]="24" [(ngModel)]="startTimeTime"
-        (ngModelChange)="onTimeInputChange()" [min]="minZeit" readonly>
+        (ngModelChange)="onTimeInputChange()" [min]="minZeit" [max]="maxZeit" readonly>
       <ngx-material-timepicker #picker></ngx-material-timepicker>
     </div>
   </div>
@@ -21,8 +19,9 @@
     <mat-form-field class="inputfield" floatLabel="always" appearance="outline">
       <mat-label>Schichtlänge</mat-label>
       <input matInput type="number" [min]="1" [(ngModel)]="currentBlock.intervall" (ngModelChange)="onInputChange()">
+      <span matSuffix>Minuten</span>
     </mat-form-field>
-    <span class="suffix">Minuten</span>
+    
   </div>
 
   <div class="number-container">
@@ -30,24 +29,29 @@
       <mat-label>Anzahl</mat-label>
       <input matInput type="number" [min]="1" [(ngModel)]="currentBlock.numberOfShifts"
         (ngModelChange)="onInputChange()">
+        <span matSuffix>Schichten</span>
     </mat-form-field>
-    <span class="suffix">Schichten</span>
+    
   </div>
 
 
-  <div class="end-date">
-    <p>Ende des Schichtblocks:</p>
-    <div>{{currentBlock.endTime | date: 'EEE dd. MMM, HH:mm'}}</div>
+  
+
+  <div class="max-date-error" *ngIf="currentBlock.endTime > formattedEventEndDate(); else endDate">
+    <p class="error-message small_text">Das Schichtende liegt außerhalb des Eventzeitraums.</p>
   </div>
+
+  <ng-template #endDate>
+    <p class="end-date">Ende des Blocks: {{currentBlock.endTime | date: 'EEE dd. MM. HH:mm'}}</p>
+  </ng-template>
 
 
   <div class="number-container">
     <mat-form-field class="inputsfield" floatLabel="always" appearance="outline">
       <mat-label>Anzahl</mat-label>
       <input matInput type="number" [min]="1" [(ngModel)]="currentBlock.activitiesPerShift">
-      
+      <span matSuffix>Personen</span>
     </mat-form-field>
-    <span class="suffix">Personen</span>
   </div>
   
 

@@ -19,8 +19,8 @@ export class AddShiftblockComponent {
     shiftBlocks: [],
   }
 
-  eventStartDate = new Date('2023-08-10 13:00');
-  eventEndDate = new Date('2024-01-01 12:00');
+  //eventStartDate = new Date('2023-08-10 13:00');
+  //eventEndDate = new Date('2024-01-01 12:00');
 
   currentBlock: any = {
     intervall: 60,
@@ -36,9 +36,12 @@ export class AddShiftblockComponent {
   startTimeTime: string;
 
   maxDate = new Date();
+  maxZeit = '23:59';
+
+  //maxDateError = false;
 
 
-  constructor(public shiftplanService: ShiftplanService, @Inject(MAT_DIALOG_DATA) public data: any,
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
     private matDialogRef: MatDialogRef<UserListComponent>, public eventService: EventServiceService) {
 
     if (data.catContent.shifts.some((obj: any) => obj)) {
@@ -51,61 +54,109 @@ export class AddShiftblockComponent {
 
     } else {
 
-      this.currentBlock.startTime = new Date(shiftplanService.event.startDate);
+      this.currentBlock.startTime = new Date(eventService.currentEvent.startDate);
+      console.log("Hier kanns knalln:", eventService.currentEvent.startDate)
       this.minDate = this.currentBlock.startTime;
 
     }
-    
-    this.maxDate = new Date(this.shiftplanService.event.endDate);
+
+    this.maxDate = new Date(this.eventService.currentEvent.endDate);
     this.minZeit = this.minDate.getHours() + ':' + this.minDate.getMinutes();
     this.startTimeTime = this.minDate.getHours() + ':' + this.minDate.getMinutes();
 
-
-
-    console.log(this.minDate);
-
-
-    //console.log(this.minZeit);
     this.updateEndDate();
   }
 
 
   private updateEndDate() {
 
-    const start = this.currentBlock.startTime;
+    // const start = this.currentBlock.startTime;
+    // console.log("start: " + start);
     const time = this.currentBlock.numberOfShifts * this.currentBlock.intervall;
-    const endDate = new Date(start.getTime() + time * 60000);
+    console.log(this.currentBlock.startTime, "eeeeeeeeeeeeeeeeeeeeeeeee");
+    const endDate = new Date(this.currentBlock.startTime.getTime() + (time * 60000));
+    console.log(endDate);
+
     this.currentBlock.endTime = endDate;
+    //this.maxDateError = false;
+
+    console.log("ende: " + this.currentBlock.endTime);
+    console.log("Event Ende: " + this.formattedEventEndDate());
+
+    if (this.currentBlock.endTime > this.eventService.currentEvent.endDate) {
+      console.log("Geeeeeht doch!");
+    }
   }
 
 
   onInputChange() {
 
+    const eventEndDate = new Date(this.eventService.currentEvent.endDate);
+
     if (this.currentBlock.startTime.getDate() != this.minDate.getDate()) {
 
-      this.minZeit = "00:00";
+      this.minZeit = '00:00';
+      this.maxZeit = '23:59';
+
+      if (this.currentBlock.startTime.getDate() === eventEndDate.getDate()) {
+
+        const eventEndTime = eventEndDate.getHours() + ":" + eventEndDate.getMinutes();
+
+        this.maxZeit = eventEndTime;
+
+        if (this.startTimeTime > eventEndTime) {
+
+          this.startTimeTime = eventEndTime;
+        }
+      }
 
     } else {
 
+      /////////////////////////////////// TO DO
+
+      this.maxZeit = '23:59';
       this.minZeit = this.minDate.getHours() + ':' + this.minDate.getMinutes();
-      this.startTimeTime = this.minDate.getHours() + ':' + this.minDate.getMinutes();
+      const startDate = new Date(eventEndDate);
+      const [hours, minutes] = this.startTimeTime.split(':').map(Number);
+      startDate.setHours(hours);
+      startDate.setMinutes(minutes);
+      console.log("bin NICHT drinnnneeeeeeeeeeeeeeeeeeeeee", startDate, eventEndDate);
+
+      if (startDate > eventEndDate) {
+        console.log("bin drinnnneeeeeeeeeeeeeeeeeeeeee", startDate.getTime(), eventEndDate.getTime());
+        this.startTimeTime = this.minDate.getHours() + ':' + this.minDate.getMinutes();
+      }
     }
+
+    ///////////////////////////////////// TO DO
+
+
+    const [hours, minutes] = this.startTimeTime.split(':').map(Number);
+    const currDate = new Date(this.currentBlock.startTime);
+    currDate.setHours(hours, minutes);
+    this.currentBlock.startTime = currDate;
+
     this.updateEndDate();
   }
-
-
 
   onTimeInputChange() {
 
     const [hours, minutes] = this.startTimeTime.split(':').map(Number);
     const date = new Date(this.currentBlock.startTime);
+    console.log(date);
     date.setHours(hours);
     date.setMinutes(minutes);
+    //this.currentBlock.startTime.setHours(hours);
+    //this.currentBlock.startTime.setMinutes(minutes);
+    console.log(date);
     this.currentBlock.startTime = date;
+    console.log(this.currentBlock.startTime);
     this.onInputChange();
   }
 
   newBlock() {
+
+    if (this.currentBlock.endTime <= this.formattedEventEndDate()) {
 
     const newBlock = { ...this.currentBlock };
     console.log(newBlock.startTime);
@@ -118,6 +169,9 @@ export class AddShiftblockComponent {
 
     this.eventService.updateCategories();
     this.matDialogRef.close();
+    }
+
+    
 
   }
 
@@ -140,6 +194,11 @@ export class AddShiftblockComponent {
     const sMinutes = _date.getMinutes().toString().padStart(2, '0');
     console.log(`${sYear}-${sMonth}-${sDay} ${sHours}:${sMinutes}`);
     return `${sYear}-${sMonth}-${sDay} ${sHours}:${sMinutes}`;
+  }
+
+  formattedEventEndDate() {
+
+    return new Date(this.eventService.currentEvent.endDate);
   }
 
 }

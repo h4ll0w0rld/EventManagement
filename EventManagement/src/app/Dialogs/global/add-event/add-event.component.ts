@@ -16,19 +16,20 @@ export class AddEventComponent {
 
   startTime: string = "18:00"
   endTime: string = "23:00"
+
   constructor( public hubservice: EventhubService, private dialogRef: MatDialogRef<AddEventComponent>){
   }
 
   onSubmit() {
 
 
-    let [hours, minutes] = this.startTime.split(':').map(Number);
+    let [hours, minutes] = this.endTime.split(':').map(Number);
     let date: Date = new Date(this.newEvent.endDate);
     date.setHours(hours, minutes, 0);
 
     this.newEvent.endDate = date;
 
-    [hours, minutes] = this.endTime.split(':').map(Number);
+    [hours, minutes] = this.startTime.split(':').map(Number);
     date = new Date(this.newEvent.startDate);
     date.setHours(hours, minutes, 0);
 
