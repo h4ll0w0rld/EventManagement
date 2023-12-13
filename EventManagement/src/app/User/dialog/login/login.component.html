@@ -1,0 +1,16 @@
+<h1>Login</h1>
+<mat-form-field class="form" appearance="outline">
+    <mat-label>Email:</mat-label>
+    <input [(ngModel)]="user.email" class="input" matInput name="name" required />
+    <mat-error *ngIf="true">
+      Username wird <strong>benötigt</strong>
+    </mat-error>
+</mat-form-field>
+<mat-form-field class="form" appearance="outline">
+    <mat-label>Passwort:</mat-label>
+    <input [(ngModel)]="user.pass" class="input" type="password" matInput name="name" required />
+    <mat-error *ngIf="true">
+      Passwort wird <strong>benötigt</strong>
+    </mat-error>
+</mat-form-field>
+<button (click) ="onSubmitt()">Login</button>

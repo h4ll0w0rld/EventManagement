@@ -8,6 +8,9 @@ import { ShiftplanService } from '../../Services/Shiftplan Service/shiftplan.ser
 
 import { EventModel } from '../../Object Models/EventModel';
 import { EventServiceService } from 'src/app/Services/Event Service/event-service.service';
+import { AuthService } from 'src/app/Services/Auth Service/auth.service';
+import { LoginComponent } from 'src/app/User/dialog/login/login.component';
+import { RegisterComponent } from 'src/app/User/dialog/register/register.component';
 
 @Component({
   selector: 'app-event-hub',
@@ -17,9 +20,40 @@ import { EventServiceService } from 'src/app/Services/Event Service/event-servic
 export class EventHubComponent {
 
 
-  constructor(private elementRef: ElementRef, private dialog: MatDialog, public hubservice: EventhubService, private router: Router, private shiftplanService: ShiftplanService, private eventService: EventServiceService) {
+  constructor(private elementRef: ElementRef, private dialog: MatDialog, public hubservice: EventhubService, private router: Router, private shiftplanService: ShiftplanService,private authService:AuthService, private eventService: EventServiceService) {
 
+
+  
   }
+  //test Func
+  click(){
+    //this.authService.loginUser("nilss.begann@hsfurtwangen.de", "qwerty12345678");
+    this.dialog.open(LoginComponent,
+      {
+       
+        width: '95vh',
+        height: 'auto',
+      }
+
+    );
+  }
+  click2(){
+    //this.authService.loginUser("nilss.begann@hsfurtwangen.de", "qwerty12345678");
+    this.dialog.open(RegisterComponent,
+      {
+       
+        width: '95vh',
+        height: 'auto',
+      }
+
+    );
+  }
+
+  click3(){
+    //this.authService.loginUser("nilss.begann@hsfurtwangen.de", "qwerty12345678");
+   this.authService.refreshAccess()
+  }
+
   addEvent() {
     console.log("Event wird hinzugefügt...")
   }
@@ -45,7 +79,7 @@ export class EventHubComponent {
 
 
   ngOnInit() {
-    this.hubservice.updateAllEvents();
+    this.hubservice.getUsersEvents();
   }
 
 

@@ -56,6 +56,8 @@ import { AddEventComponent } from './Dialogs/global/add-event/add-event.componen
 import { HeaderComponent } from './header/header.component';
 import { EventPreviewComponent } from './HUB/event-preview/event-preview.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { LoginComponent } from './User/dialog/login/login.component';
+import { RegisterComponent } from './User/dialog/register/register.component';
 // register Swiper custom elements
 register();
 
@@ -88,7 +90,9 @@ register();
     AddShiftblockComponent,
     AddEventComponent,
     HeaderComponent,
-    EventPreviewComponent
+    EventPreviewComponent,
+    LoginComponent,
+    RegisterComponent
     
   ],
   imports: [

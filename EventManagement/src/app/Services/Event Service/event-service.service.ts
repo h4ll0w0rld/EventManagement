@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { AfterViewInit, Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Activity } from 'src/app/Object Models/Shiftplan Component/activityModel';
 import { CategoryContent } from 'src/app/Object Models/Shiftplan Component/category-content';
@@ -7,11 +7,12 @@ import { User } from 'src/app/Object Models/user/user';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EventModel } from 'src/app/Object Models/EventModel';
 import { ConfigService } from '../config.service';
+import { AuthService } from '../Auth Service/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class EventServiceService {
+export class EventServiceService implements AfterViewInit{
 
   currentEvent:EventModel = new EventModel(-1, "", "", new Date(), new Date(), "")
   availableUser: Subject<User[]> = new Subject<User[]>();
@@ -22,26 +23,22 @@ export class EventServiceService {
 
 
   
-  constructor(private http: HttpClient, private conf:ConfigService) { 
+  constructor(private http: HttpClient, private conf:ConfigService, private authService:AuthService) { 
 
-    if(this.currentEvent.id == -1){
-      let evt= localStorage.getItem("event");
-      if(evt) this.currentEvent = JSON.parse(evt);
-      
-    }
+    
 
   }
 
   updateCategories() {
 
-    this.http.get<any>(this.conf.rootUrl + '/shiftCategory/all/event_id/' + this.currentEvent.id, this.conf.getAuthHeader()).subscribe((res: any) => {
+    this.http.get<any>(this.conf.rootUrl + '/shiftCategory/all/event_id/' + this.currentEvent.id, this.authService.getAuthHeader()).subscribe((res: any) => {
 
       const shiftCategorys = JSON.parse(JSON.stringify(res));
 
       const cats: CategoryContent[] = shiftCategorys.shift_categories.map((category: any) => {
         const shifts: Shift[] = category.shifts.map((shift: any) => {
           const activities: Activity[] = shift.activities.map((activity: any) => {
-            const user: User = new User(activity.user?.id, activity.user?.firstName, activity.user?.lastName);
+            const user: User = new User(activity.user?.id, activity.user?.firstName, activity.user?.lastName, activity.user?.email ,activity.user?.password);
             const mappedActivity: Activity = new Activity(activity.id, user, true);
             return mappedActivity;
           });
@@ -75,14 +72,14 @@ export class EventServiceService {
       shiftBlocks: _shiftBlocks,
     }
 
-    this.http.post(this.conf.rootUrl + '/shiftCategory/add', data, this.conf.getAuthHeader()).subscribe((res: any) => {
+    this.http.post(this.conf.rootUrl + "/shiftCategory/"+ this.currentEvent.id +"/add", data, this.authService.getAuthHeader()).subscribe((res: any) => {
       this.updateCategories();
       
     })
   }
 
   delCategory(_id: number) {
-    this.http.delete(this.conf.rootUrl + "/shiftCategory/delete/id/" + _id, this.conf.getAuthHeader()).subscribe((res: any) => {
+    this.http.delete(this.conf.rootUrl + "/shiftCategory/delete/id/" + _id, this.authService.getAuthHeader()).subscribe((res: any) => {
 
       this.updateCategories();
     })
@@ -91,7 +88,7 @@ export class EventServiceService {
 
   addUserToActivity(_activityId: number, _userId: number, _shiftId: number) {
 
-    this.http.put(this.conf.rootUrl + "/activity/addUser/activity_id/" + _activityId + "/user_id/" + _userId, {}, this.conf.getAuthHeader()).subscribe(() => {
+    this.http.put(this.conf.rootUrl + "/activity/addUser/activity_id/" + _activityId + "/user_id/" + _userId, {}, this.authService.getAuthHeader()).subscribe(() => {
 
      // this.updateShift(_shiftId);
     })
@@ -99,7 +96,7 @@ export class EventServiceService {
   }
 
   delUserFromActivity(_activityId: number, _userId: number, _shiftId: number): void {
-    this.http.put(this.conf.rootUrl + "/activity/removeUser/activity_id/" + _activityId, {}, this.conf.getAuthHeader()).subscribe(() => {
+    this.http.put(this.conf.rootUrl + "/activity/removeUser/activity_id/" + _activityId, {}, this.authService.getAuthHeader()).subscribe(() => {
      // this.updateShift(_shiftId);
     })
 
@@ -120,7 +117,7 @@ export class EventServiceService {
     }
     console.log(data, _catID);
 
-    this.http.post(this.conf.rootUrl + '/shiftCategory/addShiftBlockToCategory/shift_category_id/' + _catID, data, this.conf.getAuthHeader()).subscribe((res: any) => {
+    this.http.post(this.conf.rootUrl + '/shiftCategory/addShiftBlockToCategory/shift_category_id/' + _catID, data, this.authService.getAuthHeader()).subscribe((res: any) => {
       this.updateCategories()
     })
   }
@@ -140,7 +137,7 @@ export class EventServiceService {
   }
 
   userToEvent(_userID:number){
-    this.http.get(this.conf.rootUrl + "/event/addUserToEvent/event_id/" + this.currentEvent.id + "/user_id/"+ _userID, this.conf.getAuthHeader()).subscribe((res: any) => {
+    this.http.get(this.conf.rootUrl + "/event/addUserToEvent/event_id/" + this.currentEvent.id + "/user_id/"+ _userID, this.authService.getAuthHeader()).subscribe((res: any) => {
 
       console.log(res)
 
@@ -149,7 +146,7 @@ export class EventServiceService {
   }
 
   delUser(_id: number) {
-    this.http.delete(this.conf.rootUrl + "/user/delete/user_id/" + _id, this.conf.getAuthHeader()).subscribe(() => {
+    this.http.delete(this.conf.rootUrl + "/user/delete/user_id/" + _id, this.authService.getAuthHeader()).subscribe(() => {
       
       console.log("successfully deleted");
     });
@@ -158,11 +155,13 @@ export class EventServiceService {
 
   getAllUser() {
 
-    return this.http.get(this.conf.rootUrl + '/event/allUsersByEvent/event_id/' + this.currentEvent.id, this.conf.getAuthHeader()).subscribe((res: any) => {
+    return this.http.get(this.conf.rootUrl + '/event/allUsersByEvent/event_id/' + this.currentEvent.id, this.authService.getAuthHeader()).subscribe((res: any) => {
       const users: User[] = res.map((user: any) => new User(
         user.id,
         user.firstName,
         user.lastName,
+        user.email,
+        user.password
 
       ));
       this.allUser.next(users);
@@ -174,11 +173,13 @@ export class EventServiceService {
 
   getAvailableUser(_eventId: number = 1, _activityId: number) {
     console.log("Meine Event id: ", this.currentEvent.id)
-    return this.http.get(this.conf.rootUrl + '/activity/availableUsers/event_id/' + this.currentEvent.id + '/activity_id/' + _activityId, this.conf.getAuthHeader()).subscribe((res: any) => {
+    return this.http.get(this.conf.rootUrl + '/activity/availableUsers/event_id/' + this.currentEvent.id + '/activity_id/' + _activityId, this.authService.getAuthHeader()).subscribe((res: any) => {
       const users: User[] = res.map((user: any) => new User(
         user.id,
         user.firstName,
         user.lastName,
+        user.email,
+        user.password
 
       ));
       this.availableUser.next(users);
@@ -197,9 +198,17 @@ export class EventServiceService {
       "event_id": 1
     }
 
-    this.http.post(this.conf.rootUrl + '/shift/add', data, this.conf.getAuthHeader()).subscribe((res: any) => {
+    this.http.post(this.conf.rootUrl + '/shift/add', data, this.authService.getAuthHeader()).subscribe((res: any) => {
       console.log("adding shift went: ", res)
     })
+  }
+
+  ngAfterViewInit(){
+    if(this.currentEvent.id == -1){
+      const eventString = localStorage.getItem("event");
+      if(eventString!== null)
+        this.currentEvent = JSON.parse(eventString)
+    }
   }
 }
 

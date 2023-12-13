@@ -1,0 +1,36 @@
+<mat-form-field class="form" appearance="outline">
+    <mat-label>Vorname:</mat-label>
+    <input [(ngModel)]="user.firstName" class="input" matInput name="name" required />
+    <mat-error *ngIf="true">
+        Vorname wird <strong>benötigt</strong>
+    </mat-error>
+</mat-form-field>
+<mat-form-field class="form" appearance="outline">
+    <mat-label>Nachname:</mat-label>
+    <input [(ngModel)]="user.lastName" class="input" matInput name="name" required />
+    <mat-error *ngIf="true">
+        Nachname wird <strong>benötigt</strong>
+    </mat-error>
+</mat-form-field>
+<mat-form-field class="form" appearance="outline">
+    <mat-label>Email Adresse:</mat-label>
+    <input [(ngModel)]="user.emailAddress" class="input" matInput name="name" required />
+    <mat-error *ngIf="true">
+        Nachname wird <strong>benötigt</strong>
+    </mat-error>
+</mat-form-field>
+<mat-form-field class="form" appearance="outline">
+    <mat-label>Passwort:</mat-label>
+    <input [(ngModel)]="firstPass" class="input" matInput minlength="9" type="password" name="name" required />
+    <mat-error *ngIf="true">
+        Passwort wird <strong>benötigt</strong>
+    </mat-error>
+</mat-form-field>
+<mat-form-field class="form" appearance="outline">
+    <mat-label>Wiederhole Passwort:</mat-label>
+    <input [(ngModel)]="secPass" class="input" matInput minlength="9" type="password" name="name" required />
+    <mat-error *ngIf="true">
+        Passwort wird <strong>benötigt</strong>
+    </mat-error>
+</mat-form-field>
+<button (click) ="onSubmitt()">Login</button>

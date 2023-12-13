@@ -81,6 +81,8 @@ export class DashboardService {
         user.id,
         user.firstName,
         user.lastName,
+        user.email,
+        user.password
 
       ));
       this.userList.next(users);

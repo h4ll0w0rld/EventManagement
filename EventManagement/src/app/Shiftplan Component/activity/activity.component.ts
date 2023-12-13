@@ -13,7 +13,7 @@ import { UserListComponent } from 'src/app/Dialogs/shiftplan/user-list-dialog/us
 })
 export class ActivityComponent {
 
-  @Input() activity = new Activity(1, new User(1, "server", "dc"), true);
+  @Input() activity = new Activity(1, new User(1, "server", "dc", "", ""), true);
   @Input() shiftId = 1;
 
   constructor(public shiftplanService: ShiftplanService, private dialog: MatDialog) {

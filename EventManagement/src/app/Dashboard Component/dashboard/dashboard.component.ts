@@ -14,7 +14,7 @@ export class DashboardComponent {
 
   shiftByUser: userActivity[] = [];
 
-  selectedUser: User = new User(1, "Nilsooo", "");
+  selectedUser: User = new User(1, "Nilsooo", "", "", "");
 
   allUser:User[] = []     //Can be updated using: /dashboarservice.getAllUser()
 
