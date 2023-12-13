@@ -1,9 +1,12 @@
-<div class="cat-menu">
-  <div class="cat" *ngFor="let cat of this.eventService.categories | async; let i = index">
-    <h2 (click)="setActiveSlide(i); " #tab [ngClass]="{ 'active': activeSlideIndex === i }">{{ cat.name }}</h2>
 
+
+<div class="cat-menu">
+  <div class="cat-container">
+    <div class="cat" *ngFor="let cat of this.eventService.categories | async; let i = index">
+      <h3 (click)="setActiveSlide(i); " #tab [ngClass]="{ 'active': activeSlideIndex === i }">{{ cat.name }}</h3>
+    </div>
+    <h2 *ngIf="unlocked" (click)=addCatDialog() #tab class="addBttn">+</h2>
   </div>
-  <h2 (click)=addCatDialog() *ngIf="unlocked" #tab class="addBttn">+</h2>
 </div>
 
 <swiper-container #swiper *ngIf="shouldReloadContent">

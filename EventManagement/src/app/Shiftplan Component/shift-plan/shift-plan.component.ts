@@ -1,24 +1,13 @@
-import { Component, ElementRef, Injectable, QueryList, ViewChildren, ViewEncapsulation, OnInit, AfterViewInit, ViewChild, Renderer2 } from '@angular/core';
+import { Component, ElementRef, Injectable, QueryList, ViewChildren, ViewEncapsulation, AfterViewInit, ViewChild, Renderer2 } from '@angular/core';
 import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.service';
 import { CategoryContent } from 'src/app/Object Models/Shiftplan Component/category-content';
-
 import { DelCatDialogComponent } from 'src/app/Dialogs/shiftplan/del-cat-dialog/del-cat-dialog.component';
-
 import { DatePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
-
-
-
-import { FormControl } from '@angular/forms';
-import { ThemePalette } from '@angular/material/core';
-import Swiper from 'swiper';
-import { ShiftCategoryComponent } from '../shift-category/shift-category.component';
 import { AddCatDialogComponent } from 'src/app/Dialogs/shiftplan/add-cat-dialog/add-cat-dialog.component';
 import { EventServiceService } from 'src/app/Services/Event Service/event-service.service';
 
-
 @Injectable()
-
 
 @Component({
   selector: 'app-shift-plan',
@@ -31,66 +20,53 @@ import { EventServiceService } from 'src/app/Services/Event Service/event-servic
 })
 
 
-
 export class ShiftPlanComponent implements AfterViewInit {
-
 
   @ViewChildren('tab') tabElements!: QueryList<ElementRef>;
   @ViewChild('swiper', { static: false }) swiperContainer!: any;
   @ViewChild('addCatRef', { static: false }) addCatRef!: any;
   @ViewChild('activeTab') activeTabRef!: ElementRef;
+
   shouldReloadContent: boolean = true;
   catSlides: any = [];
   unlocked: boolean = false;
-
   activeSlideIndex = 0;
-  constructor(public shiftplanService: ShiftplanService, private datePipe: DatePipe, 
-    private dialog: MatDialog, private renderer: Renderer2, public eventService: EventServiceService) {
 
-  }
+  constructor(public shiftplanService: ShiftplanService, private dialog: MatDialog, private renderer: Renderer2, public eventService: EventServiceService) {}
 
-  tabClick(elem: any, cat: any, id: number) {
-
-    const clickedElement = elem.target;
-    this.setActiveTab(clickedElement)
-
-  }
 
   setActiveSlide(index: number) {
 
     this.activeSlideIndex = index;
-    this.scrollToActiveTab();
     this.goToPage(index);
+    this.scrollToActive();
 
   }
+
+  scrollToActive() {
+
+    const actElem = document.querySelector('.active');
+
+    if (actElem) {
+
+      actElem.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+        inline: 'center'
+      })
+    }
+  }
+
   
   setActiveTab(elem: any) {
 
-   
     this.tabElements.forEach((element) => {
 
       this.renderer.removeClass(element.nativeElement, 'active');
     });
 
     this.renderer.addClass(elem, 'active');
-
-  }
-
-  count = 0;
-  scrollToActiveTab() {
-    const activeTab = document.querySelector('.cat .active') as HTMLElement;
-    const scrollContainer = document.querySelector('.cat-menu') as HTMLElement;
-    
-    if (activeTab && scrollContainer) {
-      const containerWidth = scrollContainer.clientWidth;
-      const tabWidth = activeTab.clientWidth;
-      const halfContainerWidth = containerWidth / 2;
-      const scrollLeft = activeTab.offsetLeft - halfContainerWidth + tabWidth / 2;
-
-      scrollContainer.scrollLeft = scrollLeft;
-
-    }
- 
+    this.scrollToActive();
 
   }
 
@@ -120,9 +96,7 @@ export class ShiftPlanComponent implements AfterViewInit {
 
   addCatDialog() {
     this.dialog.open(AddCatDialogComponent, {
-      data: {
-
-      },
+      data: {},
       width: '90vw',
       height: 'auto',
     })
@@ -133,7 +107,6 @@ export class ShiftPlanComponent implements AfterViewInit {
     this.shiftplanService.editmode$.subscribe(value => {
 
       this.unlocked = value;
-
     })
 
     this.eventService.updateCategories()
@@ -142,17 +115,13 @@ export class ShiftPlanComponent implements AfterViewInit {
 
   ngAfterViewInit() {
 
-
     const swiper = this.swiperContainer.nativeElement.swiper
 
     swiper.on('slideChange', (swiper: any) => {
       //this.activeSlideIndex = swiper.activeIndex
       this.setActiveTab(this.tabElements.get(swiper.activeIndex)?.nativeElement)
     });
-
-
   }
-
 }
 
 

@@ -10,7 +10,7 @@
     <div *ngFor="let shift of content.shifts; let i = index">
 
         <div class="new-day" *ngIf="i == 0 || i > 0 && shift.startTime.getDate() > content.shifts[i-1].startTime.getDate()">
-            <h3>{{shift.endTime | date: 'EEE dd. MM.'}}</h3>
+            <h3>{{shift.endTime | date: 'EEE dd. MM. yyyy'}}</h3>
         </div>
 
         <app-shift [nextShift]="i < content.shifts.length ? content.shifts[i+1] : undefined" [shift]="shift"></app-shift>
