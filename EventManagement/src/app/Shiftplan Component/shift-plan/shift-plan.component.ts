@@ -16,7 +16,7 @@ import { EventServiceService } from 'src/app/Services/Event Service/event-servic
   providers: [
     DatePipe, // Move DatePipe to providers array
   ],
-  encapsulation: ViewEncapsulation.None
+  //encapsulation: ViewEncapsulation.None
 })
 
 

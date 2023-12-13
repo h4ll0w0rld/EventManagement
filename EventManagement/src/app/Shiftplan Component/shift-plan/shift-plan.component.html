@@ -3,7 +3,7 @@
 <div class="cat-menu">
   <div class="cat-container">
     <div class="cat" *ngFor="let cat of this.eventService.categories | async; let i = index">
-      <h3 (click)="setActiveSlide(i); " #tab [ngClass]="{ 'active': activeSlideIndex === i }">{{ cat.name }}</h3>
+      <p (click)="setActiveSlide(i); " #tab [ngClass]="{ 'active': activeSlideIndex === i }">{{ cat.name }}</p>
     </div>
     <h2 *ngIf="unlocked" (click)=addCatDialog() #tab class="addBttn">+</h2>
   </div>
