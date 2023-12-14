@@ -1,0 +1,5 @@
+<h3>Deine Tätigkeiten</h3>
+<div class="shifts" *ngFor="let shift of _shiftsByUser">
+    <h6>{{shift.category}}</h6>
+    <p>{{shift.startTime}} - {{shift.endTime}}</p>
+</div>

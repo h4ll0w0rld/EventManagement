@@ -1,0 +1,18 @@
+<h3>Deine Anfragen</h3>
+<div class="requestsContainer">
+    <div class="requestCard" *ngFor="let request of _shiftRequests">
+        <div class="dataContainer">
+            <h3>{{request.catName}}</h3>
+            <p> {{request.startTime | date:'EEE dd.MM.yyyy'}} </p>
+            <div class="timeContainer">
+                <p> {{request.startTime | date:'HH:mm'}} - {{request.endTime | date:'HH:mm'}} Uhr</p>
+                <p class="endDate small_text" *ngIf="request.startTime.getDate() != request.endTime.getDate()">({{request.endTime | date:'EEE dd.MM.yyyy'}})</p>
+            </div>
+    
+        </div>
+        <div class="buttonContainer">
+            <button class="button ja">Ja</button>
+            <button class="button nein">Nein</button>
+        </div>
+    </div>
+</div>

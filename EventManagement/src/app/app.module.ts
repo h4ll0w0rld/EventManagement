@@ -56,6 +56,8 @@ import { AddEventComponent } from './Dialogs/global/add-event/add-event.componen
 import { HeaderComponent } from './header/header.component';
 import { EventPreviewComponent } from './HUB/event-preview/event-preview.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { ShiftRequestComponent } from './Dashboard Component/shift-request/shift-request.component';
+import { ShiftPersonalActivityComponent } from './Dashboard Component/shift-personal-activity/shift-personal-activity.component';
 // register Swiper custom elements
 register();
 
@@ -88,7 +90,9 @@ register();
     AddShiftblockComponent,
     AddEventComponent,
     HeaderComponent,
-    EventPreviewComponent
+    EventPreviewComponent,
+    ShiftRequestComponent,
+    ShiftPersonalActivityComponent
     
   ],
   imports: [

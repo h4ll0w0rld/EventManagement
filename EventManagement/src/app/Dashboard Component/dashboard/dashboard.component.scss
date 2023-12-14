@@ -1,19 +1,21 @@
 @import '../../../theme';
 @import '../../Mixins/cardMixin';
 
+
 .dashboard-container {
 
     
     height: $content-height;
     padding-top: $header-height;
     margin: 0;
-    overflow: scroll;
+    //overflow: scroll;
 }
 
 .dashboard-heading {
 
     position: sticky;
     top: 0px;
+    height: 50px;
 }
 
 h2{

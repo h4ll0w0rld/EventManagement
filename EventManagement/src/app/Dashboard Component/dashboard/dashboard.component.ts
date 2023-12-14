@@ -12,68 +12,66 @@ import { EventServiceService } from 'src/app/Services/Event Service/event-servic
 
 export class DashboardComponent {
 
-  shiftByUser: userActivity[] = [];
+  shiftsByUser: userActivity[] = [];
 
-  selectedUser: User = new User(1, "Nilsooo", "");
+  currUser: User = new User(1, "Nilsooo", "");
 
-  allUser:User[] = []     //Can be updated using: /dashboarservice.getAllUser()
+  allUser: User[] = []     //Can be updated using: /dashboarservice.getAllUser()
 
-  constructor(private dashboardService: DashboardService, private eventService: EventServiceService) {
-
-   
-
-  }
-
-  firstName = "Max";
-  activities = [
+  shiftRequests = [
     {
-      "category": "Bar",
-      "startTime": "18:00",
-      "endTime": "22:00"
+      "catName": "Bar",
+      "startTime": new Date("2023-08-10 13:00"),
+      "endTime": new Date("2023-08-10 15:00"),
+      "id": 500,
+      "isActive": true,
+      "shift_category_id": 200,
+      "activities": []
     },
     {
-      "category": "Security",
-      "startTime": "23:00",
-      "endTime": "03:00"
+      "catName": "Technik",
+      "startTime": new Date("2023-08-10 15:00"),
+      "endTime": new Date("2023-08-10 17:00"),
+      "id": 500,
+      "isActive": true,
+      "shift_category_id": 200,
+      "activities": []
+    },
+    {
+      "catName": "Security",
+      "startTime": new Date("2023-08-10 13:00"),
+      "endTime": new Date("2023-08-11 15:00"),
+      "id": 500,
+      "isActive": true,
+      "shift_category_id": 200,
+      "activities": []
     }
-  ];
+  ]
 
 
-  category = "Bar";
-  startTime = "18:00";
-  endTime = "22:00";
-  /*
-    constructor() {
+
+  constructor(private dashboardService: DashboardService, private eventService: EventServiceService) {}
+
+
+  clicked() {
+
+    const stored: any = localStorage.getItem('selected-dashboard-user');
+    const storedUser: any = JSON.parse(stored);
+
+    const test = this.allUser.find(u => u.uuid === storedUser.uuid)
+    this.currUser = <User>test;
+    this.dashboardService.updateUserActivity(this.currUser.uuid)
+
+  }
   
-     
-    }
-    
-    name = "zum"
-    userActivities = 3
-    activities = new Array(this.userActivities)
-    */
-
-
-    clicked(){
-     
-     const stored:any = localStorage.getItem('selected-dashboard-user');
-     const storedUser: any = JSON.parse(stored);
-      
-      const test = this.allUser.find(u => u.uuid === storedUser.uuid)
-      this.selectedUser = <User>test;
-      this.dashboardService.updateUserActivity(this.selectedUser.uuid)
-    
-    }
-
+  
   ngOnInit() {
 
     this.eventService.getAllUser();
- 
-   
 
     this.dashboardService.shiftsByUser.subscribe((newValue) => {
       // Update the component with the new value
-      this.shiftByUser = newValue;
+      this.shiftsByUser = newValue;
 
     });
 
@@ -83,22 +81,14 @@ export class DashboardComponent {
       this.clicked()
 
     });
-    
-    
+
     this.dashboardService.updateUserActivity();
-  }
-
-  ngOnChange() {
-
-    
-    
   }
 
   changeUser() {
 
-    
-    this.dashboardService.updateUserActivity(this.selectedUser.uuid);
-    localStorage.setItem('selected-dashboard-user', JSON.stringify(this.selectedUser));
-   
+    this.dashboardService.updateUserActivity(this.currUser.uuid);
+    localStorage.setItem('selected-dashboard-user', JSON.stringify(this.currUser));
+
   }
 }
