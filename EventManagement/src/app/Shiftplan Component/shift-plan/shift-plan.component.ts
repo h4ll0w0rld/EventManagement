@@ -42,9 +42,9 @@ export class ShiftPlanComponent implements AfterViewInit {
   shouldReloadContent: boolean = true;
   catSlides: any = [];
   unlocked: boolean = false;
-
+  categories: CategoryContent[] = []
   activeSlideIndex = 0;
-  constructor(public shiftplanService: ShiftplanService, private datePipe: DatePipe, 
+  constructor(public shiftplanService: ShiftplanService, private datePipe: DatePipe,
     private dialog: MatDialog, private renderer: Renderer2, public eventService: EventServiceService) {
 
   }
@@ -53,26 +53,33 @@ export class ShiftPlanComponent implements AfterViewInit {
 
     const clickedElement = elem.target;
     this.setActiveTab(clickedElement)
+    this.eventService.setCurrCat(this.getActiveCat())
 
+  }
+  getActiveCat() {
+    return this.categories[this.activeSlideIndex];
   }
 
   setActiveSlide(index: number) {
 
     this.activeSlideIndex = index;
+    this.eventService.setCurrCat(this.getActiveCat())
     this.scrollToActiveTab();
     this.goToPage(index);
 
   }
-  
+
   setActiveTab(elem: any) {
 
-   
+
     this.tabElements.forEach((element) => {
 
       this.renderer.removeClass(element.nativeElement, 'active');
     });
 
     this.renderer.addClass(elem, 'active');
+    localStorage.setItem("cat", JSON.stringify(this.getActiveCat()))
+    this.eventService.setCurrCat(this.getActiveCat())
 
   }
 
@@ -80,7 +87,7 @@ export class ShiftPlanComponent implements AfterViewInit {
   scrollToActiveTab() {
     const activeTab = document.querySelector('.cat .active') as HTMLElement;
     const scrollContainer = document.querySelector('.cat-menu') as HTMLElement;
-    
+
     if (activeTab && scrollContainer) {
       const containerWidth = scrollContainer.clientWidth;
       const tabWidth = activeTab.clientWidth;
@@ -90,7 +97,7 @@ export class ShiftPlanComponent implements AfterViewInit {
       scrollContainer.scrollLeft = scrollLeft;
 
     }
- 
+
 
   }
 
@@ -98,7 +105,8 @@ export class ShiftPlanComponent implements AfterViewInit {
 
     const swiperEl = this.swiperContainer.nativeElement
     swiperEl.swiper.slideTo(pageNumber, 400);
- 
+
+
   }
 
   delCatDialog(_cat: CategoryContent) {
@@ -136,6 +144,11 @@ export class ShiftPlanComponent implements AfterViewInit {
 
     })
 
+    this.eventService.categories.subscribe((categories: CategoryContent[]) => {
+      this.categories = categories;
+      // Do something with the received categories in this component
+    });
+
     this.eventService.updateCategories()
 
   }
@@ -146,10 +159,11 @@ export class ShiftPlanComponent implements AfterViewInit {
     const swiper = this.swiperContainer.nativeElement.swiper
 
     swiper.on('slideChange', (swiper: any) => {
-      //this.activeSlideIndex = swiper.activeIndex
+     
+      this.activeSlideIndex = swiper.activeIndex
       this.setActiveTab(this.tabElements.get(swiper.activeIndex)?.nativeElement)
     });
-
+    this.eventService.updateCategories()
 
   }
 

@@ -11,6 +11,7 @@ import { EventServiceService } from 'src/app/Services/Event Service/event-servic
 import { AuthService } from 'src/app/Services/Auth Service/auth.service';
 import { LoginComponent } from 'src/app/User/dialog/login/login.component';
 import { RegisterComponent } from 'src/app/User/dialog/register/register.component';
+import { Subscription, interval, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-event-hub',
@@ -19,7 +20,7 @@ import { RegisterComponent } from 'src/app/User/dialog/register/register.compone
 })
 export class EventHubComponent {
 
-
+  private refreshInterval: Subscription = Subscription.EMPTY;;
   constructor(private elementRef: ElementRef, private dialog: MatDialog, public hubservice: EventhubService, private router: Router, private shiftplanService: ShiftplanService,private authService:AuthService, private eventService: EventServiceService) {
 
 
@@ -69,17 +70,34 @@ export class EventHubComponent {
   }
 
   loadEvent(_event: EventModel) {
-    this.shiftplanService.event = _event;
-    console.log(_event, "loaded")
-    this.eventService.currentEvent = _event;
+    console.log("Current Event: ", _event)
+    this.eventService.setCurrentEvent(_event);
+    //this.eventService.shiftplanService.event = _event;
+    // console.log(_event, "loaded")
+    // this.eventService.currentEvent = _event;
     localStorage.setItem("event", JSON.stringify(_event));
-    console.log(localStorage.getItem("event"));
+    // console.log(localStorage.getItem("event"));
   }
 
 
 
   ngOnInit() {
     this.hubservice.getUsersEvents();
+
+    const intervalTime = 5000;
+
+    this.refreshInterval = interval(intervalTime).pipe(
+      switchMap(async () => this.hubservice.getUsersEvents()) // Replace 'fetchData()' with your API call method
+    ).subscribe(
+      (data) => {
+        // Handle the fetched data (e.g., update component properties)
+        // Example: this.data = data;
+      },
+      (error) => {
+        // Handle errors if any
+        console.error('Error fetching data:', error);
+      }
+    );
   }
 
 

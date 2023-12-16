@@ -23,7 +23,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DashboardComponent } from './Dashboard Component/dashboard/dashboard.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
-import { HttpClientModule } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ShiftComponent } from './Shiftplan Component/shift/shift.component';
@@ -58,6 +58,7 @@ import { EventPreviewComponent } from './HUB/event-preview/event-preview.compone
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { LoginComponent } from './User/dialog/login/login.component';
 import { RegisterComponent } from './User/dialog/register/register.component';
+import { AuthInterceptorService } from './Services/Auth Service/auth-interceptor.service';
 // register Swiper custom elements
 register();
 
@@ -128,7 +129,12 @@ register();
      
 
   ],
-  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
+  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}, {
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptorService,
+    multi: true
+  } ],
+  
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

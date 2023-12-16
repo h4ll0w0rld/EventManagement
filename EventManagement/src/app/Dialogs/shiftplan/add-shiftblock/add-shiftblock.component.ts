@@ -3,6 +3,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.service';
 import { UserListComponent } from '../user-list-dialog/user-list.component';
 import { EventServiceService } from 'src/app/Services/Event Service/event-service.service';
+import { EventModel } from 'src/app/Object Models/EventModel';
+import { of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-add-shiftblock',
@@ -31,9 +33,9 @@ export class AddShiftblockComponent {
 
   }
 
-  minDate: Date;
-  minZeit: string;
-  startTimeTime: string;
+  minDate: Date = new Date();
+  minZeit: string = "";
+  startTimeTime: string = "";
 
   maxDate = new Date();
   maxZeit = '23:59';
@@ -43,27 +45,30 @@ export class AddShiftblockComponent {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
     private matDialogRef: MatDialogRef<UserListComponent>, public eventService: EventServiceService) {
+    this.eventService.getCurrentEvent().subscribe((currentEvent: EventModel) => {
 
-    if (data.catContent.shifts.some((obj: any) => obj)) {
+      if (currentEvent) {
+        if (data.catContent.shifts.some((obj: any) => obj)) {
 
-      const shifts = data.catContent.shifts;
-      this.minDate = new Date(shifts[shifts.length - 1].endTime)
-      console.log(this.minDate)
+          const shifts = data.catContent.shifts;
+          this.minDate = new Date(shifts[shifts.length - 1].endTime)
+          console.log(this.minDate)
 
-      this.currentBlock.startTime = this.minDate
+          this.currentBlock.startTime = this.minDate
 
-    } else {
+        } else {
 
-      this.currentBlock.startTime = new Date(eventService.currentEvent.startDate);
-      console.log("Hier kanns knalln:", eventService.currentEvent.startDate)
-      this.minDate = this.currentBlock.startTime;
+          this.currentBlock.startTime = new Date(currentEvent.startDate);
 
-    }
+          this.minDate = this.currentBlock.startTime;
 
-    this.maxDate = new Date(this.eventService.currentEvent.endDate);
-    this.minZeit = this.minDate.getHours() + ':' + this.minDate.getMinutes();
-    this.startTimeTime = this.minDate.getHours() + ':' + this.minDate.getMinutes();
+        }
 
+        this.maxDate = new Date(currentEvent.endDate);
+        this.minZeit = this.minDate.getHours() + ':' + this.minDate.getMinutes();
+        this.startTimeTime = this.minDate.getHours() + ':' + this.minDate.getMinutes();
+      }
+    })
     this.updateEndDate();
   }
 
@@ -73,7 +78,7 @@ export class AddShiftblockComponent {
     // const start = this.currentBlock.startTime;
     // console.log("start: " + start);
     const time = this.currentBlock.numberOfShifts * this.currentBlock.intervall;
-    console.log(this.currentBlock.startTime, "eeeeeeeeeeeeeeeeeeeeeeeee");
+
     const endDate = new Date(this.currentBlock.startTime.getTime() + (time * 60000));
     console.log(endDate);
 
@@ -82,60 +87,63 @@ export class AddShiftblockComponent {
 
     console.log("ende: " + this.currentBlock.endTime);
     console.log("Event Ende: " + this.formattedEventEndDate());
+    this.eventService.getCurrentEvent().subscribe((currentEvent: EventModel) => {
 
-    if (this.currentBlock.endTime > this.eventService.currentEvent.endDate) {
-      console.log("Geeeeeht doch!");
-    }
+      if (currentEvent) {
+
+        if (this.currentBlock.endTime > currentEvent.endDate) {
+          console.log("Geeeeeht doch!");
+        }
+      }
+    })
   }
 
 
   onInputChange() {
 
-    const eventEndDate = new Date(this.eventService.currentEvent.endDate);
 
-    if (this.currentBlock.startTime.getDate() != this.minDate.getDate()) {
+    this.eventService.getCurrentEvent().subscribe((currentEvent: EventModel) => {
 
-      this.minZeit = '00:00';
-      this.maxZeit = '23:59';
+      if (currentEvent) {
 
-      if (this.currentBlock.startTime.getDate() === eventEndDate.getDate()) {
+        console.log("Drin", currentEvent)
+        const eventEndDate = new Date(currentEvent.endDate);
 
-        const eventEndTime = eventEndDate.getHours() + ":" + eventEndDate.getMinutes();
+        if (this.currentBlock.startTime.getDate() != this.minDate.getDate()) {
 
-        this.maxZeit = eventEndTime;
+          this.minZeit = '00:00';
+          this.maxZeit = '23:59';
 
-        if (this.startTimeTime > eventEndTime) {
+          if (this.currentBlock.startTime.getDate() === eventEndDate.getDate()) {
 
-          this.startTimeTime = eventEndTime;
+            const eventEndTime = eventEndDate.getHours() + ":" + eventEndDate.getMinutes();
+
+            this.maxZeit = eventEndTime;
+
+            if (this.startTimeTime > eventEndTime) {
+
+              this.startTimeTime = eventEndTime;
+            }
+          }
+
+        } else {
+
+          this.maxZeit = '23:59';
+          this.minZeit = this.minDate.getHours() + ':' + this.minDate.getMinutes();
+
+          if (this.startTimeTime < this.minZeit) {
+            this.startTimeTime = this.minZeit;
+          }
         }
+
+        const [hours, minutes] = this.startTimeTime.split(':').map(Number);
+        const currDate = new Date(this.currentBlock.startTime);
+        currDate.setHours(hours);
+        currDate.setMinutes(minutes);
+        this.currentBlock.startTime = currDate;
+
       }
-
-    } else {
-
-      /////////////////////////////////// TO DO
-
-      this.maxZeit = '23:59';
-      this.minZeit = this.minDate.getHours() + ':' + this.minDate.getMinutes();
-      const startDate = new Date(eventEndDate);
-      const [hours, minutes] = this.startTimeTime.split(':').map(Number);
-      startDate.setHours(hours);
-      startDate.setMinutes(minutes);
-      console.log("bin NICHT drinnnneeeeeeeeeeeeeeeeeeeeee", startDate, eventEndDate);
-
-      if (startDate > eventEndDate) {
-        console.log("bin drinnnneeeeeeeeeeeeeeeeeeeeee", startDate.getTime(), eventEndDate.getTime());
-        this.startTimeTime = this.minDate.getHours() + ':' + this.minDate.getMinutes();
-      }
-    }
-
-    ///////////////////////////////////// TO DO
-
-
-    const [hours, minutes] = this.startTimeTime.split(':').map(Number);
-    const currDate = new Date(this.currentBlock.startTime);
-    currDate.setHours(hours, minutes);
-    this.currentBlock.startTime = currDate;
-
+    })
     this.updateEndDate();
   }
 
@@ -156,22 +164,22 @@ export class AddShiftblockComponent {
 
   newBlock() {
 
-    if (this.currentBlock.endTime <= this.formattedEventEndDate()) {
+    this.formattedEventEndDate().subscribe((formattedEndDate: Date) => {
+      if (this.currentBlock.endTime <= formattedEndDate) {
 
-    const newBlock = { ...this.currentBlock };
-    console.log(newBlock.startTime);
-    newBlock.startTime = this.formatDate(newBlock.startTime);
-    newBlock.endTime = this.formatDate(newBlock.endTime);
+        const newBlock = { ...this.currentBlock };
+      
+        newBlock.startTime = this.formatDate(newBlock.startTime);
+        newBlock.endTime = this.formatDate(newBlock.endTime);
 
-    console.log(newBlock);
+        this.eventService.addShiftBlockToCategory(newBlock, this.data.catContent.id);
 
-    this.eventService.addShiftBlockToCategory(newBlock, this.data.catContent.id);
+        this.eventService.updateCategories();
+        this.matDialogRef.close();
+      }
+    })
 
-    this.eventService.updateCategories();
-    this.matDialogRef.close();
-    }
 
-    
 
   }
 
@@ -197,8 +205,14 @@ export class AddShiftblockComponent {
   }
 
   formattedEventEndDate() {
-
-    return new Date(this.eventService.currentEvent.endDate);
+    return this.eventService.getCurrentEvent().pipe(
+      switchMap((currentEvent: EventModel) => {
+        if (currentEvent) {
+          return of(new Date(currentEvent.endDate)); // Emit the formatted date using `of` to create an observable
+        }
+        return of(new Date());
+      })
+    );
   }
 
 }

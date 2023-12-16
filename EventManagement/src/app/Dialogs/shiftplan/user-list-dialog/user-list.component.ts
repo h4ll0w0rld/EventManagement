@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ShiftplanService } from '../../../Services/Shiftplan Service/shiftplan.service';
 import { User } from '../../../Object Models/user/user';
 import { EventServiceService } from 'src/app/Services/Event Service/event-service.service';
+import { Subscription, interval, switchMap } from 'rxjs';
 
 
 
@@ -23,6 +24,7 @@ export class UserListComponent {
 
   userList: User[] = [];
 
+  
   constructor(
     public shiftplanService: ShiftplanService, 
     @Inject(MAT_DIALOG_DATA) public data: any, 
@@ -32,12 +34,15 @@ export class UserListComponent {
   ngOnInit() {
 
     if (!this.data.activity.user.uuid) {
-      this.eventService.getAvailableUser(1, this.data.activity.uuid);
+      console.log(this.data, "DATAAA")
+      this.eventService.getAvailableUser(this.data.shiftId, this.data.activity.uuid);
     }
     
     this.eventService.availableUser.subscribe((users: User[]) => {
       this.userList = users;
     });
+
+    
 
   }
 

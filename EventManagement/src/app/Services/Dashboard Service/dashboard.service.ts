@@ -6,6 +6,7 @@ import { User } from 'src/app/Object Models/user/user';
 
 import { BehaviorSubject } from 'rxjs';
 import { EventServiceService } from '../Event Service/event-service.service';
+import { EventModel } from 'src/app/Object Models/EventModel';
 
 
 @Injectable({
@@ -30,10 +31,10 @@ export class DashboardService {
 
   storedUser: User;
 
-  constructor(private http: HttpClient, private eventService:EventServiceService) { 
+  constructor(private http: HttpClient, private eventService: EventServiceService) {
 
     const stored = localStorage.getItem('selected-dashboard-user');
-   
+
     this.storedUser = stored !== null ? JSON.parse(stored) : null;
   }
 
@@ -50,24 +51,28 @@ export class DashboardService {
   updateUserActivity(_userId?: number) {
 
     if (_userId) {
-      
-      this.http.get<any>(this.rootUrl + '/shift/ShiftsByUser/user_id/' + _userId + '/event_id/'+ this.eventService.currentEvent.id, this.options).subscribe((res: any) => {
+      this.eventService.getCurrentEvent().subscribe((currentEvent: EventModel) => {
 
-        const userActivities: userActivity[] = res.map((data: any) => {
-          return new userActivity(
-            data.activities[0].user.firstName,
-            data.shift_category.name,
-            data.startTime,
-            data.endTime
-          );
-        });
-        
-        this.shiftsByUser.next(userActivities);
-  
+        if (currentEvent) {
+          this.http.get<any>(this.rootUrl + '/shift/ShiftsByUser/user_id/' + _userId + '/event_id/' + currentEvent.id, this.options).subscribe((res: any) => {
+
+            const userActivities: userActivity[] = res.map((data: any) => {
+              return new userActivity(
+                data.activities[0].user.firstName,
+                data.shift_category.name,
+                data.startTime,
+                data.endTime
+              );
+            });
+
+            this.shiftsByUser.next(userActivities);
+
+          })
+        }
       })
     }
 
-    
+
 
 
 
@@ -86,7 +91,7 @@ export class DashboardService {
 
       ));
       this.userList.next(users);
-      
+
     }
 
     );

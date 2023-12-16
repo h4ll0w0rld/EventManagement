@@ -18,6 +18,9 @@ export class AuthService {
   setLoggedInUser(user: User) {
     this.loggedInUserSubject.next(user);
   }
+  getLoggedInUser(){
+    return this.loggedInUser$;
+  }
 
   loginUser(_email: string, _pass: string) {
 
@@ -28,12 +31,12 @@ export class AuthService {
     }
 
 
-    this.http.post<any>(this.rootUrl + "/auth", data).subscribe(res => {
+    this.http.post<any>(this.rootUrl + "/auth", data, { withCredentials: true } ).subscribe(res => {
 
       this.saveToken(res.accessToken)
       this.setLoggedInUser(res.user)
       
-      localStorage.setItem("user", JSON.stringify(new User(res.user.id, res.user.firstName, res.user.lastName, res.user.emailAddress, res.user.password)))
+      localStorage.setItem("user", JSON.stringify(new User(res.user.id, res.user.firstName, res.user.lastName, "", "")))
       console.log(res)
 
 
@@ -71,9 +74,11 @@ export class AuthService {
   validateToken() {
 
   }
+
   refreshAccess() {
     console.log("I am starting off")
-    this.http.get(this.rootUrl + "/refresh").subscribe((res) => {
+    this.http.get(this.rootUrl + "/refresh", { withCredentials: true }).subscribe((res:any) => {
+      this.saveToken(res.accessToken)
       console.log(res)
     })
   }
@@ -84,7 +89,7 @@ export class AuthService {
       'Authorization': 'Bearer ' + this.getToken()
     });
 
-    return { headers: headers, withCredentials: true };
+    return { headers: headers};
   }
 
 

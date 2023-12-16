@@ -1,6 +1,9 @@
 import { Time } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { EventModel } from 'src/app/Object Models/EventModel';
+import { AuthService } from 'src/app/Services/Auth Service/auth.service';
 import { EventServiceService } from 'src/app/Services/Event Service/event-service.service';
 import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.service';
 
@@ -9,18 +12,18 @@ import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.s
   templateUrl: './add-cat-dialog.component.html',
   styleUrls: ['./add-cat-dialog.component.scss']
 })
-export class AddCatDialogComponent {
+export class AddCatDialogComponent implements OnInit {
 
   newCategory: any = {
     name: "",
     description: "",
-    eventId: 1,
+    //eventId: 1,
     shiftBlocks: [],
   }
 
   eventStartDate = new Date('2023-08-10 13:00');
   eventEndDate = new Date('2023-08-13 12:00');
-
+  currentEvent:EventModel = new EventModel(-1,"","",new Date(), new Date(),"");
   currentBlock: any = {
     intervall: 60,
     activitiesPerShift: 3,
@@ -34,9 +37,9 @@ export class AddCatDialogComponent {
   minZeit: string;
   startTimeTime: string;
 
-  constructor(public dialogRef: MatDialogRef<AddCatDialogComponent>, public eventService: EventServiceService) {
+  constructor(public dialogRef: MatDialogRef<AddCatDialogComponent>, public eventService: EventServiceService, private authService: AuthService, private router: Router) {
 
-    this.newCategory.eventId = this.eventService.currentEvent.id;
+    //this.newCategory.eventId = this.eventService.currentEvent.id;
     this.currentBlock.startTime = this.eventStartDate;
     this.minZeit = this.currentBlock.startTime.getHours() + ':' + this.currentBlock.startTime.getMinutes();
 
@@ -58,9 +61,18 @@ export class AddCatDialogComponent {
       return
     }
     else {
-      this.eventService.addCategory(this.newCategory.name, this.newCategory.description, this.newCategory.eventId, this.newCategory.shiftBlocks);
-      this.dialogRef.close();
-    } 
+      
+
+        if (this.currentEvent.id != -1) {
+          this.eventService.addCategory(this.newCategory.name, this.newCategory.description, this.currentEvent.id, this.newCategory.shiftBlocks);
+          this.dialogRef.close();
+          this.reloadComponent();
+        }else{
+          console.log("No Event loaded (ad-cat-dia)")
+        }
+      
+    }
+
   }
 
   getTimeFormat(_date: string) {
@@ -74,6 +86,22 @@ export class AddCatDialogComponent {
 
   }
 
+  reloadComponent(self: boolean = true, urlToNavigateTo?: string) {
+    const url = self ? this.router.url : urlToNavigateTo;
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([`/${url}`]).then(() => {
+
+      })
+    })
+  }
+
+  ngOnInit(){
+
+    this.eventService.getCurrentEvent().subscribe((currentEvent: EventModel) => {
+      this.currentEvent = currentEvent;
+    })
+    
+  }
 
 
 }

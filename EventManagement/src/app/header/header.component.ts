@@ -18,7 +18,9 @@ export class HeaderComponent {
 
   constructor(public shiftplanService: ShiftplanService, private dialog: MatDialog, public eventService: EventServiceService) {
 
-    this.title = this.eventService.currentEvent.name;
+    this.eventService.getCurrentEvent().subscribe(event => {
+      this.title = event.name
+    })
     this.shiftplanService.editmode$.subscribe(value => {
       this.unlocked = value;
     })
