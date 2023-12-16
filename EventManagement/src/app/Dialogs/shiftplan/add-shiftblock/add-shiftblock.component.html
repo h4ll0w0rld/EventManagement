@@ -8,9 +8,9 @@
         readonly (click)="matDatepicker.open()">
       <mat-datepicker #matDatepicker></mat-datepicker>
   
-      <input class="date-form" matInput [ngxTimepicker]="picker" [format]="24" [(ngModel)]="startTimeTime"
+      <input class="date-form" matInput [ngxMatTimepicker]="picker" [format]="24" [(ngModel)]="startTimeTime"
         (ngModelChange)="onTimeInputChange()" [min]="minZeit" [max]="maxZeit" readonly>
-      <ngx-material-timepicker #picker></ngx-material-timepicker>
+      <ngx-mat-timepicker #picker></ngx-mat-timepicker>
     </div>
   </div>
   

@@ -1,9 +1,9 @@
-<div class="dashboard-container">
+<!-- <div class="dashboard-container">
 
     <div class="dashboard-heading">
 
         <h4>Willkommen
-            <select [(ngModel)]="selectedUser" (change)="changeUser()">
+            <select [(ngModel)]="currUser" (change)="changeUser()">
                 <option *ngFor="let user of allUser" [ngValue]="user">{{user.fName}} {{user.lName}}</option>
               
             </select>
@@ -12,17 +12,17 @@
 
     </div>
 
-    <!--<app-dashboardactivity *ngFor="let shift of activities"></app-dashboardactivity> -->
+    //<app-dashboardactivity *ngFor="let shift of activities"></app-dashboardactivity>
 
-    <div class="shifts" *ngFor="let shift of shiftByUser">
-        <h6>{{shift.category}}</h6>
-        <p>{{shift.startTime}} - {{shift.endTime}}</p>
-    </div>
-
+    
 
     <div style="width: 100%; height: 0px; padding-top: 200px"></div>
 
-
+</div> -->
+<div class="dashboard-heading">
 
 
 </div>
+
+<app-shift-request [_shiftRequests]="shiftRequests"> </app-shift-request>
+<app-shift-personal-activity [_shiftsByUser]="shiftsByUser"> </app-shift-personal-activity>

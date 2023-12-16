@@ -1,3 +1,13 @@
+@import '../../../theme';
+
+
+:host {
+
+    position: absolute;
+    top: $header-height;
+    width: 100vw;
+    max-height: calc(100vh - $header-height);
+}
 
 
 

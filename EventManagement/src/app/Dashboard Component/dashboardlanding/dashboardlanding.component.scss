@@ -1,0 +1,9 @@
+@import '../../../theme';
+
+
+:host {
+
+    position: absolute;
+    top: $header-height;
+    width: 100vw;
+}

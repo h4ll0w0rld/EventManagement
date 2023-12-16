@@ -7,10 +7,49 @@
 // Be sure that you only ever include this mixin once!
 @include mat.core();
 
+$prim-color: #0d2e44;
+$sec-color: #f1f1f1;
+$third-color: #2e6d21;
+$color-4: #c41e1e;
+$color-5: #9c9c9c;
+$color-6: #288DD1;
+
+$planit-palette: (
+  50: #dfefff,
+  100: #bdd8ef,
+  200: #9ebcd7,
+  300: #7ea0bf,
+  400: #668bac,
+  500: #0D2E44,
+  600: #3e6989,
+  700: #2f5572,
+  800: #21425c,
+  900: #0D2E44,
+
+  contrast: (
+    50: black,
+    100: black,
+    200: black,
+    300: black,
+    400: black,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: white,
+    A200: white,
+    A400: white,
+    A700: white,
+  )
+);
+
+
+
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$EventManagement-primary: mat.define-palette(mat.$indigo-palette);
+$EventManagement-primary: mat.define-palette($planit-palette);
 $EventManagement-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
@@ -18,6 +57,7 @@ $EventManagement-warn: mat.define-palette(mat.$red-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
+
 $EventManagement-theme: mat.define-light-theme((
   color: (
     primary: $EventManagement-primary,

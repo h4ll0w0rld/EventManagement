@@ -1,90 +1,71 @@
 @import "../../../theme";
 
+
 .cat-menu {
-    margin-top: $header-height;
-    padding-bottom: 10px;
+
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: scroll;
     position: sticky;
-    top: $header-height;
     z-index: 2;
+    background-color: $prim-color;
+    height: 40px;
+    max-width: 100vw;
 
-    .cat {
+    .cat-container {
 
         display: flex;
-        align-items: center; 
+        overflow-y: hidden;
+
+        scrollbar-width: thin;
+        -ms-overflow-style: none;
+
+        &::-webkit-scrollbar {
+            
+            height: 0;
+        }
+
+        .cat {
+
+            height: 40px;
+            display: flex;
+            align-items: center; 
+        }
+
+        p,
+        h2 {
+
+            color: $sec-color;
+            margin: 0px 10px;
+            padding-bottom: 10px;
+            position: relative;
+        }
     }
-
-    h2 {
-        color: $sec-color;
-        margin: 0px;
-        margin-left: 10px;
-        margin-right: 10px;
-    }
-
-    background-color: $prim-color;
-
 }
 
-#cdk-overlay-0 {
+swiper-container {
 
-    max-width: 100vw !important;
+    max-height: calc(100vh - $header-height - 40px);
 }
 
-.active {
-    text-decoration: underline;
-    text-decoration-color: $sec-color;
-   
+swiper-slide {
+
+    max-height: calc(100vh - $header-height - 40px);
 }
 
+.active::after {
 
-ul li a {
-    text-decoration: none;
-}
-
-.container {
-
-    margin-left: 10px;
+    content: '';
+    position: absolute;
+    left: 0;
     width: 100%;
-    // height: 100%;
-    text-align: center;
-    //background-color: orange;
+    height: 15px;
+    background-color: #ffffff;
+    border-radius: 10px;;
+    transform: translateY(30px);
 }
 
-
-.shift-cat-tab-label {
-    background-color: aqua;
-    width: 100%;
-  
-}
-
-//----------------------
 .category-type {
-    //margin-top: 0.5vh;
-}
 
-
-.shift-cat-tabs {
-    animation: none !important;
-
-}
-
-
-.scrollable-element {
-
-    touch-action: none;
-}
-
-
-
-.delete {
-    flex-grow: 1; // Allow it to grow and take available space
-    text-align: right;
-    color: $color-4;
-    margin-left: 30px;
-    //display: none;
-
-
+    max-height: calc(100vh - $header-height - 40px);
 }

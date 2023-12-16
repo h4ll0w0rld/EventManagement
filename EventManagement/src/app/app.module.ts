@@ -59,6 +59,9 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { LoginComponent } from './User/dialog/login/login.component';
 import { RegisterComponent } from './User/dialog/register/register.component';
 import { AuthInterceptorService } from './Services/Auth Service/auth-interceptor.service';
+import { ShiftRequestComponent } from './Dashboard Component/shift-request/shift-request.component';
+import { ShiftPersonalActivityComponent } from './Dashboard Component/shift-personal-activity/shift-personal-activity.component';
+
 // register Swiper custom elements
 register();
 
@@ -93,7 +96,9 @@ register();
     HeaderComponent,
     EventPreviewComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    ShiftRequestComponent,
+    ShiftPersonalActivityComponent
     
   ],
   imports: [

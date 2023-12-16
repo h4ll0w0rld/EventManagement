@@ -4,15 +4,21 @@
     <mat-icon class="del-cat-icon" *ngIf="this.unlocked" aria-hidden="false" svgIcon="delete" (click)="delCatDialog(content)"></mat-icon>
 
 </div>
+
 <div class="shift_category-container">
 
     <div *ngFor="let shift of content.shifts; let i = index">
 
+        <div class="new-day" *ngIf="i == 0 || i > 0 && shift.startTime.getDate() > content.shifts[i-1].startTime.getDate()">
+            <h3>{{shift.endTime | date: 'EEE dd. MM. yyyy'}}</h3>
+        </div>
+
         <app-shift [nextShift]="i < content.shifts.length ? content.shifts[i+1] : undefined" [shift]="shift"></app-shift>
 
         <div class="break" *ngIf="i != content.shifts.length -1 && shift.endTime.getTime() !== content.shifts[i + 1].startTime.getTime()">
-            <div class="break-text"><p>
-                {{ calculateBreakTime(content.shifts[i + 1].startTime, shift.endTime)}} Pause</p></div>
+            <div class="break-text">
+                <p>{{ calculateBreakTime(content.shifts[i + 1].startTime, shift.endTime)}} Pause</p>
+            </div>
             <button class="new-shiftblock-in-break-button" *ngIf="this.unlocked" (click)="commingSoon()"><h3>+</h3></button>
         </div>
 
@@ -23,5 +29,5 @@
     </div>
     
 
-    <div style="width: 100%; height: 0px; padding-top: 200px"></div>
+    <div style="width: 100%; height: 0px; padding-top: 100px"></div>
 </div>
