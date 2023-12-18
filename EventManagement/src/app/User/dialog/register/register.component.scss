@@ -1,0 +1,13 @@
+@import '../../../Mixins/buttonMixin';
+
+
+.form {
+
+    width: 90%;
+}
+
+button {
+    
+    @include button();
+    padding: 10px 20px;
+}
