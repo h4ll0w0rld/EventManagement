@@ -6,12 +6,14 @@ import { TesterComponent } from './tester/tester.component';
 import { ShiftplanLandingComponent } from './Shiftplan Component/shiftplan-landing/shiftplan-landing.component';
 import { EventHubComponent } from './HUB/event-hub/event-hub.component';
 import { DashboardlandingComponent } from './Dashboard Component/dashboardlanding/dashboardlanding.component';
+import { AuthLandingComponent } from './User/auth-landing/auth-landing.component';
 
 
 const routes: Routes = [
   {path:'dashboard', component:DashboardlandingComponent }, 
   {path: 'shiftplan', component:ShiftplanLandingComponent },
   {path: '', component:EventHubComponent},
+  {path: 'authLanding', component:AuthLandingComponent},
 
 ];
 

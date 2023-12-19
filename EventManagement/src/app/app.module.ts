@@ -61,6 +61,7 @@ import { RegisterComponent } from './User/dialog/register/register.component';
 import { AuthInterceptorService } from './Services/Auth Service/auth-interceptor.service';
 import { ShiftRequestComponent } from './Dashboard Component/shift-request/shift-request.component';
 import { ShiftPersonalActivityComponent } from './Dashboard Component/shift-personal-activity/shift-personal-activity.component';
+import { AuthLandingComponent } from './User/auth-landing/auth-landing.component';
 
 // register Swiper custom elements
 register();
@@ -98,7 +99,8 @@ register();
     LoginComponent,
     RegisterComponent,
     ShiftRequestComponent,
-    ShiftPersonalActivityComponent
+    ShiftPersonalActivityComponent,
+    AuthLandingComponent
     
   ],
   imports: [

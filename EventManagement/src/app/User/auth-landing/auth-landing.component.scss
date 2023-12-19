@@ -1,0 +1,37 @@
+@import '../../../theme';
+@import '../../Mixins/cardMixin';
+
+.auth-landing-page {
+
+    display: flex;
+    justify-content: center;
+    //align-items: center;
+    background-color: $prim-color;
+    width: 100vw;
+    height:100vh;
+}
+
+.auth-container {
+
+    @include Card(max-content);
+    
+    width: 90vw;
+    margin: 0;
+    margin-top: 25vh;
+
+    .auth-tab-group {
+
+        padding: 20px;
+        width: calc(100% - 20px);
+
+    }
+}
+
+app-login, app-register {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding-top: 20px;
+}
