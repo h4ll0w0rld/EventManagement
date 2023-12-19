@@ -34,7 +34,9 @@ export class ShiftPlanComponent implements AfterViewInit {
   activeSlideIndex = 0;
  
 
-  constructor(public shiftplanService: ShiftplanService, private dialog: MatDialog, private renderer: Renderer2, public eventService: EventServiceService) {}
+  constructor(public shiftplanService: ShiftplanService, private dialog: MatDialog, private renderer: Renderer2, public eventService: EventServiceService) {
+    this.eventService.currentCatSubject.next(this.getActiveCat())
+  }
 
   tabClick(elem: any, cat: any, id: number) {
 

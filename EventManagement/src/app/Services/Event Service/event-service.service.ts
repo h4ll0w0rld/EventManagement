@@ -119,7 +119,7 @@ export class EventServiceService implements AfterViewInit, OnInit {
   addCategory(_name: string, _description: string, _eventId: number, _shiftBlocks: any[]) {
 
 
-    if (this.currentEvent.id != -1) {
+  
       if (this.currentEvent.id != -1) {
 
         const data = {
@@ -136,11 +136,7 @@ export class EventServiceService implements AfterViewInit, OnInit {
       } else {
         console.log("EventID = ", this.currentEvent.id)
       }
-    } else {
-      console.log("No Event found (addCat)")
-      this.eventFromLS();
-
-    }
+ 
 
   }
   // addCategory(_name: string, _description: string, _eventId: number, _shiftBlocks: any[]) {

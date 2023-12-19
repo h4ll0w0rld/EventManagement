@@ -29,7 +29,7 @@ export class AddShiftblockComponent {
     endTime: new Date(),
 
   }
-
+  currEvent: EventModel = new EventModel(-1, "", "", new Date(), new Date(), "")
   minDate: Date = new Date();
   minZeit: string = "";
   startTimeTime: string = "";
@@ -41,28 +41,30 @@ export class AddShiftblockComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
     private matDialogRef: MatDialogRef<UserListComponent>, public eventService: EventServiceService) {
     this.eventService.getCurrentEvent().subscribe((currentEvent: EventModel) => {
+      this.currEvent = currentEvent;
+    })
 
-      if (currentEvent) {
+      if (this.currEvent.id != -1) {
         if (data.catContent.shifts.some((obj: any) => obj)) {
 
-      const shifts = data.catContent.shifts;
-      this.minDate = new Date(shifts[shifts.length - 1].endTime)
-      this.currentBlock.startTime = this.minDate
+          const shifts = data.catContent.shifts;
+          this.minDate = new Date(shifts[shifts.length - 1].endTime)
+          this.currentBlock.startTime = this.minDate
 
         } else {
 
-      this.currentBlock.startTime = new Date(eventService.currentEvent.startDate);
-      this.minDate = this.currentBlock.startTime;
+          this.currentBlock.startTime = new Date(eventService.currentEvent.startDate);
+          this.minDate = this.currentBlock.startTime;
 
           this.minDate = this.currentBlock.startTime;
 
         }
 
-        this.maxDate = new Date(currentEvent.endDate);
+        this.maxDate = new Date(this.currEvent.endDate);
         this.minZeit = this.minDate.getHours() + ':' + this.minDate.getMinutes();
         this.startTimeTime = this.minDate.getHours() + ':' + this.minDate.getMinutes();
       }
-    })
+    
     this.updateEndDate();
   }
 
@@ -91,12 +93,12 @@ export class AddShiftblockComponent {
   onInputChange() {
 
 
-    this.eventService.getCurrentEvent().subscribe((currentEvent: EventModel) => {
+  
 
-      if (currentEvent) {
+      if (this.currEvent.id != -1) {
 
-        console.log("Drin", currentEvent)
-        const eventEndDate = new Date(currentEvent.endDate);
+       
+        const eventEndDate = new Date(this.currEvent.endDate);
 
         if (this.currentBlock.startTime.getDate() != this.minDate.getDate()) {
 
@@ -132,7 +134,7 @@ export class AddShiftblockComponent {
         this.currentBlock.startTime = currDate;
 
       }
-    })
+    
     this.updateEndDate();
   }
 
