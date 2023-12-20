@@ -20,7 +20,12 @@
 
 </div> -->
 <div class="dashboard-heading">
-
+    <h4>Willkommen
+        <select [(ngModel)]="currUser" (change)="changeUser()">
+            <option *ngFor="let user of allUser" [ngValue]="user">{{user.fName}} {{user.lName}}</option>
+          
+        </select>
+    </h4>
 
 </div>
 

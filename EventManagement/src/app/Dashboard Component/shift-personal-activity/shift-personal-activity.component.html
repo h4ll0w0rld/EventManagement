@@ -1,5 +1,16 @@
-<h3>Deine Tätigkeiten</h3>
-<div class="shifts" *ngFor="let shift of _shiftsByUser">
-    <h6>{{shift.category}}</h6>
-    <p>{{shift.startTime}} - {{shift.endTime}}</p>
+<div class="headLine">
+    <h3>Deine Tätigkeiten</h3>
 </div>
+        <div class="activityContainer">
+            <div class="shifts" *ngFor="let shift of _shiftsByUser">
+                <div class="dataContainer">
+                    <h3>{{shift.category}}</h3>
+                    <p> {{shift.startTime | date:'EEE dd.MM.yyyy'}} </p>
+            <div class="timeContainer">
+                <p> {{shift.startTime | date:'HH:mm'}} - {{shift.endTime | date:'HH:mm'}} Uhr</p>
+                
+            </div>
+                </div>
+
+            </div>
+        </div>
