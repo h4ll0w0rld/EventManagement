@@ -26,6 +26,12 @@ export class EventHubComponent {
 
   
   }
+  clicked(){
+    
+    this.eventService.getRoles();
+  }
+
+  
   //test Func
   click(){
     //this.authService.loginUser("nilss.begann@hsfurtwangen.de", "qwerty12345678");

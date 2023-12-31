@@ -23,6 +23,7 @@ export class AuthService {
   }
 
   loginUser(_email: string, _pass: string) {
+    console.log("Loggin with: ", _email, _pass)
 
     const data = {
       emailAddress: _email,
@@ -32,12 +33,12 @@ export class AuthService {
 
 
     this.http.post<any>(this.rootUrl + "/auth", data, { withCredentials: true } ).subscribe(res => {
-
+      console.log("HUUUULLLLLIII", res)
       this.saveToken(res.accessToken)
       this.setLoggedInUser(res.user)
-      
+    
       localStorage.setItem("user", JSON.stringify(new User(res.user.id, res.user.firstName, res.user.lastName, "", "")))
-      console.log(res)
+      
 
 
     }, err => {

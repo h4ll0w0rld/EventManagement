@@ -7,6 +7,8 @@ import { User } from 'src/app/Object Models/user/user';
 import { BehaviorSubject } from 'rxjs';
 import { EventServiceService } from '../Event Service/event-service.service';
 import { EventModel } from 'src/app/Object Models/EventModel';
+import { Activity } from 'src/app/Object Models/Shiftplan Component/activityModel';
+import { AuthService } from '../Auth Service/auth.service';
 
 
 @Injectable({
@@ -15,6 +17,7 @@ import { EventModel } from 'src/app/Object Models/EventModel';
 export class DashboardService {
 
   shiftsByUser: Subject<userActivity[]> = new Subject<userActivity[]>();
+  shiftRequests: Subject<userActivity[]> = new Subject<userActivity[]>();
 
   rootUrl: string = 'http://localhost:3000';
   userList: Subject<User[]> = new Subject<User[]>();
@@ -31,7 +34,7 @@ export class DashboardService {
 
   storedUser: User;
 
-  constructor(private http: HttpClient, private eventService: EventServiceService) {
+  constructor(private http: HttpClient, private eventService: EventServiceService, private authService: AuthService) {
 
     const stored = localStorage.getItem('selected-dashboard-user');
 
@@ -45,7 +48,17 @@ export class DashboardService {
     this.password = _pw;
   }
 
+  accReq(_act: Activity, _userID:number){
+  //  /activity/:current_event_id/confirmUser/shift_category_id/:shift_category_id/activity_id/:activity_id/user_id/:user_id
+    this.http.put("/activity/" + this.eventService.currentEvent.id + "/confirmUser/shift_category_id/" + this.eventService.currCat.id + "/activity_id/" + _act.uuid + "/user_id/" + _userID, {}, this.authService.getAuthHeader())
+      .subscribe(res => {
+        console.log("Response: ", res)
+      })
+  }
 
+  decReq(){
+
+  }
 
 
   updateUserActivity(_userId?: number) {

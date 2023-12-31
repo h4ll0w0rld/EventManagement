@@ -24,7 +24,7 @@ export class DashboardComponent {
       "startTime": new Date("2023-08-10 13:00"),
       "endTime": new Date("2023-08-10 15:00"),
       "id": 500,
-      "isActive": true,
+     
       "shift_category_id": 200,
       "activities": []
     },

@@ -21,7 +21,7 @@ export class EventServiceService implements AfterViewInit, OnInit {
 
   currentCatSubject: BehaviorSubject<CategoryContent> = new BehaviorSubject<CategoryContent>(new CategoryContent(-1, "", "", -1, []));
   currentCat$ = this.currentCatSubject.asObservable();
-  currCat: CategoryContent = new CategoryContent(-1, "", "", -1, []);
+  currCat: CategoryContent = new CategoryContent(1, "", "", -1, []);
 
   loggedInUser: User = new User(-1, "", "", "", "");
   availableUser: Subject<User[]> = new Subject<User[]>();
@@ -41,7 +41,7 @@ export class EventServiceService implements AfterViewInit, OnInit {
     if (loggedInUser.uuid != -1) this.authService.setLoggedInUser(loggedInUser)
 
     const storedCurrCat = localStorage.getItem('cat');
-    const initCat = storedCurrCat ? JSON.parse(storedCurrCat) : new CategoryContent(-1, "", "", 7, []);
+    const initCat = storedCurrCat ? JSON.parse(storedCurrCat) : new CategoryContent(1, "", "", 7, []);
     if (initCat.id != -1) this.setCurrCat(initCat);
 
     this.getCurrentEvent().subscribe((currentEvent: EventModel) => {
@@ -56,7 +56,7 @@ export class EventServiceService implements AfterViewInit, OnInit {
 
   setCurrentEvent(_event: EventModel) {
     this.currentEventSubject.next(_event)
-    
+
   }
 
   getCurrentEvent(): Observable<EventModel> {
@@ -116,27 +116,33 @@ export class EventServiceService implements AfterViewInit, OnInit {
 
   }
 
+  getRoles() {
+    this.http.get(this.conf.rootUrl + "/permission/" + this.currentEvent.id + "/getRoles").subscribe(res => {
+      console.log(res)
+    })
+  }
+
   addCategory(_name: string, _description: string, _eventId: number, _shiftBlocks: any[]) {
 
 
-  
-      if (this.currentEvent.id != -1) {
 
-        const data = {
-          name: _name,
-          description: _description,
-          event_id: _eventId,
-          shiftBlocks: _shiftBlocks,
-        }
+    if (this.currentEvent.id != -1) {
 
-        this.http.post(this.conf.rootUrl + "/shiftCategory/" + this.currentEvent.id + "/add", data, this.authService.getAuthHeader()).subscribe((res: any) => {
-          this.updateCategories();
-
-        })
-      } else {
-        console.log("EventID = ", this.currentEvent.id)
+      const data = {
+        name: _name,
+        description: _description,
+        event_id: _eventId,
+        shiftBlocks: _shiftBlocks,
       }
- 
+
+      this.http.post(this.conf.rootUrl + "/shiftCategory/" + this.currentEvent.id + "/add", data, this.authService.getAuthHeader()).subscribe((res: any) => {
+        this.updateCategories();
+
+      })
+    } else {
+      console.log("EventID = ", this.currentEvent.id)
+    }
+
 
   }
   // addCategory(_name: string, _description: string, _eventId: number, _shiftBlocks: any[]) {
@@ -184,6 +190,17 @@ export class EventServiceService implements AfterViewInit, OnInit {
         // this.updateShift(_shiftId);
       })
     }
+  }
+
+  regUserForActivity(_activityId: number, _userId: number, _shiftId: number) {
+    //   /activity/:current_event_id/requestUser/shift_category_id/:shift_category_id/activity_id/:activity_id/user_id/:user_id
+    if (this.currCat.id != -1 && this.currentEvent.id != -1) {
+      this.http.put(this.conf.rootUrl + "/activity/" + this.currentEvent.id + "/requestUser/shift_category_id/" + this.currCat.id + "/activity_id/" + _activityId + "/user_id/" + _userId, {}, this.authService.getAuthHeader()).subscribe(req => {
+        console.log("Response", req)
+      })
+    }
+
+
   }
 
   delUserFromActivity(_activityId: number, _userId: number, _shiftId: number): void {
@@ -370,7 +387,7 @@ export class EventServiceService implements AfterViewInit, OnInit {
       }
     );
 
-    
+
   }
 
 }

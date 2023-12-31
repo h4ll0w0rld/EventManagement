@@ -1,9 +1,12 @@
+import { Roles } from "./roles";
+
 export class User {
 
     uuid: number;
     fName: string;
     lName: string;
     email: string;
+    //role: Roles
     password:string;
 
 
@@ -14,6 +17,7 @@ export class User {
         this.lName = _lName;
         this.email = _email;
         this.password = _password;
+       // this.role = _role;
 
     }
 

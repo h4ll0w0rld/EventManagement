@@ -25,7 +25,7 @@ export class HeaderComponent {
       this.unlocked = value;
     })
   }
-
+ 
 
   globalUserlist() {
 

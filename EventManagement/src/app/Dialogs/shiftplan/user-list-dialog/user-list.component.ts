@@ -60,7 +60,7 @@ export class UserListComponent {
 
   addUser(_activityId: number, _userId: number, _shiftId:number) {
  
-    this.eventService.addUserToActivity(_activityId, _userId, _shiftId);
+    this.eventService.regUserForActivity(_activityId, _userId, _shiftId);
     this.eventService.updateCategories();
     this.matDialogRef.close();
 
