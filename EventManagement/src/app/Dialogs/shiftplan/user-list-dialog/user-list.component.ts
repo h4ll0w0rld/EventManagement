@@ -20,6 +20,7 @@ export class UserListComponent {
   ];
 
   selectedUser = 'Kunibert Gloebe';
+  currUserId: any;
  
 
   userList: User[] = [];
@@ -28,7 +29,9 @@ export class UserListComponent {
   constructor(
     public shiftplanService: ShiftplanService, 
     @Inject(MAT_DIALOG_DATA) public data: any, 
-    private matDialogRef: MatDialogRef<UserListComponent>, private eventService: EventServiceService) { }
+    private matDialogRef: MatDialogRef<UserListComponent>, private eventService: EventServiceService) { 
+      this.currUserId = eventService.loggedInUser.uuid;
+    }
 
 
   ngOnInit() {

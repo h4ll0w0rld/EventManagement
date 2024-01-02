@@ -7,6 +7,7 @@ import { ShiftplanLandingComponent } from './Shiftplan Component/shiftplan-landi
 import { EventHubComponent } from './HUB/event-hub/event-hub.component';
 import { DashboardlandingComponent } from './Dashboard Component/dashboardlanding/dashboardlanding.component';
 import { AuthLandingComponent } from './User/auth-landing/auth-landing.component';
+import { InviteLandingComponent } from './User/invite-landing/invite-landing.component';
 
 
 const routes: Routes = [
@@ -14,6 +15,7 @@ const routes: Routes = [
   {path: 'shiftplan', component:ShiftplanLandingComponent },
   {path: '', component:EventHubComponent},
   {path: 'authLanding', component:AuthLandingComponent},
+  {path: 'inviteLanding/:eventId/:userId/:fName/:lName', component:InviteLandingComponent},
 
 ];
 

@@ -7,6 +7,7 @@ import { DelUserDialogComponent } from '../del-user-dialog/del-user-dialog.compo
 import { SubmitDialogComponent } from '../../submit-dialog/submit-dialog.component';
 import { AddUserFormComponent } from '../add-user-form/add-user-form.component';
 import { EventServiceService } from 'src/app/Services/Event Service/event-service.service';
+import { InviteUserDialogComponent } from '../invite-user-dialog/invite-user-dialog.component';
 
 @Component({
   selector: 'app-global-user-list',
@@ -53,7 +54,7 @@ export class GlobalUserListComponent {
 
     let dialogRef = this.dialog.open(AddUserFormComponent,
       {
-        width: '70%',
+        width: '90vw',
         height: 'auto',
       }
     );
@@ -65,4 +66,26 @@ export class GlobalUserListComponent {
       
   }
 
+  invitePersonToEvent() {
+
+    
+  }
+
+  inviteToClaim(_user: any) {
+
+    let dialogRef = this.dialog.open(InviteUserDialogComponent,
+      {
+        data: {
+          user: _user
+        },
+        width: '90vw',
+        height: 'auto',
+      }
+    );
+
+    dialogRef.afterClosed().subscribe(result => {
+
+      this.eventService.getAllUser();
+    })
+  }
 }

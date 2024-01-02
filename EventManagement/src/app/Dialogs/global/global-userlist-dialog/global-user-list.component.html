@@ -5,10 +5,11 @@
     <div class="list-container">
         <div class="user-container" *ngFor="let user of globalUserlist">
             <p class="username">{{user.fName}} {{user.lName}}</p>
+            <button (click)="inviteToClaim(user)">invite</button>
             <mat-icon class="delete-user-icon" aria-hidden="false" svgIcon="delete" (click)="delUserDialog(user)"></mat-icon>
         </div>  
     </div>
 
     <button class="new-person-button" (click)="newUserDialog()">Neue Person anlegen</button>
-    
+    <!-- <button class="invite-person-button" (click)="invitePersonToEvent()">Person einladen</button> -->
 </div>

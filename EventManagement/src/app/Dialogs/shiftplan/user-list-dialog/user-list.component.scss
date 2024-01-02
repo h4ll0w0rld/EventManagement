@@ -11,12 +11,24 @@
 
 }
 
+.confirm-self-button {
+
+  @include button();
+  padding: 10px 20px;
+}
+
 .line {
 
   width: 70%;
   height: 1px;
   background-color: $prim-color;
+  margin: 30px 0px;
 
+}
+
+h3 {
+
+  margin: 0px;
 }
 
 .list-container {
@@ -50,5 +62,5 @@
   height: 10px;
   border-radius: 10px;
   margin-right: 0px;
-  
+
 }

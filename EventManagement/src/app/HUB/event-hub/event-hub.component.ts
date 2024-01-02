@@ -38,7 +38,7 @@ export class EventHubComponent {
     this.dialog.open(LoginComponent,
       {
        
-        width: '95vh',
+        width: '90vw',
         height: 'auto',
       }
 

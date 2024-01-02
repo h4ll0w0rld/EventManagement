@@ -238,7 +238,7 @@ export class EventServiceService implements AfterViewInit, OnInit {
 
   }
 
-  addUser(_firstName: string, _lastName: string) {
+  addUnregUser(_firstName: string, _lastName: string) {
 
 
     if (this.currentEvent.id != -1) {

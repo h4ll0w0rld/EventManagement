@@ -19,7 +19,7 @@ export class AddUserFormComponent {
 
   addNewUser() {
 
-    this.eventService.addUser(this.fName, this.lName);
+    this.eventService.addUnregUser(this.fName, this.lName);
     this.matDialogRef.close();
 
   }

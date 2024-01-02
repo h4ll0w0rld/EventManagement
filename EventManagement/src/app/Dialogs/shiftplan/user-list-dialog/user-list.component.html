@@ -12,14 +12,16 @@
 
   <ng-template #emptyAct>
 
-    <h4>Verfügbare Personen</h4>
+    <button class="confirm-self-button">Eintragen</button>
+
     <div class="line"></div>
+    <h3>Verfügbare Personen</h3>
+    
     <div class="list-container">
-      <div class="user-container" *ngFor="let user of userList"
-        (click)="addUser(data.activity.uuid, user.uuid, data.shiftId)">
+      <div class="user-container" *ngFor="let user of userList">
         <p class="username">{{user.fName}} {{user.lName}}</p>
 
-        <button class="submit-user-button">eintragen</button>
+        <button class="submit-user-button" (click)="addUser(data.activity.uuid, user.uuid, data.shiftId)">Eintragen</button>
       </div>
     </div>
 

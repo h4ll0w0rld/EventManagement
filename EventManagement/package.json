@@ -23,6 +23,7 @@
     "@angular/router": "^16.1.1",
     "@angular/service-worker": "^16.1.1",
     "@syncfusion/ej2-angular-calendars": "^23.1.41",
+    "clipboard": "^2.0.11",
     "hammerjs": "^2.0.8",
     "luxon": "^3.4.3",
     "ngx-mat-timepicker": "^16.1.2",
