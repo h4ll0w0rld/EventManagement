@@ -88,4 +88,10 @@ export class GlobalUserListComponent {
       this.eventService.getAllUser();
     })
   }
+
+  toAdmin(_userId: number) {
+
+    console.log("die User Id is: ", _userId, localStorage.getItem('user'));
+    this.eventService.makeUserToAdmin(_userId);
+  }
 }

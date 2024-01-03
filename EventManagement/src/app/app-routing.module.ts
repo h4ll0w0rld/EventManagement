@@ -15,6 +15,7 @@ const routes: Routes = [
   {path: 'shiftplan', component:ShiftplanLandingComponent },
   {path: '', component:EventHubComponent},
   {path: 'authLanding', component:AuthLandingComponent},
+  {path: 'authLanding/:eventId/:userId/:fName/:lName', component:AuthLandingComponent},
   {path: 'inviteLanding/:eventId/:userId/:fName/:lName', component:InviteLandingComponent},
 
 ];

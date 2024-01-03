@@ -19,7 +19,7 @@ export class RegisterComponent {
 
   }
 
-  onSubmitt() {
+  onSubmit() {
     this.checkPassword()
     if (this.checkPassword()) this.authService.registerUser(
       this.user.firstName,

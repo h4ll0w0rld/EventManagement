@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { AuthService } from 'src/app/Services/Auth Service/auth.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
  
@@ -10,7 +10,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  constructor(private authService:AuthService, private router: Router){}
+
+  @Input() eventId: number | undefined;
+  @Input() userId: number | undefined;
+  @Input() fName: string | undefined;
+  @Input() lName: string | undefined;
+  
+  constructor(private authService:AuthService, private router: Router, private route: ActivatedRoute){}
   user = {
     email: "",
     pass: ""
@@ -19,8 +25,19 @@ export class LoginComponent {
 
   onSubmit(){
     console.log(this.validateInput(this.user.email))
-    this.authService.loginUser(this.user.email, this.user.pass);
-    this.router.navigate(['/'])
+    this.authService.loginUser(this.user.email, this.user.pass)
+    .subscribe(res => {
+
+      if (this.authService.routeFromInviteLanding) {
+        this.authService.routeFromInviteLanding = false;
+        this.router.navigate(['/inviteLanding', this.eventId, this.userId, this.fName, this.lName]);
+      }else {
+        this.router.navigate(['/'])
+      }
+    })
+
+    
+    
 
   }
 

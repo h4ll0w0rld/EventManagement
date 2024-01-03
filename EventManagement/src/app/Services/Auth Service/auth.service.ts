@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable, catchError, map } from 'rxjs';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { User } from 'src/app/Object Models/user/user';
 import { ConfigService } from '../config.service';
@@ -13,6 +14,8 @@ export class AuthService {
   private loggedInUserSubject = new BehaviorSubject<User>(new User(-1, "", "", "", "")); // Example with user data
   loggedInUser$ = this.loggedInUserSubject.asObservable();
 
+  routeFromInviteLanding = false;
+
   constructor(private https: HttpClient, private conf: ConfigService) { }
 
 
@@ -23,7 +26,7 @@ export class AuthService {
     return this.loggedInUser$;
   }
 
-  loginUser(_email: string, _pass: string) {
+  loginUser(_email: string, _pass: string): Observable<any> {
     console.log("Loggin with: ", _email, _pass)
 
     const data = {
@@ -33,18 +36,23 @@ export class AuthService {
     }
 
 
-    this.https.post<any>(this.conf.rootUrl + "/auth", data, { withCredentials: true } ).subscribe(res => {
+    return this.https.post<any>(this.conf.rootUrl + "/auth", data, { withCredentials: true } )
+    .pipe(
+      map(res => {
       console.log("HUUUULLLLLIII", res)
       this.saveToken(res.accessToken)
       this.setLoggedInUser(res.user)
     
       localStorage.setItem("user", JSON.stringify(new User(res.user.id, res.user.firstName, res.user.lastName, "", "")))
       
+      return res;
 
-
-    }, err => {
-      console.log("Error: ", err.message)
+    }), 
+    catchError(err => {
+      console.log("Error: ", err.message);
+      throw err;
     })
+    );
 
   }
 

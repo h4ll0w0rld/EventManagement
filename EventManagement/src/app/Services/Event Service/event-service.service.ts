@@ -70,9 +70,9 @@ export class EventServiceService implements AfterViewInit, OnInit {
     return this.currentCat$;
   }
 
-  getUser(){
-    
-    
+  getUser() {
+
+
   }
 
   updateCategories() {
@@ -150,6 +150,43 @@ export class EventServiceService implements AfterViewInit, OnInit {
 
 
   }
+
+  claimUserInEvent(_eventId: number, _userId: number, _fName: string, _lName: string) {
+
+    const data = {
+      user_id: _userId,
+      firstName: _fName,
+      lastName: _lName
+    }
+
+    const encFName = encodeURIComponent(_fName);
+    const encLName = encodeURIComponent(_lName);
+
+    console.log("die geb ich jz weiter: ", _userId, _fName, _lName);
+
+    this.http.get(this.conf.rootUrl + "/user/" + _eventId + "/claimUser/" + _userId + "/" + encFName + "/" + encLName, this.authService.getAuthHeader()).subscribe((res) => {
+      console.log("juhuuuu user wurde geclaimt!", res);
+    })
+  }
+
+  makeUserToAdmin(_userId: number) {
+
+    const storedUser = localStorage.getItem('user');
+
+    if (storedUser) {
+
+      const currUser = JSON.parse(storedUser);
+
+      if(currUser && currUser.uuid) {
+
+        this.http.put(this.conf.rootUrl + "/permission/" + this.currentEvent.id + "/makeAdmin/user_id/" + _userId, {}, this.authService.getAuthHeader()).subscribe((res) => {
+          console.log("Juhuuuuu: ", res);
+        });
+      } 
+    }
+  }
+
+
   // addCategory(_name: string, _description: string, _eventId: number, _shiftBlocks: any[]) {
   //   this.getCurrentEvent().subscribe((currentEvent: EventModel) => {
   //     if (currentEvent && currentEvent.id !== -1) {

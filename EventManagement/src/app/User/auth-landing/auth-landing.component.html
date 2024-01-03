@@ -4,7 +4,7 @@
     <div class="auth-container">
         <mat-tab-group class="auth-tab-group">
             <mat-tab class="auth-tabs" warn label="Login">
-                <app-login></app-login>
+                <app-login [eventId]="eventId" [userId]="userId" [fName]="fName" [lName]="lName"></app-login>
             </mat-tab>
             <mat-tab class="auth-tabs" label="Registrieren">
                 <app-register></app-register>
