@@ -128,6 +128,7 @@ export class ShiftPlanComponent implements AfterViewInit {
 
     this.eventService.categories.subscribe((categories: CategoryContent[]) => {
       this.categories = categories;
+      this.eventService.setCurrCat(this.getActiveCat())
       // Do something with the received categories in this component
     });
 
@@ -138,12 +139,17 @@ export class ShiftPlanComponent implements AfterViewInit {
   ngAfterViewInit() {
 
     const swiper = this.swiperContainer.nativeElement.swiper
-
+    this.setActiveSlide(0)
     swiper.on('slideChange', (swiper: any) => {
-     
+      
+      console.log("swipe happening")
       this.activeSlideIndex = swiper.activeIndex
       this.setActiveTab(this.tabElements.get(swiper.activeIndex)?.nativeElement)
+      //this.activeSlideIndex = swiper.activeIndex
+      this.eventService.setCurrCat(this.getActiveCat())
     });
+    this.activeSlideIndex = 0;
+    this.eventService.setCurrCat(this.getActiveCat())
     this.eventService.updateCategories()
 
   }

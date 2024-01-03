@@ -2,17 +2,17 @@
 <div class="requestsContainer">
     <div class="requestCard" *ngFor="let request of _shiftRequests">
         <div class="dataContainer">
-            <h3>{{request.catName}}</h3>
+            <h3>{{request.category}}</h3>
             <p> {{request.startTime | date:'EEE dd.MM.yyyy'}} </p>
             <div class="timeContainer">
                 <p> {{request.startTime | date:'HH:mm'}} - {{request.endTime | date:'HH:mm'}} Uhr</p>
-                <p class="endDate small_text" *ngIf="request.startTime.getDate() != request.endTime.getDate()">({{request.endTime | date:'EEE dd.MM.yyyy'}})</p>
+                <p class="endDate small_text" >({{request.endTime | date:'EEE dd.MM.yyyy'}})</p>
             </div>
     
         </div>
         <div class="buttonContainer">
-            <button class="button ja">Ja</button>
-            <button class="button nein">Nein</button>
+            <button (click) ="accReq(request)" class="button ja">Ja</button>
+            <button (click)="decReq(request)" class="button nein">Nein</button>
         </div>
     </div>
 </div>

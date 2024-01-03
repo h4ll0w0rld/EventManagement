@@ -19,7 +19,7 @@ export class EventServiceService implements AfterViewInit, OnInit {
   currentEventSubject: BehaviorSubject<EventModel> = new BehaviorSubject<EventModel>(new EventModel(-1, "", "", new Date(), new Date(), ""));
   currentEvent$ = this.currentEventSubject.asObservable();
 
-  currentCatSubject: BehaviorSubject<CategoryContent> = new BehaviorSubject<CategoryContent>(new CategoryContent(-1, "", "", -1, []));
+  currentCatSubject: BehaviorSubject<CategoryContent> = new BehaviorSubject<CategoryContent>(new CategoryContent(1, "", "", -1, []));
   currentCat$ = this.currentCatSubject.asObservable();
   currCat: CategoryContent = new CategoryContent(1, "", "", -1, []);
 
@@ -68,6 +68,11 @@ export class EventServiceService implements AfterViewInit, OnInit {
   }
   getCurrCat(): Observable<CategoryContent> {
     return this.currentCat$;
+  }
+
+  getUser(){
+    
+    
   }
 
   updateCategories() {

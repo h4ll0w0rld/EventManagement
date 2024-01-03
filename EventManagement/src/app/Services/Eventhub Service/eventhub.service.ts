@@ -16,7 +16,7 @@ export class EventhubService implements OnInit {
   allEvents: EventModel[] = []
 
 
-  constructor(private http: HttpClient, private conf: ConfigService, private authService: AuthService) { }
+  constructor(private https: HttpClient, private conf: ConfigService, private authService: AuthService) { }
 
 
   getUsersEvents() {
@@ -30,7 +30,7 @@ export class EventhubService implements OnInit {
       }
     }
 
-      this.http.get(this.conf.rootUrl + '/user/eventsByUser/user_id/' + this.loggedInUser.uuid, this.authService.getAuthHeader()).subscribe((res: any) => {
+      this.https.get(this.conf.rootUrl + '/user/eventsByUser/user_id/' + this.loggedInUser.uuid, this.authService.getAuthHeader()).subscribe((res: any) => {
         let events: EventModel[] = res;
         this.allEvents = [...events]
 
@@ -46,7 +46,7 @@ export class EventhubService implements OnInit {
 
     addEvent(_event: EventModel) {
       console.log("Date", _event.startDate.toString())
-      this.http.post(this.conf.rootUrl + '/event/add', {
+      this.https.post(this.conf.rootUrl + '/event/add', {
         "name": _event.name,
         "description": _event.description,
         "startDate": this.formatTime(_event.startDate),

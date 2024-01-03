@@ -16,41 +16,19 @@ export class DashboardComponent {
 
   selectedUser: User = new User(1, "Nilsooo", "", "", "");
 
-  allUser: User[] = []     //Can be updated using: /dashboarservice.getAllUser()
+  allUser: User[] = []   
 
-  shiftRequests = [
-    {
-      "catName": "Bar",
-      "startTime": new Date("2023-08-10 13:00"),
-      "endTime": new Date("2023-08-10 15:00"),
-      "id": 500,
-     
-      "shift_category_id": 200,
-      "activities": []
-    },
-    {
-      "catName": "Technik",
-      "startTime": new Date("2023-08-10 15:00"),
-      "endTime": new Date("2023-08-10 17:00"),
-      "id": 500,
-      "isActive": true,
-      "shift_category_id": 200,
-      "activities": []
-    },
-    {
-      "catName": "Security",
-      "startTime": new Date("2023-08-10 13:00"),
-      "endTime": new Date("2023-08-11 15:00"),
-      "id": 500,
-      "isActive": true,
-      "shift_category_id": 200,
-      "activities": []
-    }
-  ]
+  shiftRequests: userActivity[] = []
 
 
 
-  constructor(private dashboardService: DashboardService, private eventService: EventServiceService) {}
+  constructor(private dashboardService: DashboardService, private eventService: EventServiceService) {
+    this.dashboardService.shiftRequests.subscribe(shiftReqs => {
+      this.shiftRequests = shiftReqs;
+    
+    })
+    
+  }
 
 
   clicked() {
@@ -60,7 +38,8 @@ export class DashboardComponent {
 
     const test = this.allUser.find(u => u.uuid === storedUser.uuid)
     this.selectedUser = <User>test;
-    this.dashboardService.updateUserActivity(this.selectedUser.uuid)
+    this.dashboardService.updateUserActivity(this.selectedUser.uuid, "confirmed")
+    this.dashboardService.updateShiftReq(this.selectedUser.uuid, "requested")
 
   }
   
@@ -82,12 +61,13 @@ export class DashboardComponent {
 
     });
 
-    this.dashboardService.updateUserActivity();
+    //this.dashboardService.updateUserActivity();
   }
 
   changeUser() {
 
-    this.dashboardService.updateUserActivity(this.selectedUser.uuid);
+    this.dashboardService.updateUserActivity(this.selectedUser.uuid, "confirmed");
+    this.dashboardService.updateShiftReq(this.selectedUser.uuid, "requested");
     localStorage.setItem('selected-dashboard-user', JSON.stringify(this.selectedUser));
 
   }

@@ -5,14 +5,14 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class ConfigService {
-  rootUrl = "http://localhost:3000";
+  rootUrl = "https://localhost:3000";
   // username = "nil.begann@hsfurtwangen.de";
   // passwd = "qwerty12345678";
   username = 'projektle';
   passwd = "ventit23";
   
   
-  constructor(private http:HttpClient){}
+  constructor(private https:HttpClient){}
 
 
   loginUser(_email:string, _pass:string){
@@ -21,7 +21,7 @@ export class ConfigService {
       password: _pass
 
     }
-    this.http.post(this.rootUrl + "/auth", data).subscribe((res) => {
+    this.https.post(this.rootUrl + "/auth", data).subscribe((res) => {
       console.log(res)
 
     })
@@ -38,7 +38,7 @@ export class ConfigService {
       password: pass
     }
 
-    this.http.post(this.rootUrl + "/register/registerNewUser", data).subscribe((res) => {
+    this.https.post(this.rootUrl + "/register/registerNewUser", data).subscribe((res) => {
       console.log(res)
     })
 

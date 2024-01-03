@@ -2,17 +2,18 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { User } from 'src/app/Object Models/user/user';
+import { ConfigService } from '../config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  rootUrl = "http://localhost:3000";
+  //rootUrl = "https://localhost:3000";
   private loggedInUserSubject = new BehaviorSubject<User>(new User(-1, "", "", "", "")); // Example with user data
   loggedInUser$ = this.loggedInUserSubject.asObservable();
 
-  constructor(private http: HttpClient) { }
+  constructor(private https: HttpClient, private conf: ConfigService) { }
 
 
   setLoggedInUser(user: User) {
@@ -32,7 +33,7 @@ export class AuthService {
     }
 
 
-    this.http.post<any>(this.rootUrl + "/auth", data, { withCredentials: true } ).subscribe(res => {
+    this.https.post<any>(this.conf.rootUrl + "/auth", data, { withCredentials: true } ).subscribe(res => {
       console.log("HUUUULLLLLIII", res)
       this.saveToken(res.accessToken)
       this.setLoggedInUser(res.user)
@@ -57,7 +58,7 @@ export class AuthService {
       password: pass
     }
 
-    this.http.post(this.rootUrl + "/register/registerNewUser", data).subscribe((res) => {
+    this.https.post(this.conf.rootUrl + "/register/registerNewUser", data).subscribe((res) => {
       console.log(res)
     })
 
@@ -78,7 +79,7 @@ export class AuthService {
 
   refreshAccess() {
     console.log("I am starting off")
-    this.http.get(this.rootUrl + "/refresh", { withCredentials: true }).subscribe((res:any) => {
+    this.https.get(this.conf.rootUrl + "/refresh", { withCredentials: true }).subscribe((res:any) => {
       this.saveToken(res.accessToken)
       console.log(res)
     })

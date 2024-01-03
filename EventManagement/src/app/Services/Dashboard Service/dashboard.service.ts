@@ -4,11 +4,12 @@ import { Subject } from 'rxjs/internal/Subject';
 import { userActivity } from 'src/app/Object Models/Dashboard Component/usermodel';
 import { User } from 'src/app/Object Models/user/user';
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { EventServiceService } from '../Event Service/event-service.service';
 import { EventModel } from 'src/app/Object Models/EventModel';
 import { Activity } from 'src/app/Object Models/Shiftplan Component/activityModel';
 import { AuthService } from '../Auth Service/auth.service';
+import { ConfigService } from '../config.service';
 
 
 @Injectable({
@@ -19,22 +20,16 @@ export class DashboardService {
   shiftsByUser: Subject<userActivity[]> = new Subject<userActivity[]>();
   shiftRequests: Subject<userActivity[]> = new Subject<userActivity[]>();
 
-  rootUrl: string = 'http://localhost:3000';
+  //rootUrl: string = 'http://localhost:3000';
   userList: Subject<User[]> = new Subject<User[]>();
 
   //ventit23
 
-  username = 'projektle';
-  password = "ventit23";
-  encodedCredentials = btoa(`${this.username}:${this.password}`);
-  headers = new HttpHeaders({
-    'Authorization': 'Basic ' + this.encodedCredentials
-  });
-  options = { headers: this.headers };
+ 
 
   storedUser: User;
 
-  constructor(private http: HttpClient, private eventService: EventServiceService, private authService: AuthService) {
+  constructor(private http: HttpClient, private eventService: EventServiceService, private authService: AuthService, private conf: ConfigService) {
 
     const stored = localStorage.getItem('selected-dashboard-user');
 
@@ -45,36 +40,48 @@ export class DashboardService {
 
   updatePasswort(_pw: string) {
 
-    this.password = _pw;
+    
   }
 
-  accReq(_act: Activity, _userID:number){
+  accReq(_actID: number,  _catID:number, _userId:number){
   //  /activity/:current_event_id/confirmUser/shift_category_id/:shift_category_id/activity_id/:activity_id/user_id/:user_id
-    this.http.put("/activity/" + this.eventService.currentEvent.id + "/confirmUser/shift_category_id/" + this.eventService.currCat.id + "/activity_id/" + _act.uuid + "/user_id/" + _userID, {}, this.authService.getAuthHeader())
+    this.http.put(this.conf.rootUrl + "/activity/" + this.eventService.currentEvent.id + "/confirmUser/shift_category_id/" + _catID + "/activity_id/" + _actID + "/user_id/" + _userId, {}, this.authService.getAuthHeader())
       .subscribe(res => {
         console.log("Response: ", res)
+        this.updateShiftReq(_userId, "requested");
+        this.updateUserActivity(_userId, "confirmed");
       })
   }
 
-  decReq(){
+  decReq(_actID: number,  _catID:number){
+    // /activity/:current_event_id/removeUser/shift_category_id/:shift_category_id/activity_id/:activity_id
+    this.http.put(this.conf.rootUrl + "/activity/" + this.eventService.currentEvent.id + "/removeUser/shift_category_id/" + _catID + "/activity_id/" + _actID, {}, this.authService.getAuthHeader())
+    .subscribe(res => {
+      console.log("Response: ", res)
+      
+    })
 
   }
+  // /shift/:current_event_id/ShiftsByUser/status/:status/user_id/:user_id
 
-
-  updateUserActivity(_userId?: number) {
+  updateUserActivity(_userId: number, shiftStatus:string) {
 
     if (_userId) {
       this.eventService.getCurrentEvent().subscribe((currentEvent: EventModel) => {
 
         if (currentEvent) {
-          this.http.get<any>(this.rootUrl + '/shift/ShiftsByUser/user_id/' + _userId + '/event_id/' + currentEvent.id, this.options).subscribe((res: any) => {
+          this.http.get<any>(this.conf.rootUrl + '/shift/' + this.eventService.currentEvent.id +'/ShiftsByUser/status/' + shiftStatus + '/user_id/' + _userId, this.authService.getAuthHeader()).subscribe((res: any) => {
 
             const userActivities: userActivity[] = res.map((data: any) => {
               return new userActivity(
                 data.activities[0].user.firstName,
                 data.shift_category.name,
                 data.startTime,
-                data.endTime
+                data.endTime,
+                data.shift_category.id,
+                data.activities[0].id,
+                data.activities[0].user.id,
+                
               );
             });
 
@@ -92,9 +99,42 @@ export class DashboardService {
 
   }
 
+  updateShiftReq(_userId: number, shiftStatus:string) {
+
+    if (_userId) {
+      this.eventService.getCurrentEvent().subscribe((currentEvent: EventModel) => {
+
+        if (currentEvent) {
+          this.http.get<any>(this.conf.rootUrl + '/shift/' + this.eventService.currentEvent.id +'/ShiftsByUser/status/' + shiftStatus + '/user_id/' + _userId, this.authService.getAuthHeader()).subscribe((res: any) => {
+
+            const userActivities: userActivity[] = res.map((data: any) => {
+              console.log(data)
+              return new userActivity(
+                data.activities[0].user.firstName,
+                data.shift_category.name,
+                data.startTime,
+                data.endTime,
+                data.shift_category.id,
+                data.activities[0].id,
+                data.activities[0].user.id,
+
+              );
+            });
+
+            this.shiftRequests.next(userActivities);
+
+          })
+        }
+      })
+    }
+    
+
+
+  }
+
   getAllUser() {
 
-    return this.http.get(this.rootUrl + '/user/all', this.options).subscribe((res: any) => {
+    return this.http.get(this.conf.rootUrl + '/event/'+ this.eventService.currentEvent.id + '/allUsersByEvent', this.authService.getAuthHeader()).subscribe((res: any) => {
       const users: User[] = res.map((user: any) => new User(
         user.id,
         user.firstName,

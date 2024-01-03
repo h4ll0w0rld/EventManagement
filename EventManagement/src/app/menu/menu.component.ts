@@ -20,7 +20,7 @@ export class MenuComponent {
     //this.shiftplan.updateCategorieNames();
     this.eventService.updateCategories();
     this.eventService.getAllUser();
-    this.dashboard.updateUserActivity();
+    //this.dashboard.updateUserActivity();
 
 
   }
