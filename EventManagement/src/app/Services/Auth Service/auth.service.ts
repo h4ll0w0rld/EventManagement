@@ -22,6 +22,7 @@ export class AuthService {
   setLoggedInUser(user: User) {
     this.loggedInUserSubject.next(user);
   }
+
   getLoggedInUser(){
     return this.loggedInUser$;
   }
@@ -32,9 +33,7 @@ export class AuthService {
     const data = {
       emailAddress: _email,
       password: _pass
-
     }
-
 
     return this.https.post<any>(this.conf.rootUrl + "/auth", data, { withCredentials: true } )
     .pipe(
@@ -57,7 +56,7 @@ export class AuthService {
   }
 
 
-  registerUser(_fname: string, _sname: string, _email: string, pass: string) {
+  registerUser(_fname: string, _sname: string, _email: string, pass: string): Observable<any> {
 
     const data = {
       firstName: _fname,
@@ -66,10 +65,12 @@ export class AuthService {
       password: pass
     }
 
-    this.https.post(this.conf.rootUrl + "/register/registerNewUser", data).subscribe((res) => {
-      console.log(res)
-    })
-
+    return this.https.post(this.conf.rootUrl + "/register/registerNewUser", data)
+    .pipe(
+      map((res) => {
+      console.log(res)}
+      )
+    )
   }
 
 

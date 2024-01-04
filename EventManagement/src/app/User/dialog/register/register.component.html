@@ -1,3 +1,7 @@
+<div class="success" [ngClass]="{'fade-in': animationState, 'fade-out': !animationState}">
+    <p>Erfolgreich registriert.</p>
+</div>
+
 <mat-form-field class="form" appearance="outline">
     <mat-label>Vorname:</mat-label>
     <input [(ngModel)]="user.firstName" class="input" matInput name="name" required />
@@ -33,4 +37,4 @@
         Passwort wird <strong>benötigt</strong>
     </mat-error>
 </mat-form-field>
-<button (click) ="onSubmit()">Login</button>
+<button (click) ="onSubmit()">{{buttonText}}</button>

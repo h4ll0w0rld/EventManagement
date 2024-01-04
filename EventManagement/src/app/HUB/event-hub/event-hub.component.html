@@ -1,5 +1,11 @@
 <div class="head">
-    <h4>Planit Events</h4>
+    <div class="logout-div" (click)="logoutUser()">
+        <p class="small_text">Logout</p>
+    </div>
+    <h4>Planit</h4>
+    <div class="username-div">
+        <p class="username small_text">{{getCurrUsername()}}</p>
+    </div>
 </div>
 <button routerLink="/authLanding" style="margin-top: 50px;">Auth</button>
 <button (click) = "click3()" style="margin-top: 50px;">Refresh</button>

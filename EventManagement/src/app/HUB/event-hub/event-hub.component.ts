@@ -21,11 +21,21 @@ import { Subscription, interval, switchMap } from 'rxjs';
 export class EventHubComponent {
 
   private refreshInterval: Subscription = Subscription.EMPTY;;
-  constructor(private elementRef: ElementRef, private dialog: MatDialog, public hubservice: EventhubService, private router: Router, private shiftplanService: ShiftplanService,private authService:AuthService, private eventService: EventServiceService) {
+  constructor(private elementRef: ElementRef, private dialog: MatDialog, public hubservice: EventhubService, private router: Router, private shiftplanService: ShiftplanService,private authService:AuthService, private eventService: EventServiceService) {}
 
 
-  
+  logoutUser() {
+
+    this.authService.logout();
   }
+
+  getCurrUsername() {
+
+    const user = this.eventService.loggedInUser;
+    return user.fName + " " + user.lName;
+  }
+
+
   clicked(){
     
     this.eventService.getRoles();

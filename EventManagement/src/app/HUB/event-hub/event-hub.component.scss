@@ -7,19 +7,53 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 0px 10px;
   top: 0;
   z-index: 2;
   background-color: $prim-color;
   height: $header-height;
-  width: 100%;
+  width: calc(100% - 20px);
 
   h4 {
+    position: absolute;
     font-size: 15px;
     padding: 0px 0px;
     margin: 0px;
     text-align: center;
     color: $sec-color;
     height: max-content;
+  }
+
+  .logout-div {
+    
+    position: fixed;
+    display: flex;
+    align-items: center;
+    left: 10px;
+    height: $header-height;
+    max-width: max-content;
+
+    p {
+      color: white;
+      margin: 0;
+      height: max-content;
+    }
+  }
+
+  .username-div {
+
+    position: fixed;
+    display: flex;
+    align-items: center;
+    right: 10px;
+    height: $header-height;
+    max-width: max-content;
+
+    p {
+      color: white;
+      margin: 0;
+      height: auto;
+    }
   }
 
 
@@ -30,13 +64,13 @@
 
 
   .event-container {
-    
+
     @include Card(100%);
     height: auto;
     display: block;
     width: 100%;
-    
-    .event-name{
+
+    .event-name {
       margin-top: 4%;
       margin-bottom: 0px;
     }
@@ -44,27 +78,30 @@
     p {
       margin: 0;
     }
-    .event-loc{
+
+    .event-loc {
 
       text-align: center;
     }
+
     .event-details {
       margin-left: 4%;
       margin-right: 4%;
-      
+
       display: flex;
       justify-content: center;
       margin-bottom: 4%;
 
-     
-      .event-details{
+
+      .event-details {
         width: 100%;
       }
 
     }
-    .event-title{
-      
-     
+
+    .event-title {
+
+
       text-align: center;
       margin-bottom: 15px;
     }
@@ -73,13 +110,14 @@
   .button {
 
     @include button();
-    
+
     margin: auto;
     margin-top: 10%;
-    
+
 
   }
-  .your-events{
+
+  .your-events {
 
     text-align: center;
   }

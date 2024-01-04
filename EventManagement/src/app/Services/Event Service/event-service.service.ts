@@ -38,6 +38,10 @@ export class EventServiceService implements AfterViewInit, OnInit {
     if (initialEvent.id != -1) this.setCurrentEvent(initialEvent)
     const storedUser = localStorage.getItem('user')
     const loggedInUser: User = storedUser ? JSON.parse(storedUser) : new User(-1, "", "", "", "")
+    
+    this.loggedInUser = loggedInUser;
+    console.log("jetztet: ", this.loggedInUser);
+    
     if (loggedInUser.uuid != -1) this.authService.setLoggedInUser(loggedInUser)
 
     const storedCurrCat = localStorage.getItem('cat');
@@ -387,6 +391,7 @@ export class EventServiceService implements AfterViewInit, OnInit {
       console.log("adding shift went: ", res)
     })
   }
+
   eventFromLS() {
     const eventString = localStorage.getItem("event");
     if (eventString !== null)
@@ -407,11 +412,15 @@ export class EventServiceService implements AfterViewInit, OnInit {
 
 
   }
+
   ngOnInit() {
     this.eventFromLS();
     this.authService.loggedInUser$.subscribe(user => {
       this.loggedInUser = user;
+      console.log("Logged in User grad: ", this.loggedInUser);
     })
+
+    console.log("Logged in User grad: ", this.loggedInUser);
 
 
     const intervalTime = 5000;

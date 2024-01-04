@@ -1,4 +1,5 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -8,6 +9,8 @@ import { ActivatedRoute } from '@angular/router';
   //encapsulation: ViewEncapsulation.None
 })
 export class AuthLandingComponent {
+  
+  @ViewChild('tabGroup') tabGroup!: MatTabGroup;
 
   eventId: number | undefined;
   userId: number | undefined;
@@ -27,5 +30,11 @@ export class AuthLandingComponent {
     })
 
     console.log("testle", this.eventId, this.userId);
+  }
+
+  switchToLogin() {
+
+    
+    this.tabGroup.selectedIndex = 0;
   }
 }
