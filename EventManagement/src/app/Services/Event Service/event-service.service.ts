@@ -92,7 +92,7 @@ export class EventServiceService implements AfterViewInit, OnInit {
           const shifts: Shift[] = category.shifts.map((shift: any) => {
             const activities: Activity[] = shift.activities.map((activity: any) => {
               const user: User = new User(activity.user?.id, activity.user?.firstName, activity.user?.lastName, activity.user?.email, activity.user?.password);
-              const mappedActivity: Activity = new Activity(activity.id, user, true);
+              const mappedActivity: Activity = new Activity(activity.id, user, activity.status);
               return mappedActivity;
             });
 

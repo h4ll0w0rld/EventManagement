@@ -61,13 +61,14 @@ export class UserListComponent {
     this.selectedUser = name;
   }
 
-  addUser(_activityId: number, _userId: number, _shiftId:number) {
+  reqUser(_activityId: number, _userId: number, _shiftId:number) {
  
     this.eventService.regUserForActivity(_activityId, _userId, _shiftId);
-    this.eventService.updateCategories();
-    this.matDialogRef.close();
+    this.onClose();
+  }
 
-
+  addCurrUser() {
+    this.eventService.addUserToActivity(this.data.activity.uuid, this.eventService.loggedInUser.uuid, this.data.shiftId);
   }
 
   delUser() {
@@ -75,6 +76,14 @@ export class UserListComponent {
     this.eventService.delUserFromActivity(this.data.activity.uuid, this.data.activity.user.uuid, this.data.shiftId );
     this.matDialogRef.close();
 
+  }
+
+  onClose() {
+
+    const bool = true;
+    console.log("test beim schließen des Dialogs");
+    this.matDialogRef.close(true);
+    this.eventService.updateCategories();
   }
 
 

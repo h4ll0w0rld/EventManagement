@@ -4,11 +4,11 @@ export class Activity {
 
     uuid: number;
     user: User;
-    status: boolean;
+    status: string;
 
 
 
-    constructor(_uuid: number, _user: User, _status: boolean) {
+    constructor(_uuid: number, _user: User, _status: string) {
 
         this.uuid = _uuid;
         this.user = _user;

@@ -20,13 +20,18 @@
     
     
 
-    @if ($card == "filled" or $card == "empty") {
+    @if ($card == "confirmed" or $card == "requested" or $card == "empty") {
 
         height: 55px;
 
-        &.filledAct {
+        &.confirmedAct {
 
             border-left: 10px solid $third-color;
+        }
+
+        &.requestedAct {
+
+            border-left: 10px solid $color-7;
         }
 
         &.emptyAct {

@@ -13,7 +13,7 @@
             <h3>{{shift.endTime | date: 'EEE dd. MM. yyyy'}}</h3>
         </div>
 
-        <app-shift [nextShift]="i < content.shifts.length ? content.shifts[i+1] : undefined" [shift]="shift"></app-shift>
+        <app-shift [nextShift]="i < content.shifts.length ? content.shifts[i+1] : undefined" [shift]="shift" [catId]="content.id"></app-shift>
 
         <div class="break" *ngIf="i != content.shifts.length -1 && shift.endTime.getTime() !== content.shifts[i + 1].startTime.getTime()">
             <div class="break-text">

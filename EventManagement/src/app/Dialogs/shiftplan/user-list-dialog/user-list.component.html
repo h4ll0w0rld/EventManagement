@@ -12,7 +12,7 @@
 
   <ng-template #emptyAct>
 
-    <button class="confirm-self-button">Eintragen</button>
+    <button (click)="addCurrUser()" class="confirm-self-button">Eintragen</button>
 
     <div class="line"></div>
     <h3>Verfügbare Personen</h3>
@@ -21,7 +21,7 @@
       <div class="user-container" *ngFor="let user of userList">
         <p class="username">{{user.fName}} {{user.lName}}</p>
 
-        <button class="submit-user-button" (click)="addUser(data.activity.uuid, user.uuid, data.shiftId)">Eintragen</button>
+        <button class="submit-user-button" (click)="reqUser(data.activity.uuid, user.uuid, data.shiftId)">Anfragen</button>
       </div>
     </div>
 

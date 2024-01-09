@@ -15,17 +15,20 @@ p {
     width: max-content;
 }
 
-.filledAct {
+.confirmedAct {
 
-    @include Card(100%, "filled", 10px)
+    @include Card(100%, "confirmed", 10px)
+}
+
+.requestedAct {
+
+    @include Card(100%, "requested", 10px)
 }
 
 .emptyAct {
 
     @include Card(100%, "empty", 10px)
 }
-
-
 
 
 
