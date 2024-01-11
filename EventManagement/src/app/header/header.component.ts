@@ -13,6 +13,7 @@ export class HeaderComponent {
 
   title = 'Planit Events';
   unlocked: boolean = false;
+  //isAdmin = false;
 
 
 
@@ -24,6 +25,7 @@ export class HeaderComponent {
     this.shiftplanService.editmode$.subscribe(value => {
       this.unlocked = value;
     })
+    this.eventService.getRoles();
   }
  
 

@@ -58,7 +58,6 @@ export class DashboardService {
     this.http.put(this.conf.rootUrl + "/activity/" + this.eventService.currentEvent.id + "/removeUser/shift_category_id/" + _catID + "/activity_id/" + _actID, {}, this.authService.getAuthHeader())
     .subscribe(res => {
       console.log("Response: ", res)
-      
     })
 
   }

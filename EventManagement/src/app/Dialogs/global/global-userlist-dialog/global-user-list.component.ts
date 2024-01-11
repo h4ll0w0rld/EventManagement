@@ -8,6 +8,7 @@ import { SubmitDialogComponent } from '../../submit-dialog/submit-dialog.compone
 import { AddUserFormComponent } from '../add-user-form/add-user-form.component';
 import { EventServiceService } from 'src/app/Services/Event Service/event-service.service';
 import { InviteUserDialogComponent } from '../invite-user-dialog/invite-user-dialog.component';
+import { UserInfosComponent } from '../user-infos/user-infos.component';
 
 @Component({
   selector: 'app-global-user-list',
@@ -93,5 +94,19 @@ export class GlobalUserListComponent {
 
     console.log("die User Id is: ", _userId, localStorage.getItem('user'));
     this.eventService.makeUserToAdmin(_userId);
+  }
+
+  openInfos() {
+
+    let dialogRef = this.dialog.open(UserInfosComponent,
+      {
+        data: {
+
+        },
+        width: '90vw',
+        height: 'auto'
+
+      }
+    );
   }
 }

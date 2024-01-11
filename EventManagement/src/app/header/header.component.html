@@ -10,7 +10,7 @@
 
         <mat-icon class="global-userlist" aria-hidden="false" svgIcon="userlist" (click)="globalUserlist()"></mat-icon>
 
-        <mat-icon *ngIf="!this.unlocked" class="editmode" aria-hidden="false" svgIcon="locked" (click)="this.shiftplanService.updateEditmode(true)"></mat-icon>
+        <mat-icon *ngIf="eventService.isAdmin && !this.unlocked" class="editmode" aria-hidden="false" svgIcon="locked" (click)="this.shiftplanService.updateEditmode(true)"></mat-icon>
         <mat-icon *ngIf="this.unlocked" class="editmode" aria-hidden="false" svgIcon="unlocked" (click)="this.shiftplanService.updateEditmode(false)"></mat-icon>
 
     </div>

@@ -3,8 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ShiftplanService } from '../../../Services/Shiftplan Service/shiftplan.service';
 import { User } from '../../../Object Models/user/user';
 import { EventServiceService } from 'src/app/Services/Event Service/event-service.service';
-import { Subscription, interval, switchMap } from 'rxjs';
-
+import { DashboardService } from 'src/app/Services/Dashboard Service/dashboard.service';
 
 
 @Component({
@@ -13,23 +12,18 @@ import { Subscription, interval, switchMap } from 'rxjs';
   styleUrls: ['./user-list.component.scss']
 })
 export class UserListComponent {
-  users = [
-    'Kunibert Gloebe',
-    'Harald Lichter',
-    'Herbert Dunkler'
-  ];
 
-  selectedUser = 'Kunibert Gloebe';
   currUserId: any;
- 
-
   userList: User[] = [];
-
   
   constructor(
     public shiftplanService: ShiftplanService, 
+    public dashboardService: DashboardService,
+    public eventService: EventServiceService,
     @Inject(MAT_DIALOG_DATA) public data: any, 
-    private matDialogRef: MatDialogRef<UserListComponent>, private eventService: EventServiceService) { 
+    private matDialogRef: MatDialogRef<UserListComponent> 
+    ) 
+    { 
       this.currUserId = eventService.loggedInUser.uuid;
     }
 
@@ -37,38 +31,43 @@ export class UserListComponent {
   ngOnInit() {
 
     if (!this.data.activity.user.uuid) {
-      console.log(this.data, "DATAAA")
       this.eventService.getAvailableUser(this.data.shiftId, this.data.activity.uuid);
     }
     
     this.eventService.availableUser.subscribe((users: User[]) => {
       this.userList = users;
+
+      if (this.isCurrUserInList()) {
+        this.userList = this.userList.filter(user => user.uuid !== this.eventService.loggedInUser.uuid)
+      }
     });
-
-    
-
   }
 
   ngOnDestroy() {
 
     this.matDialogRef.close();
-
     this.eventService.updateCategories()
   }
 
+  isCurrUserInList() {
 
-  onSelect(name: string): void {
-    this.selectedUser = name;
+    return this.userList.some(user => user.uuid === this.eventService.loggedInUser.uuid);
   }
 
   reqUser(_activityId: number, _userId: number, _shiftId:number) {
  
-    this.eventService.regUserForActivity(_activityId, _userId, _shiftId);
-    this.onClose();
+    this.eventService.regUserForActivity(_activityId, _userId, _shiftId, false).subscribe((res) => {
+      this.onClose();
+    });
+    
   }
 
-  addCurrUser() {
-    this.eventService.addUserToActivity(this.data.activity.uuid, this.eventService.loggedInUser.uuid, this.data.shiftId);
+  addCurrUser(_activityId: number, _userId: number, _shiftId: number) {
+
+    this.eventService.regUserForActivity(_activityId, this.eventService.loggedInUser.uuid, _shiftId, true).subscribe((res) => {
+      this.dashboardService.accReq(_activityId, this.eventService.currCat.id, this.eventService.loggedInUser.uuid);
+      this.onClose();
+    })
   }
 
   delUser() {
@@ -81,10 +80,8 @@ export class UserListComponent {
   onClose() {
 
     const bool = true;
-    console.log("test beim schließen des Dialogs");
     this.matDialogRef.close(true);
     this.eventService.updateCategories();
   }
-
 
 }

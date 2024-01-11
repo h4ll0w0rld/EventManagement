@@ -1,10 +1,10 @@
 import { AfterViewInit, Injectable, OnInit } from '@angular/core';
-import { BehaviorSubject, Observable, Subject, Subscription, interval, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, Subscription, interval, switchMap, throwError } from 'rxjs';
 import { Activity } from 'src/app/Object Models/Shiftplan Component/activityModel';
 import { CategoryContent } from 'src/app/Object Models/Shiftplan Component/category-content';
 import { Shift } from 'src/app/Object Models/Shiftplan Component/shift';
 import { User } from 'src/app/Object Models/user/user';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { EventModel } from 'src/app/Object Models/EventModel';
 import { ConfigService } from '../config.service';
 import { AuthService } from '../Auth Service/auth.service';
@@ -24,6 +24,8 @@ export class EventServiceService implements AfterViewInit, OnInit {
   currCat: CategoryContent = new CategoryContent(1, "", "", -1, []);
 
   loggedInUser: User = new User(-1, "", "", "", "");
+  isAdmin: boolean = false;
+
   availableUser: Subject<User[]> = new Subject<User[]>();
   allUser: Subject<User[]> = new Subject<User[]>();
   categories: Subject<CategoryContent[]> = new Subject<CategoryContent[]>();
@@ -31,17 +33,22 @@ export class EventServiceService implements AfterViewInit, OnInit {
   userList: Subject<User[]> = new Subject<User[]>();
 
 
-
-  constructor(private http: HttpClient, private conf: ConfigService, private authService: AuthService) {
+  constructor(
+    private http: HttpClient, 
+    private conf: ConfigService, 
+    private authService: AuthService
+    ) 
+    {
     const storedEvent = localStorage.getItem('event');
     const initialEvent = storedEvent ? JSON.parse(storedEvent) : new EventModel(-1, "", "", new Date(), new Date(), "");
+
     if (initialEvent.id != -1) this.setCurrentEvent(initialEvent)
     const storedUser = localStorage.getItem('user')
     const loggedInUser: User = storedUser ? JSON.parse(storedUser) : new User(-1, "", "", "", "")
-    
+
     this.loggedInUser = loggedInUser;
     console.log("jetztet: ", this.loggedInUser);
-    
+
     if (loggedInUser.uuid != -1) this.authService.setLoggedInUser(loggedInUser)
 
     const storedCurrCat = localStorage.getItem('cat');
@@ -53,9 +60,7 @@ export class EventServiceService implements AfterViewInit, OnInit {
     })
     this.getCurrCat().subscribe((currCat: CategoryContent) => {
       this.currCat = currCat;
-
     })
-
   }
 
   setCurrentEvent(_event: EventModel) {
@@ -72,11 +77,6 @@ export class EventServiceService implements AfterViewInit, OnInit {
   }
   getCurrCat(): Observable<CategoryContent> {
     return this.currentCat$;
-  }
-
-  getUser() {
-
-
   }
 
   updateCategories() {
@@ -120,20 +120,17 @@ export class EventServiceService implements AfterViewInit, OnInit {
       this.eventFromLS();
       console.log("No Event Selected (UpdateCat)");
     }
-
-
-
   }
 
   getRoles() {
-    this.http.get(this.conf.rootUrl + "/permission/" + this.currentEvent.id + "/getRoles").subscribe(res => {
-      console.log(res)
+
+    this.http.get<any>(this.conf.rootUrl + "/permission/" + this.currentEvent.id + "/getRoles", this.authService.getAuthHeader()).subscribe((res) => {
+      this.isAdmin = res.admin;
+      console.log(this.isAdmin);
     })
   }
 
   addCategory(_name: string, _description: string, _eventId: number, _shiftBlocks: any[]) {
-
-
 
     if (this.currentEvent.id != -1) {
 
@@ -146,13 +143,10 @@ export class EventServiceService implements AfterViewInit, OnInit {
 
       this.http.post(this.conf.rootUrl + "/shiftCategory/" + this.currentEvent.id + "/add", data, this.authService.getAuthHeader()).subscribe((res: any) => {
         this.updateCategories();
-
       })
     } else {
       console.log("EventID = ", this.currentEvent.id)
     }
-
-
   }
 
   claimUserInEvent(_eventId: number, _userId: number, _fName: string, _lName: string) {
@@ -166,11 +160,7 @@ export class EventServiceService implements AfterViewInit, OnInit {
     const encFName = encodeURIComponent(_fName);
     const encLName = encodeURIComponent(_lName);
 
-    console.log("die geb ich jz weiter: ", _userId, _fName, _lName);
-
-    this.http.get(this.conf.rootUrl + "/user/" + _eventId + "/claimUser/" + _userId + "/" + encFName + "/" + encLName, this.authService.getAuthHeader()).subscribe((res) => {
-      console.log("juhuuuu user wurde geclaimt!", res);
-    })
+    this.http.get(this.conf.rootUrl + "/user/" + _eventId + "/claimUser/" + _userId + "/" + encFName + "/" + encLName, this.authService.getAuthHeader()).subscribe((res) => {})
   }
 
   makeUserToAdmin(_userId: number) {
@@ -181,72 +171,34 @@ export class EventServiceService implements AfterViewInit, OnInit {
 
       const currUser = JSON.parse(storedUser);
 
-      if(currUser && currUser.uuid) {
+      if (currUser && currUser.uuid) {
 
         this.http.put(this.conf.rootUrl + "/permission/" + this.currentEvent.id + "/makeAdmin/user_id/" + _userId, {}, this.authService.getAuthHeader()).subscribe((res) => {
           console.log("Juhuuuuu: ", res);
         });
-      } 
+      }
     }
   }
-
-
-  // addCategory(_name: string, _description: string, _eventId: number, _shiftBlocks: any[]) {
-  //   this.getCurrentEvent().subscribe((currentEvent: EventModel) => {
-  //     if (currentEvent && currentEvent.id !== -1) {
-  //       this.addCategoryToEvent(_name, _description, currentEvent.id, _shiftBlocks);
-  //     } else {
-  //       console.log("EventID = ", currentEvent?.id);
-  //     }
-  //   });
-  // }
-
-  // private addCategoryToEvent(name: string, description: string, eventId: number, shiftBlocks: any[]) {
-  //   console.log("Fireeeeee")
-  //   const data = {
-  //     name: name,
-  //     description: description,
-  //     event_id: eventId,
-  //     shiftBlocks: shiftBlocks,
-  //   };
-
-
-
-
 
   delCategory(_id: number) {
 
-
-
     if (this.currentEvent.id != -1) {
       this.http.delete(this.conf.rootUrl + "/shiftCategory/" + this.currentEvent.id + "/delete/id/" + _id, this.authService.getAuthHeader()).subscribe((res: any) => {
-
         this.updateCategories();
       })
     }
-
-
   }
 
-  addUserToActivity(_activityId: number, _userId: number, _shiftId: number) {
-
-    if (this.currCat.id != -1 && this.currentEvent.id != -1) {
-      this.http.put(this.conf.rootUrl + "/activity/" + this.currentEvent.id + "/addUser/shift_category_id/" + this.currCat.id + "/activity_id/" + _activityId + "/user_id/" + _userId, {}, this.authService.getAuthHeader()).subscribe(() => {
-
-        // this.updateShift(_shiftId);
-      })
-    }
-  }
-
-  regUserForActivity(_activityId: number, _userId: number, _shiftId: number) {
+  regUserForActivity(_activityId: number, _userId: number, _shiftId: number, _currUser: boolean): Observable<any> {
     //   /activity/:current_event_id/requestUser/shift_category_id/:shift_category_id/activity_id/:activity_id/user_id/:user_id
     if (this.currCat.id != -1 && this.currentEvent.id != -1) {
-      this.http.put(this.conf.rootUrl + "/activity/" + this.currentEvent.id + "/requestUser/shift_category_id/" + this.currCat.id + "/activity_id/" + _activityId + "/user_id/" + _userId, {}, this.authService.getAuthHeader()).subscribe(req => {
-        console.log("Response", req)
-      })
+
+      return this.http.put(this.conf.rootUrl + "/activity/" + this.currentEvent.id + "/requestUser/shift_category_id/" + this.currCat.id + "/activity_id/" + _activityId + "/user_id/" + _userId, {}, this.authService.getAuthHeader())
+      .pipe()
+    } else {
+      return throwError('Invalid cat or event');
+      
     }
-
-
   }
 
   delUserFromActivity(_activityId: number, _userId: number, _shiftId: number): void {
@@ -257,7 +209,6 @@ export class EventServiceService implements AfterViewInit, OnInit {
         // this.updateShift(_shiftId);
       })
     }
-
   }
 
   addShiftBlockToCategory(_newBlock: any, _catID: number) {
@@ -273,19 +224,15 @@ export class EventServiceService implements AfterViewInit, OnInit {
         }
       ]
     }
-    console.log(data, _catID);
-
 
     if (this.currentEvent.id != -1) {
       this.http.post(this.conf.rootUrl + '/shiftCategory/' + this.currentEvent.id + '/addShiftBlockToCategory/shift_category_id/' + _catID, data, this.authService.getAuthHeader()).subscribe((res: any) => {
         this.updateCategories()
       })
     }
-
   }
 
   addUnregUser(_firstName: string, _lastName: string) {
-
 
     if (this.currentEvent.id != -1) {
 
@@ -293,20 +240,11 @@ export class EventServiceService implements AfterViewInit, OnInit {
         "firstName": _firstName,
         "lastName": _lastName
 
-      }, this.authService.getAuthHeader()).subscribe((res: any) => {
-        console.log("REsponsee: ", res)
-
-        //this.userToEvent(res.data.id)
-
-      })
+      }, this.authService.getAuthHeader()).subscribe((res: any) => {})
     }
-
-
-
   }
 
   userToEvent(_userID: number) {
-
 
     if (this.currentEvent.id != -1) {
 
@@ -316,17 +254,11 @@ export class EventServiceService implements AfterViewInit, OnInit {
 
       })
     }
-
-
   }
 
   delUser(_id: number) {
 
-    this.http.delete(this.conf.rootUrl + "/user/delete/user_id/" + _id, this.authService.getAuthHeader()).subscribe(() => {
-
-      console.log("successfully deleted");
-    });
-
+    this.http.delete(this.conf.rootUrl + "/user/delete/user_id/" + _id, this.authService.getAuthHeader()).subscribe(() => {});
   }
 
   getAllUser() {
@@ -343,17 +275,11 @@ export class EventServiceService implements AfterViewInit, OnInit {
 
         ));
         this.allUser.next(users);
-      }
-
-      );
+      });
     }
-
-
-
   }
 
   getAvailableUser(_shiftCatId: number, _activityId: number) {
-
 
     if (this.currentEvent.id != -1 && this.currCat.id != -1) {
       console.log("cuuCar: ", this.currCat)
@@ -368,61 +294,30 @@ export class EventServiceService implements AfterViewInit, OnInit {
 
         ));
         this.availableUser.next(users);
-      }
-
-      );
+      });
     } else if (this.currCat.id == -1) console.log("No cat selected")
     else console.log("No event selected")
-
-
-
-  }
-
-
-  userToActivity() {
-
-    const data = {
-      "user": 22,
-      "endTime": 24,
-      "event_id": 1
-    }
-
-    this.http.post(this.conf.rootUrl + '/shift/add', data, this.authService.getAuthHeader()).subscribe((res: any) => {
-      console.log("adding shift went: ", res)
-    })
   }
 
   eventFromLS() {
     const eventString = localStorage.getItem("event");
     if (eventString !== null)
       this.currentEvent = JSON.parse(eventString)
-
   }
   ngAfterViewInit() {
-    console.log("Happening")
-
-
 
     if (this.currentEvent.id == -1) {
-      console.log("Happening")
       const eventString = localStorage.getItem("event");
       if (eventString !== null)
         this.currentEvent = JSON.parse(eventString)
     }
-
-
   }
 
   ngOnInit() {
     this.eventFromLS();
     this.authService.loggedInUser$.subscribe(user => {
       this.loggedInUser = user;
-      console.log("Logged in User grad: ", this.loggedInUser);
     })
-
-    console.log("Logged in User grad: ", this.loggedInUser);
-
-
     const intervalTime = 5000;
 
     this.refreshInterval = interval(intervalTime).pipe(
@@ -435,12 +330,8 @@ export class EventServiceService implements AfterViewInit, OnInit {
       (error) => {
         // Handle errors if any
         console.error('Error fetching data:', error);
-      }
-    );
-
-
+      });
   }
-
 }
 
 

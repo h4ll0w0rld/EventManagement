@@ -64,6 +64,7 @@ import { ShiftPersonalActivityComponent } from './Dashboard Component/shift-pers
 import { AuthLandingComponent } from './User/auth-landing/auth-landing.component';
 import { InviteUserDialogComponent } from './Dialogs/global/invite-user-dialog/invite-user-dialog.component';
 import { InviteLandingComponent } from './User/invite-landing/invite-landing.component';
+import { UserInfosComponent } from './Dialogs/global/user-infos/user-infos.component';
 
 // register Swiper custom elements
 register();
@@ -104,7 +105,8 @@ register();
     ShiftPersonalActivityComponent,
     AuthLandingComponent,
     InviteUserDialogComponent,
-    InviteLandingComponent
+    InviteLandingComponent,
+    UserInfosComponent
     
   ],
   imports: [
@@ -199,6 +201,12 @@ export class AppModule  {
     this.matIconRegistry.addSvgIcon(
       "delete",
       this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/delete.svg")
+
+    );
+
+    this.matIconRegistry.addSvgIcon(
+      "info",
+      this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/info.svg")
 
     );
   }

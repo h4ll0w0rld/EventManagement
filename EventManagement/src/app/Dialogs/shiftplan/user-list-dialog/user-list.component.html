@@ -1,23 +1,18 @@
-<!-- <ng-template #emptyAct>
-  <div class="user" *ngFor="let user of userList" (click)="addUser(data.activity.uuid, user.uuid, data.shiftId)">
-    <h3>{{user.fName}} {{user.lName}}</h3>
-  </div>
-</ng-template> -->
-
 
 <div class="dialogContainer">
   <div class="user-container" *ngIf="data.activity.user.uuid else emptyAct" (click)="delUser()">
-    <h3>Aus Liste austragen</h3>
+    <p>Aus Liste austragen<p>
   </div>
 
   <ng-template #emptyAct>
 
-    <button (click)="addCurrUser()" class="confirm-self-button">Eintragen</button>
+    <p *ngIf="!eventService.isAdmin">Möchtest du dich verbindlich eintragen?</p>
+    <button (click)="addCurrUser(data.activity.uuid, eventService.loggedInUser.uuid, data.shiftId)" class="confirm-self-button">Eintragen</button>
 
-    <div class="line"></div>
-    <h3>Verfügbare Personen</h3>
+    <div *ngIf="eventService.isAdmin" class="line"></div>
+    <h3 *ngIf="eventService.isAdmin">Verfügbare Personen</h3>
     
-    <div class="list-container">
+    <div *ngIf="eventService.isAdmin" class="list-container">
       <div class="user-container" *ngFor="let user of userList">
         <p class="username">{{user.fName}} {{user.lName}}</p>
 
