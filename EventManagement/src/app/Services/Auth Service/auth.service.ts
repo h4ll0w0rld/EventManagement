@@ -4,6 +4,7 @@ import { Observable, catchError, map } from 'rxjs';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { User } from 'src/app/Object Models/user/user';
 import { ConfigService } from '../config.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class AuthService {
 
   routeFromInviteLanding = false;
 
-  constructor(private https: HttpClient, private conf: ConfigService) { }
+  constructor(private https: HttpClient, private conf: ConfigService, public router: Router) { }
 
 
   setLoggedInUser(user: User) {
@@ -43,7 +44,7 @@ export class AuthService {
       this.setLoggedInUser(res.user)
     
       localStorage.setItem("user", JSON.stringify(new User(res.user.id, res.user.firstName, res.user.lastName, "", "")))
-      
+      //this.router.navigate(["/hub"])
       return res;
 
     }), 
@@ -88,10 +89,25 @@ export class AuthService {
 
   refreshAccess() {
     console.log("I am starting off")
-    this.https.get(this.conf.rootUrl + "/refresh", { withCredentials: true }).subscribe((res:any) => {
-      this.saveToken(res.accessToken)
-      console.log(res)
-    })
+    this.https.get(this.conf.rootUrl + "/refresh", { withCredentials: true }).subscribe(
+      (res: any) => {
+        // Process the successful response
+        this.saveToken(res.accessToken);
+      
+        console.log("YEAAAAA");
+        console.log(res);
+      },
+      (error) => {
+        // Handle HTTP errors (e.g., network issues)
+        console.error("Error during refreshAccess:", error);
+        // Check if the error status is 401
+        if (error.status === 401) {
+          console.log("Received 401 Unauthorized error");
+          this.router.navigate(["/authLanding"])
+          // Handle 401 error here if needed
+        }
+      }
+    );
   }
 
   getAuthHeader() {

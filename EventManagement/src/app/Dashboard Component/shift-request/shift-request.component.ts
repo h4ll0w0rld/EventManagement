@@ -21,7 +21,7 @@ export class ShiftRequestComponent {
 
   decReq(shift: userActivity) {
 
-    this.dashboardService.decReq(shift.activityId, shift.categoryId);
+    this.dashboardService.decReq(shift.activityId, shift.categoryId, shift.userId);
   }
 
 

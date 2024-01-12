@@ -28,5 +28,5 @@
     </h4>
 
 </div>
-<app-shift-request [_shiftRequests]="shiftRequests"> </app-shift-request>
+<app-shift-request *ngIf="shiftRequests.length > 0" [_shiftRequests]="shiftRequests"> </app-shift-request>
 <app-shift-personal-activity [_shiftsByUser]="shiftsByUser"> </app-shift-personal-activity>

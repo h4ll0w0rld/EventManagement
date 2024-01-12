@@ -53,11 +53,13 @@ export class DashboardService {
       })
   }
 
-  decReq(_actID: number,  _catID:number){
+  decReq(_actID: number,  _catID:number, _userId:number){
     // /activity/:current_event_id/removeUser/shift_category_id/:shift_category_id/activity_id/:activity_id
     this.http.put(this.conf.rootUrl + "/activity/" + this.eventService.currentEvent.id + "/removeUser/shift_category_id/" + _catID + "/activity_id/" + _actID, {}, this.authService.getAuthHeader())
     .subscribe(res => {
       console.log("Response: ", res)
+      this.updateShiftReq(_userId, "requested");
+      this.updateUserActivity(_userId, "confirmed");
     })
 
   }
