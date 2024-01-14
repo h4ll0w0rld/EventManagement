@@ -33,6 +33,11 @@
     height: $header-height;
     max-width: max-content;
 
+    .logout-icon {
+
+      padding-right: 10px;
+    }
+
     p {
       color: white;
       margin: 0;

@@ -65,6 +65,7 @@ import { AuthLandingComponent } from './User/auth-landing/auth-landing.component
 import { InviteUserDialogComponent } from './Dialogs/global/invite-user-dialog/invite-user-dialog.component';
 import { InviteLandingComponent } from './User/invite-landing/invite-landing.component';
 import { UserInfosComponent } from './Dialogs/global/user-infos/user-infos.component';
+import { DeleteShiftDialogComponent } from './Dialogs/shiftplan/delete-shift-dialog/delete-shift-dialog.component';
 
 // register Swiper custom elements
 register();
@@ -106,7 +107,8 @@ register();
     AuthLandingComponent,
     InviteUserDialogComponent,
     InviteLandingComponent,
-    UserInfosComponent
+    UserInfosComponent,
+    DeleteShiftDialogComponent
     
   ],
   imports: [
@@ -207,6 +209,12 @@ export class AppModule  {
     this.matIconRegistry.addSvgIcon(
       "info",
       this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/info.svg")
+
+    );
+
+    this.matIconRegistry.addSvgIcon(
+      "logout",
+      this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/logout.svg")
 
     );
   }

@@ -16,7 +16,7 @@
         <app-shift [nextShift]="i < content.shifts.length ? content.shifts[i+1] : undefined" [shift]="shift" [catId]="content.id"></app-shift>
 
         <div class="break" *ngIf="i != content.shifts.length -1 && shift.endTime.getTime() !== content.shifts[i + 1].startTime.getTime()">
-            <div class="break-text">
+            <div class="break-text"  [ngClass]="{'locked': !unlocked}">
                 <p>{{ calculateBreakTime(content.shifts[i + 1].startTime, shift.endTime)}} Pause</p>
             </div>
             <button class="new-shiftblock-in-break-button" *ngIf="this.unlocked" (click)="commingSoon()"><h3>+</h3></button>

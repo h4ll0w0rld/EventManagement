@@ -1,0 +1,33 @@
+@import '../../../../theme';
+@import '../../../Mixins/buttonMixin';
+
+
+.container {
+
+    padding: 20px 20px;
+}
+
+.first-line-container {
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.delete-user-icon {
+
+    padding: 0px 10px;
+    width: 13px;
+    color: $color-4;
+
+}
+
+.button-container {
+
+    display: flex;
+    justify-content: space-between
+}
+
+button {
+
+    @include button();
+}

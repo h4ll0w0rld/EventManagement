@@ -1,0 +1,18 @@
+@import '../../../Mixins/buttonMixin';
+
+
+:host {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+p {
+    width: 90%;
+}
+
+button {
+
+    @include button();
+}

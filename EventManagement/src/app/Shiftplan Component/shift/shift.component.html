@@ -8,6 +8,8 @@
                 {{shift.startTime | date: 'HH:mm'}}
             </p>
 
+            <mat-icon *ngIf="unlocked" class="delete-icon" [ngClass]="{toggled: toggled}" (click)="delShiftDialog()" aria-hidden="false" svgIcon="delete"></mat-icon>
+
             <p class="end-time small_text" [ngClass]="{'toggled-end-time': toggled}" *ngIf="(nextShift == undefined || shift.endTime.getTime() !== nextShift.startTime.getTime()) && toggled == false"> 
                 {{shift.endTime | date: 'HH:mm'}}
             </p> 

@@ -12,12 +12,23 @@ import { EventServiceService } from 'src/app/Services/Event Service/event-servic
 })
 export class DelUserDialogComponent {
 
-  constructor(public eventService: EventServiceService, @Inject(MAT_DIALOG_DATA) public data: any, private matDialogRef: MatDialogRef<GlobalUserListComponent>) {}
+  message = "";
+
+  constructor(public eventService: EventServiceService, @Inject(MAT_DIALOG_DATA) public data: any, private matDialogRef: MatDialogRef<GlobalUserListComponent>) {
+    this.message = data.message;
+  }
 
 
   deleteUser(_user: User) {
 
-    this.eventService.delUser(_user.uuid);
-    this.matDialogRef.close();
+    this.eventService.removeUserFromEvent(_user.uuid).subscribe((res) => {
+      this.message = "Erfolgreich aus dem Event entfernt!"
+    })
+
+    setTimeout(() => {
+      this.matDialogRef.close('deleted');
+    }, 2000);
+    
+    
   }
 }

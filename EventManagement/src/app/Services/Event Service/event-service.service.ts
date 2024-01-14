@@ -256,9 +256,9 @@ export class EventServiceService implements AfterViewInit, OnInit {
     }
   }
 
-  delUser(_id: number) {
+  removeUserFromEvent(_id: number): Observable<any> {
 
-    this.http.delete(this.conf.rootUrl + "/user/delete/user_id/" + _id, this.authService.getAuthHeader()).subscribe(() => {});
+    return this.http.get(this.conf.rootUrl + "/event/" + this.currentEvent.id +  "/removeUserFromEvent/user_id/" + _id, this.authService.getAuthHeader()).pipe();
   }
 
   getAllUser() {
@@ -298,6 +298,16 @@ export class EventServiceService implements AfterViewInit, OnInit {
     } else if (this.currCat.id == -1) console.log("No cat selected")
     else console.log("No event selected")
   }
+
+  deleteShift(_catId: number, _shiftId: number) {
+
+    this.http.delete(this.conf.rootUrl + '/shift/' + this.currentEvent.id + '/shift_category_id/' + _catId + '/shift_id/' + _shiftId, this.authService.getAuthHeader()).subscribe(res => {
+      console.log(res);
+      this.updateCategories();
+    })
+
+  }
+
 
   eventFromLS() {
     const eventString = localStorage.getItem("event");

@@ -40,6 +40,7 @@ $shift-height: 70px;
     display: flex;
     flex-direction: column;
     text-align: center;
+    align-items: center;
 
     .start-time {
         transform: translateY(-20px);
@@ -52,7 +53,23 @@ $shift-height: 70px;
 
     .end-time {
 
-        transform: translateY(30px);
+        transform: translateY(20px);
+    }
+
+    .delete-icon {
+
+        width: 12px;
+        color: $color-5;
+        overflow: visible;
+
+        transform: translateY(-8px);
+
+        &.toggled {
+
+            transform: translateY(25px);
+        }
+        
+
     }
 
 }

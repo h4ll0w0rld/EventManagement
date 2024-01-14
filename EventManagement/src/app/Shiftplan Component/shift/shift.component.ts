@@ -4,6 +4,8 @@ import { Activity } from 'src/app/Object Models/Shiftplan Component/activityMode
 import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ShiftBreakDialogComponent } from 'src/app/Dialogs/shiftplan/shift-break-dialog/shift-break-dialog.component';
+import { EventServiceService } from 'src/app/Services/Event Service/event-service.service';
+import { DeleteShiftDialogComponent } from 'src/app/Dialogs/shiftplan/delete-shift-dialog/delete-shift-dialog.component';
 
 
 
@@ -31,7 +33,7 @@ export class ShiftComponent {
 
   unlocked = false;
 
-  constructor(public shiftplanService: ShiftplanService, private dialog: MatDialog) {}
+  constructor(public shiftplanService: ShiftplanService, private dialog: MatDialog, public eventService: EventServiceService) {}
 
 
   ngOnInit() {
@@ -39,6 +41,19 @@ export class ShiftComponent {
     this.shiftplanService.editmode$.subscribe(value => {
       this.unlocked = value;
     })
+  }
+
+  delShiftDialog() {
+
+    let dialogRef = this.dialog.open(DeleteShiftDialogComponent,
+      {
+        data: {
+          _catId: this.catId,
+          _shift: this.shift
+        },
+        width: '90vw',
+        height: 'auto'
+      });
   }
 
   shiftBreakDialog() {
@@ -50,12 +65,9 @@ export class ShiftComponent {
           mainMessage: "Möchtest du diese Schicht pausieren?",
           subMessage: "Wenn du die Schicht pausierst können sich zu dieser Zeit keine Personen eintragen."
         },
-        width: '95vh',
+        width: '90vw',
         height: 'auto',
-      }
-
-    );
-
+      });
   }
 }
 

@@ -42,21 +42,8 @@
     background-color: $prim-color;
 }
 
-.delete-user-icon {
-
-    padding: 0px 10px;
-    width: 13px;
-    color: $color-4;
-
-}
-
 .new-person-button {
 
     @include button();
     
-}
-
-.invite-person-button {
-
-    @include button();
 }

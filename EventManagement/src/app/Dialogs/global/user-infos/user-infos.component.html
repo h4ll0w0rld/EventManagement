@@ -1,1 +1,13 @@
-<p>user-infos works!</p>
+
+<div class="container">
+    <div class="first-line-container">
+        <h3>{{data.user.fName}} {{data.user.lName}}</h3>
+        <mat-icon class="delete-user-icon" aria-hidden="false" svgIcon="delete" (click)="delUserDialog()"></mat-icon>
+    </div>
+    <div class="button-container">
+        <button (click)="toAdmin()">zum Admin machen</button>
+        <button (click)="inviteToClaim()">einladen</button>
+    </div>
+    
+</div>
+

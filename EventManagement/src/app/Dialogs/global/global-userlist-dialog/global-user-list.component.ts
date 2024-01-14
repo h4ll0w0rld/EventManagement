@@ -31,7 +31,23 @@ export class GlobalUserListComponent {
     this.eventService.getAllUser();
   }
 
-  delUserDialog(_user: User) {
+  newUserDialog() {
+
+    let dialogRef = this.dialog.open(AddUserFormComponent,
+      {
+        width: '90vw',
+        height: 'auto',
+      }
+    );
+
+    dialogRef.afterClosed().subscribe(result => {
+
+      this.eventService.getAllUser();
+    })
+      
+  }
+
+  delUserDialog(_user: any) {
 
     let dialogRef = this.dialog.open(DelUserDialogComponent,
       {
@@ -51,57 +67,14 @@ export class GlobalUserListComponent {
     })
   }
 
-  newUserDialog() {
+  
 
-    let dialogRef = this.dialog.open(AddUserFormComponent,
-      {
-        width: '90vw',
-        height: 'auto',
-      }
-    );
-
-    dialogRef.afterClosed().subscribe(result => {
-
-      this.eventService.getAllUser();
-    })
-      
-  }
-
-  invitePersonToEvent() {
-
-    
-  }
-
-  inviteToClaim(_user: any) {
-
-    let dialogRef = this.dialog.open(InviteUserDialogComponent,
-      {
-        data: {
-          user: _user
-        },
-        width: '90vw',
-        height: 'auto',
-      }
-    );
-
-    dialogRef.afterClosed().subscribe(result => {
-
-      this.eventService.getAllUser();
-    })
-  }
-
-  toAdmin(_userId: number) {
-
-    console.log("die User Id is: ", _userId, localStorage.getItem('user'));
-    this.eventService.makeUserToAdmin(_userId);
-  }
-
-  openInfos() {
+  openInfos(_user: any) {
 
     let dialogRef = this.dialog.open(UserInfosComponent,
       {
         data: {
-
+          user: _user
         },
         width: '90vw',
         height: 'auto'

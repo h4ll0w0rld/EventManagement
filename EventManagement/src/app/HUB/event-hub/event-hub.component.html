@@ -1,14 +1,14 @@
 <div class="head">
     <div class="logout-div" (click)="logoutUser()">
+        <mat-icon class="logout-icon" aria-hidden="false" svgIcon="logout"></mat-icon>
         <p class="small_text">Logout</p>
     </div>
-    <h4>Planit</h4>
+
     <div class="username-div">
         <p class="username small_text">{{getCurrUsername()}}</p>
     </div>
 </div>
-<button routerLink="/authLanding" style="margin-top: 50px;">Auth</button>
-<button (click) = "click3()" style="margin-top: 50px;">Refresh</button>
+
 <div class="body">
 
     <div class="events">
@@ -24,14 +24,11 @@
             <div class="event-details">
               
                 <!-- <p class="event-details">Beschreibung: <br>{{event.description}} </p> -->
-               
                 
              </div>
            
          </div>
          <button type="submit" class="button" (click)="addCatDialog()">Event Hinzufügen</button>       
-         <button (click) ="clicked()">Test Bttn</button>
     </div>
-   
 
 </div>
