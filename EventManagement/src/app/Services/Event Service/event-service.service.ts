@@ -83,7 +83,6 @@ export class EventServiceService implements AfterViewInit, OnInit {
 
     if (this.currentEvent.id != -1) {
       ///shiftCategory/:current_event_id/all
-      console.log("starting for event NR: ", this.currentEvent.id)
       this.http.get<any>(this.conf.rootUrl + "/shiftCategory/" + this.currentEvent.id + "/all", this.authService.getAuthHeader()).subscribe((res: any) => {
 
         const shiftCategorys = JSON.parse(JSON.stringify(res));
@@ -126,7 +125,6 @@ export class EventServiceService implements AfterViewInit, OnInit {
 
     this.http.get<any>(this.conf.rootUrl + "/permission/" + this.currentEvent.id + "/getRoles", this.authService.getAuthHeader()).subscribe((res) => {
       this.isAdmin = res.admin;
-      console.log(this.isAdmin);
     })
   }
 
@@ -144,8 +142,6 @@ export class EventServiceService implements AfterViewInit, OnInit {
       this.http.post(this.conf.rootUrl + "/shiftCategory/" + this.currentEvent.id + "/add", data, this.authService.getAuthHeader()).subscribe((res: any) => {
         this.updateCategories();
       })
-    } else {
-      console.log("EventID = ", this.currentEvent.id)
     }
   }
 
@@ -282,7 +278,6 @@ export class EventServiceService implements AfterViewInit, OnInit {
   getAvailableUser(_shiftCatId: number, _activityId: number) {
 
     if (this.currentEvent.id != -1 && this.currCat.id != -1) {
-      console.log("cuuCar: ", this.currCat)
       // /activity/:current_event_id/availableUsers/shift_category_id/:shift_category_id/activity_id/:activity_id
       this.http.get(this.conf.rootUrl + '/activity/' + this.currentEvent.id + '/availableUsers/shift_category_id/' + this.currCat.id + '/activity_id/' + _activityId, this.authService.getAuthHeader()).subscribe((res: any) => {
         const users: User[] = res.map((user: any) => new User(
@@ -302,7 +297,6 @@ export class EventServiceService implements AfterViewInit, OnInit {
   deleteShift(_catId: number, _shiftId: number) {
 
     this.http.delete(this.conf.rootUrl + '/shift/' + this.currentEvent.id + '/shift_category_id/' + _catId + '/shift_id/' + _shiftId, this.authService.getAuthHeader()).subscribe(res => {
-      console.log(res);
       this.updateCategories();
     })
 

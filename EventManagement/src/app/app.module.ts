@@ -32,7 +32,6 @@ import { MatTabLink } from '@angular/material/tabs';
 import { UserListComponent } from './Dialogs/shiftplan/user-list-dialog/user-list.component';
 import { DashboardactivityComponent } from './Dashboard Component/dashboardactivity/dashboardactivity.component';
 import {MatNativeDateModule} from '@angular/material/core';
-import { UserLoginComponent } from './user-login/user-login.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DelCatDialogComponent } from './Dialogs/shiftplan/del-cat-dialog/del-cat-dialog.component';
@@ -84,7 +83,6 @@ register();
     ShiftComponent,
     UserListComponent,
     DashboardactivityComponent,
-    UserLoginComponent,
     DelCatDialogComponent,
     ShiftBreakDialogComponent,
     GlobalUserListComponent,

@@ -1,0 +1,26 @@
+@import '../../../theme';
+@import '../../Mixins/buttonMixin';
+
+
+.container {
+
+    background-color: $prim-color;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.joinEvent {
+
+    @include button(2);
+    margin-bottom: 150px;
+}
+
+.text {
+
+    color: white;
+    padding-bottom: 50px;
+}

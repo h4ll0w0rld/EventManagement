@@ -6,10 +6,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 300px;
+    height: auto;
     
-   
-
 }
 
 .headLine{
@@ -19,10 +17,11 @@
 
 .activityContainer {
 
-    height: 100%;
+    align-items: center;
+    height: auto;
+    width: 90vw;
     overflow: scroll;
-   
-    
+    padding-bottom: 100px;
 }
 
 .shifts{
@@ -30,6 +29,7 @@
     @include Card(124px);
 
     flex-direction: column;
+    margin: auto;
     width: 80vw;
     align-items: start;
     margin-bottom: 10px;

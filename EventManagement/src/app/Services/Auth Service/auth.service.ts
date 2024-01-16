@@ -28,8 +28,24 @@ export class AuthService {
     return this.loggedInUser$;
   }
 
+  registerUser(_fname: string, _sname: string, _email: string, pass: string): Observable<any> {
+
+    const data = {
+      firstName: _fname,
+      lastName: _sname,
+      emailAddress: _email,
+      password: pass
+    }
+
+    return this.https.post(this.conf.rootUrl + "/register/registerNewUser", data)
+    .pipe(
+      map((res) => {
+      console.log(res)}
+      )
+    )
+  }
+
   loginUser(_email: string, _pass: string): Observable<any> {
-    console.log("Loggin with: ", _email, _pass)
 
     const data = {
       emailAddress: _email,
@@ -56,24 +72,19 @@ export class AuthService {
 
   }
 
+  logoutUser(): boolean {
 
-  registerUser(_fname: string, _sname: string, _email: string, pass: string): Observable<any> {
+    let status = false;
 
-    const data = {
-      firstName: _fname,
-      lastName: _sname,
-      emailAddress: _email,
-      password: pass
-    }
+    this.https.get(this.conf.rootUrl + "/logout").subscribe((res) => {
 
-    return this.https.post(this.conf.rootUrl + "/register/registerNewUser", data)
-    .pipe(
-      map((res) => {
-      console.log(res)}
-      )
-    )
+      sessionStorage.removeItem('jwtToken');
+      console.log("Erfolgreich ausgeloggt!");
+      status = true;
+    });
+
+    return status;
   }
-
 
   saveToken(token: string): void {
     sessionStorage.setItem('jwtToken', token);
@@ -117,10 +128,5 @@ export class AuthService {
     });
 
     return { headers: headers};
-  }
-
-
-  logout() {
-
   }
 }

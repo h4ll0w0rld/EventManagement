@@ -1,6 +1,5 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-//import { AddEventComponent } from '../Dialogs/global/add-event/add-event.component';
 import { EventhubService } from '../../Services/Eventhub Service/eventhub.service';
 import { Router } from '@angular/router';
 import { AddEventComponent } from '../../Dialogs/global/add-event/add-event.component';
@@ -26,7 +25,8 @@ export class EventHubComponent {
 
   logoutUser() {
 
-    this.authService.logout();
+    this.authService.logoutUser()
+    this.router.navigate(['/authLanding']);
   }
 
   getCurrUsername() {

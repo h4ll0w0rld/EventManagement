@@ -24,5 +24,16 @@ export class ShiftRequestComponent {
     this.dashboardService.decReq(shift.activityId, shift.categoryId, shift.userId);
   }
 
+  nextDay(_request: any) {
 
+    const shiftStart = new Date(_request.startTime);
+    const shiftEnd = new Date(_request.endTime);
+
+    if (shiftStart.getDate() != shiftEnd.getDate()) {
+
+      return true;
+    }
+
+    return false;
+  }
 }

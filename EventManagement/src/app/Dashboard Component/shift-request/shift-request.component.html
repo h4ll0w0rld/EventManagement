@@ -6,7 +6,8 @@
             <p> {{request.startTime | date:'EEE dd.MM.yyyy'}} </p>
             <div class="timeContainer">
                 <p> {{request.startTime | date:'HH:mm'}} - {{request.endTime | date:'HH:mm'}} Uhr</p>
-                <p class="endDate small_text" >({{request.endTime | date:'EEE dd.MM.yyyy'}})</p>
+
+                <p class="endDate small_text" *ngIf="nextDay(request)">({{request.endTime | date:'EEE dd.MM.yyyy'}})</p>
             </div>
     
         </div>

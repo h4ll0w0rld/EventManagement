@@ -6,8 +6,8 @@ import { ActivatedRoute } from '@angular/router';
   selector: 'app-auth-landing',
   templateUrl: './auth-landing.component.html',
   styleUrls: ['./auth-landing.component.scss'],
-  //encapsulation: ViewEncapsulation.None
 })
+
 export class AuthLandingComponent {
   
   @ViewChild('tabGroup') tabGroup!: MatTabGroup;
@@ -21,20 +21,16 @@ export class AuthLandingComponent {
 
   ngOnInit() {
 
-    console.log("testle", this.eventId, this.userId);
     this.route.params.subscribe(params => {
       this.eventId = params['eventId'];
       this.userId = params['userId'];
       this.fName = params['fName'];
       this.lName = params['lName'];
     })
-
-    console.log("testle", this.eventId, this.userId);
   }
 
   switchToLogin() {
 
-    
     this.tabGroup.selectedIndex = 0;
   }
 }
