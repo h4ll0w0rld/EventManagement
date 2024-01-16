@@ -34,10 +34,7 @@
     
   </div>
 
-
-  
-
-  <div class="max-date-error" *ngIf="currentBlock.endTime > formattedEventEndDate(); else endDate">
+  <div class="max-date-error" *ngIf="outOfEventDate(); else endDate">
     <p class="error-message small_text">Das Schichtende liegt außerhalb des Eventzeitraums.</p>
   </div>
 

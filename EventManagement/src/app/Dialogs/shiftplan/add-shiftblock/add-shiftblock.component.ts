@@ -5,12 +5,12 @@ import { UserListComponent } from '../user-list-dialog/user-list.component';
 import { EventServiceService } from 'src/app/Services/Event Service/event-service.service';
 import { EventModel } from 'src/app/Object Models/EventModel';
 import { of, switchMap } from 'rxjs';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-add-shiftblock',
   templateUrl: './add-shiftblock.component.html',
   styleUrls: ['./add-shiftblock.component.scss'],
-  //encapsulation: ViewEncapsulation.None
 })
 export class AddShiftblockComponent {
 
@@ -29,7 +29,7 @@ export class AddShiftblockComponent {
     endTime: new Date(),
 
   }
-  currEvent: EventModel = new EventModel(-1, "", "", new Date(), new Date(), "")
+
   minDate: Date = new Date();
   minZeit: string = "";
   startTimeTime: string = "";
@@ -40,11 +40,8 @@ export class AddShiftblockComponent {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
     private matDialogRef: MatDialogRef<UserListComponent>, public eventService: EventServiceService) {
-    this.eventService.getCurrentEvent().subscribe((currentEvent: EventModel) => {
-      this.currEvent = currentEvent;
-    })
 
-      if (this.currEvent.id != -1) {
+      if (this.eventService.currentEvent.id != -1) {
         if (data.catContent.shifts.some((obj: any) => obj)) {
 
           const shifts = data.catContent.shifts;
@@ -60,7 +57,7 @@ export class AddShiftblockComponent {
 
         }
 
-        this.maxDate = new Date(this.currEvent.endDate);
+        this.maxDate = new Date(this.eventService.currentEvent.endDate);
         this.minZeit = this.minDate.getHours() + ':' + this.minDate.getMinutes();
         this.startTimeTime = this.minDate.getHours() + ':' + this.minDate.getMinutes();
       }
@@ -68,37 +65,19 @@ export class AddShiftblockComponent {
     this.updateEndDate();
   }
 
-
   private updateEndDate() {
 
     const time = this.currentBlock.numberOfShifts * this.currentBlock.intervall;
     const endDate = new Date(this.currentBlock.startTime.getTime() + (time * 60000));
 
     this.currentBlock.endTime = endDate;
-
-    console.log("ende: " + this.currentBlock.endTime);
-    console.log("Event Ende: " + this.formattedEventEndDate());
-    this.eventService.getCurrentEvent().subscribe((currentEvent: EventModel) => {
-
-      if (currentEvent) {
-
-        if (this.currentBlock.endTime > currentEvent.endDate) {
-          console.log("Geeeeeht doch!");
-        }
-      }
-    })
   }
 
-
   onInputChange() {
-
-
   
-
-      if (this.currEvent.id != -1) {
-
+      if (this.eventService.currentEvent.id != -1) {
        
-        const eventEndDate = new Date(this.currEvent.endDate);
+        const eventEndDate = new Date(this.eventService.currentEvent.endDate);
 
         if (this.currentBlock.startTime.getDate() != this.minDate.getDate()) {
 
@@ -132,7 +111,6 @@ export class AddShiftblockComponent {
         currDate.setHours(hours);
         currDate.setMinutes(minutes);
         this.currentBlock.startTime = currDate;
-
       }
     
     this.updateEndDate();
@@ -162,7 +140,6 @@ export class AddShiftblockComponent {
         this.matDialogRef.close();
       }
     })
-
   }
 
   updateCurrentBlock(_lastBlock: any) {
@@ -194,6 +171,21 @@ export class AddShiftblockComponent {
         return of(new Date());
       })
     );
+  }
+
+  outOfEventDate() {
+
+    let outOf = false;
+
+    const formattedDate = new Date(this.currentBlock.endTime)
+    const eventEndDate = new Date (this.eventService.currentEvent.endDate)
+
+    if (formattedDate > eventEndDate) {
+
+      outOf = true;
+    }
+
+    return outOf;
   }
 
 }
