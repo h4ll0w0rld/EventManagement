@@ -1,6 +1,5 @@
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.service';
 import { UserListComponent } from '../user-list-dialog/user-list.component';
 import { EventServiceService } from 'src/app/Services/Event Service/event-service.service';
 import { EventModel } from 'src/app/Object Models/EventModel';
@@ -74,7 +73,7 @@ export class AddShiftblockComponent {
   }
 
   onInputChange() {
-  
+      console.log("curr start !!: ", this.currentBlock.startTime)
       if (this.eventService.currentEvent.id != -1) {
        
         const eventEndDate = new Date(this.eventService.currentEvent.endDate);
@@ -106,11 +105,10 @@ export class AddShiftblockComponent {
           }
         }
 
-        const [hours, minutes] = this.startTimeTime.split(':').map(Number);
         const currDate = new Date(this.currentBlock.startTime);
-        currDate.setHours(hours);
-        currDate.setMinutes(minutes);
+        console.log("nach set:", currDate)
         this.currentBlock.startTime = currDate;
+        console.log(currDate)
       }
     
     this.updateEndDate();
