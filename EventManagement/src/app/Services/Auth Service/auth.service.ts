@@ -94,6 +94,10 @@ export class AuthService {
     return sessionStorage.getItem('jwtToken');
   }
 
+  delToken(){
+    return sessionStorage.clear()
+  }
+
   validateToken() {
 
   }
@@ -114,6 +118,7 @@ export class AuthService {
         // Check if the error status is 401
         if (error.status === 401) {
           console.log("Received 401 Unauthorized error");
+          this.delToken()
           this.router.navigate(["/authLanding"])
           // Handle 401 error here if needed
         }
