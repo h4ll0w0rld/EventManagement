@@ -47,6 +47,7 @@ export class InviteLandingComponent {
       
       console.log("die geb ich jz weiter: ", this.userId, this.fName, this.lName);
       this.eventService.claimUserInEvent(this.eventId, this.userId, this.fName, this.lName);
+      this.router.navigate(['/']);
     }
     
   }
