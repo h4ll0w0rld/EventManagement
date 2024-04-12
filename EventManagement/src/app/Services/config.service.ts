@@ -5,11 +5,8 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class ConfigService {
-  rootUrl = "https://localhost:3000";
-  // username = "nil.begann@hsfurtwangen.de";
-  // passwd = "qwerty12345678";
-  username = 'projektle';
-  passwd = "ventit23";
+  rootUrl = "http://localhost:3000";
+
   
   
   constructor(private https:HttpClient){}
@@ -45,9 +42,9 @@ export class ConfigService {
   }
 
   getAuthHeader() {
-      let encodedCredentials = btoa(`${this.username}:${this.passwd}`);
+      //let encodedCredentials = btoa(`${this.username}:${this.passwd}`);
       let headers = new HttpHeaders({
-          'Authorization': 'Basic ' + encodedCredentials
+          'Authorization': 'Basic ' 
       });
      
       return { headers: headers };

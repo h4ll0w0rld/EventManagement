@@ -3,6 +3,8 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as ClipboardJS from 'clipboard';
 import { EventServiceService } from 'src/app/Services/Event Service/event-service.service';
 import { ConfigService } from 'src/app/Services/config.service';
+import { Location } from '@angular/common';
+
 
 @Component({
   selector: 'app-invite-user-dialog',
@@ -16,7 +18,7 @@ export class InviteUserDialogComponent {
   clipboard: ClipboardJS | undefined;
   buttonText = "Kopieren";
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private eventService: EventServiceService, private configService: ConfigService) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private eventService: EventServiceService, private configService: ConfigService, private location: Location) {
 
     this.createInviteLink("maxi");
 
@@ -24,10 +26,8 @@ export class InviteUserDialogComponent {
 
 
   createInviteLink(_fName: string) {
-
-    const rootUrl = "https://www.planitevent.de/#"
-
-    this.link = `${rootUrl}/inviteLanding/${this.eventService.currentEvent.id}/${this.data.user.uuid}/${this.data.user.fName}/${this.data.user.lName}`;
+    console.log()
+    this.link = `${window.location.host}/#/inviteLanding/${this.eventService.currentEvent.id}/${this.data.user.uuid}/${this.data.user.fName}/${this.data.user.lName}`;
   }
 
   copyToClipboard() {

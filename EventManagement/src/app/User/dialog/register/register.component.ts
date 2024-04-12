@@ -21,18 +21,18 @@ export class RegisterComponent {
     firstName: "",
     lastName: "",
     emailAddress: "",
-    password: "NilsTest!"
+    password: ""
 
   }
 
   onSubmit() {
 
-    this.checkPassword()
+    //this.checkPassword()
     if (this.checkPassword()) this.authService.registerUser(
       this.user.firstName,
       this.user.lastName,
       this.user.emailAddress,
-      this.user.password
+      this.user.password = this.firstPass
 
     ).subscribe((res) => {
 

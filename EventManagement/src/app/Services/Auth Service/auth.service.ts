@@ -78,7 +78,8 @@ export class AuthService {
 
     this.https.get(this.conf.rootUrl + "/logout").subscribe((res) => {
 
-      sessionStorage.removeItem('jwtToken');
+      sessionStorage.clear()
+      localStorage.clear();
       console.log("Erfolgreich ausgeloggt!");
       status = true;
     });

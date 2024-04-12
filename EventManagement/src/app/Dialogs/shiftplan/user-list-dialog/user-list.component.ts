@@ -15,25 +15,23 @@ export class UserListComponent {
 
   currUserId: any;
   userList: User[] = [];
-  
+
   constructor(
-    public shiftplanService: ShiftplanService, 
+    public shiftplanService: ShiftplanService,
     public dashboardService: DashboardService,
     public eventService: EventServiceService,
-    @Inject(MAT_DIALOG_DATA) public data: any, 
-    private matDialogRef: MatDialogRef<UserListComponent> 
-    ) 
-    { 
-      this.currUserId = eventService.loggedInUser.uuid;
-    }
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private matDialogRef: MatDialogRef<UserListComponent>
+  ) {
+    this.currUserId = eventService.loggedInUser.uuid;
+  }
 
 
   ngOnInit() {
-
-    if (!this.data.activity.user.uuid) {
-      this.eventService.getAvailableUser(this.data.shiftId, this.data.activity.uuid);
-    }
     
+    this.eventService.getAvailableUser(this.data.shiftId, this.data.activity.uuid);
+
+
     this.eventService.availableUser.subscribe((users: User[]) => {
       this.userList = users;
 
@@ -54,12 +52,12 @@ export class UserListComponent {
     return this.userList.some(user => user.uuid === this.eventService.loggedInUser.uuid);
   }
 
-  reqUser(_activityId: number, _userId: number, _shiftId:number) {
- 
+  reqUser(_activityId: number, _userId: number, _shiftId: number) {
+
     this.eventService.regUserForActivity(_activityId, _userId, _shiftId, false).subscribe((res) => {
       this.onClose();
     });
-    
+
   }
 
   addCurrUser(_activityId: number, _userId: number, _shiftId: number) {
@@ -71,8 +69,8 @@ export class UserListComponent {
   }
 
   delUser() {
-    
-    this.eventService.delUserFromActivity(this.data.activity.uuid, this.data.activity.user.uuid, this.data.shiftId );
+
+    this.eventService.delUserFromActivity(this.data.activity.uuid, this.data.activity.user.uuid, this.data.shiftId);
     this.matDialogRef.close();
 
   }

@@ -13,8 +13,8 @@ import { EventServiceService } from 'src/app/Services/Event Service/event-servic
 export class DashboardComponent {
 
   shiftsByUser: userActivity[] = [];
-
-  selectedUser: User = new User(1, "Nilsooo", "", "", "");
+  
+  selectedUser: User = new User(-1,"","","","");
 
   allUser: User[] = []   
 
@@ -27,6 +27,12 @@ export class DashboardComponent {
       this.shiftRequests = shiftReqs;
     
     })
+
+    const localUser:any = localStorage.getItem("user");
+    this.selectedUser = JSON.parse(localUser) 
+    console.log("selected user: ", this.selectedUser.fName)
+
+    //this.selectedUser = this.allUser
     
   }
 

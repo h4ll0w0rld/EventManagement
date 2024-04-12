@@ -245,7 +245,7 @@ export class EventServiceService implements AfterViewInit, OnInit {
     if (this.currentEvent.id != -1) {
 
       this.http.get(this.conf.rootUrl + "/event/addUserToEvent/event_id/" + this.currentEvent.id + "/user_id/" + _userID, this.authService.getAuthHeader()).subscribe((res: any) => {
-        console.log("heho le user est: ", this.loggedInUser)
+
         console.log(res)
 
       })
@@ -258,7 +258,6 @@ export class EventServiceService implements AfterViewInit, OnInit {
   }
 
   getAllUser() {
-    //   /event/:current_event_id/allUsersByEvent
 
     if (this.currentEvent.id != -1) {
       this.http.get(this.conf.rootUrl + '/event/' + this.currentEvent.id + '/allUsersByEvent/', this.authService.getAuthHeader()).subscribe((res: any) => {
