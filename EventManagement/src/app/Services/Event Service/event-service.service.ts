@@ -128,6 +128,10 @@ export class EventServiceService implements AfterViewInit, OnInit {
     })
   }
 
+  getUsersByShiftCatId(){
+    
+  }
+
   addCategory(_name: string, _description: string, _eventId: number, _shiftBlocks: any[]) {
 
     if (this.currentEvent.id != -1) {

@@ -1,2 +1,32 @@
-<p>Bar</p>
-<p>18:00 - 22:00</p>
+<mat-card class="activity-card" (click)="toggleHelpers()">
+  <div class="activity-row">
+    <!-- Linke Seite: Bereich -->
+    <div class="activity-left">
+      <div class="activity-role">{{ role }}</div>
+    </div>
+
+    <!-- Rechte Seite: Datum oben, Zeit unten -->
+    <div class="activity-right">
+      <div class="activity-date">{{ date | date: 'EEE, dd.MM.yy' }}</div>
+      <div class="activity-time">{{ start }} – {{ end }}</div>
+    </div>
+  </div>
+
+  <!-- Helfer anzeigen -->
+  <div class="activity-helpers" *ngIf="showHelpers">
+    <div *ngFor="let helper of helpers" class="helper-item">
+      <span
+        class="dot"
+        [ngClass]="{
+          'dot-yellow': helper.role === 'Schichtleitung',
+          'dot-green': helper.role !== 'Schichtleitung'
+        }"
+      ></span>
+      <span class="helper-name">
+        <ng-container *ngIf="helper.isLead">★</ng-container>
+        {{ helper.fName }} {{ helper.lName }}
+        <span *ngIf="helper.isCurrent">(Du)</span>
+      </span>
+    </div>
+  </div>
+</mat-card>

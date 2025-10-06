@@ -5,6 +5,7 @@ import { EventModel } from 'src/app/Object Models/EventModel';
 import { ConfigService } from '../config.service';
 import { AuthService } from '../Auth Service/auth.service';
 import { User } from 'src/app/Object Models/user/user';
+import { Subject } from 'rxjs/internal/Subject';
 
 
 @Injectable({
@@ -13,7 +14,9 @@ import { User } from 'src/app/Object Models/user/user';
 export class EventhubService implements OnInit {
 
   loggedInUser: User = new User(-1, "", "", "", "");
-  allEvents: EventModel[] = []
+  
+  allEvents: Subject<EventModel[]> = new Subject<EventModel[]>();
+  
 
 
   constructor(private https: HttpClient, private conf: ConfigService, private authService: AuthService) { }
@@ -32,7 +35,7 @@ export class EventhubService implements OnInit {
 
       this.https.get(this.conf.rootUrl + '/user/eventsByUser/user_id/' + this.loggedInUser.uuid, this.authService.getAuthHeader()).subscribe((res: any) => {
         let events: EventModel[] = res;
-        this.allEvents = [...events]
+        this.allEvents.next(events);
 
       }, err => {
 

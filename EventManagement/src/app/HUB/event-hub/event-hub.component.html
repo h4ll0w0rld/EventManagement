@@ -15,12 +15,11 @@
       
         <h2 class="your-events">Deine Events:</h2>
        
-         <div class="event-container" routerLink="/shiftplan" *ngFor= "let event of this.hubservice.allEvents" (click)="loadEvent(event)">
+         <div class="event-container" routerLink="/shiftplan">
             <div class="event-title">
-                <h3 class="event-name">{{event.name}}</h3>
-                <p>{{event.startDate | date: 'dd.MM.yy HH:mm'}} - {{event.endDate | date: 'dd.MM.yy HH:mm'}}</p>
+                
             </div>
-            <p class="event-loc">Veranstaltungsort: <br>{{event.location}} </p>
+            <p class="event-loc">Veranstaltungsort: <br></p>
             <div class="event-details">
               
                 <!-- <p class="event-details">Beschreibung: <br>{{event.description}} </p> -->

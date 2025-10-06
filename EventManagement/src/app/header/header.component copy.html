@@ -1,12 +1,13 @@
 <div class="head">
-  <!-- Left: Title with toggle -->
+  <!-- Left side: Title + dropdown toggle -->
   <div class="home-icon-div" (click)="toggleEventDropdown()">
-    <mat-icon class="home-icon" svgIcon="logout" routerLink="/"></mat-icon>
     <h4>{{ title }}</h4>
-    <mat-icon class="dropdown-icon">expand_more</mat-icon>
+    <div class="chevron-icon">
+      <mat-icon svgIcon="arrow_drop_down"></mat-icon>
+    </div>
   </div>
 
-  <!-- Right: User icon -->
+  <!-- Right side: User icon -->
   <div class="user-icon" (click)="openUserMenu()">
     <div class="user-circle">
       <span>{{ getInitials() }}</span>
@@ -14,12 +15,12 @@
   </div>
 </div>
 
-<!-- Dropdown -->
+<!-- Dropdown: Event list -->
 <div class="event-dropdown" *ngIf="showEventDropdown">
   <ul>
     <li *ngFor="let event of userEvents" (click)="selectEvent(event)">
       {{ event.name }}
     </li>
   </ul>
-  <button class="new-event-btn" (click)="createNewEvent()">Event hinzufügen</button>
+  <button class="new-event-btn" (click)="createNewEvent()">Neues Event</button>
 </div>

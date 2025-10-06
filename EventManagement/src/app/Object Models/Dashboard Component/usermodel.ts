@@ -25,4 +25,6 @@ export class userActivity {
         this.userId = _userId;
 
     }
+
+   
 }

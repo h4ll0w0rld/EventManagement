@@ -17,8 +17,8 @@ export class AuthInterceptorService implements HttpInterceptor {
         if (error.status === 401) {
           // Handle 401  Unauthorized responses here
           console.log("current Route: ", this.currentRoute)
-          if(localStorage.getItem("jwt")) this.authService.refreshAccess()
-          else this.router.navigate(['/authLanding'])
+          //if(localStorage.getItem("jwt")) this.authService.refreshAccess()
+          //else this.router.navigate(['/authLanding'])
           // Call a dedicated function or perform actions
           // Example: this.authService.logout();
           // Example: this.router.navigate(['/login']);

@@ -1,70 +1,95 @@
-@import '../../theme';
-
-
 .head {
-    position: fixed;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    top: 0;
-    z-index: 2;
-    background-color: $prim-color;
-    height: $header-height;
-    width: 100%;
-
-    h4 {
-      font-size: 15px;
-      padding: 0px 0px;
-      margin: 0px;
-      text-align: center;
-      color: $sec-color;
-      height: max-content;
-    }
-  
-    .home-icon-div {
-  
-      position: fixed;
-      display: flex;
-      justify-content: center;
-      align-items: left;
-      left: 5px;
-      height: $header-height;
-      max-width: max-content;
-      
-      .home-icon {
-
-        padding: 5px;
-        width: 22px;
-
-      }
-    }
-
-    .icon-row {
-
-        position: fixed;
-        display: flex;
-        justify-content: center;
-        align-items: right;
-        right: 5px;
-        height: $header-height;
-        max-width: max-content;
-      
-        .editmode {
-      
-          padding: 5px;
-          width: 14px;
-          margin-left: 5px;
-      
-        }
-      
-        .global-userlist {
-      
-          padding: 5px;
-          width: 30px;
-      
-        }
-      
-    } 
-  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #032c47;
+  padding: 12px 20px;
+  color: white;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  position: relative;
 }
 
+.home-icon-div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+
+  h4 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  .dropdown-icon {
+    font-size: 20px;
+    color: white;
+  }
+}
+
+.user-icon {
+  cursor: pointer;
+}
+
+.user-circle {
+  background-color: white;
+  color: #032c47;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Event Dropdown */
+.event-dropdown {
+  position: absolute;
+  top: 60px;
+  left: 10px;
+  right: 10px;
+  background-color: #032c47;
+  border-radius: 16px;
+  padding: 16px;
+  z-index: 200;
+  box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.2);
+  font-family: 'Roboto', sans-serif;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.event-dropdown ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.event-dropdown li {
+  padding: 12px 0;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.event-dropdown li:last-child {
+  border-bottom: none;
+}
+
+.new-event-btn {
+  width: 100%;
+  margin-top: 16px;
+  background-color: white;
+  color: #032c47;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+}

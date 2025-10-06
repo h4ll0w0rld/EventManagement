@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { min } from 'rxjs';
 import { EventModel } from 'src/app/Object Models/EventModel';
 import { EventhubService } from 'src/app/Services/Eventhub Service/eventhub.service';
@@ -17,7 +18,8 @@ export class AddEventComponent {
   startTime: string = "18:00"
   endTime: string = "23:00"
 
-  constructor( public hubservice: EventhubService, private dialogRef: MatDialogRef<AddEventComponent>){
+  constructor( public hubservice: EventhubService, private router: Router
+  ){
   }
 
   onSubmit() {
@@ -36,7 +38,7 @@ export class AddEventComponent {
     this.newEvent.startDate = date
     this.hubservice.addEvent(this.newEvent)
     
-    this.dialogRef.close();
+    this.router.navigate(['']);
 
 
   }

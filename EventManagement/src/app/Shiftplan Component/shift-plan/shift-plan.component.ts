@@ -142,15 +142,13 @@ export class ShiftPlanComponent implements AfterViewInit {
     this.setActiveSlide(0)
     swiper.on('slideChange', (swiper: any) => {
       
-      console.log("swipe happening")
       this.activeSlideIndex = swiper.activeIndex
       this.setActiveTab(this.tabElements.get(swiper.activeIndex)?.nativeElement)
       //this.activeSlideIndex = swiper.activeIndex
       this.eventService.setCurrCat(this.getActiveCat())
     });
     this.activeSlideIndex = 0;
-    this.eventService.setCurrCat(this.getActiveCat())
-    this.eventService.updateCategories()
+
 
   }
 }

@@ -46,7 +46,7 @@ export class AuthService {
   }
 
   loginUser(_email: string, _pass: string): Observable<any> {
-
+    console.log("Logging in")
     const data = {
       emailAddress: _email,
       password: _pass
@@ -60,7 +60,7 @@ export class AuthService {
       this.setLoggedInUser(res.user)
     
       localStorage.setItem("user", JSON.stringify(new User(res.user.id, res.user.firstName, res.user.lastName, "", "")))
-      //this.router.navigate(["/hub"])
+      this.router.navigate(["/dashboard"])
       return res;
 
     }), 
@@ -88,6 +88,7 @@ export class AuthService {
   }
 
   saveToken(token: string): void {
+    console.log(token, "TOOOOOOOOOKEN")
     sessionStorage.setItem('jwtToken', token);
   }
 
@@ -128,7 +129,7 @@ export class AuthService {
   }
 
   getAuthHeader() {
-
+    console.log("AUTH HEADER TOKEN: ", this.getToken() )
     let headers = new HttpHeaders({
       'Authorization': 'Bearer ' + this.getToken()
     });

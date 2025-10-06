@@ -1,32 +1,32 @@
-<!-- <div class="dashboard-container">
-
-    <div class="dashboard-heading">
-
-        <h4>Willkommen
-            <select [(ngModel)]="currUser" (change)="changeUser()">
-                <option *ngFor="let user of allUser" [ngValue]="user">{{user.fName}} {{user.lName}}</option>
-              
+<div class="dashboard-container">
+    <!-- Deine Schichten -->
+    <div class="section">
+        <div class="section-header">
+            <h5>Deine Schichten</h5>
+            <select [(ngModel)]="selectedUser" (change)="changeUser()">
+                <option *ngFor="let user of allUser" [ngValue]="user">
+                    {{ user.fName }} {{ user.lName }}
+                </option>
             </select>
-        </h4>
-        <h5>Deine Tätigkeiten</h5>
+        </div>
 
+        <div *ngFor="let shift of shiftsByUser">
+            <!-- Loop through activities inside each shift -->
+            <ng-container *ngFor="let activity of shift.activities">
+                <app-dashboardactivity [role]="shift.shift_category.name || ''"
+                    [start]="(shift.startTime | date: 'shortTime') || ''"
+                    [end]="(shift.endTime | date: 'shortTime') || ''" [date]="(shift.endTime | date: 'shortDate') || ''"
+                    [userName]="activity.user.firstName + ' ' + activity.user.lastName"
+                    [status]="activity.status || ''">
+                </app-dashboardactivity>
+            </ng-container>
+        </div>
     </div>
 
-    //<app-dashboardactivity *ngFor="let shift of activities"></app-dashboardactivity>
-
-    
-
-    <div style="width: 100%; height: 0px; padding-top: 200px"></div>
-
-</div> -->
-<div class="dashboard-heading">
-    <h4>Willkommen
-        <select [(ngModel)]="selectedUser" (change)="changeUser()">
-            <option *ngFor="let user of allUser" [ngValue]="user">{{user.fName}} {{user.lName}}</option>
-          
-        </select>
-    </h4>
-
+    <!-- Deine Anfragen -->
+    <div class="section">
+        <h5 class="section-title">Deine Anfragen</h5>
+        <app-shift-request *ngIf="shiftRequests.length > 0" [_shiftRequests]="shiftRequests">
+        </app-shift-request>
+    </div>
 </div>
-<app-shift-request *ngIf="shiftRequests.length > 0" [_shiftRequests]="shiftRequests"> </app-shift-request>
-<app-shift-personal-activity [_shiftsByUser]="shiftsByUser"> </app-shift-personal-activity>

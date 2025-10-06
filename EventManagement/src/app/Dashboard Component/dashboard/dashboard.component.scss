@@ -3,81 +3,85 @@
 
 
 .dashboard-container {
-
-    
-    height: $content-height;
-    padding-top: $header-height;
-    margin: 0;
-    //overflow: scroll;
-    
-}
-
-.dashboard-heading {
-
-    position: sticky;
-    top: 0px;
-    height: 50px;
-}
-
-h2{
-    margin-left: 80px;
-    margin-top: 40px;
-}
-
-h4{
-    text-align: center;
-    font-weight:bolder;
-    margin: auto;
-    padding-top: 20px;
-}
-
-h5 {
-
-    font-size: 15px;
-    text-align: center;
-    padding-top: 5vh;
-}
-
-h6 {
-
-    font-weight: bold;
-    font-size: 13px;
-}
-
-.shifts{
-    @include Card(auto);
-    padding: 20px;
-    margin: 20px;
-    margin-left: 60px;
-    margin-right: 60px;
-    border-radius: 18px;
-    background-color:#ffffff;
-    display: block;
-}
-
-ul{
-    font-size: small;
-    list-style-type: none;
-
-}
-
-.flex-container {
+    background-color: #f2f2f2;
+    min-height: 100vh;
+    padding: 1rem;
+    box-sizing: border-box;
+    font-family: sans-serif;
+  }
+  
+  .dashboard-heading {
     display: flex;
     flex-direction: column;
-    align-content: center;
-    justify-content: left;
-    background-color: #e2efef;
-    margin-left: 40px;
-    margin-right: 45px;
-    border-radius: 18px
-}
-
-select {
-
-    &:focus {
-
-        outline: $prim-color;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  
+    h4 {
+      font-size: 1.1rem;
+      margin: 0;
+      font-weight: 600;
     }
-    border: none;
-    font-weight: bold;
-}
+  
+    select {
+      padding: 6px 10px;
+      font-size: 0.95rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      background-color: white;
+    }
+  }
+  
+  .section {
+    margin-top: 1.5rem;
+  }
+  
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+  
+    h5 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 0;
+    }
+  
+    .refresh-icon {
+      font-size: 1rem;
+      cursor: pointer;
+      color: #666;
+    }
+  }
+  
+  .shift-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    border-radius: 14px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  }
+  
+  .shift-role {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+  
+  .shift-right {
+    text-align: right;
+  }
+  
+  .shift-date {
+    font-size: 0.75rem;
+    color: #999;
+    font-weight: 500;
+  }
+  
+  .shift-time {
+    font-size: 0.95rem;
+    color: #333;
+  }
+  
