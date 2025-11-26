@@ -1,7 +1,7 @@
 
 <div class="cat-icon-bar">
 
-    <mat-icon class="del-cat-icon" *ngIf="this.unlocked" aria-hidden="false" svgIcon="delete" (click)="delCatDialog(content)"></mat-icon>
+    <mat-icon class="del-cat-icon"  aria-hidden="false" svgIcon="delete" (click)="delCatDialog(content)"></mat-icon>
 
 </div>
 
@@ -19,13 +19,13 @@
             <div class="break-text"  [ngClass]="{'locked': !unlocked}">
                 <p>{{ calculateBreakTime(content.shifts[i + 1].startTime, shift.endTime)}} Pause</p>
             </div>
-            <button class="new-shiftblock-in-break-button" *ngIf="this.unlocked" (click)="commingSoon()"><h3>+</h3></button>
+            <button *ngIf="this.unlocked" class="new-shiftblock-in-break-button" (click)="commingSoon()"><h3>+</h3></button>
         </div>
 
     </div>
 
     <div class="edit-div">
-        <button class="new-shiftblock-button" *ngIf="this.unlocked" (click)="addShiftblock()"><h3>+</h3></button>
+        <button class="new-shiftblock-button" (click)="addShiftblock()"><h3>+</h3></button>
     </div>
     
 

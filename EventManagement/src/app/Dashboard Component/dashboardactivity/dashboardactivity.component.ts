@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Activity } from 'src/app/Object Models/Shiftplan Component/activityModel';
 
 @Component({
   selector: 'app-dashboardactivity',
@@ -10,12 +11,24 @@ export class DashboardactivityComponent {
   @Input() end: string | null = '';
   @Input() date: string | null = '';
   @Input() role: string = "";
+  @Input() description: string = "";
+  @Input() activity: any[] = [];
 
-  @Input() helpers: any[] = [];
-
+  actiyities: Activity[] = [];
   showHelpers: boolean = false;
-
+  test() {
+    
+    console.log(this.activity[0].user, "are the helpers populated ?")
+    console.log(this.activity, "full activity object")
+  }
   toggleHelpers() {
     this.showHelpers = !this.showHelpers;
   }
+
+
+  usersInShift(){
+  
 }
+}
+
+

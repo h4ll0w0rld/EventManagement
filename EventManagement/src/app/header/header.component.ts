@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ShiftplanService } from '../Services/Shiftplan Service/shiftplan.service';
 import { GlobalUserListComponent } from '../Dialogs/global/global-userlist-dialog/global-user-list.component';
 import { EventServiceService } from '../Services/Event Service/event-service.service';
 import { EventhubService } from '../Services/Eventhub Service/eventhub.service';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs';
+import { User } from '../Object Models/user/user';
 
 
 @Component({
@@ -17,13 +19,15 @@ export class HeaderComponent implements OnInit {
   unlocked: boolean = false;
   showEventDropdown = false;
   userEvents: any[] = [];
+  showBackArrow = false;
 
   constructor(
     public shiftplanService: ShiftplanService,
     private dialog: MatDialog,
     public eventService: EventServiceService,
     private eventHubService: EventhubService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
 
 
   ) {
@@ -42,8 +46,16 @@ export class HeaderComponent implements OnInit {
     this.eventHubService.allEvents.subscribe(events => {
       this.userEvents = events;
     });
-  }
 
+    if (this.router.url.includes('shiftplan') || this.router.url.includes('userlist')) {
+      console.log('We are on a shiftplan route!');
+      this.showBackArrow = true;
+    }
+  }
+  test() {
+
+    console.log("is the shit active ? ", this.showBackArrow)
+  }
   toggleEventDropdown() {
     this.showEventDropdown = !this.showEventDropdown;
 
@@ -62,16 +74,22 @@ export class HeaderComponent implements OnInit {
 
   createNewEvent() {
     console.log('Create new event clicked');
-   this.router.navigate(['/add-event']);
+    this.router.navigate(['/add-event']);
     // Open dialog or navigate to event creation
   }
 
   openUserMenu() {
     // You can later hook user menu dropdown here
   }
+  goBack() {
+    this.router.navigate(['/']); // oder z. B. this.router.navigate(['/overview']);
+  }
+
 
   getInitials(): string {
-    return 'Y.M.'; // Replace with real user data if needed
+    let user: User = this.eventService.loggedInUser;
+    const initials = `${user.fName.charAt(0).toUpperCase()}.${user.lName.charAt(0).toUpperCase()}.`;
+    return initials; // Replace with real user data if needed
   }
 
   globalUserlist() {

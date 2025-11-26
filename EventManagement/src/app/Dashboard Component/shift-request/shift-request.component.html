@@ -1,19 +1,29 @@
-<h3>Deine Anfragen</h3>
 <div class="requestsContainer">
-    <div class="requestCard" *ngFor="let request of _shiftRequests">
-        <div class="dataContainer">
-            <h3>{{request.category}}</h3>
-            <p> {{request.startTime | date:'EEE dd.MM.yyyy'}} </p>
-            <div class="timeContainer">
-                <p> {{request.startTime | date:'HH:mm'}} - {{request.endTime | date:'HH:mm'}} Uhr</p>
-
-                <p class="endDate small_text" *ngIf="nextDay(request)">({{request.endTime | date:'EEE dd.MM.yyyy'}})</p>
-            </div>
+  <mat-card class="requestCard" *ngFor="let request of _shiftRequests">
     
+    <!-- ROW: Left = category, Right = date/time -->
+    <div class="request-row">
+      <!-- Left side: category -->
+      <div class="request-left">
+        <div class="request-category">{{ request.shift_category.name }}</div>
+      </div>
+
+      <!-- Right side: date and time -->
+      <div class="request-right">
+        <div class="request-date">{{ request.startTime | date:'EEE, dd.MM.yy' }}</div>
+        <div class="request-time">
+          {{ request.startTime | date:'HH:mm' }} – {{ request.endTime | date:'HH:mm' }} Uhr
         </div>
-        <div class="buttonContainer">
-            <button (click) ="accReq(request)" class="button ja">Ja</button>
-            <button (click)="decReq(request)" class="button nein">Nein</button>
+        <div class="request-end-date" *ngIf="nextDay(request)">
+          ({{ request.endTime | date:'EEE, dd.MM.yy' }})
         </div>
+      </div>
     </div>
+
+    <!-- BUTTONS -->
+    <div class="buttonContainer">
+      <button (click)="accReq(request)" class="button ja">Ja</button>
+      <button (click)="decReq(request)" class="button nein">Nein</button>
+    </div>
+  </mat-card>
 </div>

@@ -1,0 +1,112 @@
+@import "../../theme";
+@import '.././Mixins/buttonMixin';
+
+
+
+.user-container {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.username {
+
+    margin: 0px;
+
+}
+
+.persons-container {
+    background-color: #e5e7eb;
+    min-height: 100vh;
+    padding: 24px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.title {
+    font-size: 32px;
+    font-weight: bold;
+    color: #1f2937;
+    margin: 0 0 24px 0;
+    padding-left: 4px;
+}
+
+.persons-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 600px;
+}
+
+.person-item {
+    background-color: white;
+    border-radius: 12px;
+    padding: 20px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border: 1px solid #f3f4f6;
+}
+
+.person-name {
+    font-size: 18px;
+    font-weight: 500;
+    color: #1f2937;
+}
+
+.admin-badge {
+    background-color: #1f2937;
+    color: white;
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.edit-div {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.new-shiftblock-button {
+
+    @include button();
+    min-width: 40px;
+    height: 40px;
+
+    h3 {
+        margin: 0px;
+        padding: 0px;
+    }
+}
+
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .persons-container {
+        padding: 16px;
+    }
+
+    .title {
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+
+    .person-item {
+        padding: 16px 20px;
+    }
+
+    .person-name {
+        font-size: 16px;
+    }
+
+    .admin-badge {
+        padding: 5px 12px;
+        font-size: 13px;
+    }
+}

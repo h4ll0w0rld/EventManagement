@@ -65,6 +65,7 @@ import { InviteUserDialogComponent } from './Dialogs/global/invite-user-dialog/i
 import { InviteLandingComponent } from './User/invite-landing/invite-landing.component';
 import { UserInfosComponent } from './Dialogs/global/user-infos/user-infos.component';
 import { DeleteShiftDialogComponent } from './Dialogs/shiftplan/delete-shift-dialog/delete-shift-dialog.component';
+import { Userlist2Component } from './userlist2/userlist2.component';
 
 // register Swiper custom elements
 register();
@@ -106,7 +107,9 @@ register();
     InviteUserDialogComponent,
     InviteLandingComponent,
     UserInfosComponent,
-    DeleteShiftDialogComponent
+    DeleteShiftDialogComponent,
+    Userlist2Component,
+    
     
   ],
   imports: [

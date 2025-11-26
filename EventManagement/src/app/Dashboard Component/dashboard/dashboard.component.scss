@@ -4,10 +4,13 @@
 
 .dashboard-container {
     background-color: #f2f2f2;
-    min-height: 100vh;
+    min-height: calc(100vh - $header-height - 40px);;
     padding: 1rem;
     box-sizing: border-box;
     font-family: sans-serif;
+  }
+  .request{
+    margin-top: 1rem;
   }
   
   .dashboard-heading {
@@ -34,6 +37,11 @@
   .section {
     margin-top: 1.5rem;
   }
+  .section-title{
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 0;
+  }
   
   .section-header {
     display: flex;
@@ -52,8 +60,23 @@
       cursor: pointer;
       color: #666;
     }
+
+  
   }
   
+  .userlist-icon {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    font-size: 32px;
+    color: #000000;
+    cursor: pointer;
+    transition: color 0.3s;
+  
+    &:hover {
+      color: #000;
+    }
+  }
   .shift-card {
     display: flex;
     justify-content: space-between;

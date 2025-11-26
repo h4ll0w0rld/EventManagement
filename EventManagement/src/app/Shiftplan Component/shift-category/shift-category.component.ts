@@ -14,14 +14,15 @@ import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.s
 export class ShiftCategoryComponent {
   @Input() content: CategoryContent = new CategoryContent(0, "","",0, []);
   @Input() categoryName: string = "";
+  @Input() unlocked: boolean = false;
 
-  unlocked: boolean = false;
+  
 
   constructor(private dialog: MatDialog, public shiftplanService: ShiftplanService) {
 
-    this.shiftplanService.editmode$.subscribe(value => {
-      this.unlocked = value;
-    })
+    // this.shiftplanService.editmode$.subscribe(value => {
+    //   this.unlocked = value;
+    // })
 
   }
 

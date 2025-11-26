@@ -1,87 +1,111 @@
-@import '../../Mixins/cardMixin';
-@import '../../../theme';
-
 :host {
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    //height: 350px;
-    //height: 350px;
-   
-
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .requestsContainer {
-
-    align-items: center;
-    height: auto;
-    width: 90vw;
-    overflow: scroll;
-    
+  width: 90vw;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
-.requestCard{
-        
-    @include Card(124px);
+/* --- REQUEST CARD STYLE --- */
+.requestCard {
+  border-radius: 16px;
+  padding: 16px;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
 
-    flex-direction: column;
-    margin: auto;
-    width: 80vw;
-    align-items: start;
-    margin-bottom: 10px;
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+  }
 
-
-    h3 {
-        margin-bottom: 5px;
-    }
-
-    p {
-        margin-bottom: 3px;
-    }
-
-    .dataContainer{
-        padding: 10px 20px;
-
-    }
-}
-
-
-
-.timeContainer {
-
+  .request-row {
     display: flex;
-    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
 
-    .endDate {
-
-        padding-left: 10px;
-
+    @media (max-width: 600px) {
+      gap: 10px;
     }
-}
 
+    .request-left {
+      flex: 1;
+      display: flex;
+      align-items: center;
 
+      .request-category {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #222;
+        line-height: 1;
+        padding-bottom: 2px; /* fine-tune vertical alignment */
+      }
+    }
 
-.buttonContainer{
+    .request-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: center;
+      text-align: right;
+      margin-left: auto;
+
+      .request-date {
+        font-size: 0.8rem;
+        color: #666;
+        font-weight: 500;
+      }
+
+      .request-time {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: #222;
+        margin-top: 4px;
+      }
+
+      .request-end-date {
+        font-size: 0.85rem;
+        color: #666;
+      }
+    }
+  }
+
+  /* BUTTONS */
+  .buttonContainer {
     display: flex;
     width: 100%;
+    gap: 10px;
 
+    .button {
+      flex: 1;
+      border: none;
+      height: 36px;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: white;
+      transition: opacity 0.15s ease;
 
-}
+      &:hover {
+        opacity: 0.85;
+      }
 
-.button {
+      &.ja {
+        background-color: #4caf50; /* green */
+      }
 
-    width: 50%;
-    border: none;
-    height: 25px;
-    color: white;
-
-    &.ja {
-        background-color: $third-color;
+      &.nein {
+        background-color: #f44336; /* red */
+      }
     }
-
-    &.nein {
-        background-color: $color-4;
-    }
+  }
 }
-

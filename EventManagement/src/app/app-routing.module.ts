@@ -9,6 +9,8 @@ import { DashboardlandingComponent } from './Dashboard Component/dashboardlandin
 import { AuthLandingComponent } from './User/auth-landing/auth-landing.component';
 import { InviteLandingComponent } from './User/invite-landing/invite-landing.component';
 import { AddEventComponent } from './Dialogs/global/add-event/add-event.component';
+import { Userlist2Component } from './userlist2/userlist2.component';
+
 
 
 const routes: Routes = [
@@ -16,6 +18,7 @@ const routes: Routes = [
   {path: 'shiftplan', component:ShiftplanLandingComponent },
   {path: 'dashboard', component:EventHubComponent},
   {path: 'authLanding', component:AuthLandingComponent},
+  {path: 'userlist', component:Userlist2Component},
   {path: 'authLanding/:eventId/:userId/:fName/:lName', component:AuthLandingComponent},
   {path: 'inviteLanding/:eventId/:userId/:fName/:lName', component:InviteLandingComponent},
   {path: 'add-event', component: AddEventComponent}

@@ -24,7 +24,7 @@ export class AuthService {
     this.loggedInUserSubject.next(user);
   }
 
-  getLoggedInUser(){
+  getLoggedInUser() {
     return this.loggedInUser$;
   }
 
@@ -38,11 +38,12 @@ export class AuthService {
     }
 
     return this.https.post(this.conf.rootUrl + "/register/registerNewUser", data)
-    .pipe(
-      map((res) => {
-      console.log(res)}
+      .pipe(
+        map((res) => {
+          console.log(res)
+        }
+        )
       )
-    )
   }
 
   loginUser(_email: string, _pass: string): Observable<any> {
@@ -52,23 +53,23 @@ export class AuthService {
       password: _pass
     }
 
-    return this.https.post<any>(this.conf.rootUrl + "/auth", data, { withCredentials: true } )
-    .pipe(
-      map(res => {
-      console.log("HUUUULLLLLIII", res)
-      this.saveToken(res.accessToken)
-      this.setLoggedInUser(res.user)
-    
-      localStorage.setItem("user", JSON.stringify(new User(res.user.id, res.user.firstName, res.user.lastName, "", "")))
-      this.router.navigate(["/dashboard"])
-      return res;
+    return this.https.post<any>(this.conf.rootUrl + "/auth", data, { withCredentials: true })
+      .pipe(
+        map(res => {
+          console.log("HUUUULLLLLIII", res)
+          this.saveToken(res.accessToken)
+          this.setLoggedInUser(res.user)
 
-    }), 
-    catchError(err => {
-      console.log("Error: ", err.message);
-      throw err;
-    })
-    );
+          localStorage.setItem("user", JSON.stringify(new User(res.user.id, res.user.firstName, res.user.lastName, "", "")))
+          this.router.navigate(["/dashboard"])
+          return res;
+
+        }),
+        catchError(err => {
+          console.log("Error: ", err.message);
+          throw err;
+        })
+      );
 
   }
 
@@ -96,7 +97,7 @@ export class AuthService {
     return sessionStorage.getItem('jwtToken');
   }
 
-  delToken(){
+  delToken() {
     return sessionStorage.clear()
   }
 
@@ -104,36 +105,40 @@ export class AuthService {
 
   }
 
+  // refreshAccess() {
+  //   console.log("I am starting off")
+  //   return this.https.get(this.conf.rootUrl + "/refresh", { withCredentials: true }).subscribe(
+  //     (res: any) => {
+  //       // Process the successful response
+  //       this.saveToken(res.accessToken);
+
+  //       console.log("YEAAAAA");
+  //       console.log(res);
+  //     },
+  //     (error) => {
+  //       // Handle HTTP errors (e.g., network issues)
+  //       console.error("Error during refreshAccess:", error);
+  //       // Check if the error status is 401
+  //       if (error.status === 401) {
+  //         console.log("Received 401 Unauthorized error");
+  //         this.delToken()
+  //         this.router.navigate(["/authLanding"])
+  //         // Handle 401 error here if needed
+  //       }
+  //     }
+  //   );
+  // }
   refreshAccess() {
-    console.log("I am starting off")
-    this.https.get(this.conf.rootUrl + "/refresh", { withCredentials: true }).subscribe(
-      (res: any) => {
-        // Process the successful response
-        this.saveToken(res.accessToken);
-      
-        console.log("YEAAAAA");
-        console.log(res);
-      },
-      (error) => {
-        // Handle HTTP errors (e.g., network issues)
-        console.error("Error during refreshAccess:", error);
-        // Check if the error status is 401
-        if (error.status === 401) {
-          console.log("Received 401 Unauthorized error");
-          this.delToken()
-          this.router.navigate(["/authLanding"])
-          // Handle 401 error here if needed
-        }
-      }
-    );
+    console.log("Refreshing access token...")
+    return this.https.get(this.conf.rootUrl + "/refresh", { withCredentials: true });
   }
 
+
   getAuthHeader() {
-    console.log("AUTH HEADER TOKEN: ", this.getToken() )
     let headers = new HttpHeaders({
       'Authorization': 'Bearer ' + this.getToken()
     });
 
-    return { headers: headers};
+    return { headers: headers };
   }
 }

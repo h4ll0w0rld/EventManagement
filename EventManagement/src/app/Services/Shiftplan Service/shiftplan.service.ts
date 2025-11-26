@@ -9,6 +9,7 @@ import { categoriesContent } from "../../testData/shiftPlanDummy";
 
 
 import { EventModel } from 'src/app/Object Models/EventModel';
+import { EventServiceService } from '../Event Service/event-service.service';
 
 
 
@@ -42,17 +43,17 @@ export class ShiftplanService {
 
   editmode: BehaviorSubject<boolean>;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private eventService: EventServiceService) {
 
     const stored = localStorage.getItem('editmode');
     const value = stored !== null ? JSON.parse(stored) : false;
     this.editmode = new BehaviorSubject<boolean>(value);
-
     if(this.event.id == -1){
       let evt= localStorage.getItem("event");
       if(evt) this.event = JSON.parse(evt);
       
     }
+
 
   }
 

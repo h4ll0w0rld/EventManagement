@@ -25,7 +25,7 @@ export class DashboardService {
   //rootUrl: string = 'http://localhost:3000';
   userList: Subject<User[]> = new Subject<User[]>();
 
-  //ventit23
+
 
 
 
@@ -46,6 +46,7 @@ export class DashboardService {
   }
 
   accReq(_actID: number, _catID: number, _userId: number) {
+    console.log("Accepting request for user ID: ", _userId);
     //  /activity/:current_event_id/confirmUser/shift_category_id/:shift_category_id/activity_id/:activity_id/user_id/:user_id
     this.http.put(this.conf.rootUrl + "/activity/" + this.eventService.currentEvent.id + "/confirmUser/shift_category_id/" + _catID + "/activity_id/" + _actID + "/user_id/" + _userId, {}, this.authService.getAuthHeader())
       .subscribe(res => {
@@ -56,6 +57,7 @@ export class DashboardService {
   }
 
   decReq(_actID: number, _catID: number, _userId: number) {
+    console.log("Declining request for user ID: ", _userId);
     // /activity/:current_event_id/removeUser/shift_category_id/:shift_category_id/activity_id/:activity_id
     this.http.put(this.conf.rootUrl + "/activity/" + this.eventService.currentEvent.id + "/removeUser/shift_category_id/" + _catID + "/activity_id/" + _actID, {}, this.authService.getAuthHeader())
       .subscribe(res => {
@@ -109,7 +111,6 @@ export class DashboardService {
                 shiftCategory
               );
             });
-            console.log("HEREEE: ", shifts)
             this.shiftsByUser.next(shifts);
 
           })
@@ -165,7 +166,7 @@ export class DashboardService {
                 shiftCategory
               );
             });
-            console.log("DATATATA; ", shifts)
+          
             this.shiftRequests.next(shifts);
           });
         }
@@ -191,40 +192,6 @@ export class DashboardService {
     );
 
   }
-  // getShiftById(_shiftId: number): void {
-  //   this.http.get<any>(
-  //     `${this.conf.rootUrl}/shift/${this.eventService.currentEvent.id}/shift_id/${_shiftId}`,
-  //     this.authService.getAuthHeader()
-  //   ).subscribe((res: any) => {
-
-  //     // Map activities
-  //     const activities: Activity[] = res.activities.map((a: any) => {
-  //       const user = a.user ? new User(
-  //         a.user.id,
-  //         a.user.firstName || '',
-  //         a.user.lastName || '',
-  //         a.user.email || '',
-  //         a.user.username || ''
-  //       ) : new User(-1, '', '', '', '');
-
-  //       return new Activity(a.id, user, a.status);
-  //     });
-
-  //     // Convert start/end time strings into timestamps
-  //     const startTime = new Date(res.startTime.replace(' ', 'T')).getTime();
-  //     const endTime = new Date(res.endTime.replace(' ', 'T')).getTime();
-
-  //     // Example isActive check: ends in the future
-  //     const isActive = endTime > Date.now();
-
-  //     const shift = new Shift(res.id, startTime, endTime, activities, isActive);
-
-  //     // Do something with the shift object (e.g., push to a BehaviorSubject)
-  //     //this.userList.next(shift);
-  //     return shift;
-  //   });
-  // }
-
 
 
 

@@ -133,6 +133,10 @@ export class ShiftPlanComponent implements AfterViewInit {
     });
 
     this.eventService.updateCategories()
+    // this.eventService.getRoles();
+    // if(this.eventService.isAdmin){
+    //   this.unlocked
+    // }
 
   }
 

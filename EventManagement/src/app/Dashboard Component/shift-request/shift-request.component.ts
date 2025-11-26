@@ -10,13 +10,17 @@ import { EventServiceService } from 'src/app/Services/Event Service/event-servic
   styleUrls: ['./shift-request.component.scss']
 })
 export class ShiftRequestComponent {
-  @Input() _shiftRequests: any;
-  currentUser: string = "";
-  constructor(private dashboardService: DashboardService, private eventService: EventServiceService) {}
+  @Input() _shiftRequests: any[] = [];
+  @Input() currentUser: User | null = null;
 
-  accReq(shift: userActivity) {
+  constructor(private dashboardService: DashboardService, private eventService: EventServiceService) { }
 
-    this.dashboardService.accReq(shift.activityId, shift.categoryId, shift.userId)
+  accReq(request: any) {
+    console.log("Accepting request for user ID: ", request);
+    console.log("curr user: ", this.currentUser);
+    if (this.currentUser != null) {
+      this.dashboardService.accReq(request.activities[0].id, request.shift_category_id, this.currentUser.uuid)
+    }
   }
 
   decReq(shift: userActivity) {

@@ -8,6 +8,10 @@ import { HttpClient } from '@angular/common/http';
 import { EventModel } from 'src/app/Object Models/EventModel';
 import { ConfigService } from '../config.service';
 import { AuthService } from '../Auth Service/auth.service';
+import { map, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -34,11 +38,10 @@ export class EventServiceService implements AfterViewInit, OnInit {
 
 
   constructor(
-    private http: HttpClient, 
-    private conf: ConfigService, 
+    private http: HttpClient,
+    private conf: ConfigService,
     private authService: AuthService
-    ) 
-    {
+  ) {
     const storedEvent = localStorage.getItem('event');
     const initialEvent = storedEvent ? JSON.parse(storedEvent) : new EventModel(-1, "", "", new Date(), new Date(), "");
 
@@ -64,11 +67,26 @@ export class EventServiceService implements AfterViewInit, OnInit {
   }
 
   setCurrentEvent(_event: EventModel) {
+    localStorage.setItem('curr-event', JSON.stringify(_event));
     this.currentEventSubject.next(_event)
 
   }
 
   getCurrentEvent(): Observable<EventModel> {
+    if (this.currentEvent.id == -1) {
+      const lastEventString = localStorage.getItem('curr-event');
+      console.log("no event found")
+      if (lastEventString) {
+        try {
+          const lastEvent = JSON.parse(lastEventString);
+          console.log("Last Event from LS: ", lastEvent);
+          this.currentEventSubject.next(lastEvent);
+        } catch (err) {
+          console.error('Error parsing curr-event from localStorage', err);
+          //this.currentEventSubject.next(null);
+        }
+      }
+    }
     return this.currentEvent$;
   }
 
@@ -76,6 +94,7 @@ export class EventServiceService implements AfterViewInit, OnInit {
     this.currentCatSubject.next(_cat)
   }
   getCurrCat(): Observable<CategoryContent> {
+
     return this.currentCat$;
   }
 
@@ -125,11 +144,12 @@ export class EventServiceService implements AfterViewInit, OnInit {
 
     this.http.get<any>(this.conf.rootUrl + "/permission/" + this.currentEvent.id + "/getRoles", this.authService.getAuthHeader()).subscribe((res) => {
       this.isAdmin = res.admin;
+      console.log("Is Admin: ", this.isAdmin);
     })
   }
 
-  getUsersByShiftCatId(){
-    
+  getUsersByShiftCatId() {
+
   }
 
   addCategory(_name: string, _description: string, _eventId: number, _shiftBlocks: any[]) {
@@ -160,7 +180,7 @@ export class EventServiceService implements AfterViewInit, OnInit {
     const encFName = encodeURIComponent(_fName);
     const encLName = encodeURIComponent(_lName);
 
-    this.http.get(this.conf.rootUrl + "/user/" + _eventId + "/claimUser/" + _userId + "/" + encFName + "/" + encLName, this.authService.getAuthHeader()).subscribe((res) => {})
+    this.http.get(this.conf.rootUrl + "/user/" + _eventId + "/claimUser/" + _userId + "/" + encFName + "/" + encLName, this.authService.getAuthHeader()).subscribe((res) => { })
   }
 
   makeUserToAdmin(_userId: number) {
@@ -194,10 +214,10 @@ export class EventServiceService implements AfterViewInit, OnInit {
     if (this.currCat.id != -1 && this.currentEvent.id != -1) {
 
       return this.http.put(this.conf.rootUrl + "/activity/" + this.currentEvent.id + "/requestUser/shift_category_id/" + this.currCat.id + "/activity_id/" + _activityId + "/user_id/" + _userId, {}, this.authService.getAuthHeader())
-      .pipe()
+        .pipe()
     } else {
       return throwError('Invalid cat or event');
-      
+
     }
   }
 
@@ -240,7 +260,7 @@ export class EventServiceService implements AfterViewInit, OnInit {
         "firstName": _firstName,
         "lastName": _lastName
 
-      }, this.authService.getAuthHeader()).subscribe((res: any) => {})
+      }, this.authService.getAuthHeader()).subscribe((res: any) => { })
     }
   }
 
@@ -258,7 +278,7 @@ export class EventServiceService implements AfterViewInit, OnInit {
 
   removeUserFromEvent(_id: number): Observable<any> {
 
-    return this.http.get(this.conf.rootUrl + "/event/" + this.currentEvent.id +  "/removeUserFromEvent/user_id/" + _id, this.authService.getAuthHeader()).pipe();
+    return this.http.get(this.conf.rootUrl + "/event/" + this.currentEvent.id + "/removeUserFromEvent/user_id/" + _id, this.authService.getAuthHeader()).pipe();
   }
 
   getAllUser() {
@@ -269,14 +289,33 @@ export class EventServiceService implements AfterViewInit, OnInit {
           user.id,
           user.firstName,
           user.lastName,
-          user.email,
+          user.emailAddress,
           user.password
 
+
         ));
+
         this.allUser.next(users);
       });
     }
   }
+
+
+  userIsAdmin(user: User): Observable<boolean> {
+    if (this.currentEvent.id === -1) {
+      return of(false); // return Observable<boolean>
+    }
+
+    const url = `${this.conf.rootUrl}/permission/${this.currentEvent.id}/isAdmin/user_id/${user.uuid}`;
+
+    return this.http
+      .get<{ isAdmin: boolean }>(url, this.authService.getAuthHeader())
+      .pipe(
+        map(res => res.isAdmin),
+        catchError(() => of(false))  // return Observable<boolean>
+      );
+  }
+
 
   getAvailableUser(_shiftCatId: number, _activityId: number) {
 

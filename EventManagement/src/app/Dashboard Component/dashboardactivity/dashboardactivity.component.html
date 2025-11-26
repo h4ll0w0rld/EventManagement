@@ -12,20 +12,25 @@
     </div>
   </div>
 
+<div class="icon-container">
+  <mat-icon (click)="test()" class="dropdown-icon">expand_more</mat-icon>
+</div>
   <!-- Helfer anzeigen -->
   <div class="activity-helpers" *ngIf="showHelpers">
-    <div *ngFor="let helper of helpers" class="helper-item">
-      <span
+    <p>{{description}}</p>
+    <button (click)="test()">TESTER</button>
+    <div *ngFor="let helper of activity" class="helper-item">
+      <!-- <span
         class="dot"
         [ngClass]="{
           'dot-yellow': helper.role === 'Schichtleitung',
           'dot-green': helper.role !== 'Schichtleitung'
         }"
-      ></span>
+      ></span> -->
       <span class="helper-name">
-        <ng-container *ngIf="helper.isLead">★</ng-container>
-        {{ helper.fName }} {{ helper.lName }}
-        <span *ngIf="helper.isCurrent">(Du)</span>
+        <!-- <ng-container *ngIf="helper.isLead">★</ng-container> -->
+        {{ helper.user.firstName }} {{ helper.user.lastName }}
+        <!-- <span *ngIf="helper.isCurrent">(Du)</span> -->
       </span>
     </div>
   </div>

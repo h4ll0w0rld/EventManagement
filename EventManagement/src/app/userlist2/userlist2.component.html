@@ -1,0 +1,17 @@
+<app-header></app-header>
+<div class="persons-container">
+  <h1 class="title">Personen</h1>
+
+  <div class="persons-list">
+    <div class="person-item" *ngFor="let person of userList">
+      <span class="person-name">{{ person.fName }} {{ person.lName }}</span>
+      <span>{{person.email}}</span>
+      <button (click)="test(person)">User Role</button>
+    </div>
+  </div>
+  <div class="edit-div">
+    <button class="new-shiftblock-button" (click)="openUserDialog()">
+      <h3>+</h3>
+    </button>
+  </div>
+</div>

@@ -1,7 +1,10 @@
 <div class="head">
   <!-- Left: Title with toggle -->
+  
+  <div class="back-arrow" *ngIf="this.showBackArrow" (click)="goBack()">
+    <mat-icon svgIcon="logout"></mat-icon>
+  </div>
   <div class="home-icon-div" (click)="toggleEventDropdown()">
-    <mat-icon class="home-icon" svgIcon="logout" routerLink="/"></mat-icon>
     <h4>{{ title }}</h4>
     <mat-icon class="dropdown-icon">expand_more</mat-icon>
   </div>
