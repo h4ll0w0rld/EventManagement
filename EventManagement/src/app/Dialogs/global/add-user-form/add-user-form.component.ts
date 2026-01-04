@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { ShiftplanService } from '../../../Services/Shiftplan Service/shiftplan.service';
 import { MatDialogRef } from '@angular/material/dialog';
-import { EventServiceService } from 'src/app/Services/Event Service/event-service.service';
+import { EventService } from 'src/app/core/features/events/event.service';
 
 @Component({
   selector: 'app-add-user-form',
@@ -10,18 +9,27 @@ import { EventServiceService } from 'src/app/Services/Event Service/event-servic
 })
 export class AddUserFormComponent {
 
-  fName: string = "";
-  lName: string = "";
+  fName: string = '';
+  lName: string = '';
 
-  constructor(public eventService: EventServiceService, private matDialogRef: MatDialogRef<AddUserFormComponent>) {
+  constructor(
+    private eventService: EventService,
+    private matDialogRef: MatDialogRef<AddUserFormComponent>
+      
+  ) { console.log("AddUserFormComponent initialized");
+}
 
-  }
-
-  addNewUser() {
+  addNewUser(): void {
+    console.log("AddUserFormComponent: Adding new user", this.fName, this.lName);
+    if (!this.fName || !this.lName) return;
 
     this.eventService.addUnregUser(this.fName, this.lName);
-    this.matDialogRef.close();
 
+    // Refresh user list (because backend does not return the new user)
+    this.eventService.getAllUsers();
+
+    // Close dialog
+    //this.matDialogRef.close();
   }
 
 }

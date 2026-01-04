@@ -23,20 +23,21 @@ export class UserListComponent {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private matDialogRef: MatDialogRef<UserListComponent>
   ) {
-    this.currUserId = eventService.loggedInUser.uuid;
+    this.currUserId = eventService.loggedInUser.id;
   }
 
 
   ngOnInit() {
     
     this.eventService.getAvailableUser(this.data.shiftId, this.data.activity.uuid);
-
+    console.log("Available Users for Activity ID ", this.data.activity.id, " and Shift ID ", this.data.shiftId);
 
     this.eventService.availableUser.subscribe((users: User[]) => {
       this.userList = users;
-
+      console.log("Fetched Available Users: ", this.userList);
       if (this.isCurrUserInList()) {
-        this.userList = this.userList.filter(user => user.uuid !== this.eventService.loggedInUser.uuid)
+        console.log("Current user is in the available user list, removing self from display.");
+        this.userList = this.userList.filter(user => user.id !== this.eventService.loggedInUser.id)
       }
     });
   }
@@ -49,7 +50,7 @@ export class UserListComponent {
 
   isCurrUserInList() {
 
-    return this.userList.some(user => user.uuid === this.eventService.loggedInUser.uuid);
+    return this.userList.some(user => user.id === this.eventService.loggedInUser.id);
   }
 
   reqUser(_activityId: number, _userId: number, _shiftId: number) {
@@ -62,8 +63,8 @@ export class UserListComponent {
 
   addCurrUser(_activityId: number, _userId: number, _shiftId: number) {
 
-    this.eventService.regUserForActivity(_activityId, this.eventService.loggedInUser.uuid, _shiftId, true).subscribe((res) => {
-      this.dashboardService.accReq(_activityId, this.eventService.currCat.id, this.eventService.loggedInUser.uuid);
+    this.eventService.regUserForActivity(_activityId, this.eventService.loggedInUser.id, _shiftId, true).subscribe((res) => {
+      this.dashboardService.accReq(_activityId, this.eventService.currCat.id, this.eventService.loggedInUser.id);
       this.onClose();
     })
   }

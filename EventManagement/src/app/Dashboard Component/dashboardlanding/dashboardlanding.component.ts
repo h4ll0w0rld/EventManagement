@@ -1,7 +1,7 @@
 import { Component, ElementRef } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { GlobalUserListComponent } from 'src/app/Dialogs/global/global-userlist-dialog/global-user-list.component';
-import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.service';
+import { ShiftplanService } from 'src/app/core/features/shiftplan/shiftplan.service';
 
 @Component({
   selector: 'app-dashboardlanding',
@@ -24,13 +24,13 @@ export class DashboardlandingComponent {
 
   ngOnInit() {
 
-    this.title = this.shiftplanService.event.name;
+   // this.title = this.shiftplanService.event.name;
     const iconElement = this.elementRef.nativeElement.querySelector('.mat-icon');
     iconElement.classList.remove('mat-icon-no-color');
 
-    this.shiftplanService.editmode$.subscribe(value => {
-      this.unlocked = value;
-    })
+    // this.shiftplanService.editmode$.subscribe(value => {
+    //   this.unlocked = value;
+    // })
   }
 
 

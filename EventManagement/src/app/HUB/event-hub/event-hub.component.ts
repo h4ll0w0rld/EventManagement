@@ -1,13 +1,13 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { EventhubService } from '../../Services/Eventhub Service/eventhub.service';
+import { EventhubService } from '../../core/features/eventhub/eventhub.service';
 import { Router } from '@angular/router';
 import { AddEventComponent } from '../../Dialogs/global/add-event/add-event.component';
-import { ShiftplanService } from '../../Services/Shiftplan Service/shiftplan.service';
+import { ShiftplanService } from '../../core/features/shiftplan/shiftplan.service';
 
 import { EventModel } from '../../Object Models/EventModel';
 import { EventServiceService } from 'src/app/Services/Event Service/event-service.service';
-import { AuthService } from 'src/app/Services/Auth Service/auth.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { LoginComponent } from 'src/app/User/dialog/login/login.component';
 import { RegisterComponent } from 'src/app/User/dialog/register/register.component';
 import { Subscription, interval, switchMap } from 'rxjs';
@@ -25,7 +25,7 @@ export class EventHubComponent {
 
   logoutUser() {
 
-    this.authService.logoutUser()
+    this.authService.logout()
     this.router.navigate(['/authLanding']);
   }
 
@@ -68,7 +68,7 @@ export class EventHubComponent {
 
   click3(){
     //this.authService.loginUser("nilss.begann@hsfurtwangen.de", "qwerty12345678");
-   this.authService.refreshAccess()
+  // this.authService.refreshAccess()
   }
 
   addEvent() {
@@ -98,12 +98,12 @@ export class EventHubComponent {
 
 
   ngOnInit() {
-    this.hubservice.getUsersEvents();
+    this.hubservice.loadUserEvents();
 
     const intervalTime = 5000;
 
     this.refreshInterval = interval(intervalTime).pipe(
-      switchMap(async () => this.hubservice.getUsersEvents()) // Replace 'fetchData()' with your API call method
+      switchMap(async () => this.hubservice.loadUserEvents()) // Replace 'fetchData()' with your API call method
     ).subscribe(
       (data) => {
         // Handle the fetched data (e.g., update component properties)

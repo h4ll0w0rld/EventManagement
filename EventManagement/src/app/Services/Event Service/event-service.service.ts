@@ -52,7 +52,7 @@ export class EventServiceService implements AfterViewInit, OnInit {
     this.loggedInUser = loggedInUser;
     console.log("jetztet: ", this.loggedInUser);
 
-    if (loggedInUser.uuid != -1) this.authService.setLoggedInUser(loggedInUser)
+    if (loggedInUser.id != -1) this.authService.setLoggedInUser(loggedInUser)
 
     const storedCurrCat = localStorage.getItem('cat');
     const initCat = storedCurrCat ? JSON.parse(storedCurrCat) : new CategoryContent(1, "", "", 7, []);
@@ -306,7 +306,7 @@ export class EventServiceService implements AfterViewInit, OnInit {
       return of(false); // return Observable<boolean>
     }
 
-    const url = `${this.conf.rootUrl}/permission/${this.currentEvent.id}/isAdmin/user_id/${user.uuid}`;
+    const url = `${this.conf.rootUrl}/permission/${this.currentEvent.id}/isAdmin/user_id/${user.id}`;
 
     return this.http
       .get<{ isAdmin: boolean }>(url, this.authService.getAuthHeader())

@@ -1,10 +1,11 @@
 <div class="head">
   <!-- Left side: Title + dropdown toggle -->
-   
-<h1>Hi</h1>
- 
+
+  <h1>Hi</h1>
+
   <div class="home-icon-div" (click)="toggleEventDropdown()">
-    <h4>{{ title }}</h4>
+    <h4>{{ this.eventService.currentEvent?.name
+      }}</h4>
     <div class="chevron-icon">
       <mat-icon svgIcon="arrow_drop_down"></mat-icon>
     </div>

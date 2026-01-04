@@ -1,10 +1,7 @@
 import { Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { min } from 'rxjs';
 import { EventModel } from 'src/app/Object Models/EventModel';
-import { EventhubService } from 'src/app/Services/Eventhub Service/eventhub.service';
-import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.service';
+import { EventhubService } from 'src/app/core/features/eventhub/eventhub.service';
 
 @Component({
   selector: 'app-add-event',

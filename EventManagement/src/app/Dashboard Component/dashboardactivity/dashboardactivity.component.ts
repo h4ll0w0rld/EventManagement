@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Activity } from 'src/app/Object Models/Shiftplan Component/activityModel';
+import { User } from 'src/app/Object Models/user/user';
 
 @Component({
   selector: 'app-dashboardactivity',
@@ -26,7 +27,8 @@ export class DashboardactivityComponent {
   }
 
 
-  usersInShift(){
+  usersInShift() {
+    
   
 }
 }

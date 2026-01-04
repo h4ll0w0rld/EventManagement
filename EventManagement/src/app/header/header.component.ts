@@ -2,11 +2,10 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ShiftplanService } from '../Services/Shiftplan Service/shiftplan.service';
 import { GlobalUserListComponent } from '../Dialogs/global/global-userlist-dialog/global-user-list.component';
-import { EventServiceService } from '../Services/Event Service/event-service.service';
-import { EventhubService } from '../Services/Eventhub Service/eventhub.service';
+import { EventService } from '../core/features/events/event.service';
+import { EventhubService } from '../core/features/eventhub/eventhub.service';
 import { NavigationEnd, Router } from '@angular/router';
-import { filter } from 'rxjs';
-import { User } from '../Object Models/user/user';
+
 
 
 @Component({
@@ -24,26 +23,26 @@ export class HeaderComponent implements OnInit {
   constructor(
     public shiftplanService: ShiftplanService,
     private dialog: MatDialog,
-    public eventService: EventServiceService,
+    public eventService: EventService,
     private eventHubService: EventhubService,
     private router: Router,
     private cdr: ChangeDetectorRef
 
 
   ) {
-    this.eventService.getCurrentEvent().subscribe(event => {
-      this.title = event.name;
+    this.eventService.currentEvent$.subscribe(event => {
+      if (event)
+        this.title = event.name;
     });
-
     this.shiftplanService.editmode$.subscribe(value => {
       this.unlocked = value;
     });
 
-    this.eventService.getRoles();
+    // this.eventService.getRoles();
   }
 
   ngOnInit(): void {
-    this.eventHubService.allEvents.subscribe(events => {
+    this.eventHubService.events$.subscribe(events => {
       this.userEvents = events;
     });
 
@@ -60,14 +59,14 @@ export class HeaderComponent implements OnInit {
     this.showEventDropdown = !this.showEventDropdown;
 
     if (this.showEventDropdown) {
-      this.eventHubService.getUsersEvents();
+      this.eventHubService.loadUserEvents();
     }
   }
 
   selectEvent(event: any) {
     this.title = event.name;
     this.eventService.setCurrentEvent(event);
-    this.eventService.getAllUser();
+    this.eventService.getAllUsers();
     this.showEventDropdown = false;
     // Additional logic: notify service of new selection
   }
@@ -87,9 +86,13 @@ export class HeaderComponent implements OnInit {
 
 
   getInitials(): string {
-    let user: User = this.eventService.loggedInUser;
-    const initials = `${user.fName.charAt(0).toUpperCase()}.${user.lName.charAt(0).toUpperCase()}.`;
-    return initials; // Replace with real user data if needed
+    const user = this.eventService.loggedInUser; // or however you read the user
+
+    if (!user || !user.firstName || !user.lastName) {
+      return "";
+    }
+
+    return user.firstName.charAt(0).toUpperCase() + user.lastName.charAt(0).toUpperCase();
   }
 
   globalUserlist() {

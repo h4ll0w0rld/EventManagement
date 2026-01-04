@@ -1,0 +1,322 @@
+import { Injectable, OnDestroy } from '@angular/core';
+import { BehaviorSubject, Observable, interval, switchMap, Subscription, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../../services/auth.service';
+import { ConfigService } from '../../../Services/config.service';
+import { EventModel } from 'src/app/Object Models/EventModel';
+import { CategoryContent } from 'src/app/Object Models/Shiftplan Component/category-content';
+import { catchError, map, tap } from 'rxjs/operators';
+import { User } from 'src/app/Object Models/user/user';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class EventService implements OnDestroy {
+
+  private currentEventSubject = new BehaviorSubject<EventModel | null>(null);
+  currentEvent$ = this.currentEventSubject.asObservable();
+
+  private currentCatSubject = new BehaviorSubject<CategoryContent | null>(null);
+  currentCat$ = this.currentCatSubject.asObservable();
+
+  private allUserSubject = new BehaviorSubject<User[]>([]);
+  allUser$ = this.allUserSubject.asObservable();
+
+  refreshInterval: Subscription = Subscription.EMPTY;
+  loggedInUser: any;
+  isAdmin = true;
+
+  constructor(
+    private http: HttpClient,
+    private conf: ConfigService,
+    private authService: AuthService
+  ) {
+    this.loadInitialState();
+
+    // Start periodic category refresh
+    // this.refreshInterval = interval(5000)
+    //   .pipe(switchMap(() => this.updateCategories()))
+    //   .subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.refreshInterval.unsubscribe();
+  }
+
+
+
+  private loadInitialState() {
+    const storedEvent = localStorage.getItem('curr-event');
+    if (storedEvent) this.currentEventSubject.next(JSON.parse(storedEvent));
+
+    const storedCat = localStorage.getItem('curr-cat');
+    if (storedCat) this.currentCatSubject.next(JSON.parse(storedCat));
+
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      this.loggedInUser = JSON.parse(storedUser);
+      this.authService.setUser(this.loggedInUser);
+    }
+  }
+
+  get currentEvent(): EventModel | null {
+    return this.currentEventSubject.getValue();
+  }
+
+  get currentCategory(): CategoryContent | null {
+    return this.currentCatSubject.getValue();
+  }
+
+  setCurrentEvent(event: EventModel) {
+    this.currentEventSubject.next(event);
+    localStorage.setItem('curr-event', JSON.stringify(event));
+  }
+
+  setCurrentCategory(cat: CategoryContent) {
+    this.currentCatSubject.next(cat);
+    localStorage.setItem('curr-cat', JSON.stringify(cat));
+  }
+
+  updateCategories(): Observable<CategoryContent[]> {
+    const eventId = this.currentEvent?.id;
+    if (!eventId) return of([]);
+
+    return this.http.get<any>(`${this.conf.rootUrl}/shiftCategory/${eventId}/all`, {
+      headers: this.authService.getAuthHeaders()
+    }).pipe(
+      map(res => res.shift_categories.map((cat: any) =>
+        new CategoryContent(cat.id, cat.name, cat.description, cat.interval, cat.shifts)
+      )),
+      catchError(err => {
+        console.error('Error fetching categories', err);
+        return of([]);
+      })
+    );
+  }
+
+  /** Fetch all users for current event and update the BehaviorSubject */
+  getAllUsers(): void {
+    console.log("Fetching all users for current event");
+
+    const eventId = this.currentEvent?.id;
+    if (!eventId) {
+      this.allUserSubject.next([]);
+      return;
+    }
+
+    this.http
+      .get<any[]>(`${this.conf.rootUrl}/event/${eventId}/allUsersByEvent`, {
+        headers: this.authService.getAuthHeaders()
+      })
+      .pipe(
+        map(rawUsers =>
+          rawUsers.map(u =>
+            new User(
+              u.id,              // backend id → ids
+              u.firstName,       // backend firstName → fName
+              u.lastName,        // backend lastName → lName
+              u.emailAddress,    // backend emailAddress → email
+              "",                // backend does NOT send password -> empty string
+              false              // backend does NOT send isAdmin -> default false
+            )
+          )
+        ),
+        catchError(err => {
+          console.error('Error fetching users', err);
+          return of([]);
+        })
+      )
+      .subscribe(mappedUsers => {
+        console.log("Updating users", mappedUsers);
+        this.allUserSubject.next(mappedUsers);
+      });
+  }
+
+  /** Check if a user is admin */
+  userIsAdmin(user: User): Observable<boolean> {
+    const eventId = this.currentEventSubject.getValue()?.id;
+    if (!eventId || !user) return of(false);
+    console.log("Checking admin status for user:", user);
+    return this.http.get<{ isAdmin: boolean }>(`${this.conf.rootUrl}/event/${eventId}/user/${user.id}/isAdmin`, {
+      headers: this.authService.getAuthHeaders()
+    }).pipe(
+      map(res => res.isAdmin),
+      catchError(() => of(false))
+    );
+  }
+
+  /** Add a new user and update the BehaviorSubject immediately */
+  addUser(fName: string, lName: string): Observable<User> {
+    const eventId = this.currentEvent?.id;
+    if (!eventId) return of(null as any);
+
+    return this.http.post<User>(`${this.conf.rootUrl}/event/${eventId}/addUser`, { fName, lName }, {
+      headers: this.authService.getAuthHeaders()
+    }).pipe(
+      tap((newUser: User) => {
+        // Update the BehaviorSubject immediately
+        console.log("Adding new user to BehaviorSubject:", newUser);
+        const currentUsers = this.allUserSubject.getValue();
+        this.allUserSubject.next([...currentUsers, newUser]);
+      }),
+      catchError(err => {
+        console.error('Error adding user:', err);
+        return of(null as any);
+      })
+    );
+  }
+
+  addUnregUser(firstName: string, lastName: string): void {
+    console.log("Adding unregistered user:", firstName, lastName);
+    const eventId = this.currentEvent?.id;
+
+    if (!eventId || eventId === -1) {
+      console.warn("No valid event selected.");
+      return;
+    }
+
+    const url = `${this.conf.rootUrl}/user/${eventId}/add/`;
+    const body = { firstName, lastName };
+    const headers = this.authService.getAuthHeaders();
+
+    this.http.post(url, body, { headers: headers }).subscribe({
+      next: (res: any) => {
+        console.log("Unregistered user added to event:", res);
+
+        // OPTIONAL: refresh user list if backend doesn’t return new user
+        this.getAllUsers();
+      },
+      error: (err) => {
+        console.error("Failed to add unregistered user:", err);
+      }
+    });
+  }
+  /** Add a registered user to the event */
+  userToEvent(userId: number): Observable<any> {
+    const eventId = this.currentEvent?.id;
+    if (!eventId) return of(null);
+
+    const url = `${this.conf.rootUrl}/event/addUserToEvent/event_id/${eventId}/user_id/${userId}`;
+
+    return this.http.get(url, { headers: this.authService.getAuthHeaders() }).pipe(
+      tap(() => this.getAllUsers())
+    );
+  }
+
+  /** Remove user from event */
+  removeUserFromEvent(userId: number): Observable<any> {
+    const eventId = this.currentEvent?.id;
+    if (!eventId) return of(null);
+
+    const url = `${this.conf.rootUrl}/event/${eventId}/removeUserFromEvent/user_id/${userId}`;
+
+    return this.http.get(url, { headers: this.authService.getAuthHeaders() }).pipe(
+      tap(() => this.getAllUsers())
+    );
+  }
+
+  /** Create a new category */
+  addCategory(name: string, description: string, eventId: number, shiftBlocks: any[]): Observable<any> {
+    const url = `${this.conf.rootUrl}/shiftCategory/${eventId}/add`;
+
+    return this.http.post(url, { name, description, event_id: eventId, shiftBlocks }, {
+      headers: this.authService.getAuthHeaders()
+    }).pipe(
+      tap(() => this.updateCategories().subscribe())
+    );
+  }
+
+  /** Delete category */
+  deleteCategory(categoryId: number): Observable<any> {
+    const eventId = this.currentEvent?.id;
+    if (!eventId) return of(null);
+
+    const url = `${this.conf.rootUrl}/shiftCategory/${eventId}/delete/id/${categoryId}`;
+
+    return this.http.delete(url, { headers: this.authService.getAuthHeaders() }).pipe(
+      tap(() => this.updateCategories().subscribe())
+    );
+  }
+
+  /** Add shift block to category */
+  addShiftBlockToCategory(newBlock: any, catId: number): Observable<any> {
+    const eventId = this.currentEvent?.id;
+    if (!eventId) return of(null);
+
+    const url = `${this.conf.rootUrl}/shiftCategory/${eventId}/addShiftBlockToCategory/shift_category_id/${catId}`;
+    const body = { shiftBlocks: [newBlock] };
+
+    return this.http.post(url, body, { headers: this.authService.getAuthHeaders() }).pipe(
+      tap(() => this.updateCategories().subscribe())
+    );
+  }
+
+  /** Get available users for activity */
+  getAvailableUsers(catId: number, activityId: number): Observable<User[]> {
+    const eventId = this.currentEvent?.id;
+    if (!eventId) return of([]);
+
+    const url = `${this.conf.rootUrl}/activity/${eventId}/availableUsers/shift_category_id/${catId}/activity_id/${activityId}`;
+
+    return this.http.get<User[]>(url, { headers: this.authService.getAuthHeaders() });
+  }
+
+  /** Register user for activity */
+  regUserForActivity(activityId: number, userId: number): Observable<any> {
+    const eventId = this.currentEvent?.id;
+    const catId = this.currentCategory?.id;
+
+    if (!eventId || !catId) return of(null);
+
+    const url = `${this.conf.rootUrl}/activity/${eventId}/requestUser/shift_category_id/${catId}/activity_id/${activityId}/user_id/${userId}`;
+
+    return this.http.put(url, {}, { headers: this.authService.getAuthHeaders() });
+  }
+
+  /** Remove user from activity */
+  delUserFromActivity(activityId: number): Observable<any> {
+    const eventId = this.currentEvent?.id;
+    const catId = this.currentCategory?.id;
+    if (!eventId || !catId) return of(null);
+
+    const url = `${this.conf.rootUrl}/activity/${eventId}/removeUser/shift_category_id/${catId}/activity_id/${activityId}`;
+
+    return this.http.put(url, {}, { headers: this.authService.getAuthHeaders() });
+  }
+
+  /** Delete a shift */
+  deleteShift(catId: number, shiftId: number): Observable<any> {
+    const eventId = this.currentEvent?.id;
+    if (!eventId) return of(null);
+
+    const url = `${this.conf.rootUrl}/shift/${eventId}/shift_category_id/${catId}/shift_id/${shiftId}`;
+
+    return this.http.delete(url, { headers: this.authService.getAuthHeaders() }).pipe(
+      tap(() => this.updateCategories().subscribe())
+    );
+  }
+
+  /** Claim user (legacy invitation) */
+  claimUserInEvent(eventId: number, userId: number, fName: string, lName: string) {
+    const url = `${this.conf.rootUrl}/user/${eventId}/claimUser/${userId}/${encodeURIComponent(fName)}/${encodeURIComponent(lName)}`;
+    return this.http.get(url, { headers: this.authService.getAuthHeaders() });
+  }
+  makeUserToAdmin(_userId: number) {
+
+    const storedUser = localStorage.getItem('user');
+
+    if (storedUser) {
+
+      const currUser = JSON.parse(storedUser);
+
+      if (currUser && currUser.id && this.currentEvent != null) {
+
+        this.http.put(this.conf.rootUrl + "/permission/" + this.currentEvent.id + "/makeAdmin/user_id/" + _userId, {}, { headers: this.authService.getAuthHeaders() }).subscribe((res) => {
+          console.log("Juhuuuuu: ", res);
+        });
+      }
+    }
+  }
+
+
+}

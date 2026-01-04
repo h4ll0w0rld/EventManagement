@@ -24,7 +24,7 @@ export class EventhubService implements OnInit {
 
   getUsersEvents() {
 
-    if (this.loggedInUser.uuid == -1) {
+    if (this.loggedInUser.id == -1) {
       const userFromStorage = localStorage.getItem("user");
       console.log(userFromStorage)
            // Check if the retrieved value is not null and then assign it to loggedInUser
@@ -33,7 +33,7 @@ export class EventhubService implements OnInit {
       }
     }
 
-      this.https.get(this.conf.rootUrl + '/user/eventsByUser/user_id/' + this.loggedInUser.uuid, this.authService.getAuthHeader()).subscribe((res: any) => {
+      this.https.get(this.conf.rootUrl + '/user/eventsByUser/user_id/' + this.loggedInUser.id, this.authService.getAuthHeader()).subscribe((res: any) => {
         let events: EventModel[] = res;
         this.allEvents.next(events);
 

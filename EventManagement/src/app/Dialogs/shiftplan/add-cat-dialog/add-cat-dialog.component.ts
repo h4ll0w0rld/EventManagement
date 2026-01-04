@@ -3,9 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { EventModel } from 'src/app/Object Models/EventModel';
-import { AuthService } from 'src/app/Services/Auth Service/auth.service';
-import { EventServiceService } from 'src/app/Services/Event Service/event-service.service';
-import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.service';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { EventService} from 'src/app/core/features/events/event.service';
 
 @Component({
   selector: 'app-add-shift-cat-form',
@@ -37,7 +36,7 @@ export class AddCatDialogComponent implements OnInit {
   minZeit: string;
   startTimeTime: string;
 
-  constructor(public dialogRef: MatDialogRef<AddCatDialogComponent>, public eventService: EventServiceService, private authService: AuthService, private router: Router) {
+  constructor(public dialogRef: MatDialogRef<AddCatDialogComponent>, public eventService: EventService, private authService: AuthService, private router: Router) {
 
     //this.newCategory.eventId = this.eventService.currentEvent.id;
     this.currentBlock.startTime = this.eventStartDate;
@@ -97,9 +96,9 @@ export class AddCatDialogComponent implements OnInit {
 
   ngOnInit(){
 
-    this.eventService.getCurrentEvent().subscribe((currentEvent: EventModel) => {
-      this.currentEvent = currentEvent;
-    })
+    // this.eventService.currentEvent().subscribe((currentEvent: EventModel) => {
+    //   this.currentEvent = currentEvent;
+    // })
     
   }
 

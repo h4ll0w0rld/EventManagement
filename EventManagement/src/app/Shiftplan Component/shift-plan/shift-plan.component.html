@@ -10,7 +10,6 @@
 </div>
 
 <swiper-container #swiper *ngIf="shouldReloadContent">
-
   <swiper-slide *ngFor="let cat of this.eventService.categories | async">
 
     <div class="category-type">

@@ -20,9 +20,9 @@ export class ShiftCategoryComponent {
 
   constructor(private dialog: MatDialog, public shiftplanService: ShiftplanService) {
 
-    // this.shiftplanService.editmode$.subscribe(value => {
-    //   this.unlocked = value;
-    // })
+    this.shiftplanService.editmode$.subscribe(value => {
+      this.unlocked = value;
+    })
 
   }
 

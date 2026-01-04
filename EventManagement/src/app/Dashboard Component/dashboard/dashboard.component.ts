@@ -1,93 +1,69 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Shift } from 'src/app/Object Models/Dashboard Component/shift';
-import { userActivity } from 'src/app/Object Models/Dashboard Component/usermodel';
 import { User } from 'src/app/Object Models/user/user';
-import { DashboardService } from 'src/app/Services/Dashboard Service/dashboard.service';
-import { EventServiceService } from 'src/app/Services/Event Service/event-service.service';
+import { DashboardService } from 'src/app/core/features/dashboard/dashboard.service';
+import { EventService } from 'src/app/core/features/events/event.service';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
 
   shiftsByUser: Shift[] = [];
+  shiftRequests: Shift[] = [];
+  allUsers: User[] = [];
+  selectedUser: User | null = null;
 
-  selectedUser: User = new User(-1, "", "", "", "");
+  constructor(
+    private dashboardService: DashboardService,
+    private eventService: EventService
+  ) {}
 
-  allUser: User[] = []
+  ngOnInit(): void {
+    // Subscribe to all users from EventService
+    this.eventService.allUser$.subscribe(users => {
+      this.allUsers = users;
 
-  shiftRequests: Shift[] = []
- 
-
-  constructor(private dashboardService: DashboardService, private eventService: EventServiceService) {
-   
-    //this.selectedUser = this.allUser
-
-  }
-
-
-  clicked() {
-    
-    const stored: any = localStorage.getItem('selected-dashboard-user');
-    const storedUser: any = JSON.parse(stored);
-
-    const test = this.allUser.find(u => u.uuid === storedUser.uuid)
-    this.selectedUser = <User>test;
-    this.dashboardService.updateUserActivity(this.selectedUser.uuid, "confirmed")
-    this.dashboardService.updateShiftReq(this.selectedUser.uuid, "requested")
-
-  }
-
-
-  ngOnInit() {
-
-    this.eventService.getAllUser();
-
-    this.dashboardService.shiftsByUser.subscribe((newValue) => {
-      // Update the component with the new value
-      //this.shiftsByUser = newValue;   //TTTTTTOOODODODODO
-
+      // Select the stored user if available
+      const stored = localStorage.getItem('selected-dashboard-user');
+      if (stored) {
+        const storedUser = JSON.parse(stored);
+        this.selectedUser = this.allUsers.find(u => u.id === storedUser.id) ?? this.allUsers[0] ?? null;
+        this.loadShiftsForSelectedUser();
+      }
     });
 
-    this.eventService.allUser.subscribe((newValue) => {
-      // Update the component with the new value
-      this.allUser = newValue;
-      this.clicked()
+    // Subscribe to shifts and requests from DashboardService
+    this.dashboardService.shiftsByUser.subscribe(shifts => this.shiftsByUser = shifts);
+    this.dashboardService.shiftRequests.subscribe(requests => this.shiftRequests = requests);
 
-    });
-     this.dashboardService.shiftRequests.subscribe(shiftReqs => {
-      this.shiftRequests = shiftReqs;
-      //console.log("updatet", this.shiftRequests)
+    // Initialize selectedUser from localStorage if no users loaded yet
+    if (!this.selectedUser) {
+      const localUser = localStorage.getItem('user');
+      if (localUser) {
+        this.selectedUser = JSON.parse(localUser);
+      }
+    }
 
-    })
-    
-     this.dashboardService.shiftsByUser.subscribe(shiftReqs => {
-      this.shiftsByUser = shiftReqs;
-      //console.log("updatet shifts ", this.shiftRequests)
-
-    })
-
-    const localUser: any = localStorage.getItem("user");
-    this.selectedUser = JSON.parse(localUser)
-    console.log("selected user: ", this.selectedUser.fName)
-
-
-    //this.dashboardService.updateUserActivity();
+    // Fetch all users for the current event
+    this.eventService.getAllUsers();
   }
 
-  getShiftHelper(){
+  /** Called when a user is clicked/selected */
+  onUserSelected(user: User): void {
+    this.selectedUser = user;
+    localStorage.setItem('selected-dashboard-user', JSON.stringify(user));
+    this.loadShiftsForSelectedUser();
   }
 
-  
+  /** Load shifts and shift requests for the currently selected user */
+  private loadShiftsForSelectedUser(): void {
+    if (!this.selectedUser) return;
 
-  changeUser() {
-    console.log("changing user")
-    this.dashboardService.updateUserActivity(this.selectedUser.uuid, "confirmed");
-    this.dashboardService.updateShiftReq(this.selectedUser.uuid, "requested");
-    localStorage.setItem('selected-dashboard-user', JSON.stringify(this.selectedUser));
-
+    const userId = this.selectedUser.id;
+    this.dashboardService.updateShiftsByUser(userId, 'confirmed');
+    this.dashboardService.updateShiftRequests(userId, 'requested');
   }
 }

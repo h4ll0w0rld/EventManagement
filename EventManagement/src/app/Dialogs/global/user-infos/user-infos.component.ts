@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-import { EventServiceService } from 'src/app/Services/Event Service/event-service.service';
+import { EventService } from 'src/app/core/features/events/event.service';
 import { InviteUserDialogComponent } from '../invite-user-dialog/invite-user-dialog.component';
 import { DelUserDialogComponent } from '../del-user-dialog/del-user-dialog.component';
 
@@ -12,15 +12,15 @@ import { DelUserDialogComponent } from '../del-user-dialog/del-user-dialog.compo
 export class UserInfosComponent {
 
 
-constructor(private eventService: EventServiceService,  @Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog) {}
+constructor(private eventService: EventService,  @Inject(MAT_DIALOG_DATA) public data: any, private dialog: MatDialog) {}
 
 
 
 
   toAdmin() {
 
-    console.log("die User Id is: ", this.data.user.uuid , localStorage.getItem('user'));
-    this.eventService.makeUserToAdmin(this.data.user.uuid);
+    console.log("die User Id is: ", this.data.user.id , localStorage.getItem('user'));
+    this.eventService.makeUserToAdmin(this.data.user.id);
   }
 
   inviteToClaim() {
@@ -37,7 +37,7 @@ constructor(private eventService: EventServiceService,  @Inject(MAT_DIALOG_DATA)
 
     dialogRef.afterClosed().subscribe(result => {
 
-      this.eventService.getAllUser();
+      this.eventService.getAllUsers();
     })
   }
 
@@ -60,7 +60,7 @@ constructor(private eventService: EventServiceService,  @Inject(MAT_DIALOG_DATA)
 
         this.dialog.closeAll();
       }
-      this.eventService.getAllUser();
+      this.eventService.getAllUsers();
     })
   }
 

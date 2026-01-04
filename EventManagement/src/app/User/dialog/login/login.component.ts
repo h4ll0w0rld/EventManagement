@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { AuthService } from 'src/app/Services/Auth Service/auth.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 
- 
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -15,38 +15,37 @@ export class LoginComponent {
   @Input() userId: number | undefined;
   @Input() fName: string | undefined;
   @Input() lName: string | undefined;
-  
-  constructor(private authService:AuthService, private router: Router, private route: ActivatedRoute){}
+
+  constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) { }
   user = {
     email: "",
     pass: ""
 
   }
 
-  onSubmit(){
+  onSubmit() {
+    console.log("Login attempt with", this.user.email, this.user.pass);
     console.log(this.validateInput(this.user.email))
-    this.authService.loginUser(this.user.email, this.user.pass)
-    .subscribe(res => {
+    this.authService.login(this.user.email, this.user.pass)
+      .subscribe({
+        next: (user) => {
+          console.log("Login success:", user);
+          this.router.navigate(['/']);
+        },
+        error: err => {
+          console.error("Login failed", err);
+        }
+      });
 
-      if (this.authService.routeFromInviteLanding) {
-        this.authService.routeFromInviteLanding = false;
-        this.router.navigate(['/inviteLanding', this.eventId, this.userId, this.fName, this.lName]);
-      }else {
-        this.router.navigate(['/'])
-      }
-    })
-
-    
-    
 
   }
 
-  validateInput(_mail: string){
+  validateInput(_mail: string) {
     const pattern = /^[^@]+@[^@]+\.[^@]+$/;
-    if (_mail&& !pattern.test(_mail)) {
+    if (_mail && !pattern.test(_mail)) {
       return { 'invalidEmail': true };
     }
-    
+
     return null;
   }
 
