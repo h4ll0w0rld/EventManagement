@@ -4,7 +4,7 @@ import { User } from 'src/app/Object Models/user/user';
 import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.service';
 import { MatDialog } from '@angular/material/dialog';
 import { UserListComponent } from 'src/app/Dialogs/shiftplan/user-list-dialog/user-list.component';
-import { EventServiceService } from 'src/app/Services/Event Service/event-service.service';
+import { EventService } from 'src/app/core/features/events/event.service';
 import { Observable, map, switchMap } from 'rxjs';
 
 
@@ -21,7 +21,7 @@ export class ActivityComponent {
 
   currUserAvailable: any;
 
-  constructor(public shiftplanService: ShiftplanService, public eventService:EventServiceService, private dialog: MatDialog, private renderer: Renderer2, private el: ElementRef) {
+  constructor(public shiftplanService: ShiftplanService, public eventService:EventService, private dialog: MatDialog, private renderer: Renderer2, private el: ElementRef) {
     // currUserAvailable$.subscribe(userInArray => {
     //   if (!userInArray) {
         
@@ -42,6 +42,7 @@ export class ActivityComponent {
 
 
   openUserList() {
+    console.log("activity found", this.activity)
     const dialogRef = this.dialog.open(UserListComponent,
       {
         data: {

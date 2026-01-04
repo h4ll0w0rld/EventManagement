@@ -8,4 +8,8 @@ import { Component, Input } from '@angular/core';
 export class ShiftPersonalActivityComponent {
 
   @Input() _shiftsByUser: any;
+
+  getShift(){
+    
+  }
 }

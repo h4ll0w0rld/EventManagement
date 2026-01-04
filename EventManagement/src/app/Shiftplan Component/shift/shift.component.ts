@@ -1,7 +1,7 @@
 import { Component, HostListener, Input } from '@angular/core';
 import { Shift } from 'src/app/Object Models/Shiftplan Component/shift';
 import { Activity } from 'src/app/Object Models/Shiftplan Component/activityModel';
-import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.service';
+import { ShiftplanService } from 'src/app/core/features/shiftplan/shiftplan.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ShiftBreakDialogComponent } from 'src/app/Dialogs/shiftplan/shift-break-dialog/shift-break-dialog.component';
 import { EventServiceService } from 'src/app/Services/Event Service/event-service.service';
@@ -38,9 +38,9 @@ export class ShiftComponent {
 
   ngOnInit() {
 
-    this.shiftplanService.editmode$.subscribe(value => {
-      this.unlocked = value;
-    })
+    // this.shiftplanService.editmode$.subscribe(value => {
+    //   this.unlocked = value;
+    // })
   }
 
   delShiftDialog() {

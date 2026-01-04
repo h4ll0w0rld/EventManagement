@@ -21,6 +21,7 @@
             <ng-container *ngFor="let activity of shift.activities">
                 <app-dashboardactivity [role]="shift.shift_category.name || ''"
                     [start]="(shift.startTime | date: 'shortTime') || ''"
+                    [shift]="shift || {}"
                     [end]="(shift.endTime | date: 'shortTime') || ''" [date]="(shift.endTime | date: 'shortDate') || ''"
                     [userName]="activity.user.firstName + ' ' + activity.user.lastName" [status]="activity.status || ''"
                     [description]="shift.shift_category.description || ''" [activity]="shift.activities">

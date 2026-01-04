@@ -1,25 +1,21 @@
-
 <div class="dialogContainer">
-
-  <div class="user-container" *ngIf="data.activity.user.id else emptyAct" (click)="delUser()">
-    <p>Aus Liste austragen<p>
+  <!-- Optionally show current user info -->
+  <div class="user-container" *ngIf="data.activity.user.id" (click)="delUser()">
+    <p>Aus Liste austragen</p>
   </div>
 
-  <ng-template #emptyAct>
+  <p>Möchtest du dich verbindlich eintragen?</p>
+  <button (click)="addCurrUser(data.activity.uuid, eventService.loggedInUser.id, data.shiftId)" class="confirm-self-button">
+    Eintragen
+  </button>
 
-    <p *ngIf="!eventService.isAdmin">Möchtest du dich verbindlich eintragen?</p>
-    <button (click)="addCurrUser(data.activity.uuid, eventService.loggedInUser.id, data.shiftId)" class="confirm-self-button">Eintragen</button>
-    <div *ngIf="eventService.isAdmin" class="line"></div>
-    <h3 >Verfügbare Personen</h3>
-    <div  class="list-container">
-      <div class="user-container" *ngFor="let user of userList">
-        <p class="username">{{user.fName}} {{user.lName}}</p>
+  <div *ngIf="eventService.isAdmin" class="line"></div>
 
-        <button class="submit-user-button" (click)="reqUser(data.activity.uuid, user.id, data.shiftId)">Anfragen</button>
-      </div>
+  <h3>Verfügbare Personen</h3>
+  <div class="list-container">
+    <div class="user-container" *ngFor="let user of userList">
+      <p class="username">{{user.fName}} {{user.lName}}</p>
+      <button class="submit-user-button" (click)="reqUser(data.activity.uuid, user.id, data.shiftId)">Anfragen</button>
     </div>
-
-
-  </ng-template>
-
+  </div>
 </div>

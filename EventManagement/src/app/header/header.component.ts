@@ -65,8 +65,9 @@ export class HeaderComponent implements OnInit {
 
   selectEvent(event: any) {
     this.title = event.name;
-    this.eventService.setCurrentEvent(event);
+    this.eventService.setCurrentEvent(event)
     this.eventService.getAllUsers();
+    
     this.showEventDropdown = false;
     // Additional logic: notify service of new selection
   }

@@ -7,6 +7,8 @@ import { EventModel } from 'src/app/Object Models/EventModel';
 import { CategoryContent } from 'src/app/Object Models/Shiftplan Component/category-content';
 import { catchError, map, tap } from 'rxjs/operators';
 import { User } from 'src/app/Object Models/user/user';
+import { Shift } from 'src/app/Object Models/Shiftplan Component/shift';
+import { Activity } from 'src/app/Object Models/Shiftplan Component/activityModel';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +23,9 @@ export class EventService implements OnDestroy {
 
   private allUserSubject = new BehaviorSubject<User[]>([]);
   allUser$ = this.allUserSubject.asObservable();
+  private categoriesSubject = new BehaviorSubject<CategoryContent[]>([]);
+  categories$ = this.categoriesSubject.asObservable();
+  availableUsers$ = new BehaviorSubject<User[]>([]);
 
   refreshInterval: Subscription = Subscription.EMPTY;
   loggedInUser: any;
@@ -70,6 +75,7 @@ export class EventService implements OnDestroy {
   setCurrentEvent(event: EventModel) {
     this.currentEventSubject.next(event);
     localStorage.setItem('curr-event', JSON.stringify(event));
+    this.updateCategories()
   }
 
   setCurrentCategory(cat: CategoryContent) {
@@ -84,12 +90,43 @@ export class EventService implements OnDestroy {
     return this.http.get<any>(`${this.conf.rootUrl}/shiftCategory/${eventId}/all`, {
       headers: this.authService.getAuthHeaders()
     }).pipe(
-      map(res => res.shift_categories.map((cat: any) =>
-        new CategoryContent(cat.id, cat.name, cat.description, cat.interval, cat.shifts)
-      )),
-      catchError(err => {
-        console.error('Error fetching categories', err);
-        return of([]);
+      map(res => {
+        return res.shift_categories.map((category: any) => {
+
+          const shifts: Shift[] = category.shifts.map((shift: any) => {
+
+            const activities: Activity[] = shift.activities.map((activity: any) => {
+
+              const user = activity.user
+                ? new User(
+                  activity.user.id,
+                  activity.user.firstName,
+                  activity.user.lastName,
+                  activity.user.email,
+                  ""
+                )
+                : null;
+
+              return new Activity(activity.id, user || new User(-1, "", "", "", ""), activity.status);
+            });
+
+            return new Shift(
+              shift.id,
+              shift.startTime,   // restore Date
+              shift.endTime,
+              activities,
+              shift.isActive
+            );
+          });
+
+          return new CategoryContent(
+            category.id,
+            category.name,
+            category.description,
+            category.interval,
+            shifts
+          );
+        });
       })
     );
   }
@@ -117,7 +154,7 @@ export class EventService implements OnDestroy {
               u.lastName,        // backend lastName → lName
               u.emailAddress,    // backend emailAddress → email
               "",                // backend does NOT send password -> empty string
-              false              // backend does NOT send isAdmin -> default false
+              true              // backend does NOT send isAdmin -> default false
             )
           )
         ),
@@ -252,14 +289,26 @@ export class EventService implements OnDestroy {
   }
 
   /** Get available users for activity */
-  getAvailableUsers(catId: number, activityId: number): Observable<User[]> {
-    const eventId = this.currentEvent?.id;
-    if (!eventId) return of([]);
+  getAvailableUsers(_shiftCatId: number, _activityId: number) {
 
-    const url = `${this.conf.rootUrl}/activity/${eventId}/availableUsers/shift_category_id/${catId}/activity_id/${activityId}`;
+    if (this.currentEvent && this.currentCategory) {
+      // /activity/:current_event_id/availableUsers/shift_category_id/:shift_category_id/activity_id/:activity_id
+      this.http.get(this.conf.rootUrl + '/activity/' + this.currentEvent.id + '/availableUsers/shift_category_id/' + this.currentCategory.id + '/activity_id/' + _activityId, { headers: this.authService.getAuthHeaders() }).subscribe((res: any) => {
+        const users: User[] = res.map((user: any) => new User(
+          user.id,
+          user.firstName,
+          user.lastName,
+          user.email,
+          user.password
 
-    return this.http.get<User[]>(url, { headers: this.authService.getAuthHeaders() });
+        ));
+        this.availableUsers$.next(users);
+      });
+    } else if (!this.currentCategory) console.log("No cat selected")
+    else console.log("No event selected")
   }
+
+
 
   /** Register user for activity */
   regUserForActivity(activityId: number, userId: number): Observable<any> {

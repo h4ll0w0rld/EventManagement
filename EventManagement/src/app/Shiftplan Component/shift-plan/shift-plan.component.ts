@@ -1,160 +1,165 @@
-import { Component, ElementRef, Injectable, QueryList, ViewChildren, ViewEncapsulation, AfterViewInit, ViewChild, Renderer2 } from '@angular/core';
-import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.service';
-import { CategoryContent } from 'src/app/Object Models/Shiftplan Component/category-content';
-import { DelCatDialogComponent } from 'src/app/Dialogs/shiftplan/del-cat-dialog/del-cat-dialog.component';
-import { DatePipe } from '@angular/common';
+import {
+  Component,
+  ElementRef,
+  QueryList,
+  ViewChildren,
+  ViewChild,
+  Renderer2,
+  AfterViewInit,
+  OnInit
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { CategoryContent } from 'src/app/Object Models/Shiftplan Component/category-content';
+import { ShiftplanService } from 'src/app/core/features/shiftplan/shiftplan.service';
 import { AddCatDialogComponent } from 'src/app/Dialogs/shiftplan/add-cat-dialog/add-cat-dialog.component';
-import { EventServiceService } from 'src/app/Services/Event Service/event-service.service';
-
-@Injectable()
+import { DelCatDialogComponent } from 'src/app/Dialogs/shiftplan/del-cat-dialog/del-cat-dialog.component';
+import { EventService } from 'src/app/core/features/events/event.service';
+import { filter, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-shift-plan',
   templateUrl: './shift-plan.component.html',
-  styleUrls: ['./shift-plan.component.scss'],
-  providers: [
-    DatePipe, // Move DatePipe to providers array
-  ],
-  //encapsulation: ViewEncapsulation.None
+  styleUrls: ['./shift-plan.component.scss']
 })
-
-
-export class ShiftPlanComponent implements AfterViewInit {
+export class ShiftPlanComponent implements AfterViewInit, OnInit {
 
   @ViewChildren('tab') tabElements!: QueryList<ElementRef>;
   @ViewChild('swiper', { static: false }) swiperContainer!: any;
-  @ViewChild('addCatRef', { static: false }) addCatRef!: any;
-  @ViewChild('activeTab') activeTabRef!: ElementRef;
 
-  shouldReloadContent: boolean = true;
-  catSlides: any = [];
-  unlocked: boolean = false;
-  categories: CategoryContent[] = []
+  categories: CategoryContent[] = [];
   activeSlideIndex = 0;
- 
+  unlocked = true;
+  shouldReloadContent = true;
 
-  constructor(public shiftplanService: ShiftplanService, private dialog: MatDialog, private renderer: Renderer2, public eventService: EventServiceService) {
-    this.eventService.currentCatSubject.next(this.getActiveCat())
-  }
+  constructor(
+    public shiftplanService: ShiftplanService,
+    private dialog: MatDialog,
+    private renderer: Renderer2,
+    public eventService: EventService
+  ) { }
 
-  tabClick(elem: any, cat: any, id: number) {
+  // ---------- INIT ----------
 
-    const clickedElement = elem.target;
-    this.setActiveTab(clickedElement)
-    this.eventService.setCurrCat(this.getActiveCat())
+  ngOnInit(): void {
+  this.eventService.currentEvent$.pipe(
+    filter(event => !!event), // ignore null
+    switchMap(event => this.eventService.updateCategories()) // fetch categories for the selected event
+  ).subscribe(cats => {
+    console.log("Categories loaded for event: ", cats);
+    this.categories = cats;
 
-  }
-  getActiveCat() {
-    return this.categories[this.activeSlideIndex];
-  }
-
-  setActiveSlide(index: number) {
-
-    this.activeSlideIndex = index;
-    this.eventService.setCurrCat(this.getActiveCat())
-    //this.scrollToActiveTab();
-    this.goToPage(index);
-    this.scrollToActive();
-
-  }
-
-  scrollToActive() {
-
-    const actElem = document.querySelector('.active');
-
-    if (actElem) {
-
-      actElem.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-        inline: 'center'
-      })
+    // Activate the first category
+    if (cats.length > 0) {
+      setTimeout(() => {
+        this.setActiveSlide(0);
+        this.eventService.setCurrentCategory(cats[0]);
+      });
     }
-  }
+  });
 
-  
-  setActiveTab(elem: any) {
-
-    this.tabElements.forEach((element) => {
-
-      this.renderer.removeClass(element.nativeElement, 'active');
-    });
-
-    this.renderer.addClass(elem, 'active');
-    this.scrollToActive();
-
-  }
-
-  goToPage(pageNumber: number) {
-
-    const swiperEl = this.swiperContainer.nativeElement
-    swiperEl.swiper.slideTo(pageNumber, 400);
-
-
-  }
-
-  delCatDialog(_cat: CategoryContent) {
-
-    let delMessage = "Möchtest du " + _cat.name + " wirklich löschen?";
-
-    let dialogRef = this.dialog.open(DelCatDialogComponent,
-      {
-        data: {
-          message: delMessage,
-          catId: _cat.id
-        },
-        width: '90vw',
-        height: 'auto',
-      }
-
-    );
-  }
-
-  addCatDialog() {
-    this.dialog.open(AddCatDialogComponent, {
-      data: {},
-      width: '90vw',
-      height: 'auto',
-    })
-  }
-
-  ngOnInit() {
-
-    this.shiftplanService.editmode$.subscribe(value => {
-
-      this.unlocked = value;
-    })
-
-    this.eventService.categories.subscribe((categories: CategoryContent[]) => {
-      this.categories = categories;
-      this.eventService.setCurrCat(this.getActiveCat())
-      // Do something with the received categories in this component
-    });
-
-    this.eventService.updateCategories()
-    // this.eventService.getRoles();
-    // if(this.eventService.isAdmin){
-    //   this.unlocked
-    // }
-
-  }
-
-  ngAfterViewInit() {
-
-    const swiper = this.swiperContainer.nativeElement.swiper
-    this.setActiveSlide(0)
-    swiper.on('slideChange', (swiper: any) => {
-      
-      this.activeSlideIndex = swiper.activeIndex
-      this.setActiveTab(this.tabElements.get(swiper.activeIndex)?.nativeElement)
-      //this.activeSlideIndex = swiper.activeIndex
-      this.eventService.setCurrCat(this.getActiveCat())
-    });
-    this.activeSlideIndex = 0;
-
-
-  }
+  // Keep the active tab in sync if current category changes
+  this.eventService.currentCat$.subscribe(cat => {
+    if (!cat) return;
+    const idx = this.categories.findIndex(c => c.id === cat.id);
+    if (idx >= 0) this.setActiveSlide(idx);
+  });
 }
 
 
+  ngAfterViewInit(): void {
+    if (!this.swiperContainer?.nativeElement) return;
+
+    const swiper = this.swiperContainer.nativeElement.swiper;
+    if (!swiper) return;
+
+    swiper.on('slideChange', () => {
+      this.activeSlideIndex = swiper.activeIndex;
+      const tabElem = this.tabElements.get(this.activeSlideIndex)?.nativeElement;
+      this.setActiveTab(tabElem);
+
+      const cat = this.getActiveCat();
+      if (cat) this.eventService.setCurrentCategory(cat);
+    });
+  }
+
+
+  // ---------- CATEGORY HANDLING ----------
+
+  getActiveCat(): CategoryContent | null {
+    return this.categories[this.activeSlideIndex];
+  }
+
+  setActiveSlide(index: number): void {
+    this.activeSlideIndex = index;
+
+    // Only go to page if swiperContainer exists
+    if (this.swiperContainer?.nativeElement?.swiper) {
+      this.goToPage(index);
+    }
+
+    this.scrollToActive();
+  }
+
+  // goToPage(page: number): void {
+  //   const swiperEl = this.swiperContainer?.nativeElement;
+  //   if (swiperEl && swiperEl.swiper) {
+  //     swiperEl.swiper.slideTo(page, 400);
+  //   } else {
+  //     console.warn('Swiper container not ready yet');
+  //   }
+  // }
+
+
+  tabClick(event: any, cat: CategoryContent, index: number): void {
+    this.setActiveTab(event.target);
+    this.activeSlideIndex = index;
+    this.eventService.setCurrentCategory(cat);
+  }
+
+  // ---------- UI HELPERS ----------
+
+  setActiveTab(elem: any): void {
+    this.tabElements.forEach(tab =>
+      this.renderer.removeClass(tab.nativeElement, 'active')
+    );
+    if (elem) this.renderer.addClass(elem, 'active');
+    this.scrollToActive();
+  }
+
+  goToPage(page: number): void {
+    const swiperEl = this.swiperContainer.nativeElement;
+    swiperEl.swiper.slideTo(page, 400);
+  }
+
+  scrollToActive(): void {
+    const actElem = document.querySelector('.active');
+    if (actElem) {
+      actElem.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+    }
+  }
+
+  // ---------- DIALOGS ----------
+
+  addCatDialog(): void {
+    this.dialog.open(AddCatDialogComponent, {
+      width: '90vw',
+      height: 'auto'
+    });
+  }
+
+  delCatDialog(cat: CategoryContent): void {
+    const dialogRef = this.dialog.open(DelCatDialogComponent, {
+      data: { message: `Möchtest du ${cat.name} wirklich löschen?`, catId: cat.id },
+      width: '90vw',
+      height: 'auto'
+    });
+
+    dialogRef.afterClosed().subscribe(ok => {
+      if (ok === true) {
+        this.eventService.deleteCategory(cat.id).subscribe(() => {
+          this.eventService.updateCategories().subscribe(cats => this.categories = cats);
+        });
+      }
+    });
+  }
+}

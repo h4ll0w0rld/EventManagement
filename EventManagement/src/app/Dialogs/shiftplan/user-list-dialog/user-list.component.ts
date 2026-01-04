@@ -1,9 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ShiftplanService } from '../../../Services/Shiftplan Service/shiftplan.service';
+import { ShiftplanService } from '../../../core/features/shiftplan/shiftplan.service';
 import { User } from '../../../Object Models/user/user';
-import { EventServiceService } from 'src/app/Services/Event Service/event-service.service';
-import { DashboardService } from 'src/app/Services/Dashboard Service/dashboard.service';
+import { EventService } from 'src/app/core/features/events/event.service';
+import { DashboardService } from 'src/app/core/features/dashboard/dashboard.service';
+import { BehaviorSubject } from 'rxjs';
+import { CategoryContent } from 'src/app/Object Models/Shiftplan Component/category-content';
 
 
 @Component({
@@ -19,7 +21,7 @@ export class UserListComponent {
   constructor(
     public shiftplanService: ShiftplanService,
     public dashboardService: DashboardService,
-    public eventService: EventServiceService,
+    public eventService: EventService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private matDialogRef: MatDialogRef<UserListComponent>
   ) {
@@ -28,17 +30,14 @@ export class UserListComponent {
 
 
   ngOnInit() {
-    
-    this.eventService.getAvailableUser(this.data.shiftId, this.data.activity.uuid);
-    console.log("Available Users for Activity ID ", this.data.activity.id, " and Shift ID ", this.data.shiftId);
+    console.log("Dialog data received:", this.data);
+   
+     this.eventService.getAvailableUsers(this.data.shiftId, this.data.activity.uuid);
 
-    this.eventService.availableUser.subscribe((users: User[]) => {
-      this.userList = users;
+    // Subscribe to the BehaviorSubject
+    this.eventService.availableUsers$.subscribe(users => {
+      this.userList = users.filter(user => user.id !== this.eventService.loggedInUser.id);
       console.log("Fetched Available Users: ", this.userList);
-      if (this.isCurrUserInList()) {
-        console.log("Current user is in the available user list, removing self from display.");
-        this.userList = this.userList.filter(user => user.id !== this.eventService.loggedInUser.id)
-      }
     });
   }
 
@@ -55,7 +54,7 @@ export class UserListComponent {
 
   reqUser(_activityId: number, _userId: number, _shiftId: number) {
 
-    this.eventService.regUserForActivity(_activityId, _userId, _shiftId, false).subscribe((res) => {
+    this.eventService.regUserForActivity(_activityId, _userId).subscribe((res) => {
       this.onClose();
     });
 
@@ -63,16 +62,16 @@ export class UserListComponent {
 
   addCurrUser(_activityId: number, _userId: number, _shiftId: number) {
 
-    this.eventService.regUserForActivity(_activityId, this.eventService.loggedInUser.id, _shiftId, true).subscribe((res) => {
-      this.dashboardService.accReq(_activityId, this.eventService.currCat.id, this.eventService.loggedInUser.id);
-      this.onClose();
-    })
+    // this.eventService.regUserForActivity(_activityId, this.eventService.loggedInUser.id).subscribe((res) => {
+    //   this.dashboardService.accReq(_activityId, this.eventService.currCat.id, this.eventService.loggedInUser.id);
+    //   this.onClose();
+    // })
   }
 
   delUser() {
 
-    this.eventService.delUserFromActivity(this.data.activity.uuid, this.data.activity.user.uuid, this.data.shiftId);
-    this.matDialogRef.close();
+    // this.eventService.delUserFromActivity(this.data.activity.uuid, this.data.activity.user.uuid, this.data.shiftId);
+    // this.matDialogRef.close();
 
   }
 

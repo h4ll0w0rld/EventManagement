@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ShiftplanService } from '../../../Services/Shiftplan Service/shiftplan.service';
-import { EventServiceService } from 'src/app/Services/Event Service/event-service.service';
+import { EventService } from 'src/app/core/features/events/event.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,11 +12,11 @@ import { Router } from '@angular/router';
 export class DelCatDialogComponent {
 
   constructor(public shiftplanService: ShiftplanService, @Inject(MAT_DIALOG_DATA) public data: any,
-    private matDialogRef: MatDialogRef<DelCatDialogComponent>, public eventService: EventServiceService, public router: Router) { }
+    private matDialogRef: MatDialogRef<DelCatDialogComponent>, public eventService: EventService, public router: Router) { }
 
 
   delCategory() {
-    this.eventService.delCategory(this.data.catId);
+    this.eventService.deleteCategory(this.data.catId);
     this.matDialogRef.close();
     this.reloadComponent()
     this.eventService.updateCategories();

@@ -12,7 +12,7 @@ import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.s
 export class ShiftplanLandingComponent {
 
   title = 'Planit Events';
-  unlocked: boolean = false;
+  unlocked: boolean = true;
 
 
 
@@ -27,7 +27,7 @@ export class ShiftplanLandingComponent {
     //iconElement.classList.remove('mat-icon-no-color');
 
     this.shiftplanService.editmode$.subscribe(value => {
-      this.unlocked = value;
+      this.unlocked = true;
     })
   }
 

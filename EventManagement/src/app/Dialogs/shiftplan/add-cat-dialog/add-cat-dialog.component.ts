@@ -60,10 +60,10 @@ export class AddCatDialogComponent implements OnInit {
       return
     }
     else {
-      
-
-        if (this.currentEvent.id != -1) {
-          this.eventService.addCategory(this.newCategory.name, this.newCategory.description, this.currentEvent.id, this.newCategory.shiftBlocks);
+if (this.currentEvent.id != -1) {
+          this.eventService.addCategory(this.newCategory.name, this.newCategory.description, this.currentEvent.id, this.newCategory.shiftBlocks).subscribe(res => {
+            console.log("Category added: ", res);
+          });
           this.dialogRef.close();
           this.reloadComponent();
         }else{
@@ -96,9 +96,9 @@ export class AddCatDialogComponent implements OnInit {
 
   ngOnInit(){
 
-    // this.eventService.currentEvent().subscribe((currentEvent: EventModel) => {
-    //   this.currentEvent = currentEvent;
-    // })
+    this.eventService.currentEvent$.subscribe((currentEvent: any) => {
+      this.currentEvent = currentEvent;
+    })
     
   }
 

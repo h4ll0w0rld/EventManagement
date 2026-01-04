@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
+import { DashboardService } from 'src/app/core/features/dashboard/dashboard.service';
 import { Activity } from 'src/app/Object Models/Shiftplan Component/activityModel';
+import { Shift } from 'src/app/Object Models/Shiftplan Component/shift';
 import { User } from 'src/app/Object Models/user/user';
 
 @Component({
@@ -13,24 +15,40 @@ export class DashboardactivityComponent {
   @Input() date: string | null = '';
   @Input() role: string = "";
   @Input() description: string = "";
-  @Input() activity: any[] = [];
+  @Input() activity: any;
+  @Input() shift: any;
 
-  actiyities: Activity[] = [];
+
   showHelpers: boolean = false;
+  constructor(private dbService: DashboardService) {
+
+
+  }
   test() {
-    
+
     console.log(this.activity[0].user, "are the helpers populated ?")
     console.log(this.activity, "full activity object")
+    console.log(this.shift, "shift")
+    this.getHelper();
   }
   toggleHelpers() {
     this.showHelpers = !this.showHelpers;
   }
 
+  getHelper() {
+    this.dbService.getShiftById(this.shift.id).subscribe(shift => {
+      if (shift) {
+        this.activity = shift.activities;
+      
+      }
+    });
+}
+
 
   usersInShift() {
-    
-  
-}
+
+
+  }
 }
 
 

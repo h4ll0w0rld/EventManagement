@@ -1,7 +1,7 @@
 import { Component, Inject, ViewEncapsulation } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { UserListComponent } from '../user-list-dialog/user-list.component';
-import { EventServiceService } from 'src/app/Services/Event Service/event-service.service';
+import { EventService } from 'src/app/core/features/events/event.service';
 import { EventModel } from 'src/app/Object Models/EventModel';
 import { of, switchMap } from 'rxjs';
 import { DatePipe } from '@angular/common';
@@ -38,8 +38,8 @@ export class AddShiftblockComponent {
 
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
-    private matDialogRef: MatDialogRef<UserListComponent>, public eventService: EventServiceService) {
-
+    private matDialogRef: MatDialogRef<UserListComponent>, public eventService: EventService) {
+    if (this.eventService.currentEvent)
       if (this.eventService.currentEvent.id != -1) {
         if (data.catContent.shifts.some((obj: any) => obj)) {
 
@@ -49,7 +49,7 @@ export class AddShiftblockComponent {
 
         } else {
 
-          this.currentBlock.startTime = new Date(eventService.currentEvent.startDate);
+          this.currentBlock.startTime = new Date(this.eventService.currentEvent.startDate);
           this.minDate = this.currentBlock.startTime;
 
           this.minDate = this.currentBlock.startTime;
@@ -60,7 +60,7 @@ export class AddShiftblockComponent {
         this.minZeit = this.minDate.getHours() + ':' + this.minDate.getMinutes();
         this.startTimeTime = this.minDate.getHours() + ':' + this.minDate.getMinutes();
       }
-    
+
     this.updateEndDate();
   }
 
@@ -73,9 +73,10 @@ export class AddShiftblockComponent {
   }
 
   onInputChange() {
-      console.log("curr start !!: ", this.currentBlock.startTime)
+
+    if (this.eventService.currentEvent)
       if (this.eventService.currentEvent.id != -1) {
-       
+
         const eventEndDate = new Date(this.eventService.currentEvent.endDate);
 
         if (this.currentBlock.startTime.getDate() != this.minDate.getDate()) {
@@ -110,7 +111,7 @@ export class AddShiftblockComponent {
         this.currentBlock.startTime = currDate;
         console.log(currDate)
       }
-    
+
     this.updateEndDate();
   }
 
@@ -125,19 +126,22 @@ export class AddShiftblockComponent {
   }
 
   newBlock() {
-
-    this.formattedEventEndDate().subscribe((formattedEndDate: Date) => {
-      if (this.currentBlock.endTime <= formattedEndDate) {
-
+    console.log("Adding new block:", this.currentBlock);
+    if (this.eventService.currentEvent)
+      console.log("Event end date:", this.eventService.currentEvent.endDate);
+      if (this.currentBlock.endTime <=  this.formattedEventEndDate()) {
+        console.log("Within event date, adding block.");
         const newBlock = { ...this.currentBlock };
         newBlock.startTime = this.formatDate(newBlock.startTime);
         newBlock.endTime = this.formatDate(newBlock.endTime);
 
-        this.eventService.addShiftBlockToCategory(newBlock, this.data.catContent.id);
+        this.eventService.addShiftBlockToCategory(newBlock, this.data.catContent.id).subscribe((res) => {
+          console.log("Shift block added successfully.", res);
+        });
         this.eventService.updateCategories();
         this.matDialogRef.close();
       }
-    })
+    
   }
 
   updateCurrentBlock(_lastBlock: any) {
@@ -161,28 +165,25 @@ export class AddShiftblockComponent {
   }
 
   formattedEventEndDate() {
-    return this.eventService.getCurrentEvent().pipe(
-      switchMap((currentEvent: EventModel) => {
-        if (currentEvent) {
-          return of(new Date(currentEvent.endDate)); // Emit the formatted date using `of` to create an observable
-        }
-        return of(new Date());
-      })
-    );
+
+    if (this.eventService.currentEvent)
+      return new Date(this.eventService.currentEvent.endDate)
+    return console.error();
+    
   }
 
   outOfEventDate() {
 
     let outOf = false;
+    if (this.eventService.currentEvent) {
+      const formattedDate = new Date(this.currentBlock.endTime)
+      const eventEndDate = new Date(this.eventService.currentEvent.endDate)
 
-    const formattedDate = new Date(this.currentBlock.endTime)
-    const eventEndDate = new Date (this.eventService.currentEvent.endDate)
+      if (formattedDate > eventEndDate) {
 
-    if (formattedDate > eventEndDate) {
-
-      outOf = true;
+        outOf = true;
+      }
     }
-
     return outOf;
   }
 

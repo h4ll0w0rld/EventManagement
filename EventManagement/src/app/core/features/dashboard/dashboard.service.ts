@@ -79,6 +79,13 @@ export class DashboardService {
     });
   }
 
+  getShiftById(shiftId: number): Observable<any | null> {
+    if (!this.eventId) return of(null);
+
+    const url = `${this.conf.rootUrl}/shift/${this.eventId}/shift_id/${shiftId}`;
+    return this.http.get<any>(url, { headers: this.headers })
+  }
+
 
   /** Map API shift data to Shift model */
   private mapShift(data: any): Shift {

@@ -4,7 +4,7 @@ import { AddShiftblockComponent } from 'src/app/Dialogs/shiftplan/add-shiftblock
 import { DelCatDialogComponent } from 'src/app/Dialogs/shiftplan/del-cat-dialog/del-cat-dialog.component';
 import { CategoryContent } from 'src/app/Object Models/Shiftplan Component/category-content';
 import { Shift } from 'src/app/Object Models/Shiftplan Component/shift';
-import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.service';
+import { ShiftplanService } from 'src/app/core/features/shiftplan/shiftplan.service';
 
 @Component({
   selector: 'app-shift-category',
@@ -20,14 +20,14 @@ export class ShiftCategoryComponent {
 
   constructor(private dialog: MatDialog, public shiftplanService: ShiftplanService) {
 
-    this.shiftplanService.editmode$.subscribe(value => {
-      this.unlocked = value;
-    })
+    // this.shiftplanService.editmode$.subscribe(value => {
+    //   this.unlocked = value;
+    // })
 
   }
 
   addShiftblock() {
-
+    console.log("content cat in addShiftblock:", this.content);
     this.dialog.open(AddShiftblockComponent, {
       data: {
         catContent: this.content

@@ -15,10 +15,12 @@
 <div class="icon-container">
   <mat-icon (click)="test()" class="dropdown-icon">expand_more</mat-icon>
 </div>
+    <!-- <button (click)="test()">TESTER</button> -->
+
   <!-- Helfer anzeigen -->
   <div class="activity-helpers" *ngIf="showHelpers">
-    <p>{{description}}</p>
-    <button (click)="test()">TESTER</button>
+    <p>{{shift.description}}</p>
+    <h3>Schicht Helfer:</h3>
     <div *ngFor="let helper of activity" class="helper-item">
       <!-- <span
         class="dot"
@@ -30,7 +32,7 @@
       <span class="helper-name">
         <!-- <ng-container *ngIf="helper.isLead">★</ng-container> -->
         {{ helper.user.firstName }} {{ helper.user.lastName }}
-        <!-- <span *ngIf="helper.isCurrent">(Du)</span> -->
+        <span *ngIf="helper.isCurrent">(Du)</span>
       </span>
     </div>
   </div>
