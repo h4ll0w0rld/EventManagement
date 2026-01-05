@@ -14,7 +14,7 @@ import { ShiftplanService } from 'src/app/core/features/shiftplan/shiftplan.serv
 import { AddCatDialogComponent } from 'src/app/Dialogs/shiftplan/add-cat-dialog/add-cat-dialog.component';
 import { DelCatDialogComponent } from 'src/app/Dialogs/shiftplan/del-cat-dialog/del-cat-dialog.component';
 import { EventService } from 'src/app/core/features/events/event.service';
-import { filter, switchMap } from 'rxjs';
+import { combineLatest, filter, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-shift-plan',
@@ -41,45 +41,56 @@ export class ShiftPlanComponent implements AfterViewInit, OnInit {
   // ---------- INIT ----------
 
   ngOnInit(): void {
-  this.eventService.currentEvent$.pipe(
-    filter(event => !!event), // ignore null
-    switchMap(event => this.eventService.updateCategories()) // fetch categories for the selected event
-  ).subscribe(cats => {
-    console.log("Categories loaded for event: ", cats);
-    this.categories = cats;
+    combineLatest([
+      this.eventService.currentEvent$.pipe(filter(Boolean)),
+      this.eventService.refreshCategories$
+    ])
+      .pipe(
+        switchMap(() => this.eventService.updateCategories())
+      )
+      .subscribe(cats => {
 
-    // Activate the first category
-    if (cats.length > 0) {
-      setTimeout(() => {
-        this.setActiveSlide(0);
-        this.eventService.setCurrentCategory(cats[0]);
+        const prevCatId = this.eventService.currentCategory?.id;
+        this.categories = cats;
+
+        if (!cats.length) return;
+
+        const idx = prevCatId
+          ? cats.findIndex(c => c.id === prevCatId)
+          : 0;
+
+        const safeIndex = idx >= 0 ? idx : 0;
+
+        setTimeout(() => {
+          this.bindSwiper();
+          this.setActiveSlide(safeIndex);
+          this.eventService.setCurrentCategory(cats[safeIndex]);
+        });
       });
-    }
-  });
 
-  // Keep the active tab in sync if current category changes
-  this.eventService.currentCat$.subscribe(cat => {
-    if (!cat) return;
-    const idx = this.categories.findIndex(c => c.id === cat.id);
-    if (idx >= 0) this.setActiveSlide(idx);
-  });
-}
+    // Keep the active tab in sync if current category changes
+    this.eventService.currentCat$.subscribe(cat => {
+      if (!cat) return;
+      const idx = this.categories.findIndex(c => c.id === cat.id);
+      if (idx >= 0) this.setActiveSlide(idx);
+    });
+  }
 
 
   ngAfterViewInit(): void {
-    if (!this.swiperContainer?.nativeElement) return;
+    // if (!this.swiperContainer?.nativeElement) return;
 
-    const swiper = this.swiperContainer.nativeElement.swiper;
-    if (!swiper) return;
+    // const swiper = this.swiperContainer.nativeElement.swiper;
+    // if (!swiper) return;
 
-    swiper.on('slideChange', () => {
-      this.activeSlideIndex = swiper.activeIndex;
-      const tabElem = this.tabElements.get(this.activeSlideIndex)?.nativeElement;
-      this.setActiveTab(tabElem);
+    // swiper.on('slideChange', () => {
+    //   this.activeSlideIndex = swiper.activeIndex;
+    //   const tabElem = this.tabElements.get(this.activeSlideIndex)?.nativeElement;
+    //   this.setActiveTab(tabElem);
 
-      const cat = this.getActiveCat();
-      if (cat) this.eventService.setCurrentCategory(cat);
-    });
+    //   const cat = this.getActiveCat();
+    //   if (cat) this.eventService.setCurrentCategory(cat);
+    // });
   }
 
 
@@ -98,6 +109,24 @@ export class ShiftPlanComponent implements AfterViewInit, OnInit {
     }
 
     this.scrollToActive();
+  }
+  bindSwiper(): void {
+    setTimeout(() => {
+      const swiper = this.swiperContainer?.nativeElement?.swiper;
+      if (!swiper) return;
+
+      swiper.off('slideChange'); // prevent duplicates
+
+      swiper.on('slideChange', () => {
+        this.activeSlideIndex = swiper.activeIndex;
+
+        const tabElem = this.tabElements.get(this.activeSlideIndex)?.nativeElement;
+        this.setActiveTab(tabElem);
+
+        const cat = this.getActiveCat();
+        if (cat) this.eventService.setCurrentCategory(cat);
+      });
+    });
   }
 
   // goToPage(page: number): void {

@@ -137,6 +137,7 @@ export class AddShiftblockComponent {
 
         this.eventService.addShiftBlockToCategory(newBlock, this.data.catContent.id).subscribe((res) => {
           console.log("Shift block added successfully.", res);
+          this.eventService.triggerCategoryReload();
         });
         this.eventService.updateCategories();
         this.matDialogRef.close();

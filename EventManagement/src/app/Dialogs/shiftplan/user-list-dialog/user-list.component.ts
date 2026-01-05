@@ -31,8 +31,8 @@ export class UserListComponent {
 
   ngOnInit() {
     console.log("Dialog data received:", this.data);
-   
-     this.eventService.getAvailableUsers(this.data.shiftId, this.data.activity.uuid);
+
+    this.eventService.getAvailableUsers(this.data.shiftId, this.data.activity.uuid);
 
     // Subscribe to the BehaviorSubject
     this.eventService.availableUsers$.subscribe(users => {
@@ -56,22 +56,26 @@ export class UserListComponent {
 
     this.eventService.regUserForActivity(_activityId, _userId).subscribe((res) => {
       this.onClose();
+      this.eventService.triggerCategoryReload();
+
     });
 
   }
 
   addCurrUser(_activityId: number, _userId: number, _shiftId: number) {
-
-    // this.eventService.regUserForActivity(_activityId, this.eventService.loggedInUser.id).subscribe((res) => {
-    //   this.dashboardService.accReq(_activityId, this.eventService.currCat.id, this.eventService.loggedInUser.id);
-    //   this.onClose();
-    // })
+    console.log("Registering current user for activity:", _activityId);
+    this.eventService.regUserForActivity(_activityId, this.eventService.loggedInUser.id).subscribe((res) => {
+      if (this.eventService.currentCategory)
+        this.dashboardService.acceptRequest(_activityId, this.eventService.currentCategory.id, this.eventService.loggedInUser.id);
+      this.onClose();
+      this.eventService.triggerCategoryReload();
+    })
   }
 
   delUser() {
 
-    // this.eventService.delUserFromActivity(this.data.activity.uuid, this.data.activity.user.uuid, this.data.shiftId);
-    // this.matDialogRef.close();
+    this.eventService.delUserFromActivity(this.data.activity.uuid);   //, this.data.activity.user.uuid, this.data.shiftId
+    this.matDialogRef.close();
 
   }
 

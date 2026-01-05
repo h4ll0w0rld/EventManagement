@@ -68,6 +68,7 @@ export class DashboardService {
     this.http.put(url, {}, { headers: this.headers }).subscribe(() => {
       this.updateShiftRequests(userId, "requested");
       this.updateShiftsByUser(userId, "confirmed");
+      this.eventService.updateCategories();
     });
   }
   declineRequest(activityId: number, categoryId: number, userId: number): void {

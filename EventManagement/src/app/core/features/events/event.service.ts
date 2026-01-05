@@ -75,7 +75,6 @@ export class EventService implements OnDestroy {
   setCurrentEvent(event: EventModel) {
     this.currentEventSubject.next(event);
     localStorage.setItem('curr-event', JSON.stringify(event));
-    this.updateCategories()
   }
 
   setCurrentCategory(cat: CategoryContent) {
@@ -320,6 +319,12 @@ export class EventService implements OnDestroy {
     const url = `${this.conf.rootUrl}/activity/${eventId}/requestUser/shift_category_id/${catId}/activity_id/${activityId}/user_id/${userId}`;
 
     return this.http.put(url, {}, { headers: this.authService.getAuthHeaders() });
+  }
+  private refreshCategoriesSubject = new BehaviorSubject<void>(undefined);
+  refreshCategories$ = this.refreshCategoriesSubject.asObservable();
+
+  triggerCategoryReload() {
+    this.refreshCategoriesSubject.next();
   }
 
   /** Remove user from activity */
