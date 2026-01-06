@@ -18,20 +18,12 @@
     <!-- <button (click)="test()">TESTER</button> -->
 
   <!-- Helfer anzeigen -->
-  <div class="activity-helpers" *ngIf="showHelpers">
-    <p>{{shift.description}}</p>
-    <h3>Schicht Helfer:</h3>
+  <div class="activity-helpers" *ngIf="showHelpers" >
+    <p>{{shift.shift_category.description}}</p>
+      <h3>Schicht Helfer:</h3>
     <div *ngFor="let helper of activity" class="helper-item">
-      <!-- <span
-        class="dot"
-        [ngClass]="{
-          'dot-yellow': helper.role === 'Schichtleitung',
-          'dot-green': helper.role !== 'Schichtleitung'
-        }"
-      ></span> -->
       <span class="helper-name">
-        <!-- <ng-container *ngIf="helper.isLead">★</ng-container> -->
-        {{ helper.user.firstName }} {{ helper.user.lastName }}
+      {{ helper.user?.firstName }} {{ helper.user?.lastName }}
         <span *ngIf="helper.isCurrent">(Du)</span>
       </span>
     </div>

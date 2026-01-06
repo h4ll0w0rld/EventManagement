@@ -33,6 +33,7 @@ export class HeaderComponent implements OnInit {
     this.eventService.currentEvent$.subscribe(event => {
       if (event)
         this.title = event.name;
+       
     });
     this.shiftplanService.editmode$.subscribe(value => {
       this.unlocked = value;

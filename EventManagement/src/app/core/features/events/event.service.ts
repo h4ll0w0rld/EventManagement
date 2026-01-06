@@ -331,11 +331,12 @@ export class EventService implements OnDestroy {
   delUserFromActivity(activityId: number): Observable<any> {
     const eventId = this.currentEvent?.id;
     const catId = this.currentCategory?.id;
+    console.log("Deleting user from activity:", activityId, "in event:", eventId, "category:", catId);
     if (!eventId || !catId) return of(null);
-
+    console.log("Proceeding with delete request");
     const url = `${this.conf.rootUrl}/activity/${eventId}/removeUser/shift_category_id/${catId}/activity_id/${activityId}`;
 
-    return this.http.put(url, {}, { headers: this.authService.getAuthHeaders() });
+    return this.http.put(url, { headers: this.authService.getAuthHeaders()});
   }
 
   /** Delete a shift */

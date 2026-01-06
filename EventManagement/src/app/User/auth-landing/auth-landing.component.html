@@ -1,13 +1,13 @@
-
 <div class="auth-landing-page">
 
     <div class="auth-container">
+
         <mat-tab-group class="auth-tab-group" #tabGroup>
-            <mat-tab class="auth-tabs" warn label="Login">
-                <app-login [eventId]="eventId" [userId]="userId" [fName]="fName" [lName]="lName"></app-login>
+            <mat-tab label="Login">
+                <app-login [autoFill]="registeredUser"></app-login>
             </mat-tab>
-            <mat-tab class="auth-tabs" label="Registrieren">
-                <app-register (registerSuccess)="switchToLogin()"></app-register>
+            <mat-tab label="Registrieren">
+                <app-register (registerSuccess)="handleRegister($event)"></app-register>
             </mat-tab>
         </mat-tab-group>
     </div>

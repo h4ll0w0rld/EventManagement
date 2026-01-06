@@ -1,16 +1,24 @@
+<form class="login-dialog" (ngSubmit)="onSubmit()" autocomplete="on">
 
-<mat-form-field class="form" appearance="outline">
-    <mat-label>Email:</mat-label>
-    <input [(ngModel)]="user.email" class="input" matInput name="name" required />
-    <mat-error *ngIf="true">
-      Username wird <strong>benötigt</strong>
-    </mat-error>
-</mat-form-field>
-<mat-form-field class="form" appearance="outline">
-    <mat-label>Passwort:</mat-label>
-    <input [(ngModel)]="user.pass" class="input" type="password" matInput name="name" required />
-    <mat-error *ngIf="true">
-      Passwort wird <strong>benötigt</strong>
-    </mat-error>
-</mat-form-field>
-<button (click) ="onSubmit()">Login</button>
+  <div class="logo">
+    <img src="../../../../assets/icons/icon-512x512.png" alt="PLANIT Logo" />
+  </div>
+
+  <h2>Willkommen zurück</h2>
+  <p class="subtitle">Melde dich an um fortzufahren</p>
+
+  <mat-form-field appearance="outline" class="form">
+    <mat-label>Email Adresse</mat-label>
+    <input matInput [(ngModel)]="user.email" name="email" type="email" required autocomplete="email"/>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="form">
+    <mat-label>Passwort</mat-label>
+    <input matInput [(ngModel)]="user.pass" name="password" type="password" required autocomplete="current-password"/>
+  </mat-form-field>
+
+  <button mat-flat-button class="login-btn" type="submit">
+    Login
+  </button>
+
+</form>

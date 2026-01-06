@@ -1,21 +1,42 @@
 <div class="dialogContainer">
-  <!-- Optionally show current user info -->
-  <div class="user-container" *ngIf="data.activity.user.id" (click)="delUser()">
+
+  <!-- AUS LISTE AUSTRAGEN -->
+  <div class="user-container" *ngIf="!hasUser()" (click)="delUser()">
     <p>Aus Liste austragen</p>
   </div>
 
-  <p>Möchtest du dich verbindlich eintragen?</p>
-  <button (click)="addCurrUser(data.activity.uuid, eventService.loggedInUser.id, data.shiftId)" class="confirm-self-button">
-    Eintragen
-  </button>
+  <!-- EINTRAGEN -->
+  <ng-container *ngIf="hasUser()">
 
-  <div *ngIf="eventService.isAdmin" class="line"></div>
 
-  <h3>Verfügbare Personen</h3>
-  <div class="list-container">
-    <div class="user-container" *ngFor="let user of userList">
-      <p class="username">{{user.fName}} {{user.lName}}</p>
-      <button class="submit-user-button" (click)="reqUser(data.activity.uuid, user.id, data.shiftId)">Anfragen</button>
+
+    <ng-container *ngIf="!hideSelfRegister">
+
+      <p>Möchtest du dich verbindlich eintragen?</p>
+
+      <button (click)="addCurrUser(data.activity.uuid, eventService.loggedInUser.id, data.shiftId)"
+        class="confirm-self-button" [disabled]="isSubmitting">
+        Eintragen
+      </button>
+
+    </ng-container>
+    
+    <p class="error-msg" *ngIf="requestError">
+      {{ requestError }}
+    </p>
+
+    <div *ngIf="eventService.isAdmin" class="line"></div>
+
+    <h3>Verfügbare Personen</h3>
+    <div class="list-container">
+      <div class="user-container" *ngFor="let user of userList">
+        <p class="username">{{ user.fName }} {{ user.lName }}</p>
+        <button class="submit-user-button" (click)="reqUser(data.activity.uuid, user.id, data.shiftId)">
+          Anfragen
+        </button>
+      </div>
     </div>
-  </div>
+
+  </ng-container>
+
 </div>

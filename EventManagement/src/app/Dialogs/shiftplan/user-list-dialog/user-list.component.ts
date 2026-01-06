@@ -17,6 +17,12 @@ export class UserListComponent {
 
   currUserId: any;
   userList: User[] = [];
+  requestError: string | null = null;
+  isSubmitting = false;
+  hideSelfRegister = false;
+  private errorTimer: any;
+
+
 
   constructor(
     public shiftplanService: ShiftplanService,
@@ -30,15 +36,16 @@ export class UserListComponent {
 
 
   ngOnInit() {
+
     console.log("Dialog data received:", this.data);
 
-    this.eventService.getAvailableUsers(this.data.shiftId, this.data.activity.uuid);
+    if (this.data.activity.status === 'free') {
+      this.eventService.getAvailableUsers(this.data.shiftId, this.data.activity.uuid);
 
-    // Subscribe to the BehaviorSubject
-    this.eventService.availableUsers$.subscribe(users => {
-      this.userList = users.filter(user => user.id !== this.eventService.loggedInUser.id);
-      console.log("Fetched Available Users: ", this.userList);
-    });
+      this.eventService.availableUsers$.subscribe(users => {
+        this.userList = users.filter(user => user.id !== this.eventService.loggedInUser.id);
+      });
+    }
   }
 
   ngOnDestroy() {
@@ -63,18 +70,43 @@ export class UserListComponent {
   }
 
   addCurrUser(_activityId: number, _userId: number, _shiftId: number) {
-    console.log("Registering current user for activity:", _activityId);
-    this.eventService.regUserForActivity(_activityId, this.eventService.loggedInUser.id).subscribe((res) => {
-      if (this.eventService.currentCategory)
-        this.dashboardService.acceptRequest(_activityId, this.eventService.currentCategory.id, this.eventService.loggedInUser.id);
-      this.onClose();
-      this.eventService.triggerCategoryReload();
-    })
+    this.isSubmitting = true;
+    this.requestError = null;
+
+    this.eventService.regUserForActivity(_activityId, this.eventService.loggedInUser.id)
+      .subscribe({
+        next: () => {
+          if (this.eventService.currentCategory)
+            this.dashboardService.acceptRequest(
+              _activityId,
+              this.eventService.currentCategory.id,
+              this.eventService.loggedInUser.id
+            );
+
+          this.onClose();
+          this.eventService.triggerCategoryReload();
+        },
+        error: err => {
+          this.isSubmitting = false;
+
+          if (err.status === 400) {
+            this.requestError = `${this.eventService.loggedInUser.fName} ist zu diesem Zeitpunkt schon verplant`;
+            this.hideSelfRegister = true;
+
+            clearTimeout(this.errorTimer);
+            this.errorTimer = setTimeout(() => {
+              this.requestError = null;
+            }, 3500);
+          }
+        }
+      });
   }
 
   delUser() {
-
-    this.eventService.delUserFromActivity(this.data.activity.uuid);   //, this.data.activity.user.uuid, this.data.shiftId
+    console.log("Removing user from activity:", this.data.activity.uuid);
+    this.eventService.delUserFromActivity(this.data.activity.uuid).subscribe(res => {
+      this.eventService.triggerCategoryReload();
+    });   //, this.data.activity.user.uuid, this.data.shiftId
     this.matDialogRef.close();
 
   }
@@ -84,6 +116,9 @@ export class UserListComponent {
     const bool = true;
     this.matDialogRef.close(true);
     this.eventService.updateCategories();
+  }
+  hasUser(): boolean {
+    return this.data.activity.status == 'free';
   }
 
 }

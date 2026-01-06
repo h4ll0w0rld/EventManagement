@@ -11,6 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 export class AuthLandingComponent {
   
   @ViewChild('tabGroup') tabGroup!: MatTabGroup;
+  registeredUser: { email: string, password: string } | null = null;
 
   eventId: number | undefined;
   userId: number | undefined;
@@ -28,6 +29,11 @@ export class AuthLandingComponent {
       this.lName = params['lName'];
     })
   }
+  handleRegister(data: { email: string, password: string }) {
+  this.registeredUser = data;
+  this.tabGroup.selectedIndex = 0; // switch to Login tab
+}
+
 
   switchToLogin() {
 

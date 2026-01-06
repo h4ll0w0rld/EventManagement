@@ -8,7 +8,7 @@ import { AuthService } from 'src/app/Services/Auth Service/auth.service';
 })
 export class RegisterComponent {
 
-  @Output() registerSuccess: EventEmitter<void> = new EventEmitter<void>();
+@Output() registerSuccess = new EventEmitter<{ email: string, password: string }>();
 
   buttonText = "Registrieren";
   animationState = false;
@@ -50,19 +50,36 @@ export class RegisterComponent {
 
   }
 
+  // successTransition() {
+
+  //   const successDiv = this.el.nativeElement.querySelector('.' + "success");
+  //   this.renderer.setStyle(successDiv, 'z-index', '1');
+  //   this.animationState = true;
+  //   this.buttonText = "Registriert!";
+
+  //   setTimeout(() => {
+  //     this.registerSuccess.emit();
+  //     setTimeout(() => {
+  //       this.animationState = false;}, 1000);
+  //   }, 2000);
+  // }
+
   successTransition() {
+  this.animationState = true;
+  this.buttonText = "Registriert!";
 
-    const successDiv = this.el.nativeElement.querySelector('.' + "success");
-    this.renderer.setStyle(successDiv, 'z-index', '1');
-    this.animationState = true;
-    this.buttonText = "Registriert!";
+  setTimeout(() => {
+    this.registerSuccess.emit({
+      email: this.user.emailAddress,
+      password: this.firstPass
+    });
 
-    setTimeout(() => {
-      this.registerSuccess.emit();
-      setTimeout(() => {
-        this.animationState = false;}, 1000);
-    }, 2000);
-  }
+    this.animationState = false;
+    this.buttonText = "Registrieren";
+    this.clearInputs();
+  }, 2000);
+}
+
 
   clearInputs() {
 
@@ -72,4 +89,5 @@ export class RegisterComponent {
     this.user.password = "";
     
   }
+  
 }

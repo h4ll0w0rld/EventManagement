@@ -54,6 +54,26 @@ h3 {
   margin: 0px;
 
 }
+.error-msg {
+  color: #e53935;
+  font-size: 0.85rem;
+  margin-bottom: .5rem;
+  text-align: center;
+}
+.error-msg {
+  color: #e53935;
+  font-size: 0.85rem;
+  margin-bottom: .6rem;
+  text-align: center;
+  animation: fadeOut 3.5s forwards;
+}
+
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  70% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
 
 .submit-user-button {
 

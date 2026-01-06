@@ -15,6 +15,12 @@ export class LoginComponent {
   @Input() userId: number | undefined;
   @Input() fName: string | undefined;
   @Input() lName: string | undefined;
+  @Input() set autoFill(data: { email: string, password: string } | null) {
+  if (data) {
+    this.user.email = data.email;
+    this.user.pass = data.password;
+  }
+}
 
   constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) { }
   user = {

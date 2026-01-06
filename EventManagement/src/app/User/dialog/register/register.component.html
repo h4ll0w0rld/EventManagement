@@ -1,40 +1,49 @@
-<div class="success" [ngClass]="{'fade-in': animationState, 'fade-out': !animationState}">
-    <p>Erfolgreich registriert.</p>
-</div>
+<div class="register-wrapper">
+<!-- 
+  <div class="logo">
+    <img src="../../../../assets/icons/icon-512x512.png" alt="PLANIT Logo" />
+  </div> -->
 
-<mat-form-field class="form" appearance="outline">
-    <mat-label>Vorname:</mat-label>
-    <input [(ngModel)]="user.firstName" class="input" matInput name="name" required />
-    <mat-error *ngIf="true">
-        Vorname wird <strong>benötigt</strong>
-    </mat-error>
-</mat-form-field>
-<mat-form-field class="form" appearance="outline">
-    <mat-label>Nachname:</mat-label>
-    <input [(ngModel)]="user.lastName" class="input" matInput name="name" required />
-    <mat-error *ngIf="true">
-        Nachname wird <strong>benötigt</strong>
-    </mat-error>
-</mat-form-field>
-<mat-form-field class="form" appearance="outline">
-    <mat-label>Email Adresse:</mat-label>
-    <input [(ngModel)]="user.emailAddress" class="input" matInput name="name" required />
-    <mat-error *ngIf="true">
-        Nachname wird <strong>benötigt</strong>
-    </mat-error>
-</mat-form-field>
-<mat-form-field class="form" appearance="outline">
-    <mat-label>Passwort:</mat-label>
-    <input [(ngModel)]="firstPass" class="input" matInput minlength="9" type="password" name="name" required />
-    <mat-error *ngIf="true">
-        Passwort wird <strong>benötigt</strong>
-    </mat-error>
-</mat-form-field>
-<mat-form-field class="form" appearance="outline">
-    <mat-label>Wiederhole Passwort:</mat-label>
-    <input [(ngModel)]="secPass" class="input" matInput minlength="9" type="password" name="name" required />
-    <mat-error *ngIf="true">
-        Passwort wird <strong>benötigt</strong>
-    </mat-error>
-</mat-form-field>
-<button (click) ="onSubmit()">{{buttonText}}</button>
+  <h2 class="title">Konto erstellen</h2>
+  <p class="subtitle">Erstelle dein Benutzerkonto</p>
+
+  <!-- Success Overlay -->
+  <div class="success-overlay" [class.active]="animationState">
+    <p>🎉 Erfolgreich registriert!</p>
+  </div>
+
+  <form class="form" (ngSubmit)="onSubmit()" #registerForm="ngForm">
+
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Vorname</mat-label>
+        <input matInput [(ngModel)]="user.firstName" name="firstName" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Nachname</mat-label>
+        <input matInput [(ngModel)]="user.lastName" name="lastName" required>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" [(ngModel)]="user.emailAddress" name="email" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Passwort</mat-label>
+      <input matInput type="password" [(ngModel)]="firstPass" name="pass1" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Passwort wiederholen</mat-label>
+      <input matInput type="password" [(ngModel)]="secPass" name="pass2" required>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" class="submit-btn" [disabled]="!registerForm.form.valid || !checkPassword()">
+      {{ buttonText }}
+    </button>
+  </form>
+
+</div>

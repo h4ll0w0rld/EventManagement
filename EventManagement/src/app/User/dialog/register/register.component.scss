@@ -1,48 +1,102 @@
-@import '../../../Mixins/buttonMixin';
 @import '../../../../theme';
 
-
-.success {
-
-    display: flex;
-    position: absolute;
-    transform: translateY(-3%);
-    width: 100%;
-    height: 83%;
-    background-color: $third-color;
-    border-radius: 20px;
-    z-index: -1;
-    opacity: 0;
-    //transition: background-color 5s ease-in-out;
-
-    align-items: center;
-    justify-content: center;
-
-    p {
-        color: white;
-    }
+.register-wrapper {
+  width: 100%;
+  text-align: center;
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 1.0rem; // <-- Add horizontal padding to move content off edges
+  box-sizing: border-box; // ensure padding doesn't break layout
 }
 
-.fade-in {
-    transition: opacity 0.5s ease-in-out;
-    opacity: 1;
-    
+.logo img {
+  width: 80px;
+  margin-bottom: 1rem;
 }
 
-.fade-out {
+.title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: $prim-color;
+  margin-bottom: 0.2rem;
+}
 
-    transition: opacity 0.5s ease-in-out;
-    opacity: 0;
-    z-index: -1 !important;
+.subtitle {
+  font-size: 0.9rem;
+  color: #7a8a96;
+  margin-bottom: 1.5rem;
 }
 
 .form {
-
-    width: 90%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
 }
 
-button {
-    
-    @include button();
-    padding: 10px 20px;
+.row {
+  display: flex;
+  gap: 0.6rem;
+
+  mat-form-field {
+    flex: 1;
+  }
+}
+
+mat-form-field {
+  width: 100%;
+  .mat-form-field-outline {
+    border-radius: 8px;
+  }
+}
+
+
+.submit-btn {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 10px;
+  font-weight: 600;
+  //margin-top: 0.5rem;
+}
+
+/* SUCCESS OVERLAY */
+.success-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(145deg, $prim-color, #061c2b);
+  border-radius: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 600;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  z-index: 10;
+}
+
+.success-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+.register-wrapper h2 {
+  margin-top: 0;
+}
+
+.register-wrapper .subtitle {
+  margin-bottom: 0.9rem;   // was too large
+}
+
+.register-wrapper mat-form-field {
+  margin-bottom: 0.35rem;  // reduce vertical gaps
+}
+
+.register-wrapper .submit-btn {
+  margin-top: 0.4rem;
+  padding: 0.6rem;
 }

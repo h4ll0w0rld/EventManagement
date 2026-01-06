@@ -36,8 +36,13 @@ export class DashboardactivityComponent {
   }
 
   getHelper() {
+    if (!this.shift || !this.shift.id) {
+      console.error("Shift ID is missing.");
+      return;
+    }
     this.dbService.getShiftById(this.shift.id).subscribe(shift => {
       if (shift) {
+        
         this.activity = shift.activities;
       
       }

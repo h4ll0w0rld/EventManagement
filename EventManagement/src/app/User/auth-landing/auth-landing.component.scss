@@ -2,36 +2,42 @@
 @import '../../Mixins/cardMixin';
 
 .auth-landing-page {
-
-    display: flex;
-    justify-content: center;
-    //align-items: center;
-    background-color: $prim-color;
-    width: 100vw;
-    height:100vh;
+  height: 100vh;
+  width: 100vw;
+  background: linear-gradient(145deg, #061c2b, $prim-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; // prevents background scroll
 }
 
 .auth-container {
-
-    @include Card(max-content);
-    
-    width: 90vw;
-    margin: 0;
-    margin-top: 25vh;
-
-    .auth-tab-group {
-
-        padding: 20px;
-        width: calc(100% - 20px);
-
-    }
+  width: 360px;
+  max-width: 92vw;
+  max-height: 90vh; // limit card height for small screens
+  border-radius: 18px;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+  background: #fff;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
-app-login, app-register {
+.auth-tab-group {
+  width: 100%;
+  flex: 1; // allow tabs to fill container height
+}
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.mat-tab-body-content {
+  padding: 2rem 1.6rem;
+  overflow-y: auto; // scroll inside tab content if needed
+  max-height: 80vh;
+}
 
-    padding-top: 20px;
+app-login,
+app-register {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
