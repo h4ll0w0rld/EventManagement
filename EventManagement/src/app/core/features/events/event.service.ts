@@ -153,7 +153,7 @@ export class EventService implements OnDestroy {
               u.lastName,        // backend lastName → lName
               u.emailAddress,    // backend emailAddress → email
               "",                // backend does NOT send password -> empty string
-              true              // backend does NOT send isAdmin -> default false
+              u.user_event.admin        // backend isAdmin → isAdmin
             )
           )
         ),
@@ -168,12 +168,15 @@ export class EventService implements OnDestroy {
       });
   }
 
+
+
+
   /** Check if a user is admin */
   userIsAdmin(user: User): Observable<boolean> {
     const eventId = this.currentEventSubject.getValue()?.id;
     if (!eventId || !user) return of(false);
     console.log("Checking admin status for user:", user);
-    return this.http.get<{ isAdmin: boolean }>(`${this.conf.rootUrl}/event/${eventId}/user/${user.id}/isAdmin`, {
+    return this.http.get<{ isAdmin: boolean }>(`${this.conf.rootUrl}/event/${eventId}/isAdmin/user_id/${user.id}`, {
       headers: this.authService.getAuthHeaders()
     }).pipe(
       map(res => res.isAdmin),

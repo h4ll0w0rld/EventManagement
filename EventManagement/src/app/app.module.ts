@@ -1,5 +1,5 @@
 import { NgModule, isDevMode, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { BrowserModule, HammerModule} from '@angular/platform-browser';
+import { BrowserModule, HammerModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -9,7 +9,6 @@ import { MenuComponent } from './menu/menu.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatButtonModule } from '@angular/material/button';
@@ -31,7 +30,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTabLink } from '@angular/material/tabs';
 import { UserListComponent } from './Dialogs/shiftplan/user-list-dialog/user-list.component';
 import { DashboardactivityComponent } from './Dashboard Component/dashboardactivity/dashboardactivity.component';
-import {MatNativeDateModule} from '@angular/material/core';
+import { MatNativeDateModule } from '@angular/material/core';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DelCatDialogComponent } from './Dialogs/shiftplan/del-cat-dialog/del-cat-dialog.component';
@@ -50,7 +49,7 @@ import { ShiftplanLandingComponent } from './Shiftplan Component/shiftplan-landi
 import { DashboardlandingComponent } from './Dashboard Component/dashboardlanding/dashboardlanding.component';
 import { AddShiftblockComponent } from './Dialogs/shiftplan/add-shiftblock/add-shiftblock.component';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
-import {NgxMatTimepickerModule} from 'ngx-mat-timepicker'; 
+import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { AddEventComponent } from './Dialogs/global/add-event/add-event.component';
 import { HeaderComponent } from './header/header.component';
 import { EventPreviewComponent } from './HUB/event-preview/event-preview.component';
@@ -109,8 +108,8 @@ register();
     UserInfosComponent,
     DeleteShiftDialogComponent,
     Userlist2Component,
-    
-    
+
+
   ],
   imports: [
     BrowserModule,
@@ -142,21 +141,21 @@ register();
       // or after 30 seconds (whichever comes first).
       //registrationStrategy: 'registerWhenStable:30000'
     })
-     
+
 
   ],
-  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}, {
+  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }, {
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptorService,
     multi: true
-  } ],
-  
+  }],
+
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 
 
-export class AppModule  {
+export class AppModule {
   constructor(
     private matIconRegistry: MatIconRegistry,  // import the MatIconRegistry
     private domSanitizer: DomSanitizer        // import the DomSanitizer

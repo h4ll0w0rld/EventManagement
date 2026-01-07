@@ -13,6 +13,7 @@ import { InviteUserDialogComponent } from '../Dialogs/global/invite-user-dialog/
 export class Userlist2Component implements OnInit {
 
   userList: User[] = [];
+  openedUser: User | null = null;
 
   constructor(
     public eventService: EventService,
@@ -20,57 +21,42 @@ export class Userlist2Component implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Subscribe to the BehaviorSubject to automatically update the list
     this.eventService.allUser$.subscribe(users => {
       this.userList = users;
-      console.log('User list updated:', this.userList);
     });
 
-    // Fetch initial users for the current event
     this.eventService.getAllUsers();
   }
 
-  /** Check and assign admin role to a user */
-  getRole(user: User): void {
-    this.eventService.userIsAdmin(user).subscribe(isAdmin => {
-      user.isAdmin = isAdmin;
-    });
+  toggleUser(user: User): void {
+    this.openedUser = this.openedUser === user ? null : user;
+
+    if (!user.isAdmin) {
+      this.eventService.userIsAdmin(user).subscribe(isAdmin => {
+        user.isAdmin = isAdmin;
+      });
+    }
   }
 
-  /** Open dialog to add a new user */
-  openUserDialog(): void {
-    console.log('Opening Add User Dialog');
-    const dialogRef = this.dialog.open(AddUserFormComponent, {
-      width: '300px'
-    });
-
-    // No need to manually refresh users — AddUserFormComponent updates BehaviorSubject
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Dialog closed after adding user.');
-      }
-    });
+  makeAdmin(user: User): void {
+    console.log('Make admin clicked for', user);
+    // backend call here later
+    this.eventService.makeUserToAdmin(user.id)
+  
+    // For now, just toggle the isAdmin property
+    user.isAdmin = true;
   }
 
-  /** Open dialog to invite a user */
-  openInviteDialog(user: User): void {
-    const dialogRef = this.dialog.open(InviteUserDialogComponent, {
-      width: '300px',
-      data: { user }
-    });
+  inviteUser(user: User) {
+  console.log('Invite user:', user);
+  const dialogRef = this.dialog.open(InviteUserDialogComponent, {
+    data: { user: user }
+  });
 
-    // No need to refresh manually — InviteUserDialogComponent should update BehaviorSubject
-    // dialogRef.afterClosed().subscribe(result => {
-    //   if (result) {
-    //     console.log('Dialog closed after inviting user.');
-    //   }
-    // });
-  }
+  dialogRef.afterClosed().subscribe(result => {
+    console.log('The invite dialog was closed');
+  });
+  // later: open invite dialog
+}
 
-  /** For testing / debug purposes */
-  test(user: User): void {
-    console.log('Current user list:', this.userList);
-    this.getRole(user);
-    this.openInviteDialog(user);
-  }
 }

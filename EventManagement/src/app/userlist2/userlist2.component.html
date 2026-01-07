@@ -1,16 +1,48 @@
 <app-header></app-header>
+
 <div class="persons-container">
   <h1 class="title">Personen</h1>
+
   <div class="persons-list">
-    <div class="person-item" *ngFor="let person of this.userList">
-      <span class="person-name">{{ person.fName }} {{ person.lName }}</span>
-      <span>{{person.email}}</span>
-      <!-- <button (click)="test(person)">User Role</button> -->
+
+    <div class="person-item" *ngFor="let person of userList" (click)="toggleUser(person)"
+      [class.open]="openedUser === person">
+
+      <div class="card-header">
+        <span class="name">{{ person.fName }} {{ person.lName }}</span>
+
+        <div class="header-actions">
+
+          <span *ngIf="person.isAdmin" class="admin-pill">Admin</span>
+
+          <button *ngIf="!person.email" class="invite-pill" (click)="inviteUser(person); $event.stopPropagation()">
+            Einladen
+          </button>
+
+        </div>
+      </div>
+
+
+
+      <!-- EXPANDED CONTENT -->
+      <div class="user-details" *ngIf="openedUser === person">
+
+        <div class="detail-row">
+          <span>Telefon:</span>
+          <span>+49 1577 654321</span>
+        </div>
+
+        <div class="detail-row">
+          <span>E-Mail:</span>
+          <span>{{ person.email }}</span>
+        </div>
+
+        <button class="make-admin-btn" *ngIf="!person.isAdmin && person.email" (click)="makeAdmin(person); $event.stopPropagation()">
+          zum Admin machen
+        </button>
+      </div>
+
     </div>
-  </div>
-  <div class="edit-div">
-    <button class="new-shiftblock-button" (click)="openUserDialog()">
-      <h3 >+</h3>
-    </button>
+
   </div>
 </div>

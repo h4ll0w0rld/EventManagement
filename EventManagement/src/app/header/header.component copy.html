@@ -12,13 +12,15 @@
   </div>
 
   <!-- Right side: User icon -->
-  <div class="user-icon" (click)="openUserMenu()">
-    <div class="user-circle">
-      <span>{{ getInitials() }}</span>
-    </div>
+<div class="user-icon" (click)="toggleUserMenu()">
+  <div class="user-circle">
+    <span>{{ getInitials() }}</span>
   </div>
 </div>
 
+<div class="user-dropdown" *ngIf="showUserMenu">
+  <button (click)="logout()">Logout</button>
+</div>
 <!-- Dropdown: Event list -->
 <div class="event-dropdown" *ngIf="showEventDropdown">
   <ul>

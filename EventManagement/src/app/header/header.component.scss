@@ -1,15 +1,46 @@
+@import "../../theme";
 .head {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: $header-height;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: #032c47;
   padding: 12px 20px;
-
   color: white;
-  font-family: 'Roboto', sans-serif;
-  font-weight: 500;
-  position: relative;
 }
+
+.user-dropdown {
+  position: absolute;
+  top: 60px;
+  right: 12px;
+  background: #032c47;
+  border-radius: 12px;
+  padding: 8px 0;
+  min-width: 140px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  z-index: 300;
+}
+
+.user-dropdown button {
+  width: 100%;
+  background: none;
+  border: none;
+  color: white;
+  padding: 10px 16px;
+  text-align: left;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.user-dropdown button:hover {
+  background: rgba(255,255,255,0.1);
+}
+
 
 .home-icon-div {
   display: flex;

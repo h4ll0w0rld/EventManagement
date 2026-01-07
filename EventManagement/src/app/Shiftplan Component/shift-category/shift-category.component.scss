@@ -4,14 +4,14 @@
 
 :host {
 
-    max-height: calc(100vh - $header-height - 40px);
+    //max-height: calc(100vh - $header-height - 40px);
     display: block;
     overflow-y: scroll;
     
 }
 
 .cat-icon-bar {
-
+   
     display: flex;
     width: 100%;
     height: 30px;;
@@ -30,7 +30,7 @@
 }
 
 .shift_category-container {
-
+     margin-top: 50px;
     //padding-top: 20px;
 
     .new-day {

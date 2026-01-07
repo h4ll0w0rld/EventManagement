@@ -10,6 +10,7 @@
   align-items: center;
   padding: 0 1.0rem; // <-- Add horizontal padding to move content off edges
   box-sizing: border-box; // ensure padding doesn't break layout
+  margin-top: 0.5rem;
 }
 
 .logo img {
@@ -59,6 +60,7 @@ mat-form-field {
   padding: 0.75rem;
   border-radius: 10px;
   font-weight: 600;
+  margin-bottom: 1rem;
   //margin-top: 0.5rem;
 }
 

@@ -1,6 +1,6 @@
 <div class="head">
   <!-- Left: Title with toggle -->
-  
+
   <div class="back-arrow" *ngIf="this.showBackArrow" (click)="goBack()">
     <mat-icon svgIcon="logout"></mat-icon>
   </div>
@@ -8,13 +8,16 @@
     <h4>{{ title }}</h4>
     <mat-icon class="dropdown-icon">expand_more</mat-icon>
   </div>
-
+ 
   <!-- Right: User icon -->
-  <div class="user-icon" (click)="openUserMenu()">
-    <div class="user-circle">
-      <span>{{ getInitials() }}</span>
-    </div>
+  <div class="user-icon" (click)="toggleUserMenu()">
+  <div class="user-circle">
+    <span>{{ getInitials() }}</span>
   </div>
+</div>
+
+<div class="user-dropdown" *ngIf="showUserMenu">
+  <button (click)="logout()">Logout</button>
 </div>
 
 <!-- Dropdown -->

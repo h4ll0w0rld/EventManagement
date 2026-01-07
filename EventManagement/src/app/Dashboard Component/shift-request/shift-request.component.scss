@@ -108,4 +108,30 @@
       }
     }
   }
+  .icon-container {
+  display: flex;
+  justify-content: center;
+}
+
+.dropdown-icon {
+  font-size: 26px;
+  transition: transform 0.2s ease;
+}
+
+.dropdown-icon.rotate {
+  transform: rotate(180deg);
+}
+
+.request-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.helper-item {
+  font-size: 0.9rem;
+  color: #444;
+}
+
 }

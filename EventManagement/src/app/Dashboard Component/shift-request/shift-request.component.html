@@ -2,7 +2,7 @@
   <mat-card class="requestCard" *ngFor="let request of _shiftRequests">
     
     <!-- ROW: Left = category, Right = date/time -->
-    <div class="request-row">
+    <div (click)="toggleHelpers(request)"  class="request-row">
       <!-- Left side: category -->
       <div class="request-left">
         <div class="request-category">{{ request.shift_category.name }}</div>
@@ -18,7 +18,23 @@
           ({{ request.endTime | date:'EEE, dd.MM.yy' }})
         </div>
       </div>
+    </div >
+      <div  class="icon-container">
+    <mat-icon class="dropdown-icon">expand_more</mat-icon>
+  </div>
+  <!-- <button (click)="test()">TESTER</button> -->
+
+  <!-- Helfer anzeigen -->
+  <div class="activity-helpers" *ngIf="showHelpers">
+    <p>{{request.shift_category.description}}</p>
+    <h3>Schicht Helfer:</h3>
+    <div *ngFor="let helper of activitys" class="helper-item">
+      <span class="helper-name">
+        {{ helper.user?.firstName }} {{ helper.user?.lastName }}
+        <span *ngIf="helper.isCurrent">(Du)</span>
+      </span>
     </div>
+  </div>
 
     <!-- BUTTONS -->
     <div class="buttonContainer">

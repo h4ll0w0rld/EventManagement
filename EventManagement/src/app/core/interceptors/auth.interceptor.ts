@@ -9,6 +9,8 @@ import { BehaviorSubject, catchError, Observable, switchMap, throwError } from '
 import { AuthService } from '../services/auth.service';
 import { TokenService } from '../services/token.service';
 import { Router } from '@angular/router';
+import { EventService } from '../features/events/event.service';
+import { EventModel } from 'src/app/Object Models/EventModel';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -19,7 +21,8 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(
     private auth: AuthService,
     private token: TokenService,
-    private router: Router
+    private router: Router,
+    private eventService:EventService
   ) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {

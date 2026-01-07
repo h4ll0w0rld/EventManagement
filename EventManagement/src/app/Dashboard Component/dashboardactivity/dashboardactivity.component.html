@@ -5,25 +5,29 @@
       <div class="activity-role">{{ role }}</div>
     </div>
 
-    <!-- Rechte Seite: Datum oben, Zeit unten -->
-    <div class="activity-right">
-      <div class="activity-date">{{ date | date: 'EEE, dd.MM.yy' }}</div>
-      <div class="activity-time">{{ start }} – {{ end }}</div>
+    <div class="request-right">
+      <div class="request-date">{{ shift.startTime | date:'EEE, dd.MM.yy' }}</div>
+      <div class="request-time">
+        {{ shift.startTime | date:'HH:mm' }} – {{ shift.endTime | date:'HH:mm' }} Uhr
+      </div>
+      <div class="request-end-date" *ngIf="nextDay(shift)">
+        ({{ shift.endTime | date:'EEE, dd.MM.yy' }})
+      </div>
     </div>
   </div>
 
-<div class="icon-container">
-  <mat-icon (click)="test()" class="dropdown-icon">expand_more</mat-icon>
-</div>
-    <!-- <button (click)="test()">TESTER</button> -->
+  <div class="icon-container">
+    <mat-icon (click)="test()" class="dropdown-icon">expand_more</mat-icon>
+  </div>
+  <!-- <button (click)="test()">TESTER</button> -->
 
   <!-- Helfer anzeigen -->
-  <div class="activity-helpers" *ngIf="showHelpers" >
+  <div class="activity-helpers" *ngIf="showHelpers">
     <p>{{shift.shift_category.description}}</p>
-      <h3>Schicht Helfer:</h3>
+    <h3>Schicht Helfer:</h3>
     <div *ngFor="let helper of activity" class="helper-item">
       <span class="helper-name">
-      {{ helper.user?.firstName }} {{ helper.user?.lastName }}
+        {{ helper.user?.firstName }} {{ helper.user?.lastName }}
         <span *ngIf="helper.isCurrent">(Du)</span>
       </span>
     </div>

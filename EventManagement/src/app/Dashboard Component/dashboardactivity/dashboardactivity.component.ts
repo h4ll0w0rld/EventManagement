@@ -34,6 +34,20 @@ export class DashboardactivityComponent {
   toggleHelpers() {
     this.showHelpers = !this.showHelpers;
   }
+  nextDay(_request: any) {
+
+    const shiftStart = new Date(_request.startTime);
+    const shiftEnd = new Date(_request.endTime);
+
+    if (shiftStart.getDate() != shiftEnd.getDate()) {
+
+      return true;
+    }
+
+    return false;
+  }
+
+
 
   getHelper() {
     if (!this.shift || !this.shift.id) {
@@ -42,18 +56,13 @@ export class DashboardactivityComponent {
     }
     this.dbService.getShiftById(this.shift.id).subscribe(shift => {
       if (shift) {
-        
+
         this.activity = shift.activities;
-      
+
       }
     });
-}
-
-
-  usersInShift() {
-
-
   }
+
 }
 
 

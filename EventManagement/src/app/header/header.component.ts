@@ -5,6 +5,7 @@ import { GlobalUserListComponent } from '../Dialogs/global/global-userlist-dialo
 import { EventService } from '../core/features/events/event.service';
 import { EventhubService } from '../core/features/eventhub/eventhub.service';
 import { NavigationEnd, Router } from '@angular/router';
+import { AuthService } from '../core/services/auth.service';
 
 
 
@@ -19,6 +20,8 @@ export class HeaderComponent implements OnInit {
   showEventDropdown = false;
   userEvents: any[] = [];
   showBackArrow = false;
+  showUserMenu = false;
+
 
   constructor(
     public shiftplanService: ShiftplanService,
@@ -26,14 +29,15 @@ export class HeaderComponent implements OnInit {
     public eventService: EventService,
     private eventHubService: EventhubService,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private authService: AuthService
 
 
   ) {
     this.eventService.currentEvent$.subscribe(event => {
       if (event)
         this.title = event.name;
-       
+
     });
     this.shiftplanService.editmode$.subscribe(value => {
       this.unlocked = value;
@@ -52,6 +56,20 @@ export class HeaderComponent implements OnInit {
       this.showBackArrow = true;
     }
   }
+  toggleUserMenu() {
+    console.log('Toggling user menu');
+    this.showUserMenu = !this.showUserMenu;
+  }
+
+  logout() {
+    console.log('Logging out...');
+    this.authService.logout().subscribe(() => {
+      this.router.navigate(['/authLanding']);
+    });
+    //this.eventService.logout(); // your existing logout method
+    //this.router.navigate(['/login']);
+  }
+
   test() {
 
     console.log("is the shit active ? ", this.showBackArrow)
@@ -68,7 +86,7 @@ export class HeaderComponent implements OnInit {
     this.title = event.name;
     this.eventService.setCurrentEvent(event)
     this.eventService.getAllUsers();
-    
+
     this.showEventDropdown = false;
     // Additional logic: notify service of new selection
   }

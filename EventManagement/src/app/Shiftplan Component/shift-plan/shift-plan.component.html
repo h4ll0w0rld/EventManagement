@@ -1,28 +1,30 @@
-<div class="cat-menu">
-  <div class="cat-container">
+<div class="shift-plan">
 
-    <div class="cat" *ngFor="let cat of categories; let i = index">
-      <p (click)="tabClick($event, cat, i)"
-         #tab
-         [ngClass]="{ 'active': activeSlideIndex === i }">
-        {{ cat.name }}
-      </p>
+
+  <div class="cat-menu">
+    <div class="cat-container">
+
+      <div class="cat" *ngFor="let cat of categories; let i = index">
+        <p (click)="tabClick($event, cat, i)" #tab [ngClass]="{ 'active': activeSlideIndex === i }">
+          {{ cat.name }}
+        </p>
+      </div>
+
+      <h2 *ngIf="unlocked" (click)="addCatDialog()" class="addBttn">
+        +
+      </h2>
     </div>
-
-    <h2 *ngIf="unlocked" (click)="addCatDialog()" class="addBttn">
-      +
-    </h2>
   </div>
+
+  <swiper-container #swiper *ngIf="categories.length">
+
+    <swiper-slide *ngFor="let cat of categories">
+
+      <div class="category-type">
+        <app-shift-category [content]="cat" [unlocked]="unlocked"></app-shift-category>
+      </div>
+
+    </swiper-slide>
+
+  </swiper-container>
 </div>
-
-<swiper-container #swiper *ngIf="categories.length">
-
-  <swiper-slide *ngFor="let cat of categories">
-
-    <div class="category-type">
-      <app-shift-category [content]="cat" [unlocked]="unlocked"></app-shift-category>
-    </div>
-
-  </swiper-slide>
-
-</swiper-container>

@@ -2,49 +2,48 @@
 
 
 .cat-menu {
-    margin-top: -1px;
+    position: fixed;
+    top: $header-height;  
+    margin-top: 23px;         /* stick to top of viewport */
+    z-index: 100;         /* make sure it’s above other content */
+    background-color: $prim-color;
+    height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: sticky;
-    z-index: 2;
-    background-color: $prim-color;
-    height: 40px;
-    max-width: 100vw;
+    width: 100%;          /* full width */
 
     .cat-container {
-
+       
         display: flex;
-        overflow-y: hidden;
-
-        scrollbar-width: thin;
+        overflow-x: auto;  /* allow horizontal scrolling if categories overflow */
+        overflow-y: hidden; /* vertical overflow hidden is fine */
+        scrollbar-width: none; 
         -ms-overflow-style: none;
 
         &::-webkit-scrollbar {
-            
             height: 0;
         }
 
         .cat {
-
             height: 40px;
             display: flex;
-            align-items: center; 
+            align-items: center;
         }
 
         p,
         h2 {
-
             color: $sec-color;
             margin: 0px 10px;
             padding-bottom: 10px;
             position: relative;
+            cursor: pointer;
         }
     }
 }
 
 swiper-container {
-
+   
     max-height: calc(100vh - $header-height - 40px);
 }
 
@@ -61,7 +60,8 @@ swiper-slide {
     width: 100%;
     height: 15px;
     background-color: #ffffff;
-    border-radius: 10px;;
+    border-radius: 10px;
+    ;
     transform: translateY(30px);
 }
 

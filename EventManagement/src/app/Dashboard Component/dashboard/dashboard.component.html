@@ -1,8 +1,13 @@
 <div class="dashboard-container">
-    <mat-icon class="home-icon" svgIcon="shiftplan" routerLink="/shiftplan"></mat-icon>
-    <button mat-icon-button routerLink="/userlist">
-        <mat-icon svgIcon="userlist"></mat-icon>
-    </button>
+    <div class="icons">
+        <br>
+        <br>
+        <mat-icon class="home-icon" svgIcon="shiftplan" routerLink="/shiftplan"></mat-icon>
+
+        <mat-icon class="userlist" svgIcon="userlist" routerLink="/userlist"></mat-icon>
+
+    </div>
+
 
     <!-- Deine Schichten -->
     <div class="section">
@@ -20,8 +25,7 @@
             <!-- Loop through activities inside each shift -->
             <ng-container *ngFor="let activity of shift.activities">
                 <app-dashboardactivity [role]="shift.shift_category.name || ''"
-                    [start]="(shift.startTime | date: 'shortTime') || ''"
-                    [shift]="shift || {}"
+                    [start]="(shift.startTime | date: 'shortTime') || ''" [shift]="shift || {}"
                     [end]="(shift.endTime | date: 'shortTime') || ''" [date]="(shift.endTime | date: 'shortDate') || ''"
                     [userName]="activity.user.firstName + ' ' + activity.user.lastName" [status]="activity.status || ''"
                     [description]="shift.shift_category.description || ''" [activity]="shift.activities">

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 121.03 59">
 <defs>
-<style>.userlist-icon{fill:#e9e8e8;}</style>
+<style>.userlist-icon{fill:#262625;}</style>
 </defs>
 <circle class="userlist-icon" cx="25.55" cy="22.22" r="12.22"/>
 <circle class="userlist-icon" cx="98.99" cy="15.54" r="10.54"/>

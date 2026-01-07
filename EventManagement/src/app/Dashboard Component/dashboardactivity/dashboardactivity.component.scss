@@ -17,7 +17,7 @@
 .activity-row {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end; 
+  align-items: flex-end;
 
   @media (max-width: 600px) {
     gap: 10px;
@@ -26,13 +26,17 @@
 
 .icon-container {
   display: flex;
-  justify-content: center; /* centers horizontally */
-  align-items: center;     /* centers vertically (optional) */
+  justify-content: center;
+  /* centers horizontally */
+  align-items: center;
+  /* centers vertically (optional) */
 }
 
 .dropdown-icon {
-  font-size: 24px; /* optional */
-  cursor: pointer; /* optional */
+  font-size: 24px;
+  /* optional */
+  cursor: pointer;
+  /* optional */
 }
 
 .activity-left {
@@ -45,16 +49,19 @@
   font-size: 1.5rem;
   font-weight: 700;
   color: #222;
-  line-height: 1;      /* ⬅ FIXES THE ALIGNMENT */
-  padding-bottom: 2px; /* ⬅ fine-tune if still too low */
+  line-height: 1;
+  /* ⬅ FIXES THE ALIGNMENT */
+  padding-bottom: 2px;
+  /* ⬅ fine-tune if still too low */
 
 }
 
 .activity-right {
-   display: flex;
+  display: flex;
   flex-direction: column;
   align-items: flex-end;
-  justify-content: center;   /* ⬅ centers date + time vertically */
+  justify-content: center;
+  /* ⬅ centers date + time vertically */
   text-align: right;
   margin-left: auto;
 
@@ -108,5 +115,32 @@
     font-size: 0.85rem;
     color: #666;
     margin-left: 4px;
+  }
+}
+
+.request-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  text-align: right;
+  margin-left: auto;
+
+  .request-date {
+    font-size: 0.8rem;
+    color: #666;
+    font-weight: 500;
+  }
+
+  .request-time {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #222;
+    margin-top: 4px;
+  }
+
+  .request-end-date {
+    font-size: 0.85rem;
+    color: #666;
   }
 }
