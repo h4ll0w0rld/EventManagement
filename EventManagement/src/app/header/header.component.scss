@@ -1,4 +1,6 @@
 @import "../../theme";
+
+
 .head {
   position: fixed;
   top: 0;
@@ -9,8 +11,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #032c47;
-  padding: 12px 20px;
+  background-color: $prim-color;
+  padding: 1rem;
   color: white;
 }
 
@@ -18,7 +20,7 @@
   position: absolute;
   top: 60px;
   right: 12px;
-  background: #032c47;
+  background: $prim-color;
   border-radius: 12px;
   padding: 8px 0;
   min-width: 140px;

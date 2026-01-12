@@ -32,6 +32,7 @@ export class DashboardactivityComponent {
     this.getHelper();
   }
   toggleHelpers() {
+    this.getHelper();
     this.showHelpers = !this.showHelpers;
   }
   nextDay(_request: any) {

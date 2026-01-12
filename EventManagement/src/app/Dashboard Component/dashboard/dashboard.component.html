@@ -1,49 +1,61 @@
 <div class="dashboard-container">
-    <div class="icons">
-        <br>
-        <br>
-        <mat-icon class="home-icon" svgIcon="shiftplan" routerLink="/shiftplan"></mat-icon>
 
-        <mat-icon class="userlist" svgIcon="userlist" routerLink="/userlist"></mat-icon>
-
-    </div>
-
-
-    <!-- Deine Schichten -->
-    <div class="section">
-        <div class="section-header">
-            <h5>Deine Schichten</h5>
+    <div class="topbar-container">
+        <div class="shift-select">
+            <h3>Schichten von</h3>
             <select [(ngModel)]="selectedUser" (ngModelChange)="onUserSelected($event)">
                 <option *ngFor="let user of allUsers" [ngValue]="user">
                     {{ user.fName }} {{ user.lName }}
                 </option>
             </select>
-
         </div>
-
-        <div *ngFor="let shift of shiftsByUser">
-            <!-- Loop through activities inside each shift -->
-            <ng-container *ngFor="let activity of shift.activities">
-                <app-dashboardactivity [role]="shift.shift_category.name || ''"
-                    [start]="(shift.startTime | date: 'shortTime') || ''" [shift]="shift || {}"
-                    [end]="(shift.endTime | date: 'shortTime') || ''" [date]="(shift.endTime | date: 'shortDate') || ''"
-                    [userName]="activity.user.firstName + ' ' + activity.user.lastName" [status]="activity.status || ''"
-                    [description]="shift.shift_category.description || ''" [activity]="shift.activities">
-                </app-dashboardactivity>
-            </ng-container>
+        <div class="icon-container">
+            <mat-icon class="info-icon" svgIcon="info" routerLink="/"></mat-icon>
+            <mat-icon class="userlist-icon" svgIcon="userlist" routerLink="/userlist"></mat-icon>
+            <mat-icon class="shiftplan-icon" svgIcon="shiftplan" routerLink="/shiftplan"></mat-icon>
         </div>
     </div>
 
-    <!-- Deine Anfragen -->
-    <div class="section">
-        <div>
-            <h5 class="section-title">Deine Anfragen</h5>
-        </div>
+    <div class="shift-container">
 
-        <div class="request">
+        <!-- Deine Anfragen -->
+        <div class="request-section">
+            <h5 class="section-title">Deine Anfragen</h5>
+            <p class="no-request-text" *ngIf="shiftRequests.length == 0"> Du hast aktuell keine offenen Anfragen. </p>
+
             <app-shift-request *ngIf="shiftRequests.length > 0" [_shiftRequests]="shiftRequests"
                 [currentUser]="selectedUser">
             </app-shift-request>
+
+            <div class="divider"></div>
+        </div>
+
+
+        <!-- Deine Schichten -->
+        <div class="shift-section">
+            <!--<div class="section-header">
+                <h5>Deine Schichten</h5>
+                <select [(ngModel)]="selectedUser" (ngModelChange)="onUserSelected($event)">
+                    <option *ngFor="let user of allUsers" [ngValue]="user">
+                        {{ user.fName }} {{ user.lName }}
+                    </option>
+                </select>
+
+            </div>-->
+
+            <div *ngFor="let shift of shiftsByUser">
+                <!-- Loop through activities inside each shift -->
+                <ng-container *ngFor="let activity of shift.activities">
+                    <app-dashboardactivity [role]="shift.shift_category.name || ''"
+                        [start]="(shift.startTime | date: 'shortTime') || ''" [shift]="shift || {}"
+                        [end]="(shift.endTime | date: 'shortTime') || ''"
+                        [date]="(shift.endTime | date: 'shortDate') || ''"
+                        [userName]="activity.user.firstName + ' ' + activity.user.lastName"
+                        [status]="activity.status || ''" [description]="shift.shift_category.description || ''"
+                        [activity]="shift.activities">
+                    </app-dashboardactivity>
+                </ng-container>
+            </div>
         </div>
 
     </div>

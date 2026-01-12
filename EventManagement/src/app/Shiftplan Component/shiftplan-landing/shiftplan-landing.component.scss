@@ -1,17 +1,23 @@
 @import '../../../theme';
 
-
 :host {
+
+     position: absolute;
+     width: 100vw;
+}
+
+/*:host {
 
     position: relative;
     //top: $header-height;
     width: 100vw;
     //max-height: calc(100vh - $header-height);
 }
+
 .body {
-    margin-top: calc($header-height + 24px);
+    margin-top: calc($header-height + 2rem);
     width: 100vw;
     //max-height: calc(100vh - $header-height);
-}
+}*/
 
 

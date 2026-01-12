@@ -1,7 +1,10 @@
+@import '../../../theme';
+
 .activity-card {
   border-radius: 16px;
   width: 100%;
-  padding: 16px;
+  padding: 0.75rem 1.5rem;
+  padding-bottom: calc(16px + 20px);
   margin-bottom: 12px;
   background: white;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
@@ -18,10 +21,15 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-
   @media (max-width: 600px) {
     gap: 10px;
   }
+}
+
+.date-row {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
 }
 
 .icon-container {
@@ -48,10 +56,10 @@
 .activity-role {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #222;
-  line-height: 1;
+  //color: #222;
+  //line-height: 1;
   /* ⬅ FIXES THE ALIGNMENT */
-  padding-bottom: 2px;
+  //padding-bottom: 2px;
   /* ⬅ fine-tune if still too low */
 
 }
@@ -67,7 +75,7 @@
 
   .activity-date {
     font-size: 0.8rem;
-    color: #666;
+    color: $color-5;
     font-weight: 500;
   }
 
@@ -128,8 +136,9 @@
 
   .request-date {
     font-size: 0.8rem;
-    color: #666;
+    color: $color-5;
     font-weight: 500;
+    margin: 0;
   }
 
   .request-time {
@@ -141,6 +150,15 @@
 
   .request-end-date {
     font-size: 0.85rem;
-    color: #666;
+    color: $color-5;
+    margin: 0;
   }
+}
+
+h3 {
+  margin: 0;
+}
+
+.description {
+  margin-bottom: 2rem;
 }
