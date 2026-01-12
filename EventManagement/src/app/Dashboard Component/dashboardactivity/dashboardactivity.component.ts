@@ -32,6 +32,7 @@ export class DashboardactivityComponent {
     this.getHelper();
   }
   toggleHelpers() {
+    console.log("helpers toggled  for activity: ", this.activity);
     this.getHelper();
     this.showHelpers = !this.showHelpers;
   }

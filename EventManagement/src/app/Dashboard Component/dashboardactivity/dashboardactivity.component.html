@@ -1,6 +1,5 @@
 <mat-card class="activity-card" (click)="toggleHelpers()">
   <div class="activity-row">
-    <!-- Linke Seite: Bereich -->
     <div class="activity-left">
       <div class="activity-role">{{ role }}</div>
     </div>
@@ -8,32 +7,44 @@
     <div class="request-right">
       <div class="date-row">
         <p class="request-date">{{ shift.startTime | date:'EEE, dd.MM.yy' }}</p>
-        <p class="request-end-date" *ngIf="nextDay(shift)"> ( - {{ shift.endTime | date:'EEE, dd.MM.yy' }}) </p>
+        <p class="request-end-date" *ngIf="nextDay(shift)">
+          ( - {{ shift.endTime | date:'EEE, dd.MM.yy' }})
+        </p>
       </div>
 
       <div class="request-time">
         {{ shift.startTime | date:'HH:mm' }} – {{ shift.endTime | date:'HH:mm' }} Uhr
       </div>
-
     </div>
   </div>
-
-  <!--<div class="icon-container">
-    <mat-icon (click)="test()" class="dropdown-icon">expand_more</mat-icon>
-  </div>-->
-  <!-- <button (click)="test()">TESTER</button> -->
 
   <!-- Helfer anzeigen -->
   <div class="activity-helpers" *ngIf="showHelpers">
 
-    <p class="description">{{shift.shift_category.description}}</p>
+    <div *ngIf="shift.shift_category.description" class="beschreibung-block">
+      <h4>Beschreibung</h4>
+      <p>{{ shift.shift_category.description }}</p>
+    </div>
 
-    <h3>Mit dir in der Schicht:</h3>
-    <div *ngFor="let helper of activity" class="helper-item">
-      <span class="helper-name">
-        {{ helper.user?.firstName }} {{ helper.user?.lastName }}
-        <span *ngIf="helper.isCurrent">(Du)</span>
-      </span>
+    <div class="helpers-block">
+      <h4>Schicht Helfer</h4>
+
+      <ng-container *ngFor="let helper of activity">
+        <div *ngIf="helper.status === 'confirmed' || helper.status === 'requested'" class="helper-row">
+          <span class="status-bar" [ngClass]="{
+      'green': helper.status === 'confirmed',
+      'yellow': helper.status === 'requested'
+    }">
+          </span>
+
+          <span class="helper-name">
+            {{ helper.user?.firstName }} {{ helper.user?.lastName }}
+            <span *ngIf="helper.isCurrent">(Du)</span>
+          </span>
+        </div>
+
+      </ng-container>
+
     </div>
   </div>
 </mat-card>

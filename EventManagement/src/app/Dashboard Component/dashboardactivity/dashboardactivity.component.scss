@@ -21,6 +21,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+
   @media (max-width: 600px) {
     gap: 10px;
   }
@@ -161,4 +162,26 @@ h3 {
 
 .description {
   margin-bottom: 2rem;
+}
+
+.helper-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 2px 0;
+}
+
+.status-bar {
+  width: 6px;
+  height: 22px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.status-bar.green {
+  background-color: #4caf50; // confirmed
+}
+
+.status-bar.yellow {
+  background-color: #ffcc00; // requested
 }
