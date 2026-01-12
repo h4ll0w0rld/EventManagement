@@ -10,7 +10,7 @@
 
 .cat-menu {
     position: fixed;
-    top: calc($header-height + 1.9rem);
+    top: calc($header-height + 2rem);
     //margin-top: 23px;
     /* stick to top of viewport */
     z-index: 100;
@@ -57,12 +57,12 @@
 
 swiper-container {
 
-    max-height: calc(100vh - $header-height - 40px);
+    max-height: calc(100vh - $header-height - 2rem);
 }
 
 swiper-slide {
 
-    max-height: calc(100vh - $header-height - 40px);
+    max-height: calc(100vh - $header-height - 2rem);
 }
 
 .active::after {
@@ -80,5 +80,5 @@ swiper-slide {
 
 .category-type {
 
-    max-height: calc(100vh - $header-height - 40px);
+    max-height: calc(100vh - $header-height - 2rem);
 }
