@@ -35,6 +35,7 @@ export class DashboardactivityComponent {
     this.getHelper();
     this.showHelpers = !this.showHelpers;
   }
+  
   nextDay(_request: any) {
 
     const shiftStart = new Date(_request.startTime);
