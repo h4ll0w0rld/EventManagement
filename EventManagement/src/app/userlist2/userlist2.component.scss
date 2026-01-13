@@ -112,3 +112,28 @@
     background: #0f172a;
     color: white;
 }
+
+.add-user-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 32px;
+}
+
+.add-user-btn {
+    border: 1px solid #0f172a;
+    background: white;
+    color: #0f172a;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    font-size: 22px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+    transition: 0.2s ease;
+}
+
+.add-user-btn:hover {
+    background: #0f172a;
+    color: white;
+}

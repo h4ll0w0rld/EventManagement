@@ -1,7 +1,7 @@
 import { HttpHeaders } from "@angular/common/http";
 
 export class Config {
-    rootUrl = "http://87.106.12.47:3000";
+    rootUrl = "localhost:3000";
     username = "projektle";
     passwd = "ventit23";
 

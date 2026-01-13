@@ -2,7 +2,6 @@
 
 <div class="persons-container">
   <h1 class="title">Personen</h1>
-
   <div class="persons-list">
 
     <div class="person-item" *ngFor="let person of userList" (click)="toggleUser(person)"
@@ -37,13 +36,20 @@
           <span>{{ person.email }}</span>
         </div>
 
-        <button class="make-admin-btn" *ngIf="!person.isAdmin && person.email" (click)="makeAdmin(person); $event.stopPropagation()">
+        <button class="make-admin-btn" *ngIf="!person.isAdmin && person.email"
+          (click)="makeAdmin(person); $event.stopPropagation()">
           zum Admin machen
         </button>
       </div>
 
+
     </div>
 
+
+
   </div>
-  <button>+</button>
+
+  <div class="add-user-wrapper">
+    <button class="add-user-btn" (click)="addUser()">+</button>
+  </div>
 </div>

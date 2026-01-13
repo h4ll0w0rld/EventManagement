@@ -46,6 +46,15 @@ export class Userlist2Component implements OnInit {
     // For now, just toggle the isAdmin property
     user.isAdmin = true;
   }
+  addUser() {
+    const dialogRef = this.dialog.open(AddUserFormComponent, {
+      width: '400px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The add user dialog was closed');
+    });
+  }
 
   inviteUser(user: User) {
   console.log('Invite user:', user);
