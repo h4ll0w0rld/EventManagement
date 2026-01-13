@@ -43,6 +43,17 @@ export class EventService implements OnDestroy {
     //   .pipe(switchMap(() => this.updateCategories()))
     //   .subscribe();
   }
+  ngOnInit(): void {
+    // Start periodic category refresh
+    this.refreshInterval = interval(5000)
+      .pipe(switchMap(() => this.updateCategories()))
+      .subscribe();
+
+      this.authService.user$.subscribe(user => {
+        console.log("EventService detected logged in user:", user);
+        this.loggedInUser = user;
+      });
+  }
 
   ngOnDestroy(): void {
     this.refreshInterval.unsubscribe();

@@ -15,12 +15,14 @@ export class LoginComponent {
   @Input() userId: number | undefined;
   @Input() fName: string | undefined;
   @Input() lName: string | undefined;
+  errorMessage: string | null = null;
+  loading = false;
   @Input() set autoFill(data: { email: string, password: string } | null) {
-  if (data) {
-    this.user.email = data.email;
-    this.user.pass = data.password;
+    if (data) {
+      this.user.email = data.email;
+      this.user.pass = data.password;
+    }
   }
-}
 
   constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute) { }
   user = {
@@ -30,20 +32,23 @@ export class LoginComponent {
   }
 
   onSubmit() {
-    console.log("Login attempt with", this.user.email, this.user.pass);
-    console.log(this.validateInput(this.user.email))
-    this.authService.login(this.user.email, this.user.pass)
-      .subscribe({
-        next: (user) => {
-          console.log("Login success:", user);
-          this.router.navigate(['/']);
-        },
-        error: err => {
-          console.error("Login failed", err);
+    this.errorMessage = null;
+    this.loading = true;
+
+    this.authService.login(this.user.email, this.user.pass).subscribe({
+      next: () => {
+        this.router.navigate(['/']);
+      },
+      error: err => {
+        this.loading = false;
+
+        if (err.status === 401 || err.status === 400) {
+          this.errorMessage = 'E-Mail oder Passwort ist falsch.';
+        } else {
+          this.errorMessage = 'E-Mail oder Passwort ist falsch.';
         }
-      });
-
-
+      }
+    });
   }
 
   validateInput(_mail: string) {

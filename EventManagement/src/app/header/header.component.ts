@@ -6,6 +6,8 @@ import { EventService } from '../core/features/events/event.service';
 import { EventhubService } from '../core/features/eventhub/eventhub.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { AuthService } from '../core/services/auth.service';
+import { map, Observable } from 'rxjs';
+import { User } from '../Object Models/user/user';
 
 
 
@@ -21,6 +23,10 @@ export class HeaderComponent implements OnInit {
   userEvents: any[] = [];
   showBackArrow = false;
   showUserMenu = false;
+  user: any | null = null;
+
+  private initials$!: Observable<string>;
+
 
 
   constructor(
@@ -30,7 +36,8 @@ export class HeaderComponent implements OnInit {
     private eventHubService: EventhubService,
     private router: Router,
     private cdr: ChangeDetectorRef,
-    private authService: AuthService
+    private authService: AuthService,
+
 
 
   ) {
@@ -55,7 +62,13 @@ export class HeaderComponent implements OnInit {
       console.log('We are on a shiftplan route!');
       this.showBackArrow = true;
     }
+
+    this.authService.user$.subscribe(user => {
+      this.user = user;
+      this.cdr.detectChanges();
+    });
   }
+
   toggleUserMenu() {
     console.log('Toggling user menu');
     this.showUserMenu = !this.showUserMenu;
@@ -106,13 +119,14 @@ export class HeaderComponent implements OnInit {
 
 
   getInitials(): string {
-    const user = this.eventService.loggedInUser; // or however you read the user
+   // or however you read the user
 
-    if (!user || !user.firstName || !user.lastName) {
+    if (!this.user || !this.user.firstName || !this.user.lastName) {
+      console.log("Bigg problem", this.user);
       return "";
     }
 
-    return user.firstName.charAt(0).toUpperCase() + user.lastName.charAt(0).toUpperCase();
+    return this.user.firstName.charAt(0).toUpperCase() + this.user.lastName.charAt(0).toUpperCase();
   }
 
   globalUserlist() {

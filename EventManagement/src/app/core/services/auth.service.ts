@@ -14,7 +14,7 @@ export interface AuthResponse {
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private userSubject = new BehaviorSubject<User | null>(null);
-  readonly user$ = this.userSubject.asObservable();
+  user$ = this.userSubject.asObservable();
 
   constructor(
     private http: HttpClient,

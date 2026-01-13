@@ -6,19 +6,22 @@
 
   <h2>Willkommen zurück</h2>
   <p class="subtitle">Melde dich an um fortzufahren</p>
+  <div *ngIf="errorMessage" class="login-error">
+    {{ errorMessage }}
+  </div>
 
   <mat-form-field appearance="outline" class="form">
     <mat-label>Email Adresse</mat-label>
-    <input matInput [(ngModel)]="user.email" name="username" type="email" required autocomplete="username"/>
+    <input matInput [(ngModel)]="user.email" name="username" type="email" required autocomplete="username" />
   </mat-form-field>
 
   <mat-form-field appearance="outline" class="form">
     <mat-label>Passwort</mat-label>
-    <input matInput [(ngModel)]="user.pass" name="password" type="password" required autocomplete="current-password"/>
+    <input matInput [(ngModel)]="user.pass" name="password" type="password" required autocomplete="current-password" />
   </mat-form-field>
 
-  <button mat-flat-button class="login-btn" type="submit">
-    Login
+  <button mat-flat-button class="login-btn" type="submit" [disabled]="loading">
+    {{ loading ? 'Bitte warten…' : 'Login' }}
   </button>
 
 </form>
