@@ -20,10 +20,34 @@
       display: flex;
       flex-direction: row;
       gap: 10px;
-      
+
       h3 {
         margin: 0;
       }
+
+      select {
+        background: transparent;
+        border: none;
+        color: $prim-color;
+        font-size: 1rem;
+        outline: none;
+        cursor: pointer;
+        font-weight: 700;
+
+        /* Browser-Default entfernen */
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+
+      }
+
+      option {
+        color: $prim-color; // Dropdown-Liste lesbar
+        background: #ffffff; // Hintergrund der Optionen
+        font-weight: 500;
+        border: none;
+      }
+
     }
 
     .icon-container {
@@ -31,6 +55,10 @@
       justify-content: flex-end;
       align-items: center;
       gap: 10px;
+
+      mat-icon {
+        cursor: pointer;
+      }
 
       .userlist-icon {
         width: 40px

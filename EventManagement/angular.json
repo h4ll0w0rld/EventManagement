@@ -40,6 +40,9 @@
               "src/styles.scss"
             ],
             "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": ["src/styles"]
+            },
             "serviceWorker": true,
             "ngswConfigPath": "ngsw-config.json"
           },

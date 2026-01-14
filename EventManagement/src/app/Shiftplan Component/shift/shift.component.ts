@@ -1,4 +1,4 @@
-import { Component, HostListener, Input } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, ViewChild } from '@angular/core';
 import { Shift } from 'src/app/Object Models/Shiftplan Component/shift';
 import { Activity } from 'src/app/Object Models/Shiftplan Component/activityModel';
 import { ShiftplanService } from 'src/app/core/features/shiftplan/shiftplan.service';
@@ -17,30 +17,61 @@ import { DeleteShiftDialogComponent } from 'src/app/Dialogs/shiftplan/delete-shi
 export class ShiftComponent {
 
   @Input() intervall: number = 0;
-  @Input() shift: Shift = new Shift(0,0,0,[], false);
-  @Input() nextShift: Shift | undefined = new Shift (0,0,0,[], false);
+  @Input() shift: Shift = new Shift(0, 0, 0, [], false);
+  @Input() nextShift: Shift | undefined = new Shift(0, 0, 0, [], false);
   @Input() catId: number = -1;
 
   //@Input() nextShift: Shift = new Shift (0,0,0,[], false);
 
-  prioActivities: number = 2;
+  unlocked = false;
   toggled = false;
-  
-  @HostListener('window:scroll', ['$event'])
-  onScroll(){
-    //console.log("HIER wird gescrollt !!")
+  //prioActivities: number = 2;
+  //cardWidth: number = 200;
+  @ViewChild('prioActivitiesContainer') prioActivitiesContainer!: ElementRef;
+
+  visibleActivities: Activity[] = [];
+  hiddenActivities: Activity[] = [];
+
+  constructor(public shiftplanService: ShiftplanService, private dialog: MatDialog, public eventService: EventServiceService) { }
+
+  ngAfterViewInit() {
+    this.calculateVisibleActivities();
   }
 
-  unlocked = false;
+  @HostListener('window:resize')
+  onResize() {
+    this.calculateVisibleActivities();
+  }
 
-  constructor(public shiftplanService: ShiftplanService, private dialog: MatDialog, public eventService: EventServiceService) {}
+  calculateVisibleActivities() {
+    if (!this.prioActivitiesContainer) return;
+
+    const TOGGLE_WIDTH = 56; // MUSS exakt zu SCSS passen
+    const containerWidth =
+      this.prioActivitiesContainer.nativeElement.offsetWidth - TOGGLE_WIDTH;
 
 
-  ngOnInit() {
+    const cardMinWidth = 150;
+    const gap = 16;
 
-    // this.shiftplanService.editmode$.subscribe(value => {
-    //   this.unlocked = value;
-    // })
+    const cardsPerRow = Math.floor(
+      (containerWidth -1) / (cardMinWidth + gap)
+    );
+
+    const maxVisible = Math.max(2, cardsPerRow);
+
+    this.visibleActivities = this.shift.activities.slice(0, maxVisible);
+    this.hiddenActivities = this.shift.activities.slice(maxVisible);
+
+    if (this.hiddenActivities.length === 0) {
+      this.toggled = false;
+    }
+
+    // CSS-Variable setzen → alle Zeilen benutzen exakt dieselbe Spaltenanzahl
+    this.prioActivitiesContainer.nativeElement.style.setProperty(
+      '--cards-per-row',
+      `${maxVisible}`
+    );
   }
 
   delShiftDialog() {

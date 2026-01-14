@@ -1,6 +1,7 @@
-<div class="card" (click)="openUserList()" [ngClass]="{'confirmedAct': activity.status === 'confirmed', 'requestedAct': activity.status === 'requested', 'emptyAct': activity.status === 'free'}">
+<div class="card" (click)="openUserList()"
+    [ngClass]="{'confirmedAct': activity.status === 'confirmed', 'requestedAct': activity.status === 'requested', 'emptyAct': activity.status === 'free'}">
     <div class="name">
-        
+
         <p>{{ activity.user.fName }}</p>
         <p>{{ activity.user.lName }}</p>
 
@@ -8,7 +9,6 @@
             <button *ngIf="!activity.user.uuid" (click)="addUser(activity.uuid, activity.user.uuid)">Addd</button>
             <button *ngIf="activity.user.uuid" (click)="this.shiftplanService.delUserFromActivity(activity.uuid, activity.user.uuid)">Del</button>
         -->
-        
 
     </div>
 </div>

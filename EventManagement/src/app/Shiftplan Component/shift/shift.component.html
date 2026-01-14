@@ -1,61 +1,53 @@
 <div class="shift-container">
 
-    <div class="visible-row"  [ngClass]="{'toggleFalse': !toggled, 'toggleTrue': toggled}">
+  <div class="visible-row" [class.expanded]="toggled">
 
-        <div class="time">
-            
-            <p class="start-time small_text" [ngClass]="{'toggled-start-time': toggled}"> 
-                {{shift.startTime | date: 'HH:mm'}}
-            </p>
-
-            <mat-icon *ngIf="unlocked" class="delete-icon" [ngClass]="{toggled: toggled}" (click)="delShiftDialog()" aria-hidden="false" svgIcon="delete"></mat-icon>
-
-            <p class="end-time small_text" [ngClass]="{'toggled-end-time': toggled}" *ngIf="(nextShift == undefined || shift.endTime.getTime() !== nextShift.startTime.getTime()) && toggled == false"> 
-                {{shift.endTime | date: 'HH:mm'}}
-            </p> 
-        </div>
-        
-    
-        <div class="prio-activities">
-            <app-activity 
-            *ngFor="let activity of shift.activities.slice(0, prioActivities)"
-            class="prio"
-            [activity]="activity"
-            [shiftId]="shift.id"
-            [catId]="catId">
-            
-            </app-activity>
-        </div>
-        
-        <div *ngIf="shift.activities.length > prioActivities; else toggleElseDiv" class="toggle-container" (click)="toggled = !toggled">
-
-            <p class="amount-hidden small_text">+{{shift.activities.length - prioActivities}}</p>
-
-            <div class="toggle">
-                <div class="toggle-button" [ngClass]="{'arrow-down': toggled}"></div>
-            </div>
-
-        </div>
-
-        <ng-template #toggleElseDiv>
-            <div class="toggleElseDiv"></div>
-        </ng-template>
-
-    </div>
-    
-
-    <div class="hidden-row" *ngIf="toggled === true">
-        <app-activity
-        *ngFor="let activity of shift.activities.slice(prioActivities)"
-        class="hidden"
-        [activity]="activity"
-        [shiftId]="shift.id">
-        </app-activity>
-
-        <p class="toggled-end-time small_text" *ngIf="nextShift == undefined || shift.endTime.getTime() !== nextShift.startTime.getTime()">
-            {{shift.endTime | date: 'HH:mm'}}
-        </p> 
+    <!-- ZEIT -->
+    <div class="time">
+      <p class="start-time">{{ shift.startTime | date:'HH:mm' }}</p>
+      <p class="end-time">{{ shift.endTime | date:'HH:mm' }}</p>
     </div>
 
+    <!-- ACTIVITIES -->
+    <div class="activities-container" #prioActivitiesContainer>
+
+      <!-- SICHTBARE ZEILE -->
+      <div class="activities-row">
+        <div class="activities-grid">
+          <app-activity
+            *ngFor="let activity of visibleActivities"
+            [activity]="activity">
+          </app-activity>
+        </div>
+
+        <!-- Toggle immer reserviert -->
+        <div
+          class="toggle-container"
+          [class.invisible]="hiddenActivities.length === 0"
+          (click)="toggled = !toggled"
+        >
+          <p class="amount-hidden">+{{ hiddenActivities.length }}</p>
+          <div
+            class="toggle-button"
+            [class.arrow-down]="toggled">
+          </div>
+        </div>
+      </div>
+
+      <!-- GETOGGELTE ZEILEN -->
+      <div class="activities-row" *ngIf="toggled">
+        <div class="activities-grid">
+          <app-activity
+            *ngFor="let activity of hiddenActivities"
+            [activity]="activity">
+          </app-activity>
+        </div>
+
+        <!-- Leerer Platzhalter → gleiche Breite -->
+        <div class="toggle-container invisible"></div>
+      </div>
+
+    </div>
+  </div>
 
 </div>

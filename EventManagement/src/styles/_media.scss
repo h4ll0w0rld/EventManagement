@@ -1,0 +1,24 @@
+
+
+// Breakpoints
+// ---------------------
+
+$bp-tablet: 768px;   // Tablet
+$bp-desktop: 1024px;  // Desktop
+
+
+
+// Media Queries Mixins
+// ---------------------
+
+@mixin tablet {
+    @media (min-width: $bp-tablet) {
+        @content;
+    }
+}
+
+@mixin desktop {
+    @media (min-width: $bp-desktop) {
+        @content;
+    }
+}

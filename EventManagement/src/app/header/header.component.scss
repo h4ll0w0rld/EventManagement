@@ -62,6 +62,16 @@
   }
 }
 
+.back-arrow {
+  height: 100%;
+  cursor: pointer;
+
+  .arrow {
+    height: 100%;
+    width: 2rem;
+  }
+}
+
 .user-icon {
   cursor: pointer;
 }
