@@ -18,7 +18,7 @@ export class Userlist2Component implements OnInit {
   constructor(
     public eventService: EventService,
     private dialog: MatDialog
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.eventService.allUser$.subscribe(users => {
@@ -42,7 +42,7 @@ export class Userlist2Component implements OnInit {
     console.log('Make admin clicked for', user);
     // backend call here later
     this.eventService.makeUserToAdmin(user.id)
-  
+
     // For now, just toggle the isAdmin property
     user.isAdmin = true;
   }
@@ -57,15 +57,52 @@ export class Userlist2Component implements OnInit {
   }
 
   inviteUser(user: User) {
-  console.log('Invite user:', user);
-  const dialogRef = this.dialog.open(InviteUserDialogComponent, {
-    data: { user: user }
-  });
+    console.log('Invite user:', user);
+    const dialogRef = this.dialog.open(InviteUserDialogComponent, {
+      data: { user: user }
+    });
 
-  dialogRef.afterClosed().subscribe(result => {
-    console.log('The invite dialog was closed');
-  });
-  // later: open invite dialog
-}
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The invite dialog was closed');
+    });
+    // later: open invite dialog
+  }
+  removeUser(user: User): void {
+    console.log('Remove user clicked for', user);
+    this.eventService.removeUserFromEvent(user.id).subscribe(() => {
+      // After successful removal, update the user list
+      console.log('User removed from event:', user);
+      this.userList = this.userList.filter(u => u.id !== user.id);
+      if (this.openedUser === user) {
+        this.openedUser = null; // Close the details view if the removed user was opened
+      }
+    });
 
+  }
+
+  removeAdmin(user: User): void {
+    console.log('Remove admin clicked for', user);
+    this.eventService.removeAdminRights(user.id).subscribe((res) => {
+      console.log('Admin rights removed for', user);
+      console.log(res);
+    });
+
+    // For now, just toggle the isAdmin property
+    user.isAdmin = false;
+  }
+
+  toggleAdmin(person: any) {
+    if (person.isAdmin) {
+      this.removeAdmin(person);
+    } else {
+      this.makeAdmin(person);
+    }
+  }
+
+  test() {
+    this.eventService.createInvite('user@example.com').subscribe({
+      next: invite => console.log('Invite created:', invite),
+      error: err => console.error(err)
+    });
+  }
 }

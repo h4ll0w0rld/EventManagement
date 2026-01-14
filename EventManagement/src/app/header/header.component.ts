@@ -54,6 +54,7 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.eventHubService.loadUserEvents();
     this.eventHubService.events$.subscribe(events => {
       this.userEvents = events;
     });

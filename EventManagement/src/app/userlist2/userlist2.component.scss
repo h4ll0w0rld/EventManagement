@@ -98,8 +98,7 @@
 /* === ACTION BUTTON === */
 
 .make-admin-btn {
-    margin-top: 14px;
-    align-self: flex-end;
+  
     border: 1px solid #0f172a;
     background: white;
     color: #0f172a;
@@ -137,3 +136,68 @@
     background: #0f172a;
     color: white;
 }
+
+.admin-toggle-btn {
+ 
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: 0.2s ease;
+}
+
+/* Add admin */
+.admin-toggle-btn.add {
+  border: 1px solid #0f172a;
+  background: white;
+  color: #0f172a;
+}
+
+.admin-toggle-btn.add:hover {
+  background: #0f172a;
+  color: white;
+}
+
+/* Remove admin */
+.admin-toggle-btn.remove {
+  border: 1px solid #991b1b;
+  background: white;
+  color: #991b1b;
+}
+
+.admin-toggle-btn.remove:hover {
+  background: #991b1b;
+  color: white;
+}
+.remove-user-btn {
+ 
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: 0.2s ease;
+  border: 1px solid #991b1b;
+  background: white;
+  color: #991b1b;
+}
+
+.remove-user-btn:hover {
+  background: #991b1b;
+  color: white;
+}
+.user-action-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+/* unify size */
+.admin-toggle-btn,
+.remove-user-btn {
+  min-width: 150px;
+  text-align: center;
+  padding: 6px 0;
+}
+
+

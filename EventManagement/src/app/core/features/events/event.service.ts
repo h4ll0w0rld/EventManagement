@@ -5,10 +5,11 @@ import { AuthService } from '../../services/auth.service';
 import { ConfigService } from '../../../Services/config.service';
 import { EventModel } from 'src/app/Object Models/EventModel';
 import { CategoryContent } from 'src/app/Object Models/Shiftplan Component/category-content';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, filter, map, tap } from 'rxjs/operators';
 import { User } from 'src/app/Object Models/user/user';
 import { Shift } from 'src/app/Object Models/Shiftplan Component/shift';
 import { Activity } from 'src/app/Object Models/Shiftplan Component/activityModel';
+import { EventhubService } from '../eventhub/eventhub.service';
 
 @Injectable({
   providedIn: 'root'
@@ -34,9 +35,21 @@ export class EventService implements OnDestroy {
   constructor(
     private http: HttpClient,
     private conf: ConfigService,
-    private authService: AuthService
+    private authService: AuthService,
+    private eventHubService: EventhubService
   ) {
     this.loadInitialState();
+    this.authService.user$
+      .pipe(
+        filter(user => !!user),
+        switchMap(user =>
+          this.eventHubService.events$   // events loaded for this user
+        ),
+        map(events => events?.[0] || null)
+      )
+      .subscribe(event => {
+        this.currentEventSubject.next(event);
+      });
 
     // Start periodic category refresh
     // this.refreshInterval = interval(5000)
@@ -49,16 +62,37 @@ export class EventService implements OnDestroy {
       .pipe(switchMap(() => this.updateCategories()))
       .subscribe();
 
-      this.authService.user$.subscribe(user => {
-        console.log("EventService detected logged in user:", user);
-        this.loggedInUser = user;
-      });
+    this.authService.user$.subscribe(user => {
+      console.log("EventService detected logged in user:", user);
+      this.loggedInUser = user;
+    });
+
+    this.setCurrentEvent(this.eventHubService.events$.pipe(
+      map(events => events[0] || null)
+    ) as any);
+
+    console.log("EventService initialized with event:", this.currentEvent);
   }
 
   ngOnDestroy(): void {
     this.refreshInterval.unsubscribe();
   }
+  // loadUserEvents() {
 
+  //   if (!this.loggedInUser) return;
+  //   console.log('Loading events for user', this.loggedInUser);
+  //   const url = `${this.conf.rootUrl}/user/eventsByUser/user_id/${this.loggedInUser.id}`;
+
+  //   this.http.get<EventModel[]>(url, { headers: this.authService.getAuthHeaders() })
+  //     .pipe(
+  //       catchError(err => {
+  //         console.error('Error loading events', err);
+  //         if (err.status === 401) this.authService.refreshToken();
+  //         return of([]);
+  //       })
+  //     )
+  //     .subscribe(events => { this.currentEventSubject.next(events); console.log('Loaded events:', events); });
+  // }
 
 
   private loadInitialState() {
@@ -181,7 +215,26 @@ export class EventService implements OnDestroy {
 
 
 
+  createInvite( email: string): Observable<any> {
 
+    const eventId = this.currentEvent?.id;
+    console.log("Creating invite for event ID:", eventId, "and email:", email);
+    return this.http.post<any>(`${this.conf.rootUrl}/event/${eventId}/createInvite`, { email, eventId });
+  }
+
+  /**
+   * Validate an invite token
+   */
+  validateInvite(token: string): Observable<any> {
+    return this.http.get<any>(`${this.conf.rootUrl}/invite/validate/${token}`);
+  }
+
+  /**
+   * Accept an invite token and join the event
+   */
+  acceptInvite(token: string): Observable<any> {
+    return this.http.post(`${this.conf.rootUrl}/invite/accept`, { token });
+  }
   /** Check if a user is admin */
   userIsAdmin(user: User): Observable<boolean> {
     const eventId = this.currentEventSubject.getValue()?.id;
@@ -261,6 +314,16 @@ export class EventService implements OnDestroy {
     const url = `${this.conf.rootUrl}/event/${eventId}/removeUserFromEvent/user_id/${userId}`;
 
     return this.http.get(url, { headers: this.authService.getAuthHeaders() }).pipe(
+      tap(() => this.getAllUsers())
+    );
+  }
+  removeAdminRights(id: number): Observable<any> {
+    const eventId = this.currentEvent?.id;
+    if (!eventId) return of(null);
+
+    const url = `${this.conf.rootUrl}/permission/${eventId}/removeAdmin/user_id/${id}`;
+
+    return this.http.put(url, { headers: this.authService.getAuthHeaders() }).pipe(
       tap(() => this.getAllUsers())
     );
   }
@@ -350,7 +413,7 @@ export class EventService implements OnDestroy {
     console.log("Proceeding with delete request");
     const url = `${this.conf.rootUrl}/activity/${eventId}/removeUser/shift_category_id/${catId}/activity_id/${activityId}`;
 
-    return this.http.put(url, { headers: this.authService.getAuthHeaders()});
+    return this.http.put(url, { headers: this.authService.getAuthHeaders() });
   }
 
   /** Delete a shift */

@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TokenService } from './token.service';
 import { User } from 'src/app/Object Models/user/user';
 import { ConfigService } from '../../Services/config.service';
+import { EventhubService } from '../features/eventhub/eventhub.service';
 
 export interface AuthResponse {
   accessToken: string;
@@ -19,8 +20,11 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private config: ConfigService,
-    private token: TokenService
-  ) {}
+    private token: TokenService,
+  ) {
+
+    
+  }
 
   login(email: string, password: string): Observable<User> {
     return this.http.post<AuthResponse>(`${this.config.rootUrl}/auth`, {
@@ -40,6 +44,7 @@ export class AuthService {
     this.token.clear();
     sessionStorage.clear();
     localStorage.clear();
+    //this.eventHubService.clearEvents();
     return this.http.get(`${this.config.rootUrl}/logout`);
   }
 

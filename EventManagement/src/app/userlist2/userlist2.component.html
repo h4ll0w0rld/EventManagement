@@ -36,10 +36,20 @@
           <span>{{ person.email }}</span>
         </div>
 
-        <button class="make-admin-btn" *ngIf="!person.isAdmin && person.email"
-          (click)="makeAdmin(person); $event.stopPropagation()">
-          zum Admin machen
-        </button>
+        <div class="user-action-row">
+
+          <button class="admin-toggle-btn" [ngClass]="{ 'remove': person.isAdmin, 'add': !person.isAdmin }"
+            (click)="toggleAdmin(person); $event.stopPropagation()">
+            {{ person.isAdmin ? 'Admin Rechte entfernen' : 'zum Admin machen' }}
+          </button>
+
+          <button class="remove-user-btn" (click)="removeUser(person); $event.stopPropagation()">
+            Aus Event Entfernen
+          </button>
+          <button (click)="test()">TEST</button>
+
+        </div>
+
       </div>
 
 

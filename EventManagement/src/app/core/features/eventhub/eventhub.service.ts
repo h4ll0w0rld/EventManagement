@@ -53,6 +53,10 @@ export class EventhubService {
       .subscribe(events => {this.eventsSubject.next(events); console.log('Loaded events:', events);});
   }
 
+  clearEvents() {
+   // this.eventsSubject.next([]);
+  }
+
   /**
    * Adds a new event
    */
