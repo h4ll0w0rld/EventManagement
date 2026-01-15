@@ -2,16 +2,6 @@
 @import '../../../theme';
 @import '../.././Mixins/buttonMixin';
 
-
-
-:host {
-
-    //max-height: calc(100vh - $header-height - 40px);
-    //display: block;
-    //overflow-y: scroll;
-
-}
-
 .cat-icon-bar {
 
     display: flex;

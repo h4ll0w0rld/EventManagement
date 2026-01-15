@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, NgZone, ViewChild } from '@angular/core';
 import { Shift } from 'src/app/Object Models/Shiftplan Component/shift';
 import { Activity } from 'src/app/Object Models/Shiftplan Component/activityModel';
 import { ShiftplanService } from 'src/app/core/features/shiftplan/shiftplan.service';
@@ -7,6 +7,8 @@ import { ShiftBreakDialogComponent } from 'src/app/Dialogs/shiftplan/shift-break
 import { EventServiceService } from 'src/app/Services/Event Service/event-service.service';
 import { DeleteShiftDialogComponent } from 'src/app/Dialogs/shiftplan/delete-shift-dialog/delete-shift-dialog.component';
 
+import { ChangeDetectorRef, OnDestroy } from '@angular/core';
+
 
 
 @Component({
@@ -14,7 +16,9 @@ import { DeleteShiftDialogComponent } from 'src/app/Dialogs/shiftplan/delete-shi
   templateUrl: './shift.component.html',
   styleUrls: ['./shift.component.scss']
 })
-export class ShiftComponent {
+export class ShiftComponent implements OnDestroy {
+
+  private resizeObserver!: ResizeObserver;
 
   @Input() intervall: number = 0;
   @Input() shift: Shift = new Shift(0, 0, 0, [], false);
@@ -32,30 +36,39 @@ export class ShiftComponent {
   visibleActivities: Activity[] = [];
   hiddenActivities: Activity[] = [];
 
-  constructor(public shiftplanService: ShiftplanService, private dialog: MatDialog, public eventService: EventServiceService) { }
+  constructor(public shiftplanService: ShiftplanService, private dialog: MatDialog, public eventService: EventServiceService, private cdr: ChangeDetectorRef, private ngZone: NgZone) { }
+
 
   ngAfterViewInit() {
+    // ResizeObserver außerhalb von Angular läuft → NgZone.run nötig
+    this.resizeObserver = new ResizeObserver(() => {
+      this.ngZone.run(() => {
+        this.calculateVisibleActivities();
+      });
+    });
+
+    this.resizeObserver.observe(this.prioActivitiesContainer.nativeElement);
+
+    // Initiale Berechnung
     this.calculateVisibleActivities();
   }
 
-  @HostListener('window:resize')
-  onResize() {
-    this.calculateVisibleActivities();
+  ngOnDestroy() {
+    this.resizeObserver.disconnect();
   }
 
   calculateVisibleActivities() {
     if (!this.prioActivitiesContainer) return;
 
     const TOGGLE_WIDTH = 56; // MUSS exakt zu SCSS passen
-    const containerWidth =
-      this.prioActivitiesContainer.nativeElement.offsetWidth - TOGGLE_WIDTH;
+    const containerWidth = this.prioActivitiesContainer.nativeElement.offsetWidth - TOGGLE_WIDTH;
 
 
     const cardMinWidth = 150;
     const gap = 16;
 
     const cardsPerRow = Math.floor(
-      (containerWidth -1) / (cardMinWidth + gap)
+      (containerWidth - 1) / (cardMinWidth + gap)
     );
 
     const maxVisible = Math.max(2, cardsPerRow);
@@ -101,4 +114,3 @@ export class ShiftComponent {
       });
   }
 }
-

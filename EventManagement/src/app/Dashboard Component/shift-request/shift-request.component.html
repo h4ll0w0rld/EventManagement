@@ -1,8 +1,8 @@
-<div class="requestsContainer">
-  <mat-card class="requestCard" *ngFor="let request of _shiftRequests">
+
+  <div class="requestCard" *ngFor="let request of _shiftRequests" (click)="toggleHelpers(request)">
 
     <!-- ROW: Left = category, Right = date/time -->
-    <div (click)="toggleHelpers(request)" class="request-row">
+    <div class="request-row">
       <!-- Left side: category -->
       <div class="request-left">
         <div class="request-category">{{ request.shift_category.name }}</div>
@@ -10,18 +10,20 @@
 
       <!-- Right side: date and time -->
       <div class="request-right">
-        <div class="request-date">{{ request.startTime | date:'EEE, dd.MM.yy' }}</div>
+        <div class="date-row">
+          <p class="request-date">{{ request.startTime | date:'EEE, dd.MM.yy' }}</p>
+          <p class="request-end-date" *ngIf="nextDay(request)">( - {{ request.endTime | date:'EEE, dd.MM.yy' }})</p>
+        </div>
+
         <div class="request-time">
           {{ request.startTime | date:'HH:mm' }} – {{ request.endTime | date:'HH:mm' }} Uhr
         </div>
-        <div class="request-end-date" *ngIf="nextDay(request)">
-          ({{ request.endTime | date:'EEE, dd.MM.yy' }})
-        </div>
+
       </div>
     </div>
-    <div class="icon-container">
+    <!--<div class="icon-container">
       <mat-icon class="dropdown-icon">expand_more</mat-icon>
-    </div>
+</div>-->
     <!-- <button (click)="test()">TESTER</button> -->
 
     <!-- Helfer anzeigen -->
@@ -30,10 +32,8 @@
       <h3>Schicht Helfer:</h3>
       <div *ngFor="let helper of activitys" class="helper-item">
         <div *ngIf="helper.status === 'confirmed' || helper.status === 'requested'" class="helper-row">
-          <span class="status-bar" [ngClass]="{
-      'green': helper.status === 'confirmed',
-      'yellow': helper.status === 'requested'
-    }">
+          <span class="status-bar"
+            [ngClass]="{'green': helper.status === 'confirmed', 'yellow': helper.status === 'requested'}">
           </span>
 
           <span class="helper-name">
@@ -46,8 +46,7 @@
 
     <!-- BUTTONS -->
     <div class="buttonContainer">
-      <button (click)="accReq(request)" class="button ja">Ja</button>
-      <button (click)="decReq(request)" class="button nein">Nein</button>
+      <button (click)="decReq(request, $event)" class="button decline">Ablehnen</button>
+      <button (click)="accReq(request, $event)" class="button accept">Annehmen</button>
     </div>
-  </mat-card>
-</div>
+  </div>

@@ -30,7 +30,8 @@ export class ShiftRequestComponent {
     this.getHelper(req);
     this.showHelpers = !this.showHelpers;
   }
-  accReq(request: any) {
+  accReq(request: any, event: MouseEvent) {
+    event.stopPropagation();
     console.log("Accepting request for user ID: ", request);
     console.log("curr user: ", this.currentUser);
     if (this.currentUser != null) {
@@ -52,8 +53,8 @@ export class ShiftRequestComponent {
       }
     });
   }
-  decReq(shift: userActivity) {
-
+  decReq(shift: userActivity, event: MouseEvent) {
+    event.stopPropagation();
     this.dashboardService.declineRequest(shift.activityId, shift.categoryId, shift.userId);
   }
 
