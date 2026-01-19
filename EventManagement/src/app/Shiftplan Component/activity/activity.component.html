@@ -1,4 +1,4 @@
-<div class="card" (click)="openUserList()"
+<div class="card" (click)="openUserList($event)"
     [ngClass]="{'confirmedAct': activity.status === 'confirmed', 'requestedAct': activity.status === 'requested', 'emptyAct': activity.status === 'free'}">
     <div class="name">
 

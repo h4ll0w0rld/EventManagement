@@ -2,7 +2,7 @@
 
   <!-- AUS LISTE AUSTRAGEN -->
   <div class="user-container" *ngIf="!hasUser()" (click)="delUser()">
-    <p>Aus Liste austragen</p>
+    <p>Austragen</p>
   </div>
 
   <!-- EINTRAGEN -->
@@ -12,11 +12,11 @@
 
     <ng-container *ngIf="!hideSelfRegister">
 
-      <p>Möchtest du dich verbindlich eintragen?</p>
+      <!--<p>Möchtest du dich verbindlich eintragen?</p>-->
 
       <button (click)="addCurrUser(data.activity.uuid, eventService.loggedInUser.id, data.shiftId)"
         class="confirm-self-button" [disabled]="isSubmitting">
-        Eintragen
+        Selbst Eintragen
       </button>
 
     </ng-container>
@@ -25,7 +25,7 @@
       {{ requestError }}
     </p>
 
-    <div *ngIf="eventService.isAdmin" class="line"></div>
+    <!--<div *ngIf="eventService.isAdmin" class="line"></div>-->
 
     <h3>Verfügbare Personen</h3>
     <div class="list-container">

@@ -4,6 +4,7 @@
 .card {
     
     @include Card(100%, "activity");
+    cursor: pointer;
 }
 
 .name {
