@@ -19,99 +19,135 @@ export class AddShiftblockComponent {
 
   minDate: Date = new Date();
   maxDate: Date = new Date();
-  minZeit = '00:00';
+
+  minZeit = '';
   maxZeit = '23:59';
   startTimeTime = '';
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<AddShiftblockComponent>,
-    private eventService: EventService
+    public eventService: EventService
   ) {
-    if (this.eventService.currentEvent) {
-      this.minDate = new Date(this.eventService.currentEvent.startDate);
+    
+    if (this.eventService.currentEvent?.id !== -1 && this.eventService.currentEvent) {
+
+      // 🔁 SAME LOGIC AS OLD CODE
+      if (data?.catContent?.shifts?.some((s: any) => s)) {
+        const shifts = data.catContent.shifts;
+        const lastShiftEnd = new Date(shifts[shifts.length - 1].endTime);
+
+        this.minDate = lastShiftEnd;
+        this.currentBlock.startTime = lastShiftEnd;
+      } else {
+        this.currentBlock.startTime = new Date(this.eventService.currentEvent.startDate);
+        this.minDate = this.currentBlock.startTime;
+      }
+
       this.maxDate = new Date(this.eventService.currentEvent.endDate);
-      this.currentBlock.startTime = this.minDate;
-      this.startTimeTime = this.formatTime(this.minDate);
-      this.minZeit = this.startTimeTime;
+
+      this.minZeit =
+        this.minDate.getHours() + ':' + this.minDate.getMinutes();
+      this.startTimeTime = this.minZeit;
     }
+
     this.updateEndDate();
   }
 
-  onInputChange() {
-    this.updateEndDate();
-  }
-
-  onTimeInputChange() {
-    const [h, m] = this.startTimeTime.split(':').map(Number);
-    const d = new Date(this.currentBlock.startTime);
-    d.setHours(h, m);
-    this.currentBlock.startTime = d;
-    this.updateEndDate();
-  }
-
-  updateEndDate() {
-    const minutes =
-      this.currentBlock.intervall * this.currentBlock.numberOfShifts;
+  // 🔁 SAME MECHANIC
+  private updateEndDate() {
+    const time = this.currentBlock.numberOfShifts * this.currentBlock.intervall;
     this.currentBlock.endTime = new Date(
-      this.currentBlock.startTime.getTime() + minutes * 60000
+      this.currentBlock.startTime.getTime() + time * 60000
     );
+  }
+
+  // 🔁 SAME INPUT LOGIC
+  onInputChange() {
+    if (this.eventService.currentEvent?.id !== -1 && this.eventService.currentEvent) {
+      const eventEndDate = new Date(this.eventService.currentEvent.endDate);
+
+      if (this.currentBlock.startTime.getDate() !== this.minDate.getDate()) {
+        this.minZeit = '00:00';
+        this.maxZeit = '23:59';
+
+        if (this.currentBlock.startTime.getDate() === eventEndDate.getDate()) {
+          const eventEndTime =
+            eventEndDate.getHours() + ':' + eventEndDate.getMinutes();
+          this.maxZeit = eventEndTime;
+
+          if (this.startTimeTime > eventEndTime) {
+            this.startTimeTime = eventEndTime;
+          }
+        }
+      } else {
+        this.maxZeit = '23:59';
+        this.minZeit =
+          this.minDate.getHours() + ':' + this.minDate.getMinutes();
+
+        if (this.startTimeTime < this.minZeit) {
+          this.startTimeTime = this.minZeit;
+        }
+      }
+
+      // normalize date object
+      this.currentBlock.startTime = new Date(this.currentBlock.startTime);
+    }
+
+    this.updateEndDate();
+  }
+
+  // 🔁 SAME TIME HANDLING
+  onTimeInputChange() {
+    const [hours, minutes] = this.startTimeTime.split(':').map(Number);
+    const date = new Date(this.currentBlock.startTime);
+
+    date.setHours(hours);
+    date.setMinutes(minutes);
+
+    this.currentBlock.startTime = date;
+    this.onInputChange();
+  }
+
+  // 🔁 SAME SUBMIT LOGIC
+  newBlock() {
+    if (this.outOfEventDate()) return;
+
+    const newBlock = { ...this.currentBlock };
+
+    newBlock.startTime = this.formatDate(newBlock.startTime);
+    newBlock.endTime = this.formatDate(newBlock.endTime);
+
+    this.eventService
+      .addShiftBlockToCategory(newBlock, this.data.catContent.id)
+      .subscribe(() => {
+        this.eventService.triggerCategoryReload();
+        this.dialogRef.close();
+      });
+  }
+
+  // 🔁 SAME FORMATTER AS OLD CODE
+  formatDate(date: Date): string {
+    const sYear = date.getFullYear();
+    const sMonth = (date.getMonth() + 1).toString().padStart(2, '0');
+    const sDay = date.getDate().toString().padStart(2, '0');
+    const sHours = date.getHours().toString().padStart(2, '0');
+    const sMinutes = date.getMinutes().toString().padStart(2, '0');
+
+    return `${sYear}-${sMonth}-${sDay} ${sHours}:${sMinutes}`;
+  }
+
+  formattedEventEndDate(): Date | undefined {
+    if (this.eventService.currentEvent) {
+      return new Date(this.eventService.currentEvent.endDate);
+    }
+    return undefined;
   }
 
   outOfEventDate(): boolean {
     if (!this.eventService.currentEvent) return false;
-    return (
-      this.currentBlock.endTime >
-      new Date(this.eventService.currentEvent.endDate)
-    );
+
+    const eventEndDate = new Date(this.eventService.currentEvent.endDate);
+    return this.currentBlock.endTime > eventEndDate;
   }
-
-  newBlock() {
-  if (this.outOfEventDate()) return;
-
-  const block = {
-    ...this.currentBlock,
-    startTime: this.formatDateTime(this.currentBlock.startTime),
-    endTime: this.formatDateTime(this.currentBlock.endTime),
-  };
-
-  this.eventService
-    .addShiftBlockToCategory(block, this.data.catContent.id)
-    .subscribe(() => {
-      this.eventService.triggerCategoryReload();
-      this.dialogRef.close();
-    });
-}
-
-  private formatDate(d: Date): string {
-    return `${d.getFullYear()}-${(d.getMonth() + 1)
-      .toString()
-      .padStart(2, '0')}-${d
-      .getDate()
-      .toString()
-      .padStart(2, '0')} ${d
-      .getHours()
-      .toString()
-      .padStart(2, '0')}:${d
-      .getMinutes()
-      .toString()
-      .padStart(2, '0')}`;
-  }
-
-  private formatTime(d: Date): string {
-    return `${d.getHours().toString().padStart(2, '0')}:${d
-      .getMinutes()
-      .toString()
-      .padStart(2, '0')}`;
-  }
-  private formatDateTime(date: Date): string {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  const hours = String(date.getHours()).padStart(2, '0');
-  const minutes = String(date.getMinutes()).padStart(2, '0');
-
-  return `${year}-${month}-${day} ${hours}:${minutes}`;
-}
-
 }
