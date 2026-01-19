@@ -10,7 +10,7 @@
         </p>
       </div>
 
-      <h2 *ngIf="unlocked" (click)="addCatDialog()" class="addBttn">
+      <h2 *ngIf="this.eventService.editMode" (click)="addCatDialog()" class="addBttn">
         +
       </h2>
     </div>

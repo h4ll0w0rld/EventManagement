@@ -2,12 +2,14 @@
 
     <div class="topbar-container">
         <div class="shift-select">
-            <h3>Schichten von</h3>
-            <select [(ngModel)]="selectedUser" (ngModelChange)="onUserSelected($event)">
-                <option *ngFor="let user of allUsers" [ngValue]="user">
-                    {{ user.fName }} {{ user.lName }}
-                </option>
-            </select>
+            <div *ngIf="this.eventService.editMode">
+                <h3>Schichten von</h3>
+                <select [(ngModel)]="selectedUser" (ngModelChange)="onUserSelected($event)">
+                    <option *ngFor="let user of allUsers" [ngValue]="user">
+                        {{ user.fName }} {{ user.lName }}
+                    </option>
+                </select>
+            </div>
         </div>
         <div class="icon-container">
             <!--<mat-icon class="info-icon" svgIcon="info" routerLink="/"></mat-icon>-->

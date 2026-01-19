@@ -31,7 +31,7 @@ export class EventService implements OnDestroy {
   refreshInterval: Subscription = Subscription.EMPTY;
   loggedInUser: any;
   isAdmin = true;
-  editMode = false;
+  editMode = true;
 
   constructor(
     private http: HttpClient,
@@ -41,6 +41,7 @@ export class EventService implements OnDestroy {
   ) {
     // 1. Load stored state
     this.loadInitialState();
+
 
     // 2. Watch AuthService for logged-in user
     this.authService.user$
@@ -55,6 +56,12 @@ export class EventService implements OnDestroy {
       const firstEvent = events[0] ?? null;
       this.currentEventSubject.next(firstEvent);
       if (firstEvent) this.getAllUsers(); // load users after event is available
+        this.eventHubService.events$.subscribe(events => {
+      const firstEvent = events[0] ?? null;
+      this.currentEventSubject.next(firstEvent);
+      if (firstEvent) this.getAllUsers(); // load users after event is available
+      
+    });
     });
 
     // 4. Start periodic category refresh
@@ -63,12 +70,12 @@ export class EventService implements OnDestroy {
       .subscribe();
   }
 
-  
+
 
   ngOnDestroy(): void {
     this.refreshInterval.unsubscribe();
   }
- 
+
 
   private loadInitialState() {
     const storedEvent = localStorage.getItem('curr-event');
@@ -104,6 +111,7 @@ export class EventService implements OnDestroy {
     this.currentCatSubject.next(cat);
     localStorage.setItem('curr-cat', JSON.stringify(cat));
   }
+
 
   updateCategories(): Observable<CategoryContent[]> {
     const eventId = this.currentEvent?.id;
@@ -234,16 +242,14 @@ export class EventService implements OnDestroy {
   }
 
 
-  userIsAdmin(user: User): Observable<boolean> {
-    const eventId = this.currentEventSubject.getValue()?.id;
+  userIsAdmin(user: User): Observable<any> {
+    const eventId = this.currentEvent?.id;
+    console.log("Checking admin status for event ID:", eventId, "and user:", user);
     if (!eventId || !user) return of(false);
     console.log("Checking admin status for user:", user);
     return this.http.get<{ isAdmin: boolean }>(`${this.conf.rootUrl}/event/${eventId}/isAdmin/user_id/${user.id}`, {
       headers: this.authService.getAuthHeaders()
-    }).pipe(
-      map(res => res.isAdmin),
-      catchError(() => of(false))
-    );
+    })
   }
 
   /** Add a new user and update the BehaviorSubject immediately */
