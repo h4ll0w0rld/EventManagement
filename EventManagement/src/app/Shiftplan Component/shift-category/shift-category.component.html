@@ -20,7 +20,7 @@
             <div class="break-text" [ngClass]="{'locked': !unlocked}">
                 <p>{{ calculateBreakTime(content.shifts[i + 1].startTime, shift.endTime)}} Pause</p>
             </div>
-            <button *ngIf="this.unlocked" class="new-shiftblock-in-break-button" (click)="commingSoon()">
+            <button *ngIf="this.eventService.editMode" class="new-shiftblock-in-break-button" (click)="commingSoon()">
                 <h3>+</h3>
             </button>
         </div>
@@ -28,7 +28,7 @@
     </div>
 
     <div class="edit-div">
-        <button class="new-shiftblock-button" (click)="addShiftblock()">
+        <button *ngIf="this.eventService.editMode" class="new-shiftblock-button" (click)="addShiftblock()">
             <h3>+</h3>
         </button>
     </div>

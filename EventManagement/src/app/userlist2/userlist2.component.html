@@ -15,7 +15,7 @@
         <div class="header-actions">
 
           <span *ngIf="person.isAdmin" class="admin-pill">Admin</span>
-          <button *ngIf="!person.email" class="invite-pill" (click)="inviteUser(person); $event.stopPropagation()">
+          <button *ngIf="!person.email && this.eventService.editMode" class="invite-pill" (click)="inviteUser(person); $event.stopPropagation()">
             Einladen
           </button>
 
@@ -39,12 +39,12 @@
 
         <div class="user-action-row">
 
-          <button class="admin-toggle-btn" [ngClass]="{ 'remove': person.isAdmin, 'add': !person.isAdmin }"
+          <button *ngIf="this.eventService.editMode" class="admin-toggle-btn" [ngClass]="{ 'remove': person.isAdmin, 'add': !person.isAdmin }"
             (click)="toggleAdmin(person); $event.stopPropagation()">
             {{ person.isAdmin ? 'Admin Rechte entfernen' : 'zum Admin machen' }}
           </button>
 
-          <button class="remove-user-btn" (click)="removeUser(person); $event.stopPropagation()">
+          <button *ngIf="this.eventService.editMode" class="remove-user-btn" (click)="removeUser(person); $event.stopPropagation()">
             Aus Event Entfernen
           </button>
           <!-- <button (click)="test(person.id)">TEST</button> -->
@@ -61,6 +61,6 @@
   </div>
 
   <div class="add-user-wrapper">
-    <button class="add-user-btn" (click)="addUser()">+</button>
+    <button *ngIf="this.eventService.editMode" class="add-user-btn" (click)="addUser()">+</button>
   </div>
 </div>
