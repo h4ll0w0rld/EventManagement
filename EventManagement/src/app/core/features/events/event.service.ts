@@ -38,67 +38,41 @@ export class EventService implements OnDestroy {
     private authService: AuthService,
     private eventHubService: EventhubService
   ) {
+    // 1. Load stored state
     this.loadInitialState();
+
+    // 2. Watch AuthService for logged-in user
     this.authService.user$
-      .pipe(
-        filter(user => !!user),
-        switchMap(user =>
-          this.eventHubService.events$   // events loaded for this user
-        ),
-        map(events => events?.[0] || null)
-      )
-      .subscribe(event => {
-        this.currentEventSubject.next(event);
+      .pipe(filter(u => !!u))
+      .subscribe(user => {
+        this.loggedInUser = user;
+        this.eventHubService.loadUserEvents();
       });
 
-    // Start periodic category refresh
-    // this.refreshInterval = interval(5000)
-    //   .pipe(switchMap(() => this.updateCategories()))
-    //   .subscribe();
-  }
-  ngOnInit(): void {
-    // Start periodic category refresh
+    // 3. Watch EventhubService for events
+    this.eventHubService.events$.subscribe(events => {
+      const firstEvent = events[0] ?? null;
+      this.currentEventSubject.next(firstEvent);
+      if (firstEvent) this.getAllUsers(); // load users after event is available
+    });
+
+    // 4. Start periodic category refresh
     this.refreshInterval = interval(5000)
       .pipe(switchMap(() => this.updateCategories()))
       .subscribe();
-
-    this.authService.user$.subscribe(user => {
-      console.log("EventService detected logged in user:", user);
-      this.loggedInUser = user;
-    });
-
-    this.setCurrentEvent(this.eventHubService.events$.pipe(
-      map(events => events[0] || null)
-    ) as any);
-
-    console.log("EventService initialized with event:", this.currentEvent);
   }
+
+  
 
   ngOnDestroy(): void {
     this.refreshInterval.unsubscribe();
   }
-  // loadUserEvents() {
-
-  //   if (!this.loggedInUser) return;
-  //   console.log('Loading events for user', this.loggedInUser);
-  //   const url = `${this.conf.rootUrl}/user/eventsByUser/user_id/${this.loggedInUser.id}`;
-
-  //   this.http.get<EventModel[]>(url, { headers: this.authService.getAuthHeaders() })
-  //     .pipe(
-  //       catchError(err => {
-  //         console.error('Error loading events', err);
-  //         if (err.status === 401) this.authService.refreshToken();
-  //         return of([]);
-  //       })
-  //     )
-  //     .subscribe(events => { this.currentEventSubject.next(events); console.log('Loaded events:', events); });
-  // }
-
+ 
 
   private loadInitialState() {
     const storedEvent = localStorage.getItem('curr-event');
     if (storedEvent) this.currentEventSubject.next(JSON.parse(storedEvent));
-
+    else console.log("No stored current event found.");
     const storedCat = localStorage.getItem('curr-cat');
     if (storedCat) this.currentCatSubject.next(JSON.parse(storedCat));
 
@@ -218,22 +192,22 @@ export class EventService implements OnDestroy {
 
 
   createInvite(id: number): Observable<any> {
-  return this.authService.user$.pipe(
-    take(1), // wait until the user is loaded
-    switchMap(user => {
-      if (!user) return throwError(() => new Error('User not logged in'));
+    return this.authService.user$.pipe(
+      take(1), // wait until the user is loaded
+      switchMap(user => {
+        if (!user) return throwError(() => new Error('User not logged in'));
 
-      const eventId = this.currentEvent?.id;
-      if (!eventId) return throwError(() => new Error('No current event selected'));
+        const eventId = this.currentEvent?.id;
+        if (!eventId) return throwError(() => new Error('No current event selected'));
 
-      return this.http.post<any>(
-        `${this.conf.rootUrl}/event/${eventId}/createInvite`,
-        { id },
-        { headers: this.authService.getAuthHeaders(), withCredentials: true }
-      );
-    })
-  );
-}
+        return this.http.post<any>(
+          `${this.conf.rootUrl}/event/${eventId}/createInvite`,
+          { id },
+          { headers: this.authService.getAuthHeaders(), withCredentials: true }
+        );
+      })
+    );
+  }
 
 
 
@@ -433,7 +407,7 @@ export class EventService implements OnDestroy {
     console.log("Proceeding with delete request");
     const url = `${this.conf.rootUrl}/activity/${eventId}/removeUser/shift_category_id/${catId}/activity_id/${activityId}`;
 
-    return this.http.put(url, { headers: this.authService.getAuthHeaders() });
+    return this.http.put(url, {}, { headers: this.authService.getAuthHeaders(), withCredentials: true });
   }
 
   /** Delete a shift */

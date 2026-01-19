@@ -106,6 +106,7 @@ export class UserListComponent {
     console.log("Removing user from activity:", this.data.activity.uuid);
     this.eventService.delUserFromActivity(this.data.activity.uuid).subscribe(res => {
       this.eventService.triggerCategoryReload();
+      console.log("User removed from activity successfully:", res);
     });   //, this.data.activity.user.uuid, this.data.shiftId
     this.matDialogRef.close();
 

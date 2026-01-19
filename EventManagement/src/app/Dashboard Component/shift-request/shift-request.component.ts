@@ -53,9 +53,12 @@ export class ShiftRequestComponent {
       }
     });
   }
-  decReq(shift: userActivity, event: MouseEvent) {
+  decReq(shift: any, event: MouseEvent) {
     event.stopPropagation();
-    this.dashboardService.declineRequest(shift.activityId, shift.categoryId, shift.userId);
+    if (this.currentUser != null) {
+      console.log("Declining request for user ID: ", this.currentUser.id, " shift: ", shift, shift.activities[0].id, shift.shift_category.id );
+      this.dashboardService.declineRequest(shift.activities[0].id, shift.shift_category.id, this.currentUser.id);
+    }
   }
 
   nextDay(_request: any) {

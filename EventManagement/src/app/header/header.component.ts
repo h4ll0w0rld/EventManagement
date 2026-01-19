@@ -59,13 +59,13 @@ export class HeaderComponent implements OnInit {
     this.eventHubService.events$.subscribe(events => {
       this.userEvents = events;
       console.log("User events updated:", events);  
-      if (events.length == 0 && this.router.url !== '/' && this.authService.getUser() != null) {
+      // if (events.length == 0 && this.router.url !== '/' && this.authService.getUser() != null) {
 
-        this.dialog.open(AddEventComponent, {
-          width: '80vw',
-          height: 'auto',
-        });
-      }
+      //   this.dialog.open(AddEventComponent, {
+      //     width: '80vw',
+      //     height: 'auto',
+      //   });
+      // }
     });
 
     if (this.router.url.includes('shiftplan') || this.router.url.includes('userlist')) {

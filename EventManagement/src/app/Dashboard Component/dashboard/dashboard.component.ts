@@ -19,35 +19,32 @@ export class DashboardComponent implements OnInit {
   constructor(
     private dashboardService: DashboardService,
     private eventService: EventService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    // Subscribe to all users from EventService
+    // Subscribe to all users
     this.eventService.allUser$.subscribe(users => {
       this.allUsers = users;
 
-      // Select the stored user if available
+      // Load selectedUser from localStorage or loggedInUser
       const stored = localStorage.getItem('selected-dashboard-user');
       if (stored) {
         const storedUser = JSON.parse(stored);
+        // Find the user object in allUsers with same ID
         this.selectedUser = this.allUsers.find(u => u.id === storedUser.id) ?? this.allUsers[0] ?? null;
-        this.loadShiftsForSelectedUser();
+      } else {
+        this.selectedUser = this.eventService.loggedInUser ?? this.allUsers[0] ?? null;
       }
+
+      this.loadShiftsForSelectedUser();
     });
 
-    // Subscribe to shifts and requests from DashboardService
+
+    // Subscribe to shifts
     this.dashboardService.shiftsByUser.subscribe(shifts => this.shiftsByUser = shifts);
     this.dashboardService.shiftRequests.subscribe(requests => this.shiftRequests = requests);
 
-    // Initialize selectedUser from localStorage if no users loaded yet
-    if (!this.selectedUser) {
-      const localUser = localStorage.getItem('user');
-      if (localUser) {
-        this.selectedUser = JSON.parse(localUser);
-      }
-    }
-
-    // Fetch all users for the current event
+    // Fetch all users
     this.eventService.getAllUsers();
   }
 
