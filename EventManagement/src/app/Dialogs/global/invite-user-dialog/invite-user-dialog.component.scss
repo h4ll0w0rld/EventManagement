@@ -1,26 +1,46 @@
 @import '../../../Mixins/buttonMixin';
 @import '../../../../theme';
 
-
 .invite-container {
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+  text-align: center;
 }
 
-mat-form-field {
-
-    margin: 20px 0px;
-    width: 90%;
-    height: 50px;
-    //width: calc(100% - 50px);
+.title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: black;
 }
 
+.link-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.04);
+  word-break: break-all;
+}
 
-button {
+.invite-link {
+  flex: 1;
+  margin: 0;
+  font-size: 14px;
+  color: #333;
+}
 
-    @include button();
+.copy-button {
+  @include button();
+  height: 44px;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+/* Optional hover polish */
+.link-box:hover {
+  background: rgba(0, 0, 0, 0.06);
 }

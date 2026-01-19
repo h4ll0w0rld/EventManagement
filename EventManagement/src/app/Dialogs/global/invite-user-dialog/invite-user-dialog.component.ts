@@ -27,7 +27,6 @@ export class InviteUserDialogComponent implements OnInit {
 
     const eventId = this.eventService.currentEvent.id;
     const userId = this.data.user.id;
-    console.log("Generating invite link for eventId:", eventId, "and userId:", userId);
     // Create invite token
     this.eventService.createInvite(userId).subscribe({
       next: (res: any) => {

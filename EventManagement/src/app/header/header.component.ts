@@ -59,7 +59,7 @@ export class HeaderComponent implements OnInit {
     this.eventHubService.events$.subscribe(events => {
       this.userEvents = events;
       console.log("User events updated:", events);  
-      if (events.length == 0 && this.router.url !== '/') {
+      if (events.length == 0 && this.router.url !== '/' && this.authService.getUser() != null) {
 
         this.dialog.open(AddEventComponent, {
           width: '80vw',

@@ -76,3 +76,12 @@ $EventManagement-theme: mat.define-light-theme((
 
 html, body { height: 100%}
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;}
+
+.invite-dialog-panel {
+  .mat-dialog-container {
+    padding: 0;
+    border-radius: 16px;
+    max-width: 420px;
+    width: 100%;
+  }
+}

@@ -1,87 +1,98 @@
-@import '../../../Mixins/buttonMixin';
-@import '../../../../theme';
-
-.new-shiftblock {
-
-    display: flex;
-    flex-direction: column;
-    padding: 10%;
-
-    p {
-        margin: 0px;
-    }
+/* Root dialog container */
+.shiftblock-dialog {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 4px;
 }
 
-.date-time-container {
-
-    display: flex;
-    height: 100px;
-    justify-content: space-between;
-    align-items: center;
-
-    .date-form {
-
-        width: 50%;
-        height: 30px;
-        margin: 5% 0%;
-        padding: 0px;
-        text-align: center;
-    }  
-
+/* Cards are SECTIONS, not tiles */
+.card-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.number-container {
-
-    display: flex;
-
-    mat-form-field {
-
-        width: 100%;
-
-        span {
-
-            padding-right: 20px;
-        }
-    
-    }
-
+/* Compact section cards */
+.block-card {
+  border-radius: 14px;
+  padding: 8px 10px;
 }
 
-.add-block-button {
-
-    @include button();
-    margin: auto;
-    
+/* Card header */
+mat-card-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
 }
 
-.end-date {
-
-    padding: 0px 0px 20px 0px;
+/* Small helper text */
+.hint {
+  font-size: 12px;
+  color: #777;
+  margin: 0 0 8px;
 }
 
-.error-message {
-
-    color: $color-4;
-    padding: 0px 0px 20px 0px;
+/* Inputs default: vertical (mobile / small dialog) */
+.input-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-
-.ngx-material-timepicker {
-
-    z-index: 2000 !important;
+/* Horizontal only when dialog is wide enough */
+@media (min-width: 420px) {
+  .input-row {
+    flex-direction: row;
+  }
 }
 
+/* Form fields */
+mat-form-field {
+  width: 100%;
+}
+
+/* Reduce Angular Material vertical bulk */
+.mat-form-field-appearance-outline .mat-form-field-wrapper {
+  margin-bottom: -0.75em;
+}
+
+/* Full width helper */
+.full-width {
+  width: 100%;
+}
+
+/* Summary / preview card */
+.summary-card {
+  background: #eef6ff;
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 13px;
+}
+
+.summary-card p {
+  margin: 4px 0;
+}
+
+/* Error summary */
+.summary-card.error {
+  background: #fff1f1;
+  color: #c62828;
+}
+
+/* Action button */
+.create-button {
+  align-self: stretch;
+  height: 42px;
+  border-radius: 10px;
+  margin-top: 4px;
+}
+
+/* Timepicker overlay safety */
+.ngx-material-timepicker,
 .timepicker-backdrop-overlay {
-
-    z-index: 2000 !important;
-}
-
-.timepicker-overlay[_ngcontent-ng-c2461858124] {
-
-    z-index: 2000 !important;
-}
-
-.cdk-overlay-container {
-
-    z-index: 900 !important;
+  z-index: 2000 !important;
 }

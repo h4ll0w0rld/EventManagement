@@ -1,6 +1,14 @@
 <div class="invite-container">
-  <p class="invite-link">{{ link }}</p>
-  <button class="copy-button" (click)="copyToClipboard()">
+  <h2 class="title">Invite Link</h2>
+
+  <div class="link-box">
+    <p class="invite-link">{{ link }}</p>
+    <button mat-icon-button (click)="copyToClipboard()" aria-label="Copy">
+      <mat-icon (click)="copyToClipboard()">content_copy</mat-icon>
+    </button>
+  </div>
+
+  <!-- <button class="copy-button" (click)="copyToClipboard()">
     {{ buttonText }}
-  </button>
+  </button> -->
 </div>

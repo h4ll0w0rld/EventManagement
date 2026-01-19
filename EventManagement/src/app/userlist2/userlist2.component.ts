@@ -59,7 +59,9 @@ export class Userlist2Component implements OnInit {
   inviteUser(user: User) {
     console.log('Invite user:', user);
     const dialogRef = this.dialog.open(InviteUserDialogComponent, {
-      data: { user: user }
+      data: { user: user },
+      autoFocus: false,
+      panelClass: 'invite-dialog-panel'
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -100,7 +102,7 @@ export class Userlist2Component implements OnInit {
   }
 
   test(userId: any) {
-    this.eventService.createInvite(userId ).subscribe({
+    this.eventService.createInvite(userId).subscribe({
       next: invite => console.log('Invite created:', invite),
       error: err => console.error(err)
     });
