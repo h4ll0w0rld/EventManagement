@@ -31,6 +31,7 @@ export class EventService implements OnDestroy {
   refreshInterval: Subscription = Subscription.EMPTY;
   loggedInUser: any;
   isAdmin = true;
+  editMode = false;
 
   constructor(
     private http: HttpClient,
@@ -81,6 +82,9 @@ export class EventService implements OnDestroy {
       this.loggedInUser = JSON.parse(storedUser);
       this.authService.setUser(this.loggedInUser);
     }
+  }
+  toggleEditMode() {
+    this.editMode = !this.editMode;
   }
 
   get currentEvent(): EventModel | null {
@@ -339,10 +343,8 @@ export class EventService implements OnDestroy {
     if (!eventId) return of(null);
 
     const url = `${this.conf.rootUrl}/shiftCategory/${eventId}/delete/id/${categoryId}`;
-
-    return this.http.delete(url, { headers: this.authService.getAuthHeaders() }).pipe(
-      tap(() => this.updateCategories().subscribe())
-    );
+    console.log("Deleting category with URL:", url);
+    return this.http.delete(url, { headers: this.authService.getAuthHeaders() })
   }
 
   /** Add shift block to category */

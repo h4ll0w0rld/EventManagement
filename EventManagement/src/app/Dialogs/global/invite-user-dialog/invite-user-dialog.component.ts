@@ -20,7 +20,7 @@ export class InviteUserDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any, // data.user should exist
     private eventService: EventService,
     private authService: AuthService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     if (!this.eventService.currentEvent?.id) return;
@@ -39,15 +39,12 @@ export class InviteUserDialogComponent implements OnInit {
 
   copyToClipboard(): void {
     if (!this.link) return;
-    if (this.clipboard) this.clipboard.destroy();
 
-    this.clipboard = new ClipboardJS('.copy-button', {
-      text: () => this.link
-    });
-
-    this.clipboard.on('success', () => {
+    navigator.clipboard.writeText(this.link).then(() => {
       this.buttonText = "Kopiert!";
-      this.clipboard?.destroy();
+    }).catch(err => {
+      console.error("Failed to copy link", err);
     });
   }
+
 }

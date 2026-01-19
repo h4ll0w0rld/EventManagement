@@ -46,9 +46,11 @@ export class Userlist2Component implements OnInit {
     // For now, just toggle the isAdmin property
     user.isAdmin = true;
   }
+
   addUser() {
     const dialogRef = this.dialog.open(AddUserFormComponent, {
-      width: '400px'
+      width: '400px',
+      autoFocus: false,
     });
 
     dialogRef.afterClosed().subscribe(result => {

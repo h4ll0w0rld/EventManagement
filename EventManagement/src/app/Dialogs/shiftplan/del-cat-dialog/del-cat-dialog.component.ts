@@ -16,7 +16,9 @@ export class DelCatDialogComponent {
 
 
   delCategory() {
-    this.eventService.deleteCategory(this.data.catId);
+    this.eventService.deleteCategory(this.data.catId).subscribe(res => {
+      console.log("Category deleted successfully:", res);
+    } );
     this.matDialogRef.close();
     this.reloadComponent()
     this.eventService.updateCategories();

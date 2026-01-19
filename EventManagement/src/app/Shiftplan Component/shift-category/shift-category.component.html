@@ -1,7 +1,7 @@
 <div class="shift_category-container">
     <div class="cat-icon-bar">
 
-        <mat-icon class="del-cat-icon" aria-hidden="false" svgIcon="delete" (click)="delCatDialog(content)"></mat-icon>
+        <mat-icon *ngIf="this.eventService.editMode" class="del-cat-icon" aria-hidden="false" svgIcon="delete" (click)="delCatDialog(content)"></mat-icon>
 
     </div>
 
