@@ -14,11 +14,11 @@
 .auth-container {
   width: 360px;
   max-width: 92vw;
-  max-height: 90vh; // limit card height for small screens
+  //max-height: 90vh; // limit card height for small screens
+  height: 70vh;
   border-radius: 18px;
   box-shadow: 0 25px 60px rgba(0,0,0,0.35);
   background: #fff;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
 }
@@ -26,11 +26,13 @@
 .auth-tab-group {
   width: 100%;
   flex: 1; // allow tabs to fill container height
+  overflow: scroll;
+  scrollbar-width: none;
 }
 
 .mat-tab-body-content {
   padding: 2rem 1.6rem;
-  overflow-y: auto; // scroll inside tab content if needed
+  //overflow-y: auto; // scroll inside tab content if needed
   max-height: 80vh;
 }
 

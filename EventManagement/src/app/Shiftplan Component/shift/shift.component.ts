@@ -44,6 +44,7 @@ export class ShiftComponent implements OnDestroy {
     this.resizeObserver = new ResizeObserver(() => {
       this.ngZone.run(() => {
         this.calculateVisibleActivities();
+        this.cdr.detectChanges();
       });
     });
 
@@ -51,6 +52,7 @@ export class ShiftComponent implements OnDestroy {
 
     // Initiale Berechnung
     this.calculateVisibleActivities();
+    this.cdr.detectChanges();
   }
 
   ngOnDestroy() {

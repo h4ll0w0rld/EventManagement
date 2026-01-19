@@ -41,7 +41,7 @@
       <input matInput type="password" [(ngModel)]="secPass" name="pass2" required>
     </mat-form-field>
 
-    <button mat-raised-button color="primary" class="submit-btn" [disabled]="!registerForm.form.valid || !checkPassword()">
+    <button color="primary" class="submit-btn" [disabled]="!registerForm.form.valid || !checkPassword()">
       {{ buttonText }}
     </button>
   </form>

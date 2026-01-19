@@ -8,9 +8,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 1.0rem; // <-- Add horizontal padding to move content off edges
+  padding: 1.5rem;
   box-sizing: border-box; // ensure padding doesn't break layout
-  margin-top: 0.5rem;
+  overflow: scroll;
+  scrollbar-width: none;
 }
 
 .logo img {
@@ -58,10 +59,18 @@ mat-form-field {
 .submit-btn {
   width: 100%;
   padding: 0.75rem;
-  border-radius: 10px;
+  border-radius: 1rem;
+  border: none;
   font-weight: 600;
-  margin-bottom: 1rem;
+  color: $sec-color;
+  background-color: $prim-color;
+  //margin-bottom: 1rem;
   //margin-top: 0.5rem;
+  cursor: pointer;
+
+  &:disabled {
+    background-color: $color-5;
+  }
 }
 
 /* SUCCESS OVERLAY */

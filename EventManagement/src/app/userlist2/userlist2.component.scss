@@ -1,24 +1,40 @@
 @import '../../theme.scss';
+
+
+:host {
+    position: absolute;
+    width: 100vw;
+}
+
 .persons-container {
-    margin-top: calc($header-height + 10px);
 
-    background: #e5e7eb;
-    min-height: 100vh;
-    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    margin-top: calc($header-height + 2rem);
+    background: $sec-color;
+    height: calc(100vh - calc($header-height + 4rem));
+    padding: 1rem;
+    align-items: center;
 }
 
-.title {
-    font-size: 32px;
-    font-weight: 700;
-    margin-bottom: 20px;
-    color: #1f2937;
-}
+
 
 .persons-list {
-    max-width: 600px;
+    width: 100%;
+    max-width: 768px;
     display: flex;
     flex-direction: column;
     gap: 14px;
+
+    .title {
+        width: 100%;
+        align-items: start;
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 0;
+        margin-top: 2rem;
+        color: $prim-color;
+    }
 }
 
 /* === CARD === */
@@ -26,7 +42,7 @@
 .person-item {
     background: white;
     border-radius: 18px;
-    padding: 18px 22px;
+    padding: 1rem;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
     cursor: pointer;
     transition: 0.2s ease;
@@ -58,26 +74,27 @@
 /* === PILLS === */
 
 .admin-pill {
-    background: #0f172a;
-    color: white;
-    padding: 6px 14px;
-    border-radius: 8px;
+    //background: #0f172a;
+    //color: white;
+    border: 1px solid $prim-color;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.75rem;
     font-size: 13px;
 }
 
 .invite-pill {
-    background: white;
-    border: 1px solid #0f172a;
-    color: #0f172a;
-    padding: 6px 14px;
-    border-radius: 8px;
+    background-color: $prim-color;
+    border: none;
+    //border: 1px solid #0f172a;
+    color: $sec-color;
+    padding: 0.5rem 1rem;
+    border-radius: 0.75rem;
     font-size: 13px;
     cursor: pointer;
 }
 
 .invite-pill:hover {
-    background: #0f172a;
-    color: white;
+    background: lighten($prim-color, 6%);
 }
 
 /* === EXPANDED CONTENT === */
@@ -98,7 +115,7 @@
 /* === ACTION BUTTON === */
 
 .make-admin-btn {
-  
+
     border: 1px solid #0f172a;
     background: white;
     color: #0f172a;
@@ -119,85 +136,86 @@
 }
 
 .add-user-btn {
-    border: 1px solid #0f172a;
-    background: white;
-    color: #0f172a;
-    width: 44px;
-    height: 44px;
-    border-radius: 10px;
+    //border: 1px solid #0f172a;
+    background-color: $prim-color;
+    color: $sec-color;
+    width: 6rem;
+    height: 2.5rem;
+    border-radius: 1rem;
+    border: none;
     font-size: 22px;
     font-weight: 600;
     cursor: pointer;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+    box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
     transition: 0.2s ease;
 }
 
 .add-user-btn:hover {
-    background: #0f172a;
-    color: white;
+    background: lighten($prim-color, 6%);
+    color: $sec-color;
 }
 
 .admin-toggle-btn {
- 
-  padding: 6px 14px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 13px;
-  transition: 0.2s ease;
+
+    padding: 6px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: 0.2s ease;
 }
 
 /* Add admin */
 .admin-toggle-btn.add {
-  border: 1px solid #0f172a;
-  background: white;
-  color: #0f172a;
+    border: 1px solid #0f172a;
+    background: white;
+    color: #0f172a;
 }
 
 .admin-toggle-btn.add:hover {
-  background: #0f172a;
-  color: white;
+    background: #0f172a;
+    color: white;
 }
 
 /* Remove admin */
 .admin-toggle-btn.remove {
-  border: 1px solid #991b1b;
-  background: white;
-  color: #991b1b;
+    border: 1px solid #991b1b;
+    background: white;
+    color: #991b1b;
 }
 
 .admin-toggle-btn.remove:hover {
-  background: #991b1b;
-  color: white;
+    background: #991b1b;
+    color: white;
 }
+
 .remove-user-btn {
- 
-  padding: 6px 14px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 13px;
-  transition: 0.2s ease;
-  border: 1px solid #991b1b;
-  background: white;
-  color: #991b1b;
+
+    padding: 6px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: 0.2s ease;
+    border: 1px solid #991b1b;
+    background: white;
+    color: #991b1b;
 }
 
 .remove-user-btn:hover {
-  background: #991b1b;
-  color: white;
+    background: #991b1b;
+    color: white;
 }
+
 .user-action-row {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-top: 14px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 14px;
 }
 
 /* unify size */
 .admin-toggle-btn,
 .remove-user-btn {
-  min-width: 150px;
-  text-align: center;
-  padding: 6px 0;
+    min-width: 150px;
+    text-align: center;
+    padding: 6px 0;
 }
-
-

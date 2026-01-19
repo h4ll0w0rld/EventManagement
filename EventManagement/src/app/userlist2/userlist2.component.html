@@ -1,19 +1,20 @@
 <app-header></app-header>
 
 <div class="persons-container">
-  <h1 class="title">Personen</h1>
+
   <div class="persons-list">
+    <h1 class="title">Personen</h1>
 
     <div class="person-item" *ngFor="let person of userList" (click)="toggleUser(person)"
       [class.open]="openedUser === person">
 
       <div class="card-header">
-        <span class="name">{{ person.fName }} {{ person.lName }}</span>
+          <span class="name">{{ person.fName }} {{ person.lName }}</span>
+
 
         <div class="header-actions">
 
           <span *ngIf="person.isAdmin" class="admin-pill">Admin</span>
-
           <button *ngIf="!person.email" class="invite-pill" (click)="inviteUser(person); $event.stopPropagation()">
             Einladen
           </button>

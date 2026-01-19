@@ -20,7 +20,7 @@
     <input matInput [(ngModel)]="user.pass" name="password" type="password" required autocomplete="current-password" />
   </mat-form-field>
 
-  <button mat-flat-button class="login-btn" type="submit" [disabled]="loading">
+  <button class="login-btn" type="submit" [disabled]="loading">
     {{ loading ? 'Bitte warten…' : 'Login' }}
   </button>
 
