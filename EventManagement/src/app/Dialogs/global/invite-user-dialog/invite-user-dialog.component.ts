@@ -1,53 +1,54 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as ClipboardJS from 'clipboard';
 import { EventService } from 'src/app/core/features/events/event.service';
-import { ConfigService } from 'src/app/Services/config.service';
-import { Location } from '@angular/common';
-
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-invite-user-dialog',
   templateUrl: './invite-user-dialog.component.html',
   styleUrls: ['./invite-user-dialog.component.scss']
 })
-export class InviteUserDialogComponent {
+export class InviteUserDialogComponent implements OnInit {
 
-
-  link = "";
-  clipboard: ClipboardJS | undefined;
+  link: string = '';
+  inviteToken: string | null = null;
+  clipboard?: ClipboardJS;
   buttonText = "Kopieren";
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private eventService: EventService, private configService: ConfigService, private location: Location) {
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any, // data.user should exist
+    private eventService: EventService,
+    private authService: AuthService
+  ) {}
 
-    this.createInviteLink("maxi");
+  ngOnInit(): void {
+    if (!this.eventService.currentEvent?.id) return;
 
+    const eventId = this.eventService.currentEvent.id;
+    const userId = this.data.user.id;
+    console.log("Generating invite link for eventId:", eventId, "and userId:", userId);
+    // Create invite token
+    this.eventService.createInvite(userId).subscribe({
+      next: (res: any) => {
+        this.inviteToken = res.token;
+        this.link = `${window.location.origin}/#/inviteLanding?token=${this.inviteToken}&userId=${userId}`;
+      },
+      error: err => console.error("Failed to create invite token", err)
+    });
   }
 
+  copyToClipboard(): void {
+    if (!this.link) return;
+    if (this.clipboard) this.clipboard.destroy();
 
-  createInviteLink(_fName: string) {
-    console.log()
-    if (this.eventService.currentEvent != null)
-      this.link = `${window.location.host}/#/inviteLanding/${this.eventService.currentEvent.id}/${this.data.user.id}/${this.data.user.fName}/${this.data.user.lName}`;
-  }
-
-  copyToClipboard() {
-
-    if (this.clipboard) {
-      this.clipboard.destroy();
-    }
     this.clipboard = new ClipboardJS('.copy-button', {
       text: () => this.link
     });
 
     this.clipboard.on('success', () => {
-
       this.buttonText = "Kopiert!";
       this.clipboard?.destroy();
     });
-
-    this.clipboard.on('error', (e) => {
-      alert("Wird nicht unterstützt");
-    })
   }
 }

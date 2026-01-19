@@ -1,7 +1,13 @@
-
-
-<div class="container">
-    <p class="text" >Möchtest du dem Event beitreten?</p>
-    <button class="joinEvent" (click)="claimUserAndJoin()">Event beitreten</button>
+<div *ngIf="!isLoggedIn">
+  <p>You’ve been invited to an event.</p>
+  <button (click)="router.navigate(['/authLanding'])">
+    Login or Register to continue
+  </button>
 </div>
 
+<div *ngIf="isLoggedIn">
+  <p>You're logged in.</p>
+  <button (click)="acceptInvite()">
+    Join Event
+  </button>
+</div>

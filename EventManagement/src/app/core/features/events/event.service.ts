@@ -1,11 +1,11 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { BehaviorSubject, Observable, interval, switchMap, Subscription, of } from 'rxjs';
+import { BehaviorSubject, Observable, interval, switchMap, Subscription, of, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
 import { ConfigService } from '../../../Services/config.service';
 import { EventModel } from 'src/app/Object Models/EventModel';
 import { CategoryContent } from 'src/app/Object Models/Shiftplan Component/category-content';
-import { catchError, filter, map, tap } from 'rxjs/operators';
+import { catchError, filter, map, take, tap } from 'rxjs/operators';
 import { User } from 'src/app/Object Models/user/user';
 import { Shift } from 'src/app/Object Models/Shiftplan Component/shift';
 import { Activity } from 'src/app/Object Models/Shiftplan Component/activityModel';
@@ -215,12 +215,27 @@ export class EventService implements OnDestroy {
 
 
 
-  createInvite( email: string): Observable<any> {
 
-    const eventId = this.currentEvent?.id;
-    console.log("Creating invite for event ID:", eventId, "and email:", email);
-    return this.http.post<any>(`${this.conf.rootUrl}/event/${eventId}/createInvite`, { email, eventId });
-  }
+
+  createInvite(id: number): Observable<any> {
+  return this.authService.user$.pipe(
+    take(1), // wait until the user is loaded
+    switchMap(user => {
+      if (!user) return throwError(() => new Error('User not logged in'));
+
+      const eventId = this.currentEvent?.id;
+      if (!eventId) return throwError(() => new Error('No current event selected'));
+
+      return this.http.post<any>(
+        `${this.conf.rootUrl}/event/${eventId}/createInvite`,
+        { id },
+        { headers: this.authService.getAuthHeaders(), withCredentials: true }
+      );
+    })
+  );
+}
+
+
 
   /**
    * Validate an invite token
@@ -232,10 +247,15 @@ export class EventService implements OnDestroy {
   /**
    * Accept an invite token and join the event
    */
-  acceptInvite(token: string): Observable<any> {
-    return this.http.post(`${this.conf.rootUrl}/invite/accept`, { token });
+  acceptInvite(token: string, userId: number): Observable<any> {
+    return this.http.post(
+      `${this.conf.rootUrl}/event/invite/accept`,
+      { token, currentUserId: userId },
+      { headers: this.authService.getAuthHeaders() }
+    );
   }
-  /** Check if a user is admin */
+
+
   userIsAdmin(user: User): Observable<boolean> {
     const eventId = this.currentEventSubject.getValue()?.id;
     if (!eventId || !user) return of(false);
@@ -429,8 +449,8 @@ export class EventService implements OnDestroy {
   }
 
   /** Claim user (legacy invitation) */
-  claimUserInEvent(eventId: number, userId: number, fName: string, lName: string) {
-    const url = `${this.conf.rootUrl}/user/${eventId}/claimUser/${userId}/${encodeURIComponent(fName)}/${encodeURIComponent(lName)}`;
+  claimUserInEvent(userId: number) {
+    const url = `${this.conf.rootUrl}/user/${this.currentEvent?.id}/claimUser/${userId}`;
     return this.http.get(url, { headers: this.authService.getAuthHeaders() });
   }
   makeUserToAdmin(_userId: number) {

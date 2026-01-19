@@ -1,55 +1,62 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { EventService } from 'src/app/core/features/events/event.service';
 import { User } from 'src/app/Object Models/user/user';
-import { AuthService } from 'src/app/Services/Auth Service/auth.service';
-import { EventServiceService } from 'src/app/Services/Event Service/event-service.service';
 
 @Component({
   selector: 'app-invite-landing',
   templateUrl: './invite-landing.component.html',
   styleUrls: ['./invite-landing.component.scss']
 })
-export class InviteLandingComponent {
+export class InviteLandingComponent implements OnInit {
 
-  eventId: number | undefined;
-  userId: number | undefined;
-  fName: string | undefined;
-  lName: string | undefined;
+  eventId!: number;
+  inviteToken: string | null = null;
+  userId: number | null = null;
+  isLoggedIn: User | null = null;
 
-  constructor(private router: Router, private route: ActivatedRoute, private eventService: EventServiceService, private authService: AuthService) {
-
-  }
-
+  constructor(
+    public router: Router,
+    private route: ActivatedRoute,
+    private eventService: EventService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
-
-    this.route.params.subscribe(params => {
-
-      this.eventId = params['eventId'];
-      this.userId = params['userId'];
-      this.fName = params['fName'];
-      this.lName = params['lName'];
-    })
-
-    console.log("user ausm storage: ", localStorage.getItem('user'));
-
-    if (localStorage.getItem('user') == null) {
-
-      this.authService.routeFromInviteLanding = true;
-      console.log(this.eventId, this.userId, this.fName, this.lName);
-      this.router.navigate(['/authLanding', this.eventId, this.userId, this.fName, this.lName]);
+  // 1. Store invite token
+  this.route.queryParams.subscribe(qp => {
+    const token = qp['token'];
+    const userId = qp['userId'];
+    console.log("InviteLanding initialized with token:", token, "and userId:", userId);
+    if (token) {
+      localStorage.setItem('pendingInviteToken', token);
+      localStorage.setItem('userId', userId.toString());
     }
-  }
+  });
 
-  claimUserAndJoin() {
+  // 2. Watch auth state
+  this.authService.user$.subscribe(user => {
+    console.log("what is happening here: ", !!user)
+    this.isLoggedIn = user;
+  });
+}
 
-    if(this.eventId != undefined && this.userId != undefined && this.fName != undefined && this.lName != undefined) {
-      
-      console.log("die geb ich jz weiter: ", this.userId, this.fName, this.lName);
-      this.eventService.claimUserInEvent(this.eventId, this.userId, this.fName, this.lName);
+acceptInvite() {
+  const token = localStorage.getItem('pendingInviteToken');
+  const userId = localStorage.getItem('userId');
+  console.log("User ID from storage:", userId, "User from authService:", this.authService.user$, "");
+  if (!token || !this.isLoggedIn) return;
+  console.log("Accepting invite with token:", token);
+  this.eventService.acceptInvite(token, this.isLoggedIn.id).subscribe({
+    next: () => {
+      localStorage.removeItem('pendingInviteToken');
+      console.log("Invite accepted, navigating to home.");
       this.router.navigate(['/']);
-    }
-    
-  }
+    },
+    error: err => console.error(err)
+  });
+}
+
 
 }

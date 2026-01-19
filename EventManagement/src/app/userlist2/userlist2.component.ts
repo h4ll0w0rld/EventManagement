@@ -99,8 +99,8 @@ export class Userlist2Component implements OnInit {
     }
   }
 
-  test() {
-    this.eventService.createInvite('user@example.com').subscribe({
+  test(userId: any) {
+    this.eventService.createInvite(userId ).subscribe({
       next: invite => console.log('Invite created:', invite),
       error: err => console.error(err)
     });

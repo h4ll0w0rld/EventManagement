@@ -20,7 +20,7 @@ const routes: Routes = [
   {path: 'authLanding', component:AuthLandingComponent},
   {path: 'userlist', component:Userlist2Component},
   {path: 'authLanding/:eventId/:userId/:fName/:lName', component:AuthLandingComponent},
-  {path: 'inviteLanding/:eventId/:userId/:fName/:lName', component:InviteLandingComponent},
+  {path: 'inviteLanding', component:InviteLandingComponent},
   {path: 'add-event', component: AddEventComponent}
 
 ];

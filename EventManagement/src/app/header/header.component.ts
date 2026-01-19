@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ShiftplanService } from '../Services/Shiftplan Service/shiftplan.service';
 import { GlobalUserListComponent } from '../Dialogs/global/global-userlist-dialog/global-user-list.component';
@@ -8,6 +8,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { AuthService } from '../core/services/auth.service';
 import { map, Observable } from 'rxjs';
 import { User } from '../Object Models/user/user';
+import { AddEventComponent } from '../Dialogs/global/add-event/add-event.component';
 
 
 
@@ -17,7 +18,7 @@ import { User } from '../Object Models/user/user';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  title = 'Festival am Waldrand';
+  title = 'Kein Event ausgewählt';
   unlocked: boolean = false;
   showEventDropdown = false;
   userEvents: any[] = [];
@@ -54,9 +55,17 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.eventHubService.loadUserEvents();
+    //this.eventHubService.loadUserEvents();
     this.eventHubService.events$.subscribe(events => {
       this.userEvents = events;
+      console.log("User events updated:", events);  
+      if (events.length == 0 && this.router.url !== '/') {
+
+        this.dialog.open(AddEventComponent, {
+          width: '80vw',
+          height: 'auto',
+        });
+      }
     });
 
     if (this.router.url.includes('shiftplan') || this.router.url.includes('userlist')) {
@@ -68,6 +77,23 @@ export class HeaderComponent implements OnInit {
       this.user = user;
       this.cdr.detectChanges();
     });
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+
+    // Check if the click was inside the event dropdown or the toggle button
+    const clickedInsideEvent = target.closest('.event-dropdown') || target.closest('.home-icon-div');
+    if (!clickedInsideEvent) {
+      this.showEventDropdown = false;
+    }
+
+    // Check if click was inside user menu or user icon
+    const clickedInsideUser = target.closest('.user-dropdown') || target.closest('.user-icon');
+    if (!clickedInsideUser) {
+      this.showUserMenu = false;
+    }
   }
 
   toggleUserMenu() {
@@ -107,7 +133,12 @@ export class HeaderComponent implements OnInit {
 
   createNewEvent() {
     console.log('Create new event clicked');
-    this.router.navigate(['/add-event']);
+    this.dialog.open(AddEventComponent, {
+      width: '80vw',
+      height: 'auto',
+    });
+    this.eventHubService.loadUserEvents();
+    //this.router.navigate(['/add-event']);
     // Open dialog or navigate to event creation
   }
 
@@ -120,7 +151,7 @@ export class HeaderComponent implements OnInit {
 
 
   getInitials(): string {
-   // or however you read the user
+    // or however you read the user
 
     if (!this.user || !this.user.firstName || !this.user.lastName) {
       console.log("Bigg problem", this.user);

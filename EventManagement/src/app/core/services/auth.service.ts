@@ -6,6 +6,7 @@ import { TokenService } from './token.service';
 import { User } from 'src/app/Object Models/user/user';
 import { ConfigService } from '../../Services/config.service';
 import { EventhubService } from '../features/eventhub/eventhub.service';
+import { Router } from '@angular/router';
 
 export interface AuthResponse {
   accessToken: string;
@@ -21,9 +22,10 @@ export class AuthService {
     private http: HttpClient,
     private config: ConfigService,
     private token: TokenService,
+    private router: Router,
   ) {
 
-    
+
   }
 
   login(email: string, password: string): Observable<User> {
@@ -35,10 +37,22 @@ export class AuthService {
         this.token.save(res.accessToken);
         this.userSubject.next(res.user);
         localStorage.setItem('user', JSON.stringify(res.user));
+
+        // Invite logic (direct HTTP call)
+        const token = localStorage.getItem('pendingInviteToken');
+        if (token) {
+          console.log('Processing pending invite token after login... NAV to /inviteLanding');
+          // Go back to inviteLanding with token preserved
+          this.router.navigate(['/inviteLanding'], { queryParams: { token: token } });
+        } else {
+          this.router.navigate(['/']);
+        }
+        // this.router.navigate(['/']);
       }),
       map(res => res.user)
     );
   }
+
 
   logout(): Observable<any> {
     this.token.clear();
