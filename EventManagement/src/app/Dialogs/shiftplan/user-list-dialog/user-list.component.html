@@ -30,7 +30,10 @@
     <h3>Verfügbare Personen</h3>
     <div class="list-container">
       <div class="user-container" *ngFor="let user of userList">
-        <p class="username">{{ user.fName }} {{ user.lName }}</p>
+        <div class="name-container">
+          <p class="username">{{ user.fName }} {{ user.lName }}</p>
+        </div>
+        
         <button class="submit-user-button" (click)="reqUser(data.activity.uuid, user.id, data.shiftId)">
           Anfragen
         </button>

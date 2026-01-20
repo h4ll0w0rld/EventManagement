@@ -42,7 +42,7 @@ export class ActivityComponent {
         },
         width: '400px',
         maxWidth: '90vw',
-        maxHeight: '50vh',
+        maxHeight: '70vh',
         autoFocus: false,
         restoreFocus: false
       }
