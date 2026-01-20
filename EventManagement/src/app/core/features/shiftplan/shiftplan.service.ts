@@ -33,4 +33,12 @@ export class ShiftplanService {
     if (!eventId) return of(null);
     return this.api.post(`/shiftCategory/${eventId}/addShiftBlockToCategory/shift_category_id/${categoryId}`, { shiftBlocks: [shiftBlock] });
   }
+
+  getShiftById(shiftId:number){
+     const eventId = this.eventService.currentEvent?.id;
+    if (!eventId) return of(null);
+    return this.api.get(`/shift/${eventId}/shiftid/${shiftId}`)
+
+
+  }
 }
