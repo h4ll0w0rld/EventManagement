@@ -67,6 +67,7 @@
         font-size: 0.8rem;
         color: #666;
         font-weight: 500;
+        margin: 0;
       }
 
       .request-time {
@@ -78,7 +79,7 @@
 
       .request-end-date {
         font-size: 0.85rem;
-        color: #666;
+        color: $color-5;
       }
     }
   }
@@ -112,6 +113,7 @@
       &.decline {
         border: 2px solid $prim-color;
         color: $prim-color;
+        background-color: white;
         cursor: pointer;
       }
 

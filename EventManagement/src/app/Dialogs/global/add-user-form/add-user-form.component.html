@@ -2,12 +2,12 @@
 <div class="dialog-container">
     <mat-form-field class="form" >
         <mat-label class="label">Vorname</mat-label>
-        <input class="input" matInput [(ngModel)]="fName" name="fName"/>
+        <input class="input" matInput maxLength="12" [(ngModel)]="fName" name="fName"/>
     </mat-form-field>
     
     <mat-form-field class="form" >
         <mat-label class="label">Nachname</mat-label>
-        <input class="input" matInput [(ngModel)]="lName" name="lName"/>
+        <input class="input" matInput maxLength="12" [(ngModel)]="lName" name="lName"/>
     </mat-form-field>
     
     <button class="submit-button" (click)="addNewUser()">Person hinzufügen</button>

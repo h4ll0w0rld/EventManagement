@@ -25,7 +25,7 @@
     @if ($card == "confirmed" or $card == "requested" or $card == "empty") {
 
         height: 55px;
-        max-width: 300px;
+        //max-width: 300px;
 
         &.confirmedAct {
 

@@ -2,9 +2,9 @@
 
 <div class="persons-container">
 
+  <h1 class="title">Personen</h1>
   <div class="persons-list">
-    <h1 class="title">Personen</h1>
-
+    
     <div class="person-item" *ngFor="let person of userList" (click)="toggleUser(person)"
       [class.open]="openedUser === person">
 
@@ -50,17 +50,12 @@
           <!-- <button (click)="test(person.id)">TEST</button> -->
 
         </div>
-
       </div>
-
-
     </div>
-
-
-
   </div>
 
   <div class="add-user-wrapper">
     <button *ngIf="this.eventService.editMode" class="add-user-btn" (click)="addUser()">+</button>
   </div>
+  
 </div>

@@ -1,9 +1,11 @@
+@use 'media';
 @import '../../theme.scss';
 
 
 :host {
     position: absolute;
-    width: 100vw;
+    width: 100%;
+    height: max-content;
 }
 
 .persons-container {
@@ -12,11 +14,20 @@
     flex-direction: column;
     margin-top: calc($header-height + 2rem);
     background: $sec-color;
-    height: calc(100vh - calc($header-height + 4rem));
+    //height: calc(100vh - calc($header-height + 4rem));
+    height: 85vh;
     padding: 1rem;
     align-items: center;
 }
 
+.title {
+        width: 100%;
+        align-items: start;
+        //font-size: 32px;
+        //font-weight: 700;
+        margin: 1rem 0;
+        //color: $prim-color;
+    }
 
 
 .persons-list {
@@ -24,24 +35,17 @@
     max-width: 768px;
     display: flex;
     flex-direction: column;
-    gap: 14px;
-
-    .title {
-        width: 100%;
-        align-items: start;
-        font-size: 32px;
-        font-weight: 700;
-        margin-bottom: 0;
-        margin-top: 2rem;
-        color: $prim-color;
-    }
+    gap: 1rem;
+    //height: calc(100vh - calc($header-height + 4rem));
+    overflow: scroll;
+    scrollbar-width: none;
 }
 
 /* === CARD === */
 
 .person-item {
     background: white;
-    border-radius: 18px;
+    border-radius: 1rem;
     padding: 1rem;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
     cursor: pointer;
@@ -58,6 +62,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    min-height: 30px;
 }
 
 .name {
@@ -91,6 +96,7 @@
     border-radius: 0.75rem;
     font-size: 13px;
     cursor: pointer;
+    max-height: 30px;
 }
 
 .invite-pill:hover {
@@ -207,9 +213,14 @@
 
 .user-action-row {
     display: flex;
-    justify-content: flex-end;
-    gap: 10px;
+    justify-content: space-between;
+    gap: 1rem;
     margin-top: 14px;
+
+    @include media.desktop {
+        justify-content: end;
+    }
+
 }
 
 /* unify size */

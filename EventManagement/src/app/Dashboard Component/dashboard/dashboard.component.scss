@@ -11,44 +11,11 @@
 
   .topbar-container {
     display: flex;
-    justify-content: space-between;
+    //justify-content: space-between;
+    justify-content: right;
     align-items: center;
     gap: 10px;
-    padding: 1rem 0rem;
-
-    .shift-select {
-      display: flex;
-      flex-direction: row;
-      gap: 10px;
-
-      h3 {
-        margin: 0;
-      }
-
-      select {
-        background: transparent;
-        border: none;
-        color: $prim-color;
-        font-size: 1rem;
-        outline: none;
-        cursor: pointer;
-        font-weight: 700;
-
-        /* Browser-Default entfernen */
-        appearance: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-
-      }
-
-      option {
-        color: $prim-color; // Dropdown-Liste lesbar
-        background: #ffffff; // Hintergrund der Optionen
-        font-weight: 500;
-        border: none;
-      }
-
-    }
+    padding: 1rem 0rem 0rem 0.5rem;
 
     .icon-container {
       display: flex;
@@ -68,6 +35,40 @@
         height: 27px;
         width: 27px;
       }
+    }
+  }
+
+  .shift-select {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    padding-bottom: 1rem;
+
+    h3 {
+      margin: 0;
+      width: max-content;
+    }
+
+    select {
+      background: transparent;
+      border: none;
+      color: $prim-color;
+      font-size: 1rem;
+      outline: none;
+      cursor: pointer;
+      font-weight: 700;
+
+      /* Browser-Default entfernen */
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+    }
+
+    option {
+      color: $prim-color; // Dropdown-Liste lesbar
+      background: #ffffff; // Hintergrund der Optionen
+      font-weight: 500;
+      border: none;
     }
   }
 

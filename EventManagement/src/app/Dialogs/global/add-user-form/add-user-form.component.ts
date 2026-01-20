@@ -28,6 +28,8 @@ export class AddUserFormComponent {
     // Refresh user list (because backend does not return the new user)
     this.eventService.getAllUsers();
 
+    this.matDialogRef.close();
+
     // Close dialog
     //this.matDialogRef.close();
   }
