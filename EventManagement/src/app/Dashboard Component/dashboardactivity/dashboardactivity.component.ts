@@ -26,13 +26,12 @@ export class DashboardactivityComponent {
   }
   test() {
 
-    console.log(this.activity[0].user, "are the helpers populated ?")
-    console.log(this.activity, "full activity object")
-    console.log(this.shift, "shift")
+    // console.log(this.activity[0].user, "are the helpers populated ?")
+    // console.log(this.activity, "full activity object")
+    // console.log(this.shift, "shift")
     this.getHelper();
   }
   toggleHelpers() {
-    console.log("helpers toggled  for activity: ", this.activity);
     this.getHelper();
     this.showHelpers = !this.showHelpers;
   }
