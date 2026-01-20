@@ -26,22 +26,16 @@ export class DashboardComponent implements OnInit {
     this.eventService.allUser$.subscribe(users => {
       this.allUsers = users;
 
-      // Load selectedUser from localStorage or loggedInUser
       const stored = localStorage.getItem('selected-dashboard-user');
+
       if (stored) {
         const storedUser = JSON.parse(stored);
-        // Find the user object in allUsers with same ID
-        this.selectedUser = this.allUsers.find(u => u.id === storedUser.id) ?? this.allUsers[0] ?? null;
+        this.selectedUser =
+          this.allUsers.find(u => u.id === storedUser.id) ?? this.allUsers[0] ?? null;
       } else {
-        this.selectedUser = this.eventService.loggedInUser ?? this.allUsers[0] ?? null;
+        this.selectedUser = this.eventService.loggedInUser;
       }
-      const user = this.allUsers.find(u => u.id === this.eventService.loggedInUser.id)
-      if(user?.isAdmin){
-         this.eventService.isAdmin = true;
-      }else{
-        this.eventService.isAdmin = false
-      }
-       
+
 
       this.loadShiftsForSelectedUser();
     });
@@ -54,6 +48,9 @@ export class DashboardComponent implements OnInit {
     // Fetch all users
     this.eventService.getAllUsers();
   }
+  compareUsers = (u1: any, u2: any) => {
+    return u1 && u2 ? u1.id === u2.id : u1 === u2;
+  };
 
   /** Called when a user is clicked/selected */
   onUserSelected(user: User): void {

@@ -32,15 +32,13 @@ export class ShiftRequestComponent {
   }
   accReq(request: any, event: MouseEvent) {
     event.stopPropagation();
-    console.log("Accepting request for user ID: ", request);
-    console.log("curr user: ", this.currentUser);
+   
     if (this.currentUser != null) {
       this.dashboardService.acceptRequest(request.activities[0].id, request.shift_category_id, this.currentUser.id)
     }
   }
 
   getHelper(request: any) {
-    console.log("Getting helpers for request: ", request, request.id);
     if (!request || !request.id) {
       console.error("Shift ID is missing.");
       return;
@@ -56,7 +54,6 @@ export class ShiftRequestComponent {
   decReq(shift: any, event: MouseEvent) {
     event.stopPropagation();
     if (this.currentUser != null) {
-      console.log("Declining request for user ID: ", this.currentUser.id, " shift: ", shift, shift.activities[0].id, shift.shift_category.id );
       this.dashboardService.declineRequest(shift.activities[0].id, shift.shift_category.id, this.currentUser.id);
     }
   }

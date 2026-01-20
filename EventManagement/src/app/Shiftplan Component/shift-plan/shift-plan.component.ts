@@ -25,6 +25,7 @@ export class ShiftPlanComponent implements AfterViewInit, OnInit {
 
   @ViewChildren('tab') tabElements!: QueryList<ElementRef>;
   @ViewChild('swiper', { static: false }) swiperContainer!: any;
+  private savedScrollTop = 0;
 
   categories: CategoryContent[] = [];
   activeSlideIndex = 0;
@@ -49,6 +50,7 @@ export class ShiftPlanComponent implements AfterViewInit, OnInit {
         switchMap(() => this.eventService.updateCategories())
       )
       .subscribe(cats => {
+        this.savedScrollTop = window.scrollY;
 
         const prevCatId = this.eventService.currentCategory?.id;
         this.categories = cats;
@@ -65,7 +67,13 @@ export class ShiftPlanComponent implements AfterViewInit, OnInit {
           this.bindSwiper();
           this.setActiveSlide(safeIndex);
           this.eventService.setCurrentCategory(cats[safeIndex]);
+
+          window.scrollTo({
+            top: this.savedScrollTop,
+            behavior: 'auto'
+          });
         });
+
       });
 
     // Keep the active tab in sync if current category changes
@@ -95,6 +103,9 @@ export class ShiftPlanComponent implements AfterViewInit, OnInit {
 
 
   // ---------- CATEGORY HANDLING ----------
+  trackByCatId(index: number, cat: CategoryContent) {
+    return cat.id;
+  }
 
   getActiveCat(): CategoryContent | null {
     return this.categories[this.activeSlideIndex];
@@ -163,7 +174,12 @@ export class ShiftPlanComponent implements AfterViewInit, OnInit {
   scrollToActive(): void {
     const actElem = document.querySelector('.active');
     if (actElem) {
-      actElem.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+      actElem.scrollIntoView({
+        behavior: 'smooth',
+        inline: 'center',
+        block: 'nearest' // 🔑 prevents vertical scrolling
+      });
+
     }
   }
 
