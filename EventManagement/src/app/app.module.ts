@@ -4,8 +4,6 @@ import { BrowserModule, HammerModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { MenuComponent } from './menu/menu.component';
-
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -42,9 +40,7 @@ import { AddUserFormComponent } from './Dialogs/global/add-user-form/add-user-fo
 import { MatSelectModule } from '@angular/material/select';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { register } from 'swiper/element/bundle';
-import { TesterComponent } from './tester/tester.component';
 import { AddCatDialogComponent } from './Dialogs/shiftplan/add-cat-dialog/add-cat-dialog.component';
-import { EventHubComponent } from './HUB/event-hub/event-hub.component';
 import { ShiftplanLandingComponent } from './Shiftplan Component/shiftplan-landing/shiftplan-landing.component';
 import { DashboardlandingComponent } from './Dashboard Component/dashboardlanding/dashboardlanding.component';
 import { AddShiftblockComponent } from './Dialogs/shiftplan/add-shiftblock/add-shiftblock.component';
@@ -52,11 +48,10 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { AddEventComponent } from './Dialogs/global/add-event/add-event.component';
 import { HeaderComponent } from './header/header.component';
-import { EventPreviewComponent } from './HUB/event-preview/event-preview.component';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { LoginComponent } from './User/dialog/login/login.component';
 import { RegisterComponent } from './User/dialog/register/register.component';
-import { AuthInterceptorService } from './Services/Auth Service/auth-interceptor.service';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { ShiftRequestComponent } from './Dashboard Component/shift-request/shift-request.component';
 import { ShiftPersonalActivityComponent } from './Dashboard Component/shift-personal-activity/shift-personal-activity.component';
 import { AuthLandingComponent } from './User/auth-landing/auth-landing.component';
@@ -75,7 +70,6 @@ register();
 @NgModule({
   declarations: [
     AppComponent,
-    MenuComponent,
     ShiftCategoryComponent,
     ShiftPlanComponent,
     ActivityComponent,
@@ -89,15 +83,12 @@ register();
     DelUserDialogComponent,
     SubmitDialogComponent,
     AddUserFormComponent,
-    TesterComponent,
     AddCatDialogComponent,
-    EventHubComponent,
     ShiftplanLandingComponent,
     DashboardlandingComponent,
     AddShiftblockComponent,
     AddEventComponent,
     HeaderComponent,
-    EventPreviewComponent,
     LoginComponent,
     RegisterComponent,
     ShiftRequestComponent,
@@ -146,7 +137,7 @@ register();
   ],
   providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }, {
     provide: HTTP_INTERCEPTORS,
-    useClass: AuthInterceptorService,
+    useClass: AuthInterceptor,
     multi: true
   }],
 

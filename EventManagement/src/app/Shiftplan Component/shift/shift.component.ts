@@ -4,7 +4,7 @@ import { Activity } from 'src/app/Object Models/Shiftplan Component/activityMode
 import { ShiftplanService } from 'src/app/core/features/shiftplan/shiftplan.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ShiftBreakDialogComponent } from 'src/app/Dialogs/shiftplan/shift-break-dialog/shift-break-dialog.component';
-import { EventServiceService } from 'src/app/Services/Event Service/event-service.service';
+import { EventService } from 'src/app/core/features/events/event.service';
 import { DeleteShiftDialogComponent } from 'src/app/Dialogs/shiftplan/delete-shift-dialog/delete-shift-dialog.component';
 
 import { ChangeDetectorRef, OnDestroy } from '@angular/core';
@@ -36,7 +36,7 @@ export class ShiftComponent implements OnDestroy {
   visibleActivities: Activity[] = [];
   hiddenActivities: Activity[] = [];
 
-  constructor(public shiftplanService: ShiftplanService, private dialog: MatDialog, public eventService: EventServiceService, private cdr: ChangeDetectorRef, private ngZone: NgZone) { }
+  constructor(public shiftplanService: ShiftplanService, private dialog: MatDialog, public eventService: EventService, private cdr: ChangeDetectorRef, private ngZone: NgZone) { }
 
 
   ngAfterViewInit() {

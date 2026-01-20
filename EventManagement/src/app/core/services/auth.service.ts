@@ -41,7 +41,6 @@ export class AuthService {
         // Invite logic (direct HTTP call)
         const token = localStorage.getItem('pendingInviteToken');
         if (token) {
-          console.log('Processing pending invite token after login... NAV to /inviteLanding');
           // Go back to inviteLanding with token preserved
           this.router.navigate(['/inviteLanding'], { queryParams: { token: token } });
         } else {
@@ -51,6 +50,23 @@ export class AuthService {
       }),
       map(res => res.user)
     );
+  }
+  registerUser(_fname: string, _sname: string, _email: string, pass: string): Observable<any> {
+
+    const data = {
+      firstName: _fname,
+      lastName: _sname,
+      emailAddress: _email,
+      password: pass
+    }
+
+    return this.http.post(this.config.rootUrl + "/register/registerNewUser", data)
+      .pipe(
+        map((res) => {
+          console.log(res)
+        }
+        )
+      )
   }
 
 

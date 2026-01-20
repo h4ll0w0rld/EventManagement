@@ -1,98 +1,58 @@
-/* Root dialog container */
 .shiftblock-dialog {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 4px;
+  padding: 8px;
 }
 
-/* Cards are SECTIONS, not tiles */
-.card-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-/* Compact section cards */
 .block-card {
   border-radius: 14px;
-  padding: 8px 10px;
+  padding: 12px;
 }
 
-/* Card header */
 mat-card-title {
   display: flex;
   align-items: center;
   gap: 6px;
   font-size: 14px;
   font-weight: 600;
-  margin-bottom: 4px;
 }
 
-/* Small helper text */
 .hint {
   font-size: 12px;
   color: #777;
-  margin: 0 0 8px;
+  margin-bottom: 8px;
 }
 
-/* Inputs default: vertical (mobile / small dialog) */
 .input-row {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-/* Horizontal only when dialog is wide enough */
 @media (min-width: 420px) {
   .input-row {
     flex-direction: row;
   }
 }
 
-/* Form fields */
-mat-form-field {
-  width: 100%;
-}
-
-/* Reduce Angular Material vertical bulk */
-.mat-form-field-appearance-outline .mat-form-field-wrapper {
-  margin-bottom: -0.75em;
-}
-
-/* Full width helper */
 .full-width {
   width: 100%;
 }
 
-/* Summary / preview card */
 .summary-card {
   background: #eef6ff;
   border-radius: 12px;
-  padding: 10px 12px;
+  padding: 12px;
   font-size: 13px;
 }
 
-.summary-card p {
-  margin: 4px 0;
-}
-
-/* Error summary */
 .summary-card.error {
   background: #fff1f1;
   color: #c62828;
 }
 
-/* Action button */
-.create-button {
-  align-self: stretch;
-  height: 42px;
-  border-radius: 10px;
-  margin-top: 4px;
-}
-
-/* Timepicker overlay safety */
-.ngx-material-timepicker,
-.timepicker-backdrop-overlay {
-  z-index: 2000 !important;
+.nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
 }

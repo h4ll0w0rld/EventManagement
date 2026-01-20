@@ -40,11 +40,31 @@ export class InviteUserDialogComponent implements OnInit {
   copyToClipboard(): void {
     if (!this.link) return;
 
-    navigator.clipboard.writeText(this.link).then(() => {
-      this.buttonText = "Kopiert!";
-    }).catch(err => {
-      console.error("Failed to copy link", err);
-    });
+    // iOS Safari fallback
+    const textarea = document.createElement('textarea');
+    textarea.value = this.link;
+
+    // Prevent scrolling on iOS
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+
+    try {
+      const successful = document.execCommand('copy');
+      if (successful) {
+        this.buttonText = 'Kopiert!';
+      } else {
+        console.error('Copy command was unsuccessful');
+      }
+    } catch (err) {
+      console.error('Copy failed', err);
+    }
+
+    document.body.removeChild(textarea);
   }
+
 
 }

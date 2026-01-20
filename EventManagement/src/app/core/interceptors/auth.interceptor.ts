@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import {
   HttpRequest,
   HttpHandler,
@@ -6,11 +6,9 @@ import {
   HttpInterceptor
 } from '@angular/common/http';
 import { BehaviorSubject, catchError, Observable, switchMap, throwError } from 'rxjs';
-import { AuthService } from '../services/auth.service';
-import { TokenService } from '../services/token.service';
 import { Router } from '@angular/router';
-import { EventService } from '../features/events/event.service';
-import { EventModel } from 'src/app/Object Models/EventModel';
+import { TokenService } from '../services/token.service';
+import { AuthService } from '../services/auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -19,13 +17,12 @@ export class AuthInterceptor implements HttpInterceptor {
   private refreshQueue = new BehaviorSubject<string | null>(null);
 
   constructor(
-    private auth: AuthService,
+    private injector: Injector,
     private token: TokenService,
-    private router: Router,
-    private eventService:EventService
+    private router: Router
   ) {}
 
-  intercept(req: HttpRequest<any>, next: HttpHandler) {
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = this.token.get();
 
     const authReq = token
@@ -34,8 +31,12 @@ export class AuthInterceptor implements HttpInterceptor {
 
     return next.handle(authReq).pipe(
       catchError(error => {
-        if (error.status === 401) return this.handle401(authReq, next);
-        if (error.status === 403) this.handleForbidden();
+        if (error.status === 401) {
+          return this.handle401(authReq, next);
+        }
+        if (error.status === 403) {
+          this.handleForbidden();
+        }
         return throwError(() => error);
       })
     );
@@ -44,10 +45,12 @@ export class AuthInterceptor implements HttpInterceptor {
   private handle401(req: HttpRequest<any>, next: HttpHandler) {
     if (!this.isRefreshing) {
       this.isRefreshing = true;
-
       this.refreshQueue.next(null);
 
-      return this.auth.refreshToken().pipe(
+      // 🔑 Lazy resolve — NO DI cycle
+      const authService = this.injector.get(AuthService);
+
+      return authService.refreshToken().pipe(
         switchMap(newToken => {
           this.isRefreshing = false;
           this.refreshQueue.next(newToken);
@@ -69,8 +72,12 @@ export class AuthInterceptor implements HttpInterceptor {
 
     return this.refreshQueue.pipe(
       switchMap(token => {
-        if (!token) return throwError(() => new Error('Token not refreshed'));
-        const newReq = req.clone({ setHeaders: { Authorization: `Bearer ${token}` } });
+        if (!token) {
+          return throwError(() => new Error('Token not refreshed'));
+        }
+        const newReq = req.clone({
+          setHeaders: { Authorization: `Bearer ${token}` }
+        });
         return next.handle(newReq);
       })
     );
@@ -81,4 +88,3 @@ export class AuthInterceptor implements HttpInterceptor {
     this.router.navigate(['/authLanding']);
   }
 }
-

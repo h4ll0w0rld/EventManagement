@@ -1,13 +1,27 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { EventService } from 'src/app/core/features/events/event.service';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-add-shiftblock',
   templateUrl: './add-shiftblock.component.html',
   styleUrls: ['./add-shiftblock.component.scss'],
+  animations: [
+    trigger('stepAnimation', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateX(20px)' }),
+        animate('250ms ease-out', style({ opacity: 1, transform: 'translateX(0)' }))
+      ]),
+      transition(':leave', [
+        animate('200ms ease-in', style({ opacity: 0, transform: 'translateX(-20px)' }))
+      ])
+    ])
+  ]
 })
 export class AddShiftblockComponent {
+
+  step = 0;
 
   currentBlock: any = {
     intervall: 60,
@@ -29,10 +43,8 @@ export class AddShiftblockComponent {
     private dialogRef: MatDialogRef<AddShiftblockComponent>,
     public eventService: EventService
   ) {
-    
     if (this.eventService.currentEvent?.id !== -1 && this.eventService.currentEvent) {
 
-      // 🔁 SAME LOGIC AS OLD CODE
       if (data?.catContent?.shifts?.some((s: any) => s)) {
         const shifts = data.catContent.shifts;
         const lastShiftEnd = new Date(shifts[shifts.length - 1].endTime);
@@ -47,14 +59,27 @@ export class AddShiftblockComponent {
       this.maxDate = new Date(this.eventService.currentEvent.endDate);
 
       this.minZeit =
-        this.minDate.getHours() + ':' + this.minDate.getMinutes();
+        this.minDate.getHours().toString().padStart(2, '0') + ':' +
+        this.minDate.getMinutes().toString().padStart(2, '0');
+
       this.startTimeTime = this.minZeit;
     }
 
     this.updateEndDate();
   }
 
-  // 🔁 SAME MECHANIC
+  /* ---------- NAVIGATION ---------- */
+
+  next() {
+    if (this.step < 3) this.step++;
+  }
+
+  back() {
+    if (this.step > 0) this.step--;
+  }
+
+  /* ---------- DATE LOGIC ---------- */
+
   private updateEndDate() {
     const time = this.currentBlock.numberOfShifts * this.currentBlock.intervall;
     this.currentBlock.endTime = new Date(
@@ -62,7 +87,6 @@ export class AddShiftblockComponent {
     );
   }
 
-  // 🔁 SAME INPUT LOGIC
   onInputChange() {
     if (this.eventService.currentEvent?.id !== -1 && this.eventService.currentEvent) {
       const eventEndDate = new Date(this.eventService.currentEvent.endDate);
@@ -73,7 +97,9 @@ export class AddShiftblockComponent {
 
         if (this.currentBlock.startTime.getDate() === eventEndDate.getDate()) {
           const eventEndTime =
-            eventEndDate.getHours() + ':' + eventEndDate.getMinutes();
+            eventEndDate.getHours().toString().padStart(2, '0') + ':' +
+            eventEndDate.getMinutes().toString().padStart(2, '0');
+
           this.maxZeit = eventEndTime;
 
           if (this.startTimeTime > eventEndTime) {
@@ -83,21 +109,20 @@ export class AddShiftblockComponent {
       } else {
         this.maxZeit = '23:59';
         this.minZeit =
-          this.minDate.getHours() + ':' + this.minDate.getMinutes();
+          this.minDate.getHours().toString().padStart(2, '0') + ':' +
+          this.minDate.getMinutes().toString().padStart(2, '0');
 
         if (this.startTimeTime < this.minZeit) {
           this.startTimeTime = this.minZeit;
         }
       }
 
-      // normalize date object
       this.currentBlock.startTime = new Date(this.currentBlock.startTime);
     }
 
     this.updateEndDate();
   }
 
-  // 🔁 SAME TIME HANDLING
   onTimeInputChange() {
     const [hours, minutes] = this.startTimeTime.split(':').map(Number);
     const date = new Date(this.currentBlock.startTime);
@@ -109,7 +134,8 @@ export class AddShiftblockComponent {
     this.onInputChange();
   }
 
-  // 🔁 SAME SUBMIT LOGIC
+  /* ---------- SUBMIT ---------- */
+
   newBlock() {
     if (this.outOfEventDate()) return;
 
@@ -126,7 +152,6 @@ export class AddShiftblockComponent {
       });
   }
 
-  // 🔁 SAME FORMATTER AS OLD CODE
   formatDate(date: Date): string {
     const sYear = date.getFullYear();
     const sMonth = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -137,16 +162,8 @@ export class AddShiftblockComponent {
     return `${sYear}-${sMonth}-${sDay} ${sHours}:${sMinutes}`;
   }
 
-  formattedEventEndDate(): Date | undefined {
-    if (this.eventService.currentEvent) {
-      return new Date(this.eventService.currentEvent.endDate);
-    }
-    return undefined;
-  }
-
   outOfEventDate(): boolean {
     if (!this.eventService.currentEvent) return false;
-
     const eventEndDate = new Date(this.eventService.currentEvent.endDate);
     return this.currentBlock.endTime > eventEndDate;
   }

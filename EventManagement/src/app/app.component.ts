@@ -1,5 +1,4 @@
 import { Component, ElementRef } from '@angular/core';
-import { ShiftplanService } from './Services/Shiftplan Service/shiftplan.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { GlobalUserListComponent } from './Dialogs/global/global-userlist-dialog/global-user-list.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -21,7 +20,7 @@ export class AppComponent {
   // ];
 
 
-  constructor(public shiftplanService: ShiftplanService, private dialog: MatDialog, private elementRef: ElementRef) {} 
+  constructor(private dialog: MatDialog, private elementRef: ElementRef) {} 
 
 
   ngOnInit() {
@@ -29,9 +28,7 @@ export class AppComponent {
     //const iconElement = this.elementRef.nativeElement.querySelector('.mat-icon');
     //iconElement.classList.remove('mat-icon-no-color');
 
-    this.shiftplanService.editmode$.subscribe(value => {
-      this.unlocked = value;
-    })
+   
   }
 
 

@@ -2,8 +2,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 105.18 135.35">
 <defs>
 <style>
-    .unlocked-icon-path{fill:none;stroke:#e9e8e8;stroke-linecap:round;stroke-miterlimit:10;stroke-width:12px;}
-    .unlocked-icon{fill:#e9e8e8;}
+    .unlocked-icon-path{fill:none;stroke:#0d2e44;stroke-linecap:round;stroke-miterlimit:10;stroke-width:12px;}
+    .unlocked-icon{fill:#0d2e44;}
 </style>
 </defs>
 <rect class="unlocked-icon" y="56.85" width="105" height="78.5" rx="10.99" ry="10.99"/>

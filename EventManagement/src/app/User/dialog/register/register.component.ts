@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Output, Renderer2 } from '@angular/core';
-import { AuthService } from 'src/app/Services/Auth Service/auth.service';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
   selector: 'app-register',

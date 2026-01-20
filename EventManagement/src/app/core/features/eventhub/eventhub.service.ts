@@ -39,24 +39,19 @@ export class EventhubService {
   loadUserEvents() {
     
     if (!this.loggedInUser) return;
-    console.log('Loading events for user', this.loggedInUser);
     const url = `${this.config.rootUrl}/user/eventsByUser/user_id/${this.loggedInUser.id}`;
 
     this.http.get<EventModel[]>(url, {headers: this.auth.getAuthHeaders()})
       .pipe(
         catchError(err => {
-          console.error('Error loading events', err);
           if (err.status === 401) this.auth.refreshToken();
           return of([]);
         })
       )
-      .subscribe(events => {this.eventsSubject.next(events); console.log('Loaded events:', events);});
+      .subscribe(events => {this.eventsSubject.next(events);});
   }
 
-  clearEvents() {
-   // this.eventsSubject.next([]);
-  }
-
+  
   /**
    * Adds a new event
    */
@@ -81,7 +76,7 @@ export class EventhubService {
           );
         }),
         catchError(err => {
-          console.error('Error adding event', err);
+         
           return of([]);
         })
       )
@@ -97,7 +92,6 @@ export class EventhubService {
     return this.http.delete(url, {headers:this.auth.getAuthHeaders()})
       .pipe(
         catchError(err => {
-          console.error('Error deleting event', err);
           return of(null);
         })
       );

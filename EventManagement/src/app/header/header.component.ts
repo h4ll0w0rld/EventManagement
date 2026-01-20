@@ -1,6 +1,5 @@
 import { ChangeDetectorRef, Component, HostListener, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ShiftplanService } from '../Services/Shiftplan Service/shiftplan.service';
 import { GlobalUserListComponent } from '../Dialogs/global/global-userlist-dialog/global-user-list.component';
 import { EventService } from '../core/features/events/event.service';
 import { EventhubService } from '../core/features/eventhub/eventhub.service';
@@ -31,7 +30,6 @@ export class HeaderComponent implements OnInit {
 
 
   constructor(
-    public shiftplanService: ShiftplanService,
     private dialog: MatDialog,
     public eventService: EventService,
     private eventHubService: EventhubService,
@@ -47,9 +45,7 @@ export class HeaderComponent implements OnInit {
         this.title = event.name;
 
     });
-    this.shiftplanService.editmode$.subscribe(value => {
-      this.unlocked = value;
-    });
+    
 
     // this.eventService.getRoles();
   }
@@ -58,7 +54,7 @@ export class HeaderComponent implements OnInit {
     //this.eventHubService.loadUserEvents();
     this.eventHubService.events$.subscribe(events => {
       this.userEvents = events;
-      console.log("User events updated:", events);  
+      //console.log("User events updated:", events);  
       // if (events.length == 0 && this.router.url !== '/' && this.authService.getUser() != null) {
 
       //   this.dialog.open(AddEventComponent, {
@@ -69,7 +65,7 @@ export class HeaderComponent implements OnInit {
     });
 
     if (this.router.url.includes('shiftplan') || this.router.url.includes('userlist')) {
-      console.log('We are on a shiftplan route!');
+      //console.log('We are on a shiftplan route!');
       this.showBackArrow = true;
     }
 
@@ -97,7 +93,7 @@ export class HeaderComponent implements OnInit {
   }
 
   toggleUserMenu() {
-    console.log('Toggling user menu');
+    //console.log('Toggling user menu');
     this.showUserMenu = !this.showUserMenu;
   }
 
@@ -112,7 +108,7 @@ export class HeaderComponent implements OnInit {
 
   test() {
 
-    console.log("is the shit active ? ", this.showBackArrow)
+    //console.log("is the shit active ? ", this.showBackArrow)
   }
   toggleEventDropdown() {
     this.showEventDropdown = !this.showEventDropdown;
@@ -132,7 +128,7 @@ export class HeaderComponent implements OnInit {
   }
 
   createNewEvent() {
-    console.log('Create new event clicked');
+   // console.log('Create new event clicked');
     this.dialog.open(AddEventComponent, {
       width: '80vw',
       height: 'auto',
@@ -155,6 +151,7 @@ export class HeaderComponent implements OnInit {
 
     if (!this.user || !this.user.firstName || !this.user.lastName) {
       console.log("Bigg problem", this.user);
+      this.authService.getUser();
       return "";
     }
 

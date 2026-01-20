@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ShiftplanService } from '../../../Services/Shiftplan Service/shiftplan.service';
+import { ShiftplanService } from '../../../core/features/shiftplan/shiftplan.service';
 import { EventService } from 'src/app/core/features/events/event.service';
 import { Router } from '@angular/router';
 

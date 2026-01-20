@@ -35,6 +35,13 @@ export class DashboardComponent implements OnInit {
       } else {
         this.selectedUser = this.eventService.loggedInUser ?? this.allUsers[0] ?? null;
       }
+      const user = this.allUsers.find(u => u.id === this.eventService.loggedInUser.id)
+      if(user?.isAdmin){
+         this.eventService.isAdmin = true;
+      }else{
+        this.eventService.isAdmin = false
+      }
+       
 
       this.loadShiftsForSelectedUser();
     });

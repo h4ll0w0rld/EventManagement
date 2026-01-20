@@ -49,6 +49,7 @@ export class EventService implements OnDestroy {
       .subscribe(user => {
         this.loggedInUser = user;
         this.eventHubService.loadUserEvents();
+       
       });
 
     // 3. Watch EventhubService for events
@@ -80,7 +81,7 @@ export class EventService implements OnDestroy {
   private loadInitialState() {
     const storedEvent = localStorage.getItem('curr-event');
     if (storedEvent) this.currentEventSubject.next(JSON.parse(storedEvent));
-    else console.log("No stored current event found.");
+
     const storedCat = localStorage.getItem('curr-cat');
     if (storedCat) this.currentCatSubject.next(JSON.parse(storedCat));
 
@@ -93,6 +94,8 @@ export class EventService implements OnDestroy {
   toggleEditMode() {
     this.editMode = !this.editMode;
   }
+
+  
 
   get currentEvent(): EventModel | null {
     return this.currentEventSubject.getValue();
@@ -163,7 +166,6 @@ export class EventService implements OnDestroy {
 
   /** Fetch all users for current event and update the BehaviorSubject */
   getAllUsers(): void {
-    console.log("Fetching all users for current event");
 
     const eventId = this.currentEvent?.id;
     if (!eventId) {
@@ -189,12 +191,10 @@ export class EventService implements OnDestroy {
           )
         ),
         catchError(err => {
-          console.error('Error fetching users', err);
           return of([]);
         })
       )
       .subscribe(mappedUsers => {
-        console.log("Updating users", mappedUsers);
         this.allUserSubject.next(mappedUsers);
       });
   }
@@ -244,9 +244,7 @@ export class EventService implements OnDestroy {
 
   userIsAdmin(user: User): Observable<any> {
     const eventId = this.currentEvent?.id;
-    console.log("Checking admin status for event ID:", eventId, "and user:", user);
     if (!eventId || !user) return of(false);
-    console.log("Checking admin status for user:", user);
     return this.http.get<{ isAdmin: boolean }>(`${this.conf.rootUrl}/event/${eventId}/isAdmin/user_id/${user.id}`, {
       headers: this.authService.getAuthHeaders()
     })
@@ -262,7 +260,6 @@ export class EventService implements OnDestroy {
     }).pipe(
       tap((newUser: User) => {
         // Update the BehaviorSubject immediately
-        console.log("Adding new user to BehaviorSubject:", newUser);
         const currentUsers = this.allUserSubject.getValue();
         this.allUserSubject.next([...currentUsers, newUser]);
       }),
@@ -274,7 +271,6 @@ export class EventService implements OnDestroy {
   }
 
   addUnregUser(firstName: string, lastName: string): void {
-    console.log("Adding unregistered user:", firstName, lastName);
     const eventId = this.currentEvent?.id;
 
     if (!eventId || eventId === -1) {
@@ -349,7 +345,6 @@ export class EventService implements OnDestroy {
     if (!eventId) return of(null);
 
     const url = `${this.conf.rootUrl}/shiftCategory/${eventId}/delete/id/${categoryId}`;
-    console.log("Deleting category with URL:", url);
     return this.http.delete(url, { headers: this.authService.getAuthHeaders() })
   }
 
@@ -410,9 +405,7 @@ export class EventService implements OnDestroy {
   delUserFromActivity(activityId: number): Observable<any> {
     const eventId = this.currentEvent?.id;
     const catId = this.currentCategory?.id;
-    console.log("Deleting user from activity:", activityId, "in event:", eventId, "category:", catId);
     if (!eventId || !catId) return of(null);
-    console.log("Proceeding with delete request");
     const url = `${this.conf.rootUrl}/activity/${eventId}/removeUser/shift_category_id/${catId}/activity_id/${activityId}`;
 
     return this.http.put(url, {}, { headers: this.authService.getAuthHeaders(), withCredentials: true });
@@ -446,7 +439,6 @@ export class EventService implements OnDestroy {
       if (currUser && currUser.id && this.currentEvent != null) {
 
         this.http.put(this.conf.rootUrl + "/permission/" + this.currentEvent.id + "/makeAdmin/user_id/" + _userId, {}, { headers: this.authService.getAuthHeaders() }).subscribe((res) => {
-          console.log("Juhuuuuu: ", res);
         });
       }
     }

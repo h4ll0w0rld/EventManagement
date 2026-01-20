@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, Renderer2 } from '@angular/core';
 import { Activity } from 'src/app/Object Models/Shiftplan Component/activityModel';
 import { User } from 'src/app/Object Models/user/user';
-import { ShiftplanService } from 'src/app/Services/Shiftplan Service/shiftplan.service';
+import { ShiftplanService } from 'src/app/core/features/shiftplan/shiftplan.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { UserListComponent } from 'src/app/Dialogs/shiftplan/user-list-dialog/user-list.component';
 import { EventService } from 'src/app/core/features/events/event.service';

@@ -13,8 +13,16 @@
         </div>
         <div class="icon-container">
             <!--<mat-icon class="info-icon" svgIcon="info" routerLink="/"></mat-icon>-->
+            <div  *ngIf="this.eventService.isAdmin">
+                <mat-icon *ngIf="!this.eventService.editMode" (click)="this.eventService.toggleEditMode()"
+                    class="locked-icon" svgIcon="locked"></mat-icon>
+                <mat-icon *ngIf="this.eventService.editMode" (click)="this.eventService.toggleEditMode()"
+                    class="unlocked-icon" svgIcon="unlocked"></mat-icon>
+            </div>
+
             <mat-icon class="userlist-icon" svgIcon="userlist" routerLink="/userlist"></mat-icon>
             <mat-icon class="shiftplan-icon" svgIcon="shiftplan" routerLink="/shiftplan"></mat-icon>
+
         </div>
     </div>
 

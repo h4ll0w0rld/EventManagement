@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { DashboardService } from '../../../Services/Dashboard Service/dashboard.service';
+import { DashboardService } from '../../../core/features/dashboard/dashboard.service';
 import { User } from '../../../Object Models/user/user';
 import { DelUserDialogComponent } from '../del-user-dialog/del-user-dialog.component';
 import { AddUserFormComponent } from '../add-user-form/add-user-form.component';
