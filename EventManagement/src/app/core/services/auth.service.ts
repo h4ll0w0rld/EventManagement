@@ -36,6 +36,7 @@ export class AuthService {
       tap(res => {
         this.token.save(res.accessToken);
         this.userSubject.next(res.user);
+       
         localStorage.setItem('user', JSON.stringify(res.user));
 
         // Invite logic (direct HTTP call)

@@ -30,7 +30,7 @@ export class EventService implements OnDestroy {
 
   refreshInterval: Subscription = Subscription.EMPTY;
   loggedInUser: any;
-  isAdmin = true;
+  isAdmin = false;
   editMode = true;
 
   constructor(
@@ -49,7 +49,7 @@ export class EventService implements OnDestroy {
       .subscribe(user => {
         this.loggedInUser = user;
         this.eventHubService.loadUserEvents();
-       
+        console.log(this.loggedInUser)
       });
 
     // 3. Watch EventhubService for events
@@ -57,12 +57,12 @@ export class EventService implements OnDestroy {
       const firstEvent = events[0] ?? null;
       this.currentEventSubject.next(firstEvent);
       if (firstEvent) this.getAllUsers(); // load users after event is available
-        this.eventHubService.events$.subscribe(events => {
-      const firstEvent = events[0] ?? null;
-      this.currentEventSubject.next(firstEvent);
-      if (firstEvent) this.getAllUsers(); // load users after event is available
-      
-    });
+      this.eventHubService.events$.subscribe(events => {
+        const firstEvent = events[0] ?? null;
+        this.currentEventSubject.next(firstEvent);
+        if (firstEvent) this.getAllUsers(); // load users after event is available
+
+      });
     });
 
     // 4. Start periodic category refresh
@@ -95,7 +95,7 @@ export class EventService implements OnDestroy {
     this.editMode = !this.editMode;
   }
 
-  
+
 
   get currentEvent(): EventModel | null {
     return this.currentEventSubject.getValue();
@@ -163,6 +163,8 @@ export class EventService implements OnDestroy {
       })
     );
   }
+
+
 
   /** Fetch all users for current event and update the BehaviorSubject */
   getAllUsers(): void {
@@ -242,13 +244,11 @@ export class EventService implements OnDestroy {
   }
 
 
-  userIsAdmin(user: User): Observable<any> {
-    const eventId = this.currentEvent?.id;
-    if (!eventId || !user) return of(false);
-    return this.http.get<{ isAdmin: boolean }>(`${this.conf.rootUrl}/event/${eventId}/isAdmin/user_id/${user.id}`, {
-      headers: this.authService.getAuthHeaders()
-    })
+  loggedInIsAdmin(): boolean {
+    const users = this.allUserSubject.value; // 👈 get array
+    return users.find(u => u.id === this.loggedInUser.id)?.isAdmin ?? false;
   }
+
 
   /** Add a new user and update the BehaviorSubject immediately */
   addUser(fName: string, lName: string): Observable<User> {

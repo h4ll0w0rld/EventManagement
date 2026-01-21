@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class ConfigService {
   
-  rootUrl = 'http://87.106.12.47:3000'; //http://localhost:4200/#/api
+  rootUrl = 'http://localhost:3000'; //http://localhost:3000/#/api
 
   
   constructor(private https:HttpClient){}

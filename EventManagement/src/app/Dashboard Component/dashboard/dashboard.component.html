@@ -16,7 +16,7 @@
         </div>
     </div>
 
-    <div class="shift-select" *ngIf="this.eventService.editMode">
+    <div class="shift-select" *ngIf="this.eventService.loggedInIsAdmin()">
         <h3>Schichten von</h3>
         <select [(ngModel)]="selectedUser" (ngModelChange)="onUserSelected($event)">
             <option *ngFor="let user of allUsers" [ngValue]="user">

@@ -37,14 +37,14 @@
           <span>{{ person.email }}</span>
         </div>
 
-        <div class="user-action-row">
+        <div *ngIf="this.eventService.loggedInIsAdmin()" class="user-action-row">
 
-          <button *ngIf="this.eventService.editMode" class="admin-toggle-btn" [ngClass]="{ 'remove': person.isAdmin, 'add': !person.isAdmin }"
+          <button  class="admin-toggle-btn" [ngClass]="{ 'remove': person.isAdmin, 'add': !person.isAdmin }"
             (click)="toggleAdmin(person); $event.stopPropagation()">
             {{ person.isAdmin ? 'Admin Rechte entfernen' : 'zum Admin machen' }}
           </button>
 
-          <button *ngIf="this.eventService.editMode" class="remove-user-btn" (click)="removeUser(person); $event.stopPropagation()">
+          <button class="remove-user-btn" (click)="removeUser(person); $event.stopPropagation()">
             Aus Event Entfernen
           </button>
           <!-- <button (click)="test(person.id)">TEST</button> -->
@@ -55,7 +55,7 @@
   </div>
 
   <div class="add-user-wrapper">
-    <button *ngIf="this.eventService.editMode" class="add-user-btn" (click)="addUser()">+</button>
+    <button class="add-user-btn" (click)="addUser()">+</button>
   </div>
   
 </div>

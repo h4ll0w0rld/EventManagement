@@ -6,11 +6,11 @@ export class User {
     fName: string;
     lName: string;
     email: string;
-    isAdmin: Boolean = false;
+    isAdmin: boolean = false;
     password:string;
 
 
-    constructor(_uuid: number, _fName: string, _lName: string,_email:string, _password:string, isAdmin: Boolean = false) {
+    constructor(_uuid: number, _fName: string, _lName: string,_email:string, _password:string, isAdmin: boolean = false) {
 
         this.id = _uuid;
         this.fName = _fName;

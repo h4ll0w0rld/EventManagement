@@ -29,13 +29,9 @@ export class Userlist2Component implements OnInit {
   }
 
   toggleUser(user: User): void {
+   // console.log("Toggling", this.eventService.loggedInIsAdmin())
     this.openedUser = this.openedUser === user ? null : user;
 
-    if (!user.isAdmin) {
-      this.eventService.userIsAdmin(user).subscribe(isAdmin => {
-        user.isAdmin = isAdmin;
-      });
-    }
   }
 
   makeAdmin(user: User): void {

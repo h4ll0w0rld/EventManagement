@@ -151,7 +151,8 @@ export class HeaderComponent implements OnInit {
 
     if (!this.user || !this.user.firstName || !this.user.lastName) {
       console.log("Bigg problem", this.user);
-      this.authService.getUser();
+      this.authService.logout();
+      this.router.navigate(['/authLanding'])
       return "";
     }
 

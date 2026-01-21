@@ -23,43 +23,46 @@ export class ActivityComponent {
   currUserAvailable: any;
 
   constructor(
-    public shiftplanService: ShiftplanService, 
-    public eventService: EventService, 
-    private dialog: MatDialog, 
-    private renderer: Renderer2, 
-    private el: ElementRef, 
+    public shiftplanService: ShiftplanService,
+    public eventService: EventService,
+    private dialog: MatDialog,
+    private renderer: Renderer2,
+    private el: ElementRef,
     private breakpointObserver: BreakpointObserver
-  ) {}
+  ) { }
 
 
   openUserList(event: MouseEvent | TouchEvent) {
-
-    const dialogRef = this.dialog.open(UserListComponent,
-      {
-        data: {
-          activity: this.activity,
-          shiftId: this.shiftId
-        },
-        width: '400px',
-        maxWidth: '90vw',
-        maxHeight: '70vh',
-        autoFocus: false,
-        restoreFocus: false
-      }
-    );
-
-    this.breakpointObserver
-      .observe('(min-width: 1024px)')
-      .subscribe(result => {
-        if (result.matches) {
-          const { x, y } = this.getClickPoint(event);
-          this.positionDialog(dialogRef, x, y);
+    if (this.eventService.loggedInIsAdmin()) {
+      const dialogRef = this.dialog.open(UserListComponent,
+        {
+          data: {
+            activity: this.activity,
+            shiftId: this.shiftId
+          },
+          width: '400px',
+          maxWidth: '90vw',
+          maxHeight: '70vh',
+          autoFocus: false,
+          restoreFocus: false
         }
-      });
+      );
 
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(result);
-    })
+
+      this.breakpointObserver
+        .observe('(min-width: 1024px)')
+        .subscribe(result => {
+          if (result.matches) {
+            const { x, y } = this.getClickPoint(event);
+            this.positionDialog(dialogRef, x, y);
+          }
+        });
+
+      dialogRef.afterClosed().subscribe((result) => {
+        console.log(result);
+      })
+
+    }
   }
 
   private getClickPoint(event: MouseEvent | TouchEvent) {
@@ -72,38 +75,38 @@ export class ActivityComponent {
   }
 
   private positionDialog(
-  dialogRef: MatDialogRef<any>,
-  x: number,
-  y: number
-) {
-  const dialogWidth = 360;
-  const dialogHeight = 420; // grob, reicht
-  const margin = 8;
+    dialogRef: MatDialogRef<any>,
+    x: number,
+    y: number
+  ) {
+    const dialogWidth = 360;
+    const dialogHeight = 420; // grob, reicht
+    const margin = 8;
 
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
 
-  let left = x;
-  let top = y;
+    let left = x;
+    let top = y;
 
-  // 👉 rechts / unten raus?
-  if (left + dialogWidth > vw) {
-    left = vw - dialogWidth - margin;
+    // 👉 rechts / unten raus?
+    if (left + dialogWidth > vw) {
+      left = vw - dialogWidth - margin;
+    }
+
+    if (top + dialogHeight > vh) {
+      top = vh - dialogHeight - margin;
+    }
+
+    // 👉 links / oben raus?
+    if (left < margin) left = margin;
+    if (top < margin) top = margin;
+
+    dialogRef.updatePosition({
+      left: `${left}px`,
+      top: `${top}px`
+    });
   }
-
-  if (top + dialogHeight > vh) {
-    top = vh - dialogHeight - margin;
-  }
-
-  // 👉 links / oben raus?
-  if (left < margin) left = margin;
-  if (top < margin) top = margin;
-
-  dialogRef.updatePosition({
-    left: `${left}px`,
-    top: `${top}px`
-  });
-}
 
 
 

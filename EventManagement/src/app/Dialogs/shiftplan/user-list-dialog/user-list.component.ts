@@ -63,6 +63,7 @@ export class UserListComponent {
 
     this.eventService.regUserForActivity(_activityId, _userId).subscribe((res) => {
       this.onClose();
+      
       this.eventService.triggerCategoryReload();
 
     });
