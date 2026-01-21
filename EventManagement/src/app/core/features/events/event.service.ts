@@ -54,15 +54,13 @@ export class EventService implements OnDestroy {
 
     // 3. Watch EventhubService for events
     this.eventHubService.events$.subscribe(events => {
-      const firstEvent = events[0] ?? null;
-      this.currentEventSubject.next(firstEvent);
-      if (firstEvent) this.getAllUsers(); // load users after event is available
-      this.eventHubService.events$.subscribe(events => {
+      if (!this.currentEvent) {
         const firstEvent = events[0] ?? null;
         this.currentEventSubject.next(firstEvent);
-        if (firstEvent) this.getAllUsers(); // load users after event is available
+      }
 
-      });
+      this.getAllUsers(); // load users after event is available
+
     });
 
     // 4. Start periodic category refresh
