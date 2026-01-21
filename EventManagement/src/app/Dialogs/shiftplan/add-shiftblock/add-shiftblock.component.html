@@ -19,27 +19,28 @@
     </mat-form-field>
   </div>
 
-  <div class="row">
-    <mat-form-field appearance="outline">
-      <mat-label>Dauer (Min)</mat-label>
-      <input matInput type="number"
-        [(ngModel)]="block.intervall"
-        (ngModelChange)="recalculate()" />
-    </mat-form-field>
+ <div class="row">
+  <mat-form-field appearance="outline">
+    <mat-label>Dauer (Min)</mat-label>
+    <input matInput type="number"
+      [(ngModel)]="block.intervall"
+      (ngModelChange)="recalculate()" />
+  </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Anzahl</mat-label>
-      <input matInput type="number"
-        [(ngModel)]="block.numberOfShifts"
-        (ngModelChange)="recalculate()" />
-    </mat-form-field>
-  </div>
-
-  <mat-form-field appearance="outline" class="full">
+  <mat-form-field appearance="outline">
     <mat-label>Helfer pro Schicht</mat-label>
     <input matInput type="number"
       [(ngModel)]="block.activitiesPerShift" />
   </mat-form-field>
+</div>
+
+<mat-form-field appearance="outline" class="full">
+  <mat-label>Anzahl Schichten</mat-label>
+  <input matInput type="number"
+    [(ngModel)]="block.numberOfShifts"
+    (ngModelChange)="recalculate()" />
+</mat-form-field>
+
 
   <mat-card class="summary" [class.error]="outOfEventDate()">
     <p>⏱️ {{ block.numberOfShifts }} × {{ block.intervall }} Minuten</p>
