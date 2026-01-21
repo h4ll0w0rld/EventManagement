@@ -134,6 +134,7 @@ export class HeaderComponent implements OnInit {
       height: 'auto',
     });
     this.eventHubService.loadUserEvents();
+    this.showEventDropdown = false;
     //this.router.navigate(['/add-event']);
     // Open dialog or navigate to event creation
   }

@@ -21,7 +21,7 @@
 </div>
 
 <!-- Dropdown -->
-<div class="event-dropdown" *ngIf="showEventDropdown">
+<div class="event-dropdown" *ngIf="showEventDropdown" [class.shiftplan-view]="this.showBackArrow">
   <ul>
     <li *ngFor="let event of userEvents" (click)="selectEvent(event)">
       {{ event.name }}

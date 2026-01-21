@@ -1,9 +1,10 @@
 <div class="shift_category-container">
-      <mat-icon *ngIf="!this.eventService.editMode" (click)="this.eventService.toggleEditMode()" class="locked-icon" svgIcon="locked" ></mat-icon>
-            <mat-icon *ngIf="this.eventService.editMode" (click)="this.eventService.toggleEditMode()" class="unlocked-icon" svgIcon="unlocked" ></mat-icon>
+    
     <div class="cat-icon-bar">
-
         <mat-icon *ngIf="this.eventService.editMode" class="del-cat-icon" aria-hidden="false" svgIcon="delete" (click)="delCatDialog(content)"></mat-icon>
+        
+        <mat-icon *ngIf="!this.eventService.editMode" (click)="this.eventService.toggleEditMode()" class="locked-icon" svgIcon="locked"></mat-icon>
+        <mat-icon *ngIf="this.eventService.editMode" (click)="this.eventService.toggleEditMode()" class="unlocked-icon" svgIcon="unlocked"></mat-icon>
 
     </div>
 

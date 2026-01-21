@@ -184,6 +184,7 @@ export class ShiftPlanComponent implements OnInit, AfterViewInit {
   addCatDialog(): void {
     this.dialog.open(AddCatDialogComponent, {
       width: '90vw',
+      maxWidth: '768px',
       height: 'auto'
     });
   }

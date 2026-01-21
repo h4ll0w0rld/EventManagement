@@ -32,7 +32,8 @@
         /* vertical overflow hidden is fine */
         scrollbar-width: none;
         -ms-overflow-style: none;
-        padding-top: 1rem;
+        //padding-top: 1rem;
+        height: 42px;
 
         &::-webkit-scrollbar {
             height: 0;
@@ -48,10 +49,14 @@
         p,
         h2 {
             color: $sec-color;
-            margin: 0px 10px;
+            margin: 0 0.75rem;
             padding-bottom: 10px;
             position: relative;
             cursor: pointer;
+
+            &.addBttn {
+                margin: 0 2rem;
+            }
         }
     }
 }

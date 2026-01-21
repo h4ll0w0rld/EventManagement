@@ -6,7 +6,7 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
+  z-index: 800;
   height: $header-height;
   display: flex;
   justify-content: space-between;
@@ -21,10 +21,10 @@
   top: 60px;
   right: 12px;
   background: $prim-color;
-  border-radius: 12px;
+  border-radius: 1rem;
   padding: 8px 0;
   min-width: 140px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
   z-index: 300;
 }
 
@@ -93,17 +93,27 @@
 /* Event Dropdown */
 .event-dropdown {
   position: absolute;
-  top: 60px;
-  left: 10px;
-  right: 10px;
-  background-color: #032c47;
-  border-radius: 16px;
-  padding: 16px;
-  z-index: 200;
-  box-shadow: 0px 4px 16px rgba(0, 0, 0, 0.2);
-  font-family: 'Roboto', sans-serif;
-  max-width: 400px;
-  margin: 0 auto;
+  top: calc($header-height + 1.75rem);
+  //left: 10px;
+  //right: 10px;
+  background-color: $prim-color;
+  border-radius: 0 0 1rem 1rem;
+  padding: 1rem;
+  //z-index: 200;
+  box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.3);
+  //font-family: 'Roboto', sans-serif;
+  width: max-content;
+  min-width: 250px;
+  max-width: calc(100vw - 4rem);
+  overflow: hidden;
+  //margin: 0 auto;
+
+  &.shiftplan-view {
+
+    left: 1rem;
+    right:1rem;
+    margin: 0 auto;
+  }
 }
 
 .event-dropdown ul {

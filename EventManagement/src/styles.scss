@@ -89,4 +89,8 @@ body {
     max-width: 420px;
     width: 100%;
   }
+
+  .cdk-overlay-pane:has(mat-dialog-container) {
+    z-index: 2000;
+  }
 }

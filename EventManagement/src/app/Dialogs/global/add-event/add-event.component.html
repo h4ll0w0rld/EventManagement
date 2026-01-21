@@ -3,7 +3,7 @@
   <h1>Event Hinzufügen</h1>
   <mat-form-field class="form" appearance="outline">
     <mat-label>Event Name:</mat-label>
-    <input [(ngModel)]="newEvent.name" class="input" matInput name="name" required />
+    <input [(ngModel)]="newEvent.name" maxlength="24" class="input" matInput name="name" required />
     <mat-error *ngIf="true">
       Event Name wird <strong>benötigt</strong>
     </mat-error>
