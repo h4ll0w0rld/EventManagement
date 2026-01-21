@@ -1,8 +1,4 @@
 <div class="register-wrapper">
-<!-- 
-  <div class="logo">
-    <img src="../../../../assets/icons/icon-512x512.png" alt="PLANIT Logo" />
-  </div> -->
 
   <h2 class="title">Konto erstellen</h2>
   <p class="subtitle">Erstelle dein Benutzerkonto</p>
@@ -28,22 +24,64 @@
 
     <mat-form-field appearance="outline">
       <mat-label>Email</mat-label>
-      <input matInput type="email" [(ngModel)]="user.emailAddress" name="email" required>
+
+      <input matInput type="email" autocomplete="email" [(ngModel)]="user.emailAddress" name="email" #email="ngModel"
+        required email (ngModelChange)="onEmailChange(email)" (ngModelInit)="setEmailModel(email)" />
+
+
+      <mat-error *ngIf="email.errors?.['emailTaken']">
+        Diese Email ist bereits vergeben
+      </mat-error>
+
+      <mat-error *ngIf="email.errors?.['email']">
+        Bitte eine gültige Email eingeben
+      </mat-error>
+
     </mat-form-field>
+
 
     <mat-form-field appearance="outline">
       <mat-label>Passwort</mat-label>
-      <input matInput type="password" [(ngModel)]="firstPass" name="pass1" required>
+
+      <input matInput type="password" autocomplete="new-password" [(ngModel)]="firstPass" name="pass1" #pass1="ngModel"
+        required minlength="8" />
+
+      <mat-error *ngIf="pass1.invalid && (pass1.dirty || pass1.touched)">
+        Passwort muss mindestens 8 Zeichen lang sein
+      </mat-error>
     </mat-form-field>
+
 
     <mat-form-field appearance="outline">
       <mat-label>Passwort wiederholen</mat-label>
-      <input matInput type="password" [(ngModel)]="secPass" name="pass2" required>
+
+      <input matInput type="password" autocomplete="new-password" [(ngModel)]="secPass" name="pass2" #pass2="ngModel"
+        required (ngModelChange)="onSecondPasswordChange(pass2)" />
+
+      <mat-error *ngIf="pass2.errors?.['tooShort']">
+        Passwort ist zu kurz (mind. 8 Zeichen)
+      </mat-error>
+
+      <mat-error *ngIf="pass2.errors?.['mismatch']">
+        Passwörter stimmen nicht überein
+      </mat-error>
     </mat-form-field>
 
-    <button color="primary" class="submit-btn" [disabled]="!registerForm.form.valid || !checkPassword()">
+
+
+    <!-- <p class="error" *ngIf="passwordError">{{ passwordError }}</p>
+    <p class="error" *ngIf="backendError">{{ backendError }}</p> -->
+
+    <button mat-flat-button color="primary" class="submit-btn" [disabled]="
+    !registerForm.valid ||
+    passwordsDoNotMatch ||
+    firstPass.length < 8
+  ">
       {{ buttonText }}
     </button>
+
+
   </form>
+
 
 </div>

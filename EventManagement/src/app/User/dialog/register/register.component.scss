@@ -18,6 +18,14 @@
   width: 80px;
   margin-bottom: 1rem;
 }
+.error {
+  color: #c62828;
+  font-size: 0.85rem;
+  margin-top: -0.3rem;
+  margin-bottom: 0.6rem;
+  text-align: left;
+}
+
 
 .title {
   font-size: 1.6rem;
@@ -110,4 +118,16 @@ mat-form-field {
 .register-wrapper .submit-btn {
   margin-top: 0.4rem;
   padding: 0.6rem;
+}
+.error {
+  color: #c62828;
+  font-size: 0.85rem;
+  margin-top: -0.3rem;
+  margin-bottom: 0.6rem;
+  text-align: left;
+}
+.submit-btn {
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 1rem;
 }

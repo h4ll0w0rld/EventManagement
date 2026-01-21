@@ -5,7 +5,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TokenService } from './token.service';
 import { User } from 'src/app/Object Models/user/user';
 import { ConfigService } from '../../Services/config.service';
-import { EventhubService } from '../features/eventhub/eventhub.service';
 import { Router } from '@angular/router';
 
 export interface AuthResponse {
@@ -62,12 +61,7 @@ export class AuthService {
     }
 
     return this.http.post(this.config.rootUrl + "/register/registerNewUser", data)
-      .pipe(
-        map((res) => {
-          console.log(res)
-        }
-        )
-      )
+      
   }
 
 
