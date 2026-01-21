@@ -1,102 +1,59 @@
-<div class="shiftblock-dialog">
+<mat-dialog-content class="dialog">
 
-  <!-- STEP 1 -->
-  <mat-card *ngIf="step === 0" @stepAnimation class="block-card">
-    <mat-card-title>
-      <mat-icon>schedule</mat-icon>
-      Startzeit
-    </mat-card-title>
+  <h2 mat-dialog-title>🕒 Neuer Schichtblock</h2>
 
-    <p class="hint">Wann beginnt der Schichtblock?</p>
-
-    <div class="input-row">
-      <input matInput [matDatepicker]="pickerDate"
-        [(ngModel)]="currentBlock.startTime"
-        (ngModelChange)="onInputChange()"
-        readonly (click)="pickerDate.open()" />
-
-      <mat-datepicker #pickerDate></mat-datepicker>
-
-      <input matInput [ngxMatTimepicker]="pickerTime"
-        [(ngModel)]="startTimeTime"
-        (ngModelChange)="onTimeInputChange()"
-        readonly />
-
-      <ngx-mat-timepicker #pickerTime></ngx-mat-timepicker>
-    </div>
-
-    <button mat-flat-button color="primary" (click)="next()">Weiter</button>
-  </mat-card>
-
-  <!-- STEP 2 -->
-  <mat-card *ngIf="step === 1" @stepAnimation class="block-card">
-    <mat-card-title>
-      <mat-icon>repeat</mat-icon>
-      Dauer & Wiederholung
-    </mat-card-title>
-
-    <div class="input-row">
-      <mat-form-field appearance="outline">
-        <mat-label>Schichtlänge</mat-label>
-        <input matInput type="number"
-          [(ngModel)]="currentBlock.intervall"
-          (ngModelChange)="onInputChange()" />
-        <span matSuffix>Min</span>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
-        <mat-label>Anzahl</mat-label>
-        <input matInput type="number"
-          [(ngModel)]="currentBlock.numberOfShifts"
-          (ngModelChange)="onInputChange()" />
-      </mat-form-field>
-    </div>
-
-    <div class="nav">
-      <button mat-button (click)="back()">Zurück</button>
-      <button mat-flat-button color="primary" (click)="next()">Weiter</button>
-    </div>
-  </mat-card>
-
-  <!-- STEP 3 -->
-  <mat-card *ngIf="step === 2" @stepAnimation class="block-card">
-    <mat-card-title>
-      <mat-icon>group</mat-icon>
-      Besetzung
-    </mat-card-title>
-
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Helfer pro Schicht</mat-label>
-      <input matInput type="number"
-        [(ngModel)]="currentBlock.activitiesPerShift" />
-      <span matSuffix>Personen</span>
+  <div class="row">
+    <mat-form-field appearance="outline">
+      <mat-label>Startdatum</mat-label>
+      <input matInput [matDatepicker]="picker"
+        [(ngModel)]="block.startTime"
+        (ngModelChange)="recalculate()" />
+      <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
 
-    <div class="nav">
-      <button mat-button (click)="back()">Zurück</button>
-      <button mat-flat-button color="primary" (click)="next()">Weiter</button>
-    </div>
+    <mat-form-field appearance="outline">
+      <mat-label>Startzeit</mat-label>
+      <input matInput type="time"
+        [(ngModel)]="startTime"
+        (ngModelChange)="updateTime()" />
+    </mat-form-field>
+  </div>
+
+  <div class="row">
+    <mat-form-field appearance="outline">
+      <mat-label>Dauer (Min)</mat-label>
+      <input matInput type="number"
+        [(ngModel)]="block.intervall"
+        (ngModelChange)="recalculate()" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Anzahl</mat-label>
+      <input matInput type="number"
+        [(ngModel)]="block.numberOfShifts"
+        (ngModelChange)="recalculate()" />
+    </mat-form-field>
+  </div>
+
+  <mat-form-field appearance="outline" class="full">
+    <mat-label>Helfer pro Schicht</mat-label>
+    <input matInput type="number"
+      [(ngModel)]="block.activitiesPerShift" />
+  </mat-form-field>
+
+  <mat-card class="summary" [class.error]="outOfEventDate()">
+    <p>⏱️ {{ block.numberOfShifts }} × {{ block.intervall }} Minuten</p>
+    <p>🏁 Ende: {{ block.endTime | date:'EEE dd.MM HH:mm' }}</p>
+    <p *ngIf="outOfEventDate()">⚠️ Endet nach Eventende</p>
   </mat-card>
 
-  <!-- STEP 4 -->
-  <mat-card *ngIf="step === 3"
-    @stepAnimation
-    class="summary-card"
-    [class.error]="outOfEventDate()">
+</mat-dialog-content>
 
-    <p>⏱️ {{ currentBlock.numberOfShifts }} × {{ currentBlock.intervall }} Minuten</p>
-    <p>🏁 Ende: {{ currentBlock.endTime | date:'EEE dd.MM HH:mm' }}</p>
-
-    <p *ngIf="outOfEventDate()">⚠️ Der Schichtblock endet nach dem Eventende.</p>
-
-    <div class="nav">
-      <button mat-button (click)="back()">Zurück</button>
-      <button mat-flat-button color="primary"
-        [disabled]="outOfEventDate()"
-        (click)="newBlock()">
-        Erstellen
-      </button>
-    </div>
-  </mat-card>
-
-</div>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Abbrechen</button>
+  <button mat-flat-button color="primary"
+    [disabled]="outOfEventDate()"
+    (click)="save()">
+    Erstellen
+  </button>
+</mat-dialog-actions>

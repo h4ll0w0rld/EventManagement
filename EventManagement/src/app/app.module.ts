@@ -1,4 +1,4 @@
-import { NgModule, isDevMode, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { NgModule, isDevMode, CUSTOM_ELEMENTS_SCHEMA, ViewChild } from '@angular/core';
 import { BrowserModule, HammerModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -57,6 +57,8 @@ import { InviteLandingComponent } from './User/invite-landing/invite-landing.com
 import { UserInfosComponent } from './Dialogs/global/user-infos/user-infos.component';
 import { DeleteShiftDialogComponent } from './Dialogs/shiftplan/delete-shift-dialog/delete-shift-dialog.component';
 import { Userlist2Component } from './userlist2/userlist2.component';
+import { ElementRef } from '@angular/core';
+
 
 // register Swiper custom elements
 register();
@@ -105,6 +107,7 @@ register();
     MatGridListModule,
     CommonModule,
     FormsModule,
+    
     ReactiveFormsModule,
     NgxMaterialTimepickerModule,
     MatMenuModule,
@@ -205,6 +208,8 @@ export class AppModule {
       this.domSanitizer.bypassSecurityTrustResourceUrl("../assets/icons/logout.svg")
 
     );
-  }
 
+
+  }
+  
 }
