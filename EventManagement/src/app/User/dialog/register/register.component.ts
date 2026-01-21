@@ -1,5 +1,7 @@
-import { Component, ElementRef, EventEmitter, Output, Renderer2 } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { catchError, of } from 'rxjs';
+import { NgModel } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
@@ -7,87 +9,147 @@ import { AuthService } from 'src/app/core/services/auth.service';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
+  @Output() registerSuccess = new EventEmitter<{ email: string; password: string }>();
 
-@Output() registerSuccess = new EventEmitter<{ email: string, password: string }>();
-
-  buttonText = "Registrieren";
+  buttonText = 'Registrieren';
   animationState = false;
 
-  constructor(private authService: AuthService, private el: ElementRef, private renderer: Renderer2) { }
-
-  firstPass = "";
-  secPass = "";
+  // -------------------------
+  // FORM DATA
+  // -------------------------
   user = {
-    firstName: "",
-    lastName: "",
-    emailAddress: "",
-    password: ""
+    firstName: '',
+    lastName: '',
+    emailAddress: '',
+    password: ''
+  };
 
-  }
+  firstPass = '';
+  secPass = '';
 
+  // -------------------------
+  // ERROR STATE
+  // -------------------------
+  backendError: string | null = null;
+
+  // Keep reference to email control
+  private emailModel!: NgModel;
+
+  constructor(private authService: AuthService) {}
+
+  // -------------------------
+  // SUBMIT
+  // -------------------------
   onSubmit() {
+    this.backendError = null;
 
-    //this.checkPassword()
-    if (this.checkPassword()) this.authService.registerUser(
-      this.user.firstName,
-      this.user.lastName,
-      this.user.emailAddress,
-      this.user.password = this.firstPass
+    if (this.passwordInvalid) return;
 
-    ).subscribe((res) => {
+    this.user.password = this.firstPass;
 
-      this.successTransition();
-    });
-
+    this.authService
+      .registerUser(
+        this.user.firstName,
+        this.user.lastName,
+        this.user.emailAddress,
+        this.user.password
+      )
+      .pipe(
+        catchError(err => {
+          if (err?.status === 409) {
+            // Mark email field as invalid
+            this.emailModel.control.setErrors({ emailTaken: true });
+            this.emailModel.control.markAsTouched();
+            this.emailModel.control.markAsDirty();
+          } else {
+            this.backendError =
+              err?.error?.message || 'Registrierung fehlgeschlagen';
+          }
+          return of(null);
+        })
+      )
+      .subscribe(res => {
+        if (!res) return;
+        this.successTransition();
+      });
   }
 
-  checkPassword(): boolean {
-
-    if (this.firstPass.length > 8 && this.secPass.length > 8)
-      if (this.firstPass === this.secPass) return true
-
-    return false;
-
+  // -------------------------
+  // EMAIL HANDLING
+  // -------------------------
+  setEmailModel(model: NgModel) {
+    this.emailModel = model;
   }
 
-  // successTransition() {
+  onEmailChange(model: NgModel) {
+    this.emailModel = model;
 
-  //   const successDiv = this.el.nativeElement.querySelector('.' + "success");
-  //   this.renderer.setStyle(successDiv, 'z-index', '1');
-  //   this.animationState = true;
-  //   this.buttonText = "Registriert!";
+    if (model.errors?.['emailTaken']) {
+      model.control.setErrors(null);
+    }
+  }
 
-  //   setTimeout(() => {
-  //     this.registerSuccess.emit();
-  //     setTimeout(() => {
-  //       this.animationState = false;}, 1000);
-  //   }, 2000);
-  // }
+  // -------------------------
+  // PASSWORD VALIDATION
+  // -------------------------
+  get passwordTooShort(): boolean {
+    return this.firstPass.length > 0 && this.firstPass.length < 8;
+  }
 
+  get passwordsDoNotMatch(): boolean {
+    return this.secPass.length > 0 && this.firstPass !== this.secPass;
+  }
+
+  get passwordInvalid(): boolean {
+    return this.passwordTooShort || this.passwordsDoNotMatch;
+  }
+
+  onSecondPasswordChange(model: NgModel) {
+    model.control.setErrors(null);
+
+    if (this.firstPass.length > 0 && this.firstPass.length < 8) {
+      model.control.setErrors({ tooShort: true });
+      return;
+    }
+
+    if (this.secPass && this.firstPass !== this.secPass) {
+      model.control.setErrors({ mismatch: true });
+    }
+  }
+
+  // -------------------------
+  // SUCCESS
+  // -------------------------
   successTransition() {
-  this.animationState = true;
-  this.buttonText = "Registriert!";
+    this.animationState = true;
+    this.buttonText = 'Registriert!';
 
-  setTimeout(() => {
-    this.registerSuccess.emit({
-      email: this.user.emailAddress,
-      password: this.firstPass
-    });
+    setTimeout(() => {
+      this.registerSuccess.emit({
+        email: this.user.emailAddress,
+        password: this.firstPass
+      });
 
-    this.animationState = false;
-    this.buttonText = "Registrieren";
-    this.clearInputs();
-  }, 2000);
-}
-
-
-  clearInputs() {
-
-    this.user.firstName = "";
-    this.user.lastName = "";
-    this.user.emailAddress = "";
-    this.user.password = "";
-    
+      this.resetForm();
+    }, 2000);
   }
-  
+
+  // -------------------------
+  // RESET
+  // -------------------------
+  resetForm() {
+    this.animationState = false;
+    this.buttonText = 'Registrieren';
+
+    this.user = {
+      firstName: '',
+      lastName: '',
+      emailAddress: '',
+      password: ''
+    };
+
+    this.firstPass = '';
+    this.secPass = '';
+    this.backendError = null;
+  }
 }

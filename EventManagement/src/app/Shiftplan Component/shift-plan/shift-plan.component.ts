@@ -6,7 +6,8 @@ import {
   ViewChild,
   Renderer2,
   AfterViewInit,
-  OnInit
+  OnInit,
+  NgZone
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CategoryContent } from 'src/app/Object Models/Shiftplan Component/category-content';
@@ -38,7 +39,8 @@ export class ShiftPlanComponent implements OnInit, AfterViewInit {
     public shiftplanService: ShiftplanService,
     private dialog: MatDialog,
     private renderer: Renderer2,
-    public eventService: EventService
+    public eventService: EventService,
+    private zone: NgZone
   ) {}
 
   // ===================== INIT =====================
@@ -169,15 +171,17 @@ export class ShiftPlanComponent implements OnInit, AfterViewInit {
   }
 
   scrollToActive(): void {
-    const actElem = document.querySelector('.active');
-    if (actElem) {
-      actElem.scrollIntoView({
+  this.zone.runOutsideAngular(() => {
+    requestAnimationFrame(() => {
+      const actElem = document.querySelector('.active');
+      actElem?.scrollIntoView({
         behavior: 'smooth',
         inline: 'center',
         block: 'nearest'
       });
-    }
-  }
+    });
+  });
+}
 
   // ===================== DIALOGS =====================
 
