@@ -11,16 +11,30 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
+
+    .content {
+        margin-bottom: 8rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 90vw;
+        max-width: 700px;
+    }
+
+    p {
+        color: $sec-color;
+        text-align: center;
+    }
 }
 
-.joinEvent {
+.submitBttn {
 
     @include button(2);
-    margin-bottom: 150px;
-}
+    color: $color-8;
+    cursor: pointer;
 
-.text {
+    &:hover {
 
-    color: white;
-    padding-bottom: 50px;
+        background: darken($sec-color, 10%);
+    }
 }

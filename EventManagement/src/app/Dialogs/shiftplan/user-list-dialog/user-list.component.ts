@@ -37,7 +37,7 @@ export class UserListComponent {
 
   ngOnInit() {
 
-    console.log("Dialog data received:", this.data);
+    //console.log("Dialog data received:", this.data);
 
     if (this.data.activity.status === 'free') {
       this.eventService.getAvailableUsers(this.data.shiftId, this.data.activity.uuid);

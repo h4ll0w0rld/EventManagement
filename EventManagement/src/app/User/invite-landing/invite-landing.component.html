@@ -1,13 +1,16 @@
-<div *ngIf="!isLoggedIn">
-  <p>You’ve been invited to an event.</p>
-  <button (click)="router.navigate(['/authLanding'])">
-    Login or Register to continue
-  </button>
-</div>
+<div class="container">
+  <div *ngIf="!isLoggedIn" class="content">
 
-<div *ngIf="isLoggedIn">
-  <p>You're logged in.</p>
-  <button (click)="acceptInvite()">
-    Join Event
-  </button>
+    <p>Du wurdest zu einem Event eingeladen. Registriere dich oder melde dich an um beizutreten.</p>
+    <button class="submitBttn" (click)="router.navigate(['/authLanding'])">
+      Registrieren / Anmelden
+    </button>
+  </div>
+
+  <div *ngIf="isLoggedIn" class="content">
+    <p>Du wurdest zu einem Event eingeladen.</p>
+    <button class="submitBttn" (click)="acceptInvite()">
+      Event beitreten
+    </button>
+  </div>
 </div>

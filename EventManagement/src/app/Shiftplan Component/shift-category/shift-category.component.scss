@@ -96,12 +96,22 @@
 
 .new-shiftblock-button {
 
-    @include button();
-    min-width: 40px;
-    height: 40px;
+    //border: 1px solid #0f172a;
+    background-color: $prim-color;
+    color: $sec-color;
+    width: 6rem;
+    height: 2.5rem;
+    border-radius: 1rem;
+    border: none;
+    font-size: 22px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.3);
+    transition: 0.2s ease;
+    margin-top: 1rem;
 
-    h3 {
-        margin: 0px;
-        padding: 0px;
+    &:hover {
+        background: lighten($prim-color, 6%);
+        color: $sec-color;
     }
 }

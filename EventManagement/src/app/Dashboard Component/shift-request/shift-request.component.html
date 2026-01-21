@@ -1,52 +1,45 @@
+<div class="requestCard" *ngFor="let request of _shiftRequests" (click)="toggleHelpers(request)">
 
-  <div class="requestCard" *ngFor="let request of _shiftRequests" (click)="toggleHelpers(request)">
-
-    <!-- ROW: Left = category, Right = date/time -->
-    <div class="request-row">
-      <!-- Left side: category -->
-      <div class="request-left">
-        <div class="request-category">{{ request.shift_category.name }}</div>
-      </div>
-
-      <!-- Right side: date and time -->
-      <div class="request-right">
-        <div class="date-row">
-          <p class="request-date">{{ request.startTime | date:'EEE, dd.MM.yy' }}</p>
-          <p class="request-end-date" *ngIf="nextDay(request)">( - {{ request.endTime | date:'EEE, dd.MM.yy' }})</p>
-        </div>
-
-        <div class="request-time">
-          {{ request.startTime | date:'HH:mm' }} – {{ request.endTime | date:'HH:mm' }} Uhr
-        </div>
-
-      </div>
-    </div>
-    <!--<div class="icon-container">
-      <mat-icon class="dropdown-icon">expand_more</mat-icon>
-</div>-->
-    <!-- <button (click)="test()">TESTER</button> -->
-
-    <!-- Helfer anzeigen -->
-    <div class="activity-helpers" *ngIf="showHelpers">
-      <p>{{request.shift_category.description}}</p>
-      <h3>Schicht Helfer:</h3>
-      <div *ngFor="let helper of activitys" class="helper-item">
-        <div *ngIf="helper.status === 'confirmed' || helper.status === 'requested'" class="helper-row">
-          <span class="status-bar"
-            [ngClass]="{'green': helper.status === 'confirmed', 'yellow': helper.status === 'requested'}">
-          </span>
-
-          <span class="helper-name">
-            {{ helper.user?.firstName }} {{ helper.user?.lastName }}
-            <span *ngIf="helper.isCurrent">(Du)</span>
-          </span>
-        </div>
-      </div>
+  <div class="request-row">
+    <div class="request-left">
+      <div class="request-category">{{ request.shift_category.name }}</div>
     </div>
 
-    <!-- BUTTONS -->
-    <div class="buttonContainer">
-      <button (click)="decReq(request, $event)" class="button decline">Ablehnen</button>
-      <button (click)="accReq(request, $event)" class="button accept">Annehmen</button>
+    <div class="request-right">
+      <div class="date-row">
+        <p class="request-date">{{ request.startTime | date:'EEE, dd.MM.yy' }}</p>
+        <p class="request-end-date" *ngIf="nextDay(request)">( - {{ request.endTime | date:'EEE, dd.MM.yy' }})</p>
+      </div>
+
+      <div class="request-time">
+        {{ request.startTime | date:'HH:mm' }} – {{ request.endTime | date:'HH:mm' }} Uhr
+      </div>
     </div>
   </div>
+
+  <div class="activity-helpers" *ngIf="showHelpers">
+    <div *ngIf="request.shift_category.description" class="beschreibung-block">
+      <h3>Beschreibung</h3>
+      <p>{{ request.shift_category.description }}</p>
+    </div>
+
+    <h3>Schicht Helfer:</h3>
+    <div *ngFor="let helper of activitys" class="helper-item">
+      <div *ngIf="helper.status === 'confirmed' || helper.status === 'requested'" class="helper-row">
+        <span class="status-bar"
+          [ngClass]="{'green': helper.status === 'confirmed', 'yellow': helper.status === 'requested'}">
+        </span>
+
+        <span class="helper-name">
+          {{ helper.user?.firstName }} {{ helper.user?.lastName }}
+          <span *ngIf="helper.isCurrent">(Du)</span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="buttonContainer">
+    <button (click)="decReq(request, $event)" class="button decline">Ablehnen</button>
+    <button (click)="accReq(request, $event)" class="button accept">Annehmen</button>
+  </div>
+</div>
