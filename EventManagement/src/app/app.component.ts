@@ -2,6 +2,7 @@ import { Component, ElementRef } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { GlobalUserListComponent } from './Dialogs/global/global-userlist-dialog/global-user-list.component';
 import { MatDialog } from '@angular/material/dialog';
+import { SwUpdate } from '@angular/service-worker';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +21,13 @@ export class AppComponent {
   // ];
 
 
-  constructor(private dialog: MatDialog, private elementRef: ElementRef) {} 
+  constructor(private dialog: MatDialog, private elementRef: ElementRef, private swUpdate: SwUpdate) {
+    //Updates PWA 
+    if (swUpdate.versionUpdates)
+      this.swUpdate.versionUpdates.subscribe(() => {
+        window.location.reload
+      })
+  }
 
 
   ngOnInit() {
@@ -28,7 +35,7 @@ export class AppComponent {
     //const iconElement = this.elementRef.nativeElement.querySelector('.mat-icon');
     //iconElement.classList.remove('mat-icon-no-color');
 
-   
+
   }
 
 

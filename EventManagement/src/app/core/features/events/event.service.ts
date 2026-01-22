@@ -89,6 +89,7 @@ export class EventService implements OnDestroy {
       this.authService.setUser(this.loggedInUser);
     }
   }
+  
   toggleEditMode() {
     this.editMode = !this.editMode;
   }

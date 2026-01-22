@@ -24,6 +24,8 @@ export class HeaderComponent implements OnInit {
   showBackArrow = false;
   showUserMenu = false;
   user: any | null = null;
+  private deferredPrompt: any = null;
+  showInstallButton = false;
 
   private initials$!: Observable<string>;
 
@@ -45,7 +47,7 @@ export class HeaderComponent implements OnInit {
         this.title = event.name;
 
     });
-    
+
 
     // this.eventService.getRoles();
   }
@@ -91,6 +93,30 @@ export class HeaderComponent implements OnInit {
       this.showUserMenu = false;
     }
   }
+  @HostListener('window:beforeinstallprompt', ['$event'])
+  onBeforeInstallPrompt(event: Event) {
+    event.preventDefault(); // wichtig!
+    this.deferredPrompt = event;
+    this.showInstallButton = true;
+  }
+  installPwa() {
+    console.log("klick")
+    if (!this.deferredPrompt) return;
+    console.log("Still")
+    this.deferredPrompt.prompt();
+
+    this.deferredPrompt.userChoice.then((choiceResult: any) => {
+      if (choiceResult.outcome === 'accepted') {
+        console.log('PWA installiert');
+      } else {
+        console.log('Installation abgelehnt');
+      }
+
+      this.deferredPrompt = null;
+      this.showInstallButton = false;
+    });
+  }
+
 
   toggleUserMenu() {
     //console.log('Toggling user menu');
@@ -128,7 +154,7 @@ export class HeaderComponent implements OnInit {
   }
 
   createNewEvent() {
-   // console.log('Create new event clicked');
+    // console.log('Create new event clicked');
     this.dialog.open(AddEventComponent, {
       width: '80vw',
       height: 'auto',

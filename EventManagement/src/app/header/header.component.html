@@ -8,24 +8,29 @@
     <h4>{{ title }}</h4>
     <mat-icon class="dropdown-icon">expand_more</mat-icon>
   </div>
- 
+
   <!-- Right: User icon -->
   <div class="user-icon" (click)="toggleUserMenu()">
-  <div class="user-circle">
-    <span>{{ getInitials() }}</span>
+    <div class="user-circle">
+      <span>{{ getInitials() }}</span>
+    </div>
   </div>
-</div>
 
-<div class="user-dropdown" *ngIf="showUserMenu">
-  <button (click)="logout()">Logout</button>
-</div>
+  <div class="user-dropdown" *ngIf="showUserMenu">
+    <button (click)="logout()">Logout</button>
+    <!-- <button (click)="installPwa()">App Installieren</button> -->
+    <!-- <div *ngIf="isIOS">
+      Tippe auf <strong>Teilen</strong> → „Zum Home-Bildschirm“
+    </div> -->
 
-<!-- Dropdown -->
-<div class="event-dropdown" *ngIf="showEventDropdown" [class.shiftplan-view]="this.showBackArrow">
-  <ul>
-    <li *ngFor="let event of userEvents" (click)="selectEvent(event)">
-      {{ event.name }}
-    </li>
-  </ul>
-  <button class="new-event-btn" (click)="createNewEvent()">Event hinzufügen</button>
-</div>
+  </div>
+
+  <!-- Dropdown -->
+  <div class="event-dropdown" *ngIf="showEventDropdown" [class.shiftplan-view]="this.showBackArrow">
+    <ul>
+      <li *ngFor="let event of userEvents" (click)="selectEvent(event)">
+        {{ event.name }}
+      </li>
+    </ul>
+    <button class="new-event-btn" (click)="createNewEvent()">Event hinzufügen</button>
+  </div>
