@@ -18,18 +18,43 @@
     height: 85vh;
     padding: 1rem;
     align-items: center;
-}
 
-.title {
+    .title-row {
+
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
         width: 100%;
+        margin-bottom: 2rem;
         max-width: media.$bp-tablet;
-        align-items: start;
-        //font-size: 32px;
-        //font-weight: 700;
-        margin: 1rem 0;
-        //color: $prim-color;
-    }
 
+        .title {
+
+            width: 100%;
+            max-width: media.$bp-tablet;
+            align-items: start;
+            margin: 0;
+        }
+
+        .search-bar {
+
+            align-content: center;
+
+            input {
+
+                border: 2px solid transparent;
+                border-radius: 0.75rem;
+                padding: 0.5rem;
+
+                &:focus {
+                    outline: none;
+                    border: 2px solid $prim-color;
+                    //box-shadow: 0 0 0 3px rgba($prim-color, 0.1);
+                }
+            }
+        }
+    }
+}
 
 .persons-list {
     width: 100%;
@@ -107,32 +132,78 @@
 /* === EXPANDED CONTENT === */
 
 .user-details {
-    margin-top: 18px;
+    margin-top: 1rem;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 1rem;
+
+    p {
+        margin: 0;
+    }
 }
 
 .detail-row {
     display: flex;
     justify-content: space-between;
     font-size: 15px;
+
+    &.shift-details {
+        flex-direction: column;
+        justify-content: end;
+
+        .shift-versions-container {
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+
+            p {
+                margin-bottom: 0.125rem;
+            }
+        }
+    }
 }
+
+.shift-details-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.shift-toggle-left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.toggle-button {
+    border-style: solid;
+    border-width: 6px 0 6px 10px;
+    border-color: transparent transparent transparent $prim-color;
+    border-radius: 2px;
+    transition: transform 0.25s ease;
+}
+
+
+.toggle-button.arrow-down {
+    transform: rotate(90deg);
+}
+
 
 /* === ACTION BUTTON === */
 
 .make-admin-btn {
 
-    border: 1px solid #0f172a;
+    border: 1px solid $prim-color;
     background: white;
-    color: #0f172a;
-    padding: 6px 14px;
-    border-radius: 8px;
+    color: $prim-color;
+    padding: 0.5rem 1rem;
+    border-radius: 0.75rem;
     cursor: pointer;
 }
 
 .make-admin-btn:hover {
-    background: #0f172a;
+    background: $prim-color;
     color: white;
 }
 

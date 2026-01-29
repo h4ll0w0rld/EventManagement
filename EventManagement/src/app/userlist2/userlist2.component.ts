@@ -5,6 +5,8 @@ import { EventService } from '../core/features/events/event.service';
 import { AddUserFormComponent } from '../Dialogs/global/add-user-form/add-user-form.component';
 import { InviteUserDialogComponent } from '../Dialogs/global/invite-user-dialog/invite-user-dialog.component';
 import { AuthService } from '../core/services/auth.service';
+import { DashboardService } from '../core/features/dashboard/dashboard.service';
+import { Shift } from '../Object Models/Dashboard Component/shift';
 
 @Component({
   selector: 'app-userlist2',
@@ -15,25 +17,114 @@ export class Userlist2Component implements OnInit {
 
   userList: User[] = [];
   openedUser: User | null = null;
-  
 
-  constructor(
-    public eventService: EventService,
-    private dialog: MatDialog,
-    private authService: AuthService
-  ) { }
+  searchOpen = false;
+  searchTerm = '';
+  filteredUserList: User[] = [];
+
+  shiftsByUser: Shift[] = [];
+
+  shiftBreakdownOpen: { [userId: string]: boolean } = {};
+
+
+  constructor(private dashboardService: DashboardService, public eventService: EventService, private dialog: MatDialog, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.eventService.allUser$.subscribe(users => {
       this.userList = users;
+
+      this.applyFilter();
     });
 
     this.eventService.getAllUsers();
+
+    this.dashboardService.shiftsByUser.subscribe(shifts => this.shiftsByUser = shifts);
+  }
+
+  private loadShiftsForOpenedUser(user: User): void {
+    if (!user?.id) return;
+    this.dashboardService.updateShiftsByUser(user.id, 'confirmed');
+  }
+
+  getShiftDurationBreakdown(user: User): { minutes: number, count: number }[] {
+    if (!this.openedUser || this.openedUser.id !== user.id) return [];
+    if (!this.shiftsByUser?.length) return [];
+
+    const map = new Map<number, number>(); // Dauer in Minuten → Anzahl
+
+    for (const shift of this.shiftsByUser) {
+      const start = new Date(shift.startTime).getTime();
+      const end = new Date(shift.endTime).getTime();
+
+      const minutes = Math.round((end - start) / (1000 * 60));
+
+      map.set(minutes, (map.get(minutes) || 0) + 1);
+    }
+
+    return Array.from(map.entries())
+      .map(([minutes, count]) => ({ minutes, count }))
+      .sort((a, b) => b.minutes - a.minutes);
+  }
+
+  getTotalShiftTime(user: User): string {
+    if (!this.openedUser || this.openedUser.id !== user.id) return '0 Std.';
+
+    let totalMinutes = 0;
+
+    for (const shift of this.shiftsByUser) {
+      const start = new Date(shift.startTime).getTime();
+      const end = new Date(shift.endTime).getTime();
+      totalMinutes += Math.round((end - start) / (1000 * 60));
+    }
+
+    return this.formatMinutes(totalMinutes);
+  }
+
+  formatMinutes(totalMinutes: number): string {
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+
+    if (hours && minutes) return `${hours} Std. ${minutes} Min.`;
+    if (hours) return `${hours} Std.`;
+    return `${minutes} Min.`;
+  }
+
+  toggleShiftBreakdown(user: User, event: Event) {
+    event.stopPropagation(); // verhindert dass die ganze Card toggelt
+    this.shiftBreakdownOpen[user.id] = !this.shiftBreakdownOpen[user.id];
+  }
+
+
+
+  toggleSearch() {
+    this.searchOpen = !this.searchOpen;
+
+    if (!this.searchOpen) {
+      this.searchTerm = '';
+      this.applyFilter();
+    }
+  }
+
+  applyFilter() {
+    const term = this.searchTerm.toLowerCase().trim();
+
+    if (!term) {
+      this.filteredUserList = this.userList;
+      return;
+    }
+
+    this.filteredUserList = this.userList.filter(user =>
+      `${user.fName} ${user.lName}`.toLowerCase().includes(term)
+    );
   }
 
   toggleUser(user: User): void {
-   // console.log("Toggling", this.eventService.loggedInIsAdmin())
+    // console.log("Toggling", this.eventService.loggedInIsAdmin())
     this.openedUser = this.openedUser === user ? null : user;
+
+    if (this.openedUser) {
+      this.loadShiftsForOpenedUser(this.openedUser);
+    }
 
   }
 
@@ -88,7 +179,7 @@ export class Userlist2Component implements OnInit {
     // Open a dialog or navigate to an edit page
     // For now, just log the action
     if (!user.phone) {
-     return
+      return
     }
     this.authService.editUserPhone(user.phone).subscribe((updatedUser) => {
       console.log('User updated:', updatedUser);
