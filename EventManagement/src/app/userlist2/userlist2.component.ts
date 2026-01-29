@@ -4,6 +4,7 @@ import { User } from '../Object Models/user/user';
 import { EventService } from '../core/features/events/event.service';
 import { AddUserFormComponent } from '../Dialogs/global/add-user-form/add-user-form.component';
 import { InviteUserDialogComponent } from '../Dialogs/global/invite-user-dialog/invite-user-dialog.component';
+import { AuthService } from '../core/services/auth.service';
 
 @Component({
   selector: 'app-userlist2',
@@ -14,10 +15,12 @@ export class Userlist2Component implements OnInit {
 
   userList: User[] = [];
   openedUser: User | null = null;
+  
 
   constructor(
     public eventService: EventService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -78,6 +81,23 @@ export class Userlist2Component implements OnInit {
       }
     });
 
+  }
+
+  editUser(user: User) {
+    console.log('Edit user clicked for', user);
+    // Open a dialog or navigate to an edit page
+    // For now, just log the action
+    if (!user.phone) {
+     return
+    }
+    this.authService.editUserPhone(user.phone).subscribe((updatedUser) => {
+      console.log('User updated:', updatedUser);
+      // Update the user in the userList
+      const index = this.userList.findIndex(u => u.id === updatedUser.id);
+      if (index !== -1) {
+        this.userList[index] = updatedUser;
+      }
+    });
   }
 
   removeAdmin(user: User): void {

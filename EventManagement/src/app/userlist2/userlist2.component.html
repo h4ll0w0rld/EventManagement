@@ -4,18 +4,19 @@
 
   <h1 class="title">Personen</h1>
   <div class="persons-list">
-    
-    <div class="person-item" *ngFor="let person of userList" (click)="toggleUser(person)"
+
+    <div class="person-item" *ngFor="let person of userList" 
       [class.open]="openedUser === person">
 
-      <div class="card-header">
-          <span class="name">{{ person.fName }} {{ person.lName }}</span>
+      <div class="card-header"(click)="toggleUser(person)">
+        <span class="name">{{ person.fName }} {{ person.lName }}</span>
 
 
         <div class="header-actions">
 
           <span *ngIf="person.isAdmin" class="admin-pill">Admin</span>
-          <button *ngIf="!person.email && this.eventService.editMode" class="invite-pill" (click)="inviteUser(person); $event.stopPropagation()">
+          <button *ngIf="!person.email && this.eventService.editMode" class="invite-pill"
+            (click)="inviteUser(person); $event.stopPropagation()">
             Einladen
           </button>
 
@@ -29,7 +30,7 @@
 
         <div class="detail-row">
           <span>Telefon:</span>
-          <span>+49 1577 654321</span>
+          <span>{{ person.phone }}</span>
         </div>
 
         <div class="detail-row">
@@ -39,7 +40,7 @@
 
         <div *ngIf="this.eventService.loggedInIsAdmin()" class="user-action-row">
 
-          <button  class="admin-toggle-btn" [ngClass]="{ 'remove': person.isAdmin, 'add': !person.isAdmin }"
+          <button class="admin-toggle-btn" [ngClass]="{ 'remove': person.isAdmin, 'add': !person.isAdmin }"
             (click)="toggleAdmin(person); $event.stopPropagation()">
             {{ person.isAdmin ? 'Admin Rechte entfernen' : 'zum Admin machen' }}
           </button>
@@ -57,5 +58,5 @@
   <div class="add-user-wrapper">
     <button class="add-user-btn" (click)="addUser()">+</button>
   </div>
-  
+
 </div>

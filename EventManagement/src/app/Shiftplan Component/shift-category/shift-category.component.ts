@@ -26,6 +26,9 @@ export class ShiftCategoryComponent {
     // })
 
   }
+  test(){
+    console.log("TEst in shift category: ", this.content)
+  }
 
   addShiftblock() {
     console.log("content cat in addShiftblock:", this.content);

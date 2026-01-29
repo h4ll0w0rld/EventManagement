@@ -186,7 +186,8 @@ export class EventService implements OnDestroy {
               u.firstName,       // backend firstName → fName
               u.lastName,        // backend lastName → lName
               u.emailAddress,    // backend emailAddress → email
-              "",                // backend does NOT send password -> empty string
+              "",           
+              u.phone,     // phone
               u.user_event.admin        // backend isAdmin → isAdmin
             )
           )
@@ -199,6 +200,8 @@ export class EventService implements OnDestroy {
         this.allUserSubject.next(mappedUsers);
       });
   }
+
+
 
 
 

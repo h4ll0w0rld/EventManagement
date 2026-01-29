@@ -7,6 +7,7 @@
         <mat-icon *ngIf="this.eventService.editMode" (click)="this.eventService.toggleEditMode()" class="unlocked-icon" svgIcon="unlocked"></mat-icon>
 
     </div>
+    <button (click)="test()">TEST</button>
 
     <div *ngFor="let shift of content.shifts; let i = index">
 

@@ -73,6 +73,16 @@ export class AuthService {
     return this.http.get(`${this.config.rootUrl}/logout`);
   }
 
+  
+  editUserPhone(phone: string | null): Observable<User> {
+  return this.http.put<User>(
+    `${this.config.rootUrl}/user/edit/user_id/${this.getUser()?.id}`,
+    { phone },
+    { headers: this.getAuthHeaders() }
+  );
+}
+
+
   refreshToken(): Observable<string> {
     return this.http.get<{ accessToken: string }>(`${this.config.rootUrl}/refresh`, { withCredentials: true })
       .pipe(
