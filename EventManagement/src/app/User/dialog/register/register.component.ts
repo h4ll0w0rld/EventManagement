@@ -21,6 +21,7 @@ export class RegisterComponent {
     firstName: '',
     lastName: '',
     emailAddress: '',
+    phone:"",
     password: ''
   };
 
@@ -89,6 +90,8 @@ export class RegisterComponent {
     }
   }
 
+  
+
   // -------------------------
   // PASSWORD VALIDATION
   // -------------------------
@@ -145,6 +148,7 @@ export class RegisterComponent {
       firstName: '',
       lastName: '',
       emailAddress: '',
+      phone:"", 
       password: ''
     };
 

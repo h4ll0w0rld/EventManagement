@@ -7,6 +7,7 @@ import { InviteUserDialogComponent } from '../Dialogs/global/invite-user-dialog/
 import { AuthService } from '../core/services/auth.service';
 import { DashboardService } from '../core/features/dashboard/dashboard.service';
 import { Shift } from '../Object Models/Dashboard Component/shift';
+import { AdminNote } from '../Object Models/adminNote';
 
 @Component({
   selector: 'app-userlist2',
@@ -17,6 +18,9 @@ export class Userlist2Component implements OnInit {
 
   userList: User[] = [];
   openedUser: User | null = null;
+  notes: AdminNote[] = [];
+  newNote: string = '';
+
 
   searchOpen = false;
   searchTerm = '';
@@ -35,6 +39,7 @@ export class Userlist2Component implements OnInit {
 
       this.applyFilter();
     });
+    
 
     this.eventService.getAllUsers();
 
@@ -117,10 +122,39 @@ export class Userlist2Component implements OnInit {
       `${user.fName} ${user.lName}`.toLowerCase().includes(term)
     );
   }
+  loadNotes(userId:number): void {
+    this.eventService.getAdminNotesForUser(userId).subscribe({
+      next: (res) => (this.notes = res),
+      error: (err) => console.error('Failed to load notes', err)
+    });
+  }
 
+  addNote(userId:number): void {
+    if (!this.newNote.trim()) return;
+
+    this.eventService.createAdminNote(userId, this.newNote.trim()).subscribe({
+      next: (note) => {
+        this.notes.unshift(note); // add to top
+        this.newNote = ''; // reset input
+      },
+      error: (err) => console.error('Failed to add note', err)
+    });
+  }
+
+  deleteNote(noteId: number): void {
+    if (!confirm('Are you sure you want to delete this note?')) return;
+
+    this.eventService.deleteAdminNote(noteId).subscribe({
+      next: () => {
+        this.notes = this.notes.filter((n) => n.id !== noteId);
+      },
+      error: (err) => console.error('Failed to delete note', err)
+    });
+  }
   toggleUser(user: User): void {
     // console.log("Toggling", this.eventService.loggedInIsAdmin())
     this.openedUser = this.openedUser === user ? null : user;
+    this.loadNotes(user.id);
 
     if (this.openedUser) {
       this.loadShiftsForOpenedUser(this.openedUser);

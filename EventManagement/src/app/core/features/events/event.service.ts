@@ -10,6 +10,7 @@ import { User } from 'src/app/Object Models/user/user';
 import { Shift } from 'src/app/Object Models/Shiftplan Component/shift';
 import { Activity } from 'src/app/Object Models/Shiftplan Component/activityModel';
 import { EventhubService } from '../eventhub/eventhub.service';
+import { AdminNote } from 'src/app/Object Models/adminNote';
 
 @Injectable({
   providedIn: 'root'
@@ -163,7 +164,39 @@ export class EventService implements OnDestroy {
     );
   }
 
+  createAdminNote(userId: number, note: string): Observable<AdminNote> {
+    return this.http.post<AdminNote>(
+      `${this.conf.rootUrl}/adminNote/users/${userId}/admin-notes`,
+      { note },
+      { headers: this.authService.getAuthHeaders() }
+    );
+  }
 
+  // 2️⃣ Get all notes for a specific user
+  getAdminNotesForUser(userId: number): Observable<AdminNote[]> {
+    console.log("Fetching notes for user:", userId);
+    return this.http.get<AdminNote[]>(
+      `${this.conf.rootUrl}/adminNote/users/${userId}/admin-notes`,
+      { headers: this.authService.getAuthHeaders() }
+    );
+  }
+
+  // 3️⃣ Update a note
+  updateAdminNote(noteId: number, note: string): Observable<AdminNote> {
+    return this.http.patch<AdminNote>(
+      `${this.conf.rootUrl}/adminNote/admin-notes/${noteId}`,
+      { note },
+      { headers: this.authService.getAuthHeaders() }
+    );
+  }
+
+  // 4️⃣ Delete a note
+  deleteAdminNote(noteId: number): Observable<void> {
+    return this.http.delete<void>(
+      `${this.conf.rootUrl}/adminNote/admin-notes/${noteId}`,
+      { headers: this.authService.getAuthHeaders() }
+    );
+  }
 
   /** Fetch all users for current event and update the BehaviorSubject */
   getAllUsers(): void {
