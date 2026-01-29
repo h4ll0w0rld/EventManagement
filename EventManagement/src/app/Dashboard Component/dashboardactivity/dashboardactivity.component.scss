@@ -34,21 +34,6 @@
   gap: 10px;
 }
 
-.icon-container {
-  display: flex;
-  justify-content: center;
-  /* centers horizontally */
-  align-items: center;
-  /* centers vertically (optional) */
-}
-
-.dropdown-icon {
-  font-size: 24px;
-  /* optional */
-  cursor: pointer;
-  /* optional */
-}
-
 .activity-left {
   flex: 1;
   display: flex;
@@ -57,36 +42,7 @@
 
 .activity-role {
   font-size: 1.5rem;
-  font-weight: 700;
-  //color: #222;
-  //line-height: 1;
-  /* ⬅ FIXES THE ALIGNMENT */
-  //padding-bottom: 2px;
-  /* ⬅ fine-tune if still too low */
-
-}
-
-.activity-right {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: center;
-  /* ⬅ centers date + time vertically */
-  text-align: right;
-  margin-left: auto;
-
-  .activity-date {
-    font-size: 0.8rem;
-    color: $color-5;
-    font-weight: 500;
-  }
-
-  .activity-time {
-    font-size: 1.3rem;
-    font-weight: 600;
-    color: #222;
-    margin-top: 4px;
-  }
+  font-weight: 600;
 }
 
 .activity-helpers {
@@ -96,36 +52,8 @@
   gap: 1rem;
 }
 
-.helper-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.9rem;
-}
-
-.dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-.dot-yellow {
-  background-color: #ffcc00;
-}
-
-.dot-green {
-  background-color: #4caf50;
-}
-
 .helper-name {
   font-weight: 500;
-
-  span {
-    font-size: 0.85rem;
-    color: #666;
-    margin-left: 4px;
-  }
 }
 
 .request-right {
@@ -146,7 +74,7 @@
   .request-time {
     font-size: 1.3rem;
     font-weight: 600;
-    color: #222;
+    color: $color-8;
     margin-top: 4px;
   }
 

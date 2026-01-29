@@ -91,7 +91,7 @@ export class Userlist2Component implements OnInit {
 
     if (hours && minutes) return `${hours} Std. ${minutes} Min.`;
     if (hours) return `${hours} Std.`;
-    return `${minutes} Min.`;
+    return `${hours} Std. ${minutes} Min.`;
   }
 
   toggleShiftBreakdown(user: User, event: Event) {

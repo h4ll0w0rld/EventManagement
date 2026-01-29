@@ -157,6 +157,10 @@
 
             p {
                 margin-bottom: 0.125rem;
+
+                &.no-shifts-text {
+                    color: $color-5;
+                }
             }
         }
     }

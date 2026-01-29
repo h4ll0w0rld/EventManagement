@@ -64,10 +64,19 @@
           </div>
 
           <div class="shift-versions-container" *ngIf="shiftBreakdownOpen[person.id]">
-            <div class="shift-version" *ngFor="let item of getShiftDurationBreakdown(person)">
-              <p>{{ item.count }} Schicht{{ item.count > 1 ? 'en' : '' }} à {{ formatMinutes(item.minutes) }}</p>
+
+            <div *ngIf="getShiftDurationBreakdown(person).length > 0; else noShifts">
+              <div class="shift-version" *ngFor="let item of getShiftDurationBreakdown(person)">
+                <p>{{ item.count }} Schicht{{ item.count > 1 ? 'en' : '' }} à {{ formatMinutes(item.minutes) }}</p>
+              </div>
             </div>
+
+            <ng-template #noShifts>
+              <p class="no-shifts-text">In keinen Schichten eingetragen</p>
+            </ng-template>
+
           </div>
+
 
 
           <div *ngIf="this.eventService.loggedInIsAdmin()" class="user-action-row">
