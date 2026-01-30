@@ -34,23 +34,19 @@ export class AuthService {
     }, { withCredentials: true }).pipe(
       tap(res => {
         this.token.save(res.accessToken);
-        this.userSubject.next(res.user);
-       
-        localStorage.setItem('user', JSON.stringify(res.user));
+        this.updateUser(res.user);
 
-        // Invite logic (direct HTTP call)
         const token = localStorage.getItem('pendingInviteToken');
         if (token) {
-          // Go back to inviteLanding with token preserved
-          this.router.navigate(['/inviteLanding'], { queryParams: { token: token } });
+          this.router.navigate(['/inviteLanding'], { queryParams: { token } });
         } else {
           this.router.navigate(['/']);
         }
-        // this.router.navigate(['/']);
       }),
       map(res => res.user)
     );
   }
+
   registerUser(_fname: string, _sname: string, _email: string, pass: string): Observable<any> {
 
     const data = {
@@ -61,7 +57,7 @@ export class AuthService {
     }
 
     return this.http.post(this.config.rootUrl + "/register/registerNewUser", data)
-      
+
   }
 
 
@@ -73,14 +69,24 @@ export class AuthService {
     return this.http.get(`${this.config.rootUrl}/logout`);
   }
 
-  
-  editUserPhone(phone: string | null): Observable<User> {
-  return this.http.put<User>(
-    `${this.config.rootUrl}/user/edit/user_id/${this.getUser()?.id}`,
-    { phone },
-    { headers: this.getAuthHeaders() }
-  );
-}
+
+  editUserPhone(phone: string | null): Observable<void> {
+    return this.http.put<void>(
+      `${this.config.rootUrl}/user/edit/user_id/${this.getUser()?.id}`,
+      { phone },
+      { headers: this.getAuthHeaders() }
+    );
+  }
+  private updateUser(user: User) {
+    console.log('Updating user in AuthService:', user);
+    if (!user) {
+      console.error('No user data provided to updateUser');
+      return;
+
+    }
+    this.userSubject.next(user);
+    localStorage.setItem('user', JSON.stringify(user));
+  }
 
 
   refreshToken(): Observable<string> {

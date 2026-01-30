@@ -1,0 +1,45 @@
+<div class="user-profile-card" *ngIf="user">
+
+  <h2>Dein Profil</h2>
+
+  <!-- Read-only user info -->
+  <div class="detail-row">
+    <span>Name:</span>
+    <span>{{ this.user.firstName }}</span>
+  </div>
+
+  <div class="detail-row">
+    <span>Nachname:</span>
+    <span>{{ this.user.lastName }}</span>
+  </div>
+
+  <div class="detail-row">
+    <span>Email:</span>
+    <span>{{ this.user.emailAddress }}</span>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <!-- Editable phone -->
+  <form [formGroup]="phoneForm" (ngSubmit)="savePhone()">
+
+    <mat-form-field appearance="fill">
+      <mat-label>Phone number</mat-label>
+
+      <input matInput type="tel" formControlName="phone" />
+
+      <mat-error *ngIf="phoneForm.controls['phone'].invalid">
+        Invalid phone number
+      </mat-error>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="phoneForm.invalid || loading">
+      Save
+    </button>
+
+  </form>
+
+  <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
+  <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+
+</div>

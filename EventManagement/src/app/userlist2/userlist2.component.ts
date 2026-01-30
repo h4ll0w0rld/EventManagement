@@ -45,6 +45,13 @@ export class Userlist2Component implements OnInit {
 
     this.dashboardService.shiftsByUser.subscribe(shifts => this.shiftsByUser = shifts);
   }
+  
+  // loadNotes(userId:number): void {
+  //   this.eventService.getAdminNotesForUser(userId).subscribe({
+  //     next: (res) => (this.notes = res),
+  //     error: (err) => console.error('Failed to load notes', err)
+  //   });
+  // }
 
   private loadShiftsForOpenedUser(user: User): void {
     if (!user?.id) return;
@@ -209,20 +216,20 @@ export class Userlist2Component implements OnInit {
   }
 
   editUser(user: User) {
-    console.log('Edit user clicked for', user);
-    // Open a dialog or navigate to an edit page
-    // For now, just log the action
-    if (!user.phone) {
-      return
-    }
-    this.authService.editUserPhone(user.phone).subscribe((updatedUser) => {
-      console.log('User updated:', updatedUser);
-      // Update the user in the userList
-      const index = this.userList.findIndex(u => u.id === updatedUser.id);
-      if (index !== -1) {
-        this.userList[index] = updatedUser;
-      }
-    });
+    // console.log('Edit user clicked for', user);
+    // // Open a dialog or navigate to an edit page
+    // // For now, just log the action
+    // if (!user.phone) {
+    //   return
+    // }
+    // this.authService.editUserPhone(user.phone).subscribe((updatedUser) => {
+    //   console.log('User updated:', updatedUser);
+    //   // Update the user in the userList
+    //   const index = this.userList.findIndex(u => u.id === updatedUser.id);
+    //   if (index !== -1) {
+    //     this.userList[index] = updatedUser;
+    //   }
+    // });
   }
 
   removeAdmin(user: User): void {

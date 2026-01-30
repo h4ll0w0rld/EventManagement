@@ -58,7 +58,7 @@ import { UserInfosComponent } from './Dialogs/global/user-infos/user-infos.compo
 import { DeleteShiftDialogComponent } from './Dialogs/shiftplan/delete-shift-dialog/delete-shift-dialog.component';
 import { Userlist2Component } from './userlist2/userlist2.component';
 import { ElementRef } from '@angular/core';
-import { UserProfileComponent } from './user-profile/user-profile.component';
+import { UserProfileComponent } from './User/user-profile/user-profile.component';
 
 
 // register Swiper custom elements

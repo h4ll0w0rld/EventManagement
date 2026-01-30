@@ -8,6 +8,7 @@ import { AuthService } from '../core/services/auth.service';
 import { map, Observable } from 'rxjs';
 import { User } from '../Object Models/user/user';
 import { AddEventComponent } from '../Dialogs/global/add-event/add-event.component';
+import { UserProfileComponent } from '../User/user-profile/user-profile.component';
 
 
 
@@ -151,6 +152,13 @@ export class HeaderComponent implements OnInit {
 
     this.showEventDropdown = false;
     // Additional logic: notify service of new selection
+  }
+
+  openUserProfile(){
+    this.dialog.open(UserProfileComponent, {
+      // width: '80vw',
+      // height: 'auto',
+    });
   }
 
   createNewEvent() {
