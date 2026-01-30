@@ -14,10 +14,9 @@
 
   <div class="persons-list">
 
-    <div class="person-item" *ngFor="let person of filteredUserList" (click)="toggleUser(person)"
-      [class.open]="openedUser === person">
+    <div class="person-item" *ngFor="let person of filteredUserList" [class.open]="openedUser === person">
 
-      <div class="card-header">
+      <div class="card-header" (click)="toggleUser(person)">
         <span class="name">{{ person.fName }} {{ person.lName }}</span>
 
 
@@ -49,9 +48,59 @@
           </div>
 
         </div>
-        
+        <div *ngIf="this.eventService.loggedInIsAdmin()"  class="notes-container">
+          <h3>Admin Notes</h3>
 
-        <div class="detail-row shift-details">
+          <!-- Add a new note -->
+          <form (ngSubmit)="addNote(person.id)" #noteForm="ngForm">
+            <textarea name="note" [(ngModel)]="newNote" placeholder="Enter a new note" rows="3" required></textarea>
+            <button type="submit" [disabled]="!newNote">Add Note</button>
+          </form>
+
+          <hr />
+
+          <!-- Display notes -->
+          <div *ngIf="notes?.length; else noNotes">
+            <div *ngFor="let note of notes" class="note">
+
+
+              <div class="note-header">
+                <strong>{{ note.admin?.fName }} {{ note.admin?.lName }}</strong>
+                <span>{{ note.createdAt | date: 'short' }}</span>
+
+                <!-- Delete button -->
+                <button (click)="deleteNote(note.id)">Delete</button>
+
+                <!-- Edit button -->
+                <button (click)="toggleEdit(note)">Edit</button>
+              </div>
+
+              <!-- Note content or edit form -->
+              <div *ngIf="!note.editing; else editTemplate">
+                <p>{{ note.note }}</p>
+              </div>
+
+              <ng-template #editTemplate>
+                <form (ngSubmit)="saveNote(note)">
+                  <mat-form-field appearance="fill">
+                    <input matInput [(ngModel)]="note.note" name="noteInput" required />
+                  </mat-form-field>
+                  <button mat-button type="submit">Save</button>
+                  <button mat-button type="button" (click)="cancelEdit(note)">Cancel</button>
+                </form>
+              </ng-template>
+
+              <p>{{ note.note }}</p>
+            </div>
+          </div>
+
+          <ng-template #noNotes>
+            <p>No notes available.</p>
+          </ng-template>
+        </div>
+
+
+        <div *ngIf="this.eventService.loggedInIsAdmin()" class="detail-row shift-details">
 
           <div class="shift-details-header" (click)="toggleShiftBreakdown(person, $event)">
 

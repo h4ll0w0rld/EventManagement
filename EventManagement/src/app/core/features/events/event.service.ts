@@ -166,7 +166,7 @@ export class EventService implements OnDestroy {
 
   createAdminNote(userId: number, note: string): Observable<AdminNote> {
     return this.http.post<AdminNote>(
-      `${this.conf.rootUrl}/adminNote/users/${userId}/admin-notes`,
+      `${this.conf.rootUrl}/adminNote/${this.currentEvent?.id}/users/${userId}/admin-notes`,
       { note },
       { headers: this.authService.getAuthHeaders() }
     );
@@ -176,7 +176,7 @@ export class EventService implements OnDestroy {
   getAdminNotesForUser(userId: number): Observable<AdminNote[]> {
     console.log("Fetching notes for user:", userId);
     return this.http.get<AdminNote[]>(
-      `${this.conf.rootUrl}/adminNote/users/${userId}/admin-notes`,
+      `${this.conf.rootUrl}/adminNote/${this.currentEvent?.id}/users/${userId}/admin-notes`,
       { headers: this.authService.getAuthHeaders() }
     );
   }
@@ -184,7 +184,7 @@ export class EventService implements OnDestroy {
   // 3️⃣ Update a note
   updateAdminNote(noteId: number, note: string): Observable<AdminNote> {
     return this.http.patch<AdminNote>(
-      `${this.conf.rootUrl}/adminNote/admin-notes/${noteId}`,
+      `${this.conf.rootUrl}/adminNote/${this.currentEvent?.id}/admin-notes/${noteId}`,
       { note },
       { headers: this.authService.getAuthHeaders() }
     );
@@ -193,7 +193,7 @@ export class EventService implements OnDestroy {
   // 4️⃣ Delete a note
   deleteAdminNote(noteId: number): Observable<void> {
     return this.http.delete<void>(
-      `${this.conf.rootUrl}/adminNote/admin-notes/${noteId}`,
+      `${this.conf.rootUrl}/adminNote/${this.currentEvent?.id}/admin-notes/${noteId}`,
       { headers: this.authService.getAuthHeaders() }
     );
   }

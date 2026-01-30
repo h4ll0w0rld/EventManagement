@@ -18,7 +18,7 @@ export class Userlist2Component implements OnInit {
 
   userList: User[] = [];
   openedUser: User | null = null;
-  notes: AdminNote[] = [];
+  notes: any[] = [];
   newNote: string = '';
 
 
@@ -39,13 +39,13 @@ export class Userlist2Component implements OnInit {
 
       this.applyFilter();
     });
-    
+
 
     this.eventService.getAllUsers();
 
     this.dashboardService.shiftsByUser.subscribe(shifts => this.shiftsByUser = shifts);
   }
-  
+
   // loadNotes(userId:number): void {
   //   this.eventService.getAdminNotesForUser(userId).subscribe({
   //     next: (res) => (this.notes = res),
@@ -129,14 +129,14 @@ export class Userlist2Component implements OnInit {
       `${user.fName} ${user.lName}`.toLowerCase().includes(term)
     );
   }
-  loadNotes(userId:number): void {
+  loadNotes(userId: number): void {
     this.eventService.getAdminNotesForUser(userId).subscribe({
-      next: (res) => (this.notes = res),
+      next: (res) => (this.notes = res.map(note => ({ ...note, editing: false }))),
       error: (err) => console.error('Failed to load notes', err)
     });
   }
 
-  addNote(userId:number): void {
+  addNote(userId: number): void {
     if (!this.newNote.trim()) return;
 
     this.eventService.createAdminNote(userId, this.newNote.trim()).subscribe({
@@ -161,12 +161,35 @@ export class Userlist2Component implements OnInit {
   toggleUser(user: User): void {
     // console.log("Toggling", this.eventService.loggedInIsAdmin())
     this.openedUser = this.openedUser === user ? null : user;
-    this.loadNotes(user.id);
+    if (this.eventService.loggedInIsAdmin()) {
+      this.loadNotes(user.id);
+      console.log("Loading notes for user:", user.id);
 
-    if (this.openedUser) {
+    }
+
+
+    if (this.openedUser && this.eventService.loggedInIsAdmin()) {
       this.loadShiftsForOpenedUser(this.openedUser);
     }
 
+  }
+
+  toggleEdit(note: any) {
+    note.editing = true;
+  }
+
+  cancelEdit(note: any) {
+    note.editing = false;
+  }
+
+  saveNote(note: any) {
+    this.eventService.updateAdminNote(note.id, note.note).subscribe({
+      next: updatedNote => {
+        note.note = updatedNote.note; // update local note
+        note.editing = false;
+      },
+      error: err => console.error('Failed to update note', err)
+    });
   }
 
   makeAdmin(user: User): void {
@@ -228,7 +251,7 @@ export class Userlist2Component implements OnInit {
     //   const index = this.userList.findIndex(u => u.id === updatedUser.id);
     //   if (index !== -1) {
     //     this.userList[index] = updatedUser;
-    //   }
+    //   } 
     // });
   }
 
